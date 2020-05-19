@@ -1,0 +1,35 @@
+<?php
+
+namespace Ocelot\Ocelot\Calendar;
+
+use Ocelot\Ocelot\Calendar\Gregorian\DateTime;
+use Ocelot\Ocelot\Calendar\Gregorian\Day;
+use Ocelot\Ocelot\Calendar\Gregorian\Month;
+use Ocelot\Ocelot\Calendar\Gregorian\Year;
+
+/**
+ * @psalm-immutable
+ * @psalm-external-mutation-free
+ */
+final class GregorianCalendar implements SolarCalendar
+{
+    public function year(): Year
+    {
+        return Year::fromDateTime($this->now()->toDateTimeImmutable());
+    }
+
+    public function month(): Month
+    {
+        return Month::fromDateTime($this->now()->toDateTimeImmutable());
+    }
+
+    public function day(): Day
+    {
+        return Day::fromDateTime($this->now()->toDateTimeImmutable());
+    }
+
+    public function now(): DateTime
+    {
+        return DateTime::fromDateTime(new \DateTimeImmutable('now', new \DateTimeZone('UTC')));
+    }
+}

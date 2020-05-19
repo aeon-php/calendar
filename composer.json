@@ -1,0 +1,32 @@
+{
+    "name": "ocelot/calendar",
+    "type": "library",
+    "description": "PHP type safe, immutable calendar library",
+    "require-dev": {
+        "phpunit/phpunit": "^9.1",
+        "phpstan/phpstan": "^0.12.25",
+        "vimeo/psalm": "^3.11",
+        "phpstan/phpstan-phpunit": "^0.12.8"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Norbert Orzechowicz",
+            "email": "contact@norbert.tech"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Ocelot\\": [
+                "src/"
+            ]
+        }
+    },
+    "require": {},
+    "scripts": {
+        "static:analyze": [
+            "psalm",
+            "phpstan analyze -c phpstan.neon"
+        ]
+    }
+}
