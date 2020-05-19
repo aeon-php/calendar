@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Ocelot\Ocelot\Calendar\Gregorian;
 
 /**
@@ -31,6 +33,16 @@ final class DateTime
         return self::fromDateTime(new \DateTimeImmutable($date, new \DateTimeZone('UTC')));
     }
 
+    public function day(): Day
+    {
+        return $this->day;
+    }
+
+    public function time(): Time
+    {
+        return $this->time;
+    }
+
     public function toDateTimeImmutable() : \DateTimeImmutable
     {
         return (new \DateTimeImmutable($this->day->toDateTimeImmutable()->format('Y-m-d'), new \DateTimeZone('UTC')))
@@ -46,6 +58,11 @@ final class DateTime
     public function toTimeZone(\DateTimeZone $dateTimeZone) : self
     {
         return self::fromDateTime($this->toDateTimeImmutable()->setTimezone($dateTimeZone));
+    }
+
+    public function toISO8601() : string
+    {
+        return $this->toDateTimeImmutable()->format(\DateTimeInterface::ISO8601);
     }
 
     public function isDaylight() : bool
@@ -121,5 +138,45 @@ final class DateTime
     public function addYears(int $years) : self
     {
         return self::fromDateTime($this->toDateTimeImmutable()->modify(\sprintf('+%d years', $years)));
+    }
+
+    public function isAfter(DateTime $dateTime) : bool
+    {
+        return $this->toDateTimeImmutable() > $dateTime->toDateTimeImmutable();
+    }
+
+    public function isAfterOrEqual(DateTime $dateTime) : bool
+    {
+        return $this->toDateTimeImmutable() >= $dateTime->toDateTimeImmutable();
+    }
+
+    public function isBeforeOrEqual(DateTime $dateTime) : bool
+    {
+        return $this->toDateTimeImmutable() <= $dateTime->toDateTimeImmutable();
+    }
+
+    public function isBefore(DateTime $dateTime) : bool
+    {
+        return $this->toDateTimeImmutable() < $dateTime->toDateTimeImmutable();
+    }
+
+    public function to(DateTime $dateTime) : Period
+    {
+        return new Period($this, $dateTime);
+    }
+
+    public function from(DateTime $dateTime) : Period
+    {
+        return new Period($dateTime, $this);
+    }
+
+    public function distanceTo(DateTime $dateTime) : TimeUnit
+    {
+        return $this->to($dateTime)->distanceStartToEnd();
+    }
+
+    public function distanceFrom(DateTime $dateTime) : TimeUnit
+    {
+        return $this->from($dateTime)->distanceEndToStart();
     }
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Ocelot\Ocelot\Calendar\Gregorian;
 
 /**
@@ -43,7 +45,12 @@ final class Year
 
     public function numberOfMonths() : int
     {
-        return $this->months->count();
+        return 12;
+    }
+
+    public function numberOfDays() : int
+    {
+        return $this->isLeap() ? 366 : 365;
     }
 
     public function isLeap() : bool

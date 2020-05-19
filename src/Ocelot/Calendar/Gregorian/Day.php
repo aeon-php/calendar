@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Ocelot\Ocelot\Calendar\Gregorian;
 
 use Webmozart\Assert\Assert;
@@ -43,6 +45,21 @@ final class Day
     public static function fromString(string $date) : self
     {
         return self::fromDateTime(new \DateTimeImmutable($date));
+    }
+
+    public function previous() : self
+    {
+        return self::fromDateTime($this->toDateTimeImmutable()->modify('-1 day'));
+    }
+
+    public function next() : self
+    {
+        return self::fromDateTime($this->toDateTimeImmutable()->modify('+1 day'));
+    }
+
+    public function midnight() : DateTime
+    {
+        return new DateTime($this, new Time(0, 0, 0, 0));
     }
 
     public function month() : Month

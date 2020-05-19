@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Ocelot\Ocelot\Calendar\Gregorian;
 
 use Webmozart\Assert\Assert;
@@ -25,6 +27,7 @@ final class Time
         Assert::greaterThanEq($second, 0);
         Assert::lessThanEq($second, 60);
         Assert::greaterThanEq($microseconds, 0);
+        Assert::lessThan($microseconds, 1000000);
 
         $this->hour = $hour;
         $this->minute = $minute;

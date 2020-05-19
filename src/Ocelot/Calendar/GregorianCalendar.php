@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Ocelot\Ocelot\Calendar;
 
 use Ocelot\Ocelot\Calendar\Gregorian\DateTime;

@@ -23,10 +23,16 @@
             ]
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Ocelot\\Calendar\\Tests\\": "tests/Ocelot/Calendar/Tests/"
+        }
+    },
     "require": {
         "webmozart/assert": "^1.8"
     },
     "scripts": {
+        "test": "phpunit",
         "static:analyze": [
             "psalm",
             "phpstan analyze -c phpstan.neon"
