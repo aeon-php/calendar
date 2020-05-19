@@ -160,14 +160,14 @@ final class DateTime
         return $this->toDateTimeImmutable() < $dateTime->toDateTimeImmutable();
     }
 
-    public function to(DateTime $dateTime) : Period
+    public function to(DateTime $dateTime) : TimePeriod
     {
-        return new Period($this, $dateTime);
+        return new TimePeriod($this, $dateTime);
     }
 
-    public function from(DateTime $dateTime) : Period
+    public function from(DateTime $dateTime) : TimePeriod
     {
-        return new Period($dateTime, $this);
+        return new TimePeriod($dateTime, $this);
     }
 
     public function distanceTo(DateTime $dateTime) : TimeUnit

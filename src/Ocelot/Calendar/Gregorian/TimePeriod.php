@@ -10,7 +10,7 @@ use Webmozart\Assert\Assert;
  * @psalm-immutable
  * @psalm-external-mutation-free
  */
-final class Period
+final class TimePeriod
 {
     private DateTime $start;
 
