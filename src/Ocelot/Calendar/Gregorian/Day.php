@@ -2,6 +2,8 @@
 
 namespace Ocelot\Ocelot\Calendar\Gregorian;
 
+use Webmozart\Assert\Assert;
+
 /**
  * @psalm-immutable
  * @psalm-external-mutation-free
@@ -14,6 +16,9 @@ final class Day
 
     public function __construct(Month $month, int $number)
     {
+        Assert::greaterThan($number, 0);
+        Assert::lessThanEq($number, $month->numberOfDays());
+
         $this->number = $number;
         $this->month = $month;
     }

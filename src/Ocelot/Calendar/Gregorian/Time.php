@@ -2,6 +2,8 @@
 
 namespace Ocelot\Ocelot\Calendar\Gregorian;
 
+use Webmozart\Assert\Assert;
+
 /**
  * @psalm-immutable
  * @psalm-external-mutation-free
@@ -16,6 +18,14 @@ final class Time
 
     public function __construct(int $hour, int $minute, int $second, int $microseconds = 0)
     {
+        Assert::greaterThanEq($hour, 0);
+        Assert::lessThanEq($hour, 23);
+        Assert::greaterThanEq($minute, 0);
+        Assert::lessThanEq($minute, 60);
+        Assert::greaterThanEq($second, 0);
+        Assert::lessThanEq($second, 60);
+        Assert::greaterThanEq($microseconds, 0);
+
         $this->hour = $hour;
         $this->minute = $minute;
         $this->second = $second;
