@@ -140,6 +140,18 @@ final class DateTime
         return self::fromDateTime($this->toDateTimeImmutable()->modify(\sprintf('+%d years', $years)));
     }
 
+    public function add(TimeUnit $timeUnit) : self
+    {
+        return self::fromDateTime($this->toDateTimeImmutable()
+            ->modify(\sprintf('%s%d seconds', $timeUnit->isPositive() ? '+' : '-', $timeUnit->inSeconds())));
+    }
+
+    public function sub(TimeUnit $timeUnit) : self
+    {
+        return self::fromDateTime($this->toDateTimeImmutable()
+            ->modify(\sprintf('%s%d seconds', $timeUnit->isPositive() ? '-' : '+', $timeUnit->inSeconds())));
+    }
+
     public function isAfter(DateTime $dateTime) : bool
     {
         return $this->toDateTimeImmutable() > $dateTime->toDateTimeImmutable();
