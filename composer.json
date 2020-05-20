@@ -7,7 +7,8 @@
         "phpstan/phpstan": "^0.12.25",
         "vimeo/psalm": "^3.11",
         "phpstan/phpstan-phpunit": "^0.12.8",
-        "phpstan/phpstan-webmozart-assert": "^0.12.4"
+        "phpstan/phpstan-webmozart-assert": "^0.12.4",
+        "psalm/plugin-phpunit": "^0.10.0"
     },
     "license": "MIT",
     "authors": [

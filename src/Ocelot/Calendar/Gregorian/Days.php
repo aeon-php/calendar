@@ -30,4 +30,14 @@ final class Days implements \Countable
     {
         return \count($this->days);
     }
+
+    public function first() : Day
+    {
+        return $this->days[\array_key_first($this->days)];
+    }
+
+    public function last() : Day
+    {
+        return $this->days[\array_key_last($this->days)];
+    }
 }

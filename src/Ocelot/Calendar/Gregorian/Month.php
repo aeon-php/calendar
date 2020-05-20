@@ -44,6 +44,26 @@ final class Month
         return self::fromDateTime(new \DateTimeImmutable($date));
     }
 
+    public function previous() : self
+    {
+        return self::fromDateTime($this->toDateTimeImmutable()->modify('-1 month'));
+    }
+
+    public function next() : self
+    {
+        return self::fromDateTime($this->toDateTimeImmutable()->modify('+1 month'));
+    }
+
+    public function firstDay() : Day
+    {
+        return $this->days()->first();
+    }
+
+    public function lastDay() : Day
+    {
+        return $this->days()->last();
+    }
+
     public function number() : int
     {
         return $this->number;

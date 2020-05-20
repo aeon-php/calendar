@@ -13,10 +13,12 @@ use Webmozart\Assert\Assert;
 final class Time
 {
     private int $hour;
+
     private int $minute;
+
     private int $second;
+
     private int $microsecond;
-    private string $timezone;
 
     public function __construct(int $hour, int $minute, int $second, int $microseconds = 0)
     {
@@ -33,7 +35,6 @@ final class Time
         $this->minute = $minute;
         $this->second = $second;
         $this->microsecond = $microseconds;
-        $this->timezone = 'UTC';
     }
 
     /**
@@ -51,12 +52,7 @@ final class Time
 
     public static function fromString(string $date) : self
     {
-        return self::fromDateTime(new \DateTimeImmutable($date, new \DateTimeZone('UTC')));
-    }
-
-    public function dateTimeZone() : \DateTimeZone
-    {
-        return new \DateTimeZone($this->timezone);
+        return self::fromDateTime(new \DateTimeImmutable($date));
     }
 
     public function hour() : int

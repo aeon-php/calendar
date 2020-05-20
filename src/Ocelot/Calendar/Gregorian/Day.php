@@ -62,6 +62,16 @@ final class Day
         return new DateTime($this, new Time(0, 0, 0, 0));
     }
 
+    public function noon() : DateTime
+    {
+        return new DateTime($this, new Time(12, 0, 0, 0));
+    }
+
+    public function endOfDay() : DateTime
+    {
+        return new DateTime($this, new Time(23, 59, 59, 999999));
+    }
+
     public function month() : Month
     {
         return $this->month;

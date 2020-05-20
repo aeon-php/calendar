@@ -16,4 +16,8 @@ interface SolarCalendar
     public function day() : Day;
 
     public function now() : DateTime;
+
+    public function yesterday() : DateTime;
+
+    public function tomorrow() : DateTime;
 }

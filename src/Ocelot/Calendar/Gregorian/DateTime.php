@@ -14,10 +14,13 @@ final class DateTime
 
     private Time $time;
 
-    public function __construct(Day $day, Time $time)
+    private \DateTimeZone $timeZone;
+
+    public function __construct(Day $day, Time $time, ?\DateTimeZone $timeZone = null)
     {
         $this->day = $day;
         $this->time = $time;
+        $this->timeZone = $timeZone ? $timeZone : new \DateTimeZone('UTC');
     }
 
     /**
@@ -25,12 +28,22 @@ final class DateTime
      */
     public static function fromDateTime(\DateTimeImmutable $dateTime) : self
     {
-        return new self(Day::fromDateTime($dateTime), Time::fromDateTime($dateTime));
+        return new self(Day::fromDateTime($dateTime), Time::fromDateTime($dateTime), $dateTime->getTimezone());
     }
 
     public static function fromString(string $date) : self
     {
-        return self::fromDateTime(new \DateTimeImmutable($date, new \DateTimeZone('UTC')));
+        return self::fromDateTime(new \DateTimeImmutable($date));
+    }
+
+    public function year() : Year
+    {
+        return $this->month()->year();
+    }
+
+    public function month() : Month
+    {
+        return $this->day()->month();
     }
 
     public function day(): Day
@@ -45,14 +58,27 @@ final class DateTime
 
     public function toDateTimeImmutable() : \DateTimeImmutable
     {
-        return (new \DateTimeImmutable($this->day->toDateTimeImmutable()->format('Y-m-d'), new \DateTimeZone('UTC')))
+        return (
+            new \DateTimeImmutable(
+                $this->day->toDateTimeImmutable()->format('Y-m-d'),
+                $this->timeZone()
+            ))
             ->setTime(
                 $this->time->hour(),
                 $this->time->minute(),
                 $this->time->second(),
                 $this->time->microsecond()
-            )
-            ->setTimezone($this->time->dateTimeZone());
+            );
+    }
+
+    public function format(string $format) : string
+    {
+        return $this->toDateTimeImmutable()->format($format);
+    }
+
+    public function timeZone(): \DateTimeZone
+    {
+        return $this->timeZone;
     }
 
     public function toTimeZone(\DateTimeZone $dateTimeZone) : self
@@ -80,9 +106,19 @@ final class DateTime
         return (int) $this->toDateTimeImmutable()->format('U');
     }
 
-    public function nextHour() : self
+    public function timestamp() : int
+    {
+        return $this->secondsSinceUnixEpoch();
+    }
+
+    public function addHour() : self
     {
         return self::fromDateTime($this->toDateTimeImmutable()->modify('+1 hour'));
+    }
+
+    public function subHour() : self
+    {
+        return self::fromDateTime($this->toDateTimeImmutable()->modify('-1 hour'));
     }
 
     public function addHours(int $hours) : self
@@ -90,9 +126,19 @@ final class DateTime
         return self::fromDateTime($this->toDateTimeImmutable()->modify(\sprintf('+%d hour', $hours)));
     }
 
-    public function nextMinute() : self
+    public function subHours(int $hours) : self
+    {
+        return self::fromDateTime($this->toDateTimeImmutable()->modify(\sprintf('-%d hour', $hours)));
+    }
+
+    public function addMinute() : self
     {
         return self::fromDateTime($this->toDateTimeImmutable()->modify('+1 minute'));
+    }
+
+    public function subMinute() : self
+    {
+        return self::fromDateTime($this->toDateTimeImmutable()->modify('-11 minute'));
     }
 
     public function addMinutes(int $minutes) : self
@@ -100,19 +146,39 @@ final class DateTime
         return self::fromDateTime($this->toDateTimeImmutable()->modify(\sprintf('+%d minute', $minutes)));
     }
 
-    public function nextSecond() : self
+    public function subMinutes(int $minutes) : self
+    {
+        return self::fromDateTime($this->toDateTimeImmutable()->modify(\sprintf('-%d minute', $minutes)));
+    }
+
+    public function addSecond() : self
     {
         return self::fromDateTime($this->toDateTimeImmutable()->modify('+1 second'));
     }
 
-    public function addSecond(int $seconds) : self
+    public function subSecond() : self
+    {
+        return self::fromDateTime($this->toDateTimeImmutable()->modify('-1 second'));
+    }
+
+    public function addSeconds(int $seconds) : self
     {
         return self::fromDateTime($this->toDateTimeImmutable()->modify(\sprintf('+%d second', $seconds)));
     }
 
-    public function nextDay() : self
+    public function subSeconds(int $seconds) : self
+    {
+        return self::fromDateTime($this->toDateTimeImmutable()->modify(\sprintf('-%d second', $seconds)));
+    }
+
+    public function addDay() : self
     {
         return self::fromDateTime($this->toDateTimeImmutable()->modify('+1 day'));
+    }
+
+    public function subDay() : self
+    {
+        return self::fromDateTime($this->toDateTimeImmutable()->modify('-1 day'));
     }
 
     public function addDays(int $days) : self
@@ -120,9 +186,19 @@ final class DateTime
         return self::fromDateTime($this->toDateTimeImmutable()->modify(\sprintf('+%d day', $days)));
     }
 
+    public function subDays(int $days) : self
+    {
+        return self::fromDateTime($this->toDateTimeImmutable()->modify(\sprintf('-%d day', $days)));
+    }
+
     public function addMonth() : self
     {
         return self::fromDateTime($this->toDateTimeImmutable()->modify('+1 month'));
+    }
+
+    public function subMonth() : self
+    {
+        return self::fromDateTime($this->toDateTimeImmutable()->modify('-1 month'));
     }
 
     public function addMonths(int $months) : self
@@ -130,14 +206,29 @@ final class DateTime
         return self::fromDateTime($this->toDateTimeImmutable()->modify(\sprintf('+%d months', $months)));
     }
 
+    public function subMonths(int $months) : self
+    {
+        return self::fromDateTime($this->toDateTimeImmutable()->modify(\sprintf('-%d months', $months)));
+    }
+
     public function addYear() : self
     {
-        return self::fromDateTime($this->toDateTimeImmutable()->modify('+1 month'));
+        return self::fromDateTime($this->toDateTimeImmutable()->modify('+1 year'));
+    }
+
+    public function subYear() : self
+    {
+        return self::fromDateTime($this->toDateTimeImmutable()->modify('-1 year'));
     }
 
     public function addYears(int $years) : self
     {
         return self::fromDateTime($this->toDateTimeImmutable()->modify(\sprintf('+%d years', $years)));
+    }
+
+    public function subYears(int $years) : self
+    {
+        return self::fromDateTime($this->toDateTimeImmutable()->modify(\sprintf('-%d years', $years)));
     }
 
     public function add(TimeUnit $timeUnit) : self

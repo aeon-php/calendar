@@ -88,4 +88,9 @@ final class TimeUnit
     {
         return $this->seconds;
     }
+
+    public function inDays() : int
+    {
+        return (int) ((($this->seconds / self::SECONDS_IN_MINUTE) / self::MINUTES_IN_HOUR) / self::HOURS_IN_DAY);
+    }
 }

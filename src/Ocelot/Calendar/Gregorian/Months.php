@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Ocelot\Ocelot\Calendar\Gregorian;
 
+use Webmozart\Assert\Assert;
+
 /**
  * @psalm-immutable
  * @psalm-external-mutation-free
@@ -26,5 +28,13 @@ final class Months implements \Countable
     public function count() : int
     {
         return \count($this->months);
+    }
+
+    public function byNumber(int $number) : Month
+    {
+        Assert::greaterThan($number, 0);
+        Assert::lessThanEq($number, 12);
+
+        return $this->months[$number - 1];
     }
 }
