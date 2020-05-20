@@ -36,6 +36,11 @@ final class DateTime
         return self::fromDateTime(new \DateTimeImmutable($date));
     }
 
+    public function __toString() : string
+    {
+        return $this->toISO8601();
+    }
+
     public function year() : Year
     {
         return $this->month()->year();
