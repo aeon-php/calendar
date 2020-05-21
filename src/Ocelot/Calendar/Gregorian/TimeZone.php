@@ -474,12 +474,17 @@ final class TimeZone
      * Offset depends on date because daylight & saving time will have it different and
      * the only way to get it is to take it from date time.
      */
-    public function offsetFor(DateTime $dateTime) : string
+    public function offsetUTCString(DateTime $dateTime) : string
     {
-        $offsetTimeUnit = TimeUnit::seconds($this->toDateTimeZone()->getOffset($dateTime->toDateTimeImmutable()));
+        $offsetTimeUnit = $this->offsetUTC($dateTime);
 
         return $offsetTimeUnit->isNegative() ? '-' : '+'
             . \str_pad((string) $offsetTimeUnit->inHours(), 2, '0', STR_PAD_LEFT) . ':' . \str_pad((string) $offsetTimeUnit->inTimeMinutes(), 2, '0', STR_PAD_LEFT);
+    }
+
+    public function offsetUTC(DateTime $dateTime) : TimeUnit
+    {
+        return TimeUnit::seconds($this->toDateTimeZone()->getOffset($dateTime->toDateTimeImmutable()));
     }
 
     public static function africaAbidjan() : self
