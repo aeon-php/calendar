@@ -6,7 +6,6 @@ namespace Ocelot\Ocelot\Calendar\Gregorian;
 
 /**
  * @psalm-immutable
- * @psalm-external-mutation-free
  * @implements \IteratorAggregate<int,TimeInterval>
  * @implements \ArrayAccess<int,TimeInterval>
  */

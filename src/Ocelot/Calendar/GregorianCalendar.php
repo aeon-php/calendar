@@ -12,7 +12,6 @@ use Ocelot\Ocelot\Calendar\Gregorian\Year;
 
 /**
  * @psalm-immutable
- * @psalm-external-mutation-free
  */
 final class GregorianCalendar implements SolarCalendar
 {

@@ -8,7 +8,6 @@ use Webmozart\Assert\Assert;
 
 /**
  * @psalm-immutable
- * @psalm-external-mutation-free
  */
 final class Month
 {

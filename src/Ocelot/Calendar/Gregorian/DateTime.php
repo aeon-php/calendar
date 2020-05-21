@@ -240,6 +240,21 @@ final class DateTime
         return self::fromDateTime($this->toDateTimeImmutable()->modify(\sprintf('-%d years', $years)));
     }
 
+    public function midnight() : self
+    {
+        return $this->day()->midnight();
+    }
+
+    public function noon() : self
+    {
+        return $this->day()->noon();
+    }
+
+    public function endOfDay() : self
+    {
+        return $this->day()->endOfDay();
+    }
+
     public function add(TimeUnit $timeUnit) : self
     {
         return self::fromDateTime($this->toDateTimeImmutable()

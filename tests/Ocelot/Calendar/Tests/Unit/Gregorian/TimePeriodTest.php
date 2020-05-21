@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Ocelot\Calendar\Tests\Gregorian;
+namespace Ocelot\Calendar\Tests\Unit\Gregorian;
 
 use Ocelot\Ocelot\Calendar\Gregorian\DateTime;
 use Ocelot\Ocelot\Calendar\Gregorian\TimeInterval;
