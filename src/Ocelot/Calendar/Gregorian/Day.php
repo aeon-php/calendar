@@ -105,7 +105,7 @@ final class Day
     }
 
     /**
-     * Day of year starting from 1
+     * Week of year starting from 1
      */
     public function weekOfYear() : int
     {
