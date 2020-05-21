@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Ocelot\Calendar\Tests\Gregorian;
 
 use Ocelot\Ocelot\Calendar\Gregorian\DateTime;
+use Ocelot\Ocelot\Calendar\Gregorian\TimeZone;
 use PHPUnit\Framework\TestCase;
 
 final class DateTimeTest extends TestCase
@@ -48,14 +49,14 @@ final class DateTimeTest extends TestCase
 
         $this->assertSame(
             (new \DateTimeImmutable($dateTimeString))->setTimezone(new \DateTimeZone($timeZone))->format('Y-m-d H:i:s.uO'),
-            $dateTime->toTimeZone(new \DateTimeZone($timeZone))->format('Y-m-d H:i:s.uO')
+            $dateTime->toTimeZone(new TimeZone($timeZone))->format('Y-m-d H:i:s.uO')
         );
     }
 
     public function test_daylight() : void
     {
         $dateTime = DateTime::fromString('2020-01-01 00:00:00')
-            ->toTimeZone(new \DateTimeZone('Europe/Warsaw'));;
+            ->toTimeZone(new TimeZone('Europe/Warsaw'));;
 
         $this->assertFalse($dateTime->isDaylight());
         $this->assertTrue($dateTime->isSavingTime());
@@ -64,7 +65,7 @@ final class DateTimeTest extends TestCase
     public function test_saving_time() : void
     {
         $dateTime = DateTime::fromString('2020-08-01 00:00:00')
-            ->toTimeZone(new \DateTimeZone('Europe/Warsaw'));
+            ->toTimeZone(new TimeZone('Europe/Warsaw'));
 
         $this->assertTrue($dateTime->isDaylight());
         $this->assertFalse($dateTime->isSavingTime());

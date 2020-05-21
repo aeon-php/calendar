@@ -58,7 +58,7 @@ final class TimeUnit
 
     public static function hours(int $hours) : self
     {
-        return new self($hours * self::HOURS_IN_DAY * self::MINUTES_IN_HOUR * self::SECONDS_IN_MINUTE, 0);
+        return new self($hours * self::MINUTES_IN_HOUR * self::SECONDS_IN_MINUTE, 0);
     }
 
     public static function minute() : self
@@ -68,7 +68,7 @@ final class TimeUnit
 
     public static function minutes(int $minutes) : self
     {
-        return new self($minutes * self::HOURS_IN_DAY * self::MINUTES_IN_HOUR * self::SECONDS_IN_MINUTE, 0);
+        return new self($minutes * self::SECONDS_IN_MINUTE, 0);
     }
 
     public static function second() : self
@@ -87,6 +87,26 @@ final class TimeUnit
     public function inSeconds() : int
     {
         return $this->seconds;
+    }
+
+    public function inTimeSeconds() : int
+    {
+        return $this->seconds % 60;
+    }
+
+    public function inHours() : int
+    {
+        return (int) (($this->seconds / self::SECONDS_IN_MINUTE) / self::MINUTES_IN_HOUR);
+    }
+
+    public function inMinutes() : int
+    {
+        return (int) ($this->seconds / self::SECONDS_IN_MINUTE);
+    }
+
+    public function inTimeMinutes() : int
+    {
+        return $this->inMinutes() % 60;
     }
 
     public function inDays() : int

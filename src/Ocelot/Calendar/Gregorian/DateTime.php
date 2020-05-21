@@ -14,13 +14,13 @@ final class DateTime
 
     private Time $time;
 
-    private \DateTimeZone $timeZone;
+    private TimeZone $timeZone;
 
-    public function __construct(Day $day, Time $time, ?\DateTimeZone $timeZone = null)
+    public function __construct(Day $day, Time $time, TimeZone $timeZone = null)
     {
         $this->day = $day;
         $this->time = $time;
-        $this->timeZone = $timeZone ? $timeZone : new \DateTimeZone('UTC');
+        $this->timeZone = $timeZone ? $timeZone : TimeZone::UTC();
     }
 
     /**
@@ -28,7 +28,11 @@ final class DateTime
      */
     public static function fromDateTime(\DateTimeImmutable $dateTime) : self
     {
-        return new self(Day::fromDateTime($dateTime), Time::fromDateTime($dateTime), $dateTime->getTimezone());
+        return new self(
+            Day::fromDateTime($dateTime),
+            Time::fromDateTime($dateTime),
+            TimeZone::fromDateTimeZone($dateTime->getTimezone())
+        );
     }
 
     public static function fromString(string $date) : self
@@ -66,7 +70,7 @@ final class DateTime
         return (
             new \DateTimeImmutable(
                 $this->day->toDateTimeImmutable()->format('Y-m-d'),
-                $this->timeZone()
+                $this->timeZone()->toDateTimeZone()
             ))
             ->setTime(
                 $this->time->hour(),
@@ -81,14 +85,14 @@ final class DateTime
         return $this->toDateTimeImmutable()->format($format);
     }
 
-    public function timeZone(): \DateTimeZone
+    public function timeZone(): TimeZone
     {
         return $this->timeZone;
     }
 
-    public function toTimeZone(\DateTimeZone $dateTimeZone) : self
+    public function toTimeZone(TimeZone $dateTimeZone) : self
     {
-        return self::fromDateTime($this->toDateTimeImmutable()->setTimezone($dateTimeZone));
+        return self::fromDateTime($this->toDateTimeImmutable()->setTimezone($dateTimeZone->toDateTimeZone()));
     }
 
     public function toISO8601() : string
