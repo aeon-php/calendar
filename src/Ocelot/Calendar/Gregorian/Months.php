@@ -12,22 +12,16 @@ use Webmozart\Assert\Assert;
  */
 final class Months implements \Countable
 {
-    /**
-     * @var array<Month>
-     */
-    private array $months;
+    private Year $year;
 
     public function __construct(Year $year)
     {
-        $this->months = \array_map(
-            fn(int $number) : Month => new Month($year, $number),
-            \range(1, $year->numberOfMonths())
-        );
+        $this->year = $year;
     }
 
     public function count() : int
     {
-        return \count($this->months);
+        return $this->year->numberOfMonths();
     }
 
     public function byNumber(int $number) : Month
@@ -35,6 +29,6 @@ final class Months implements \Countable
         Assert::greaterThan($number, 0);
         Assert::lessThanEq($number, 12);
 
-        return $this->months[$number - 1];
+        return new Month($this->year, $number);
     }
 }

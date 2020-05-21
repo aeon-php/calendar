@@ -26,6 +26,18 @@ final class Day
     }
 
     /**
+     * @return array{year: int, month:int, day: int}
+     */
+    public function __debugInfo() : array
+    {
+        return [
+            'year' => $this->month->year()->number(),
+            'month' => $this->month->number(),
+            'day' => $this->number
+        ];
+    }
+
+    /**
      * @psalm-pure
      */
     public static function fromDateTime(\DateTimeImmutable $dateTime) : self

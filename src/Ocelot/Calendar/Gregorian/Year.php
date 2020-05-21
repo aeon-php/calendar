@@ -21,6 +21,16 @@ final class Year
     }
 
     /**
+     * @return array{year:int}
+     */
+    public function __debugInfo() : array
+    {
+        return [
+            'year' => $this->year,
+        ];
+    }
+
+    /**
      * @psalm-pure
      */
     public static function fromDateTime(\DateTimeImmutable $dateTime) : self

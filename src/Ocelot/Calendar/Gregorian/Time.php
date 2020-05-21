@@ -38,6 +38,19 @@ final class Time
     }
 
     /**
+     * @return array{hour: int, minute: int, second: int, microsecond: int}
+     */
+    public function __debugInfo() : array
+    {
+        return [
+            'hour' => $this->hour,
+            'minute' => $this->microsecond,
+            'second' => $this->second,
+            'microsecond' => $this->microsecond
+        ];
+    }
+
+    /**
      * @psalm-pure
      */
     public static function fromDateTime(\DateTimeImmutable $dateTime) : self
