@@ -36,4 +36,48 @@ final class TimePeriod
             $this->start->secondsSinceUnixEpoch() - $this->end->secondsSinceUnixEpoch()
         );
     }
+
+    public function iterate(TimeUnit $timeUnit) : TimeIntervals
+    {
+        return new TimeIntervals(
+            ...\array_map(
+                function (\DateTimeImmutable $dateTimeImmutable) use ($timeUnit)  {
+                    return new TimeInterval(
+                        DateTime::fromDateTime($dateTimeImmutable),
+                        $timeUnit
+                    );
+                },
+                \iterator_to_array(
+                    new \DatePeriod(
+                        $this->start->toDateTimeImmutable(),
+                        $timeUnit->toDateInterval(),
+                        $this->end->toDateTimeImmutable()
+                    )
+                )
+            )
+        );
+    }
+
+    public function iterateBackward(TimeUnit $timeUnit) : TimeIntervals
+    {
+        return new TimeIntervals(
+            ...\array_map(
+                function (\DateTimeImmutable $dateTimeImmutable) use ($timeUnit)  {
+                    return new TimeInterval(
+                        DateTime::fromDateTime($dateTimeImmutable),
+                        $timeUnit
+                    );
+                },
+                \array_reverse(
+                    \iterator_to_array(
+                        new \DatePeriod(
+                        $this->start->toDateTimeImmutable(),
+                        $timeUnit->toDateInterval(),
+                        $this->end->toDateTimeImmutable()
+                        )
+                    )
+                )
+            )
+        );
+    }
 }

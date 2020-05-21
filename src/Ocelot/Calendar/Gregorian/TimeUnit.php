@@ -31,6 +31,20 @@ final class TimeUnit
         $this->negative = $seconds < 0;
     }
 
+    /**
+     * @psalm-suppress ImpurePropertyAssignment
+     */
+    public function toDateInterval() : \DateInterval
+    {
+        $interval = new \DateInterval(\sprintf("PT%dS", $this->seconds));
+
+        if ($this->negative) {
+            $interval->invert = 1;
+        }
+
+        return $interval;
+    }
+
     public function isNegative() : bool
     {
         return $this->negative;
@@ -76,6 +90,41 @@ final class TimeUnit
         return new self(1, 0);
     }
 
+    public function add(TimeUnit $timeUnit) : self
+    {
+        return new self($timeUnit->inSeconds() + $this->inSeconds(), 0);
+    }
+
+    public function sub(TimeUnit $timeUnit) : self
+    {
+        return new self($this->inSeconds() - $timeUnit->inSeconds(), 0);
+    }
+
+    public function isGreaterThan(TimeUnit $timeUnit) : bool
+    {
+        return $timeUnit->inSeconds() > $timeUnit->inSeconds();
+    }
+
+    public function isGreaterThanEq(TimeUnit $timeUnit) : bool
+    {
+        return $timeUnit->inSeconds() >= $timeUnit->inSeconds();
+    }
+
+    public function isLessThan(TimeUnit $timeUnit) : bool
+    {
+        return $timeUnit->inSeconds() < $timeUnit->inSeconds();
+    }
+
+    public function isLessThanEq(TimeUnit $timeUnit) : bool
+    {
+        return $timeUnit->inSeconds() <= $timeUnit->inSeconds();
+    }
+
+    public function isEqual(TimeUnit $timeUnit) : bool
+    {
+        return $timeUnit->inSeconds() === $timeUnit->inSeconds();
+    }
+
     /**
      * @psalm-pure
      */
@@ -86,7 +135,12 @@ final class TimeUnit
 
     public function inSeconds() : int
     {
-        return $this->seconds;
+        return $this->negative ? -$this->seconds : $this->seconds;
+    }
+
+    public function inSecondsAbs() : int
+    {
+        return \abs($this->inSeconds());
     }
 
     public function inTimeSeconds() : int
@@ -96,12 +150,26 @@ final class TimeUnit
 
     public function inHours() : int
     {
-        return (int) (($this->seconds / self::SECONDS_IN_MINUTE) / self::MINUTES_IN_HOUR);
+        return $this->negative
+            ? -(int) (($this->seconds / self::SECONDS_IN_MINUTE) / self::MINUTES_IN_HOUR)
+            : (int) (($this->seconds / self::SECONDS_IN_MINUTE) / self::MINUTES_IN_HOUR);
+    }
+
+    public function inHoursAbs() : int
+    {
+        return \abs($this->inHours());
     }
 
     public function inMinutes() : int
     {
-        return (int) ($this->seconds / self::SECONDS_IN_MINUTE);
+        return $this->negative
+            ? - (int) ($this->seconds / self::SECONDS_IN_MINUTE)
+            : (int) ($this->seconds / self::SECONDS_IN_MINUTE);
+    }
+
+    public function inMinutesAbs() : int
+    {
+        return \abs($this->inMinutes());
     }
 
     public function inTimeMinutes() : int
@@ -111,6 +179,18 @@ final class TimeUnit
 
     public function inDays() : int
     {
-        return (int) ((($this->seconds / self::SECONDS_IN_MINUTE) / self::MINUTES_IN_HOUR) / self::HOURS_IN_DAY);
+        return $this->negative
+            ? -(int) ((($this->seconds / self::SECONDS_IN_MINUTE) / self::MINUTES_IN_HOUR) / self::HOURS_IN_DAY)
+            : (int) ((($this->seconds / self::SECONDS_IN_MINUTE) / self::MINUTES_IN_HOUR) / self::HOURS_IN_DAY);
+    }
+
+    public function inDaysAbs() : int
+    {
+        return \abs($this->inDays());
+    }
+
+    public function invert() : self
+    {
+        return new self(-1 * \abs($this->seconds), $this->microseconds);
     }
 }
