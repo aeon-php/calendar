@@ -12,7 +12,7 @@ namespace Ocelot\Ocelot\Calendar\Gregorian;
 final class TimeIntervals implements \Countable, \IteratorAggregate, \ArrayAccess
 {
     /**
-     * @var array<TimeInterval>
+     * @var array<int, TimeInterval>
      */
     private array $intervals;
 
@@ -23,12 +23,12 @@ final class TimeIntervals implements \Countable, \IteratorAggregate, \ArrayAcces
 
     public function offsetExists($offset) : bool
     {
-        return isset($this->intervals[(int) $offset]);
+        return isset($this->all()[(int) $offset]);
     }
 
     public function offsetGet($offset) : ?TimeInterval
     {
-        return isset($this->intervals[(int) $offset]) ? $this->intervals[(int) $offset] : null;
+        return isset($this->all()[(int) $offset]) ? $this->all()[(int) $offset] : null;
     }
 
     public function offsetSet($offset, $value) : void
@@ -41,20 +41,40 @@ final class TimeIntervals implements \Countable, \IteratorAggregate, \ArrayAcces
         throw new \RuntimeException(__CLASS__ . " is immutable.");
     }
 
+    /**
+     * @return array<int, TimeInterval>
+     */
+    public function all() : array
+    {
+        return $this->intervals;
+    }
+
+    /**
+     * @param callable(TimeInterval $timeInterval) : void $iterator
+     */
     public function each(callable $iterator) : void
     {
-        foreach ($this->intervals as $interval) {
+        foreach ($this->all() as $interval) {
             $iterator($interval);
         }
     }
 
+    /**
+     * @param callable(TimeInterval $timeInterval) : mixed $iterator
+     * @return array<mixed>
+     */
+    public function map(callable $iterator) : array
+    {
+        return \array_map($iterator, $this->all());
+    }
+
     public function count() : int
     {
-        return \count($this->intervals);
+        return \count($this->all());
     }
 
     public function getIterator() : \Traversable
     {
-        return new \ArrayIterator($this->intervals);
+        return new \ArrayIterator($this->all());
     }
 }

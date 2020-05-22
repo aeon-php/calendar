@@ -9,23 +9,31 @@ namespace Ocelot\Ocelot\Calendar\Gregorian;
  */
 final class TimeInterval
 {
-    private DateTime $pointInTime;
+    private DateTime $startDateTime;
 
     private TimeUnit $interval;
 
-    public function __construct(DateTime $pointInTime, TimeUnit $interval)
+    private DateTime $endDateTime;
+
+    public function __construct(DateTime $startDateTime, TimeUnit $interval, DateTime $endDateTime)
     {
-        $this->pointInTime = $pointInTime;
+        $this->startDateTime = $startDateTime;
         $this->interval = $interval;
+        $this->endDateTime = $endDateTime;
     }
 
-    public function dateTime() : DateTime
+    public function startDateTime() : DateTime
     {
-        return $this->pointInTime;
+        return $this->startDateTime;
     }
 
     public function interval()  : TimeUnit
     {
         return $this->interval;
+    }
+
+    public function endDateTime(): DateTime
+    {
+        return $this->endDateTime;
     }
 }

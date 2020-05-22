@@ -43,7 +43,8 @@ final class TimePeriod
                 function (\DateTimeImmutable $dateTimeImmutable) use ($timeUnit)  {
                     return new TimeInterval(
                         DateTime::fromDateTime($dateTimeImmutable),
-                        $timeUnit
+                        $timeUnit,
+                        DateTime::fromDateTime($dateTimeImmutable)->add($timeUnit)
                     );
                 },
                 \iterator_to_array(
@@ -64,15 +65,16 @@ final class TimePeriod
                 function (\DateTimeImmutable $dateTimeImmutable) use ($timeUnit)  {
                     return new TimeInterval(
                         DateTime::fromDateTime($dateTimeImmutable),
-                        $timeUnit
+                        $timeUnit,
+                        DateTime::fromDateTime($dateTimeImmutable)->add($timeUnit)
                     );
                 },
                 \array_reverse(
                     \iterator_to_array(
                         new \DatePeriod(
-                        $this->start->toDateTimeImmutable(),
-                        $timeUnit->toDateInterval(),
-                        $this->end->toDateTimeImmutable()
+                            $this->start->toDateTimeImmutable(),
+                            $timeUnit->toDateInterval(),
+                            $this->end->toDateTimeImmutable()
                         )
                     )
                 )

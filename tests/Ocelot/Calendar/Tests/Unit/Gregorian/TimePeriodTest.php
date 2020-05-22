@@ -63,10 +63,10 @@ final class TimePeriodTest extends TestCase
         $this->assertInstanceOf(TimeInterval::class, $timeIntervals[2]);
         $this->assertInstanceOf(TimeInterval::class, $timeIntervals[23]);
 
-        $this->assertSame(0, $timeIntervals[0]->dateTime()->time()->hour());
-        $this->assertSame(1, $timeIntervals[1]->dateTime()->time()->hour());
-        $this->assertSame(2, $timeIntervals[2]->dateTime()->time()->hour());
-        $this->assertSame(23, $timeIntervals[23]->dateTime()->time()->hour());
+        $this->assertSame(0, $timeIntervals[0]->startDateTime()->time()->hour());
+        $this->assertSame(1, $timeIntervals[1]->startDateTime()->time()->hour());
+        $this->assertSame(2, $timeIntervals[2]->startDateTime()->time()->hour());
+        $this->assertSame(23, $timeIntervals[23]->startDateTime()->time()->hour());
     }
 
     public function test_iterating_through_day_backward_by_hour() : void
@@ -85,10 +85,10 @@ final class TimePeriodTest extends TestCase
         $this->assertInstanceOf(TimeInterval::class, $timeIntervals[2]);
         $this->assertInstanceOf(TimeInterval::class, $timeIntervals[23]);
 
-        $this->assertSame(23, $timeIntervals[0]->dateTime()->time()->hour());
-        $this->assertSame(22, $timeIntervals[1]->dateTime()->time()->hour());
-        $this->assertSame(21, $timeIntervals[2]->dateTime()->time()->hour());
-        $this->assertSame(0, $timeIntervals[23]->dateTime()->time()->hour());
+        $this->assertSame(23, $timeIntervals[0]->startDateTime()->time()->hour());
+        $this->assertSame(22, $timeIntervals[1]->startDateTime()->time()->hour());
+        $this->assertSame(21, $timeIntervals[2]->startDateTime()->time()->hour());
+        $this->assertSame(0, $timeIntervals[23]->startDateTime()->time()->hour());
     }
 
     public function test_iterating_through_day_by_2_days() : void
