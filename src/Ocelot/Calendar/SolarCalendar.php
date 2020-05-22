@@ -7,6 +7,9 @@ use Ocelot\Ocelot\Calendar\Gregorian\Day;
 use Ocelot\Ocelot\Calendar\Gregorian\Month;
 use Ocelot\Ocelot\Calendar\Gregorian\Year;
 
+/**
+ * @psalm-immutable
+ */
 interface SolarCalendar
 {
     public function year() : Year;

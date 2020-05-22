@@ -10,6 +10,9 @@ use Ocelot\Ocelot\Calendar\Gregorian\Month;
 use Ocelot\Ocelot\Calendar\Gregorian\Time;
 use Ocelot\Ocelot\Calendar\Gregorian\Year;
 
+/**
+ * @psalm-immutable
+ */
 final class GregorianCalendarStub implements SolarCalendar
 {
     private ?\DateTimeImmutable $currentDate;
@@ -36,7 +39,7 @@ final class GregorianCalendarStub implements SolarCalendar
 
     public function now(): DateTime
     {
-        return $this->currentDate ? DateTime::fromDateTime($this->currentDate) : DateTime::fromString('now');
+        return DateTime::fromDateTime(new \DateTimeImmutable('now', new \DateTimeZone('UTC')));
     }
 
     public function yesterday() : DateTime
@@ -49,6 +52,9 @@ final class GregorianCalendarStub implements SolarCalendar
         return new DateTime($this->day()->next(), new Time(0, 0, 0, 0));
     }
 
+    /**
+     * @psalm-suppress InaccessibleProperty
+     */
     public function setNow(DateTime $dateTime) : void
     {
         $this->currentDate = $dateTime->toDateTimeImmutable();
