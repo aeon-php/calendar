@@ -33,7 +33,11 @@ final class GregorianCalendarStub implements Calendar
 
     public function now(): DateTime
     {
-        return DateTime::fromDateTime(new \DateTimeImmutable('now', new \DateTimeZone('UTC')));
+        return DateTime::fromDateTime(
+            $this->currentDate
+                ? $this->currentDate
+                : new \DateTimeImmutable('now', new \DateTimeZone('UTC'))
+        );
     }
 
     public function yesterday() : DateTime
