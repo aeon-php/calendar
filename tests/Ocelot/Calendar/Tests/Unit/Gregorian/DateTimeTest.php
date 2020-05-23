@@ -5,6 +5,9 @@ declare(strict_types=1);
 namespace Ocelot\Calendar\Tests\Unit\Gregorian;
 
 use Ocelot\Ocelot\Calendar\Gregorian\DateTime;
+use Ocelot\Ocelot\Calendar\Gregorian\TimeInterval;
+use Ocelot\Ocelot\Calendar\Gregorian\TimeIntervals;
+use Ocelot\Ocelot\Calendar\Gregorian\TimeUnit;
 use Ocelot\Ocelot\Calendar\Gregorian\TimeZone;
 use PHPUnit\Framework\TestCase;
 
@@ -105,5 +108,31 @@ final class DateTimeTest extends TestCase
         $dateTime = DateTime::fromString('2020-01-01 00:00:00');
 
         $this->assertSame('2019-12-31T19:00:00+00:00', $dateTime->subHours(5)->format('c'));
+    }
+
+    public function test_iterating_until_forward() : void
+    {
+        $timeIntervals = DateTime::fromString('2020-01-01 00:00:00')
+            ->until(
+                DateTime::fromString('2020-01-02 00:00:00'),
+                TimeUnit::hour()
+            );
+
+        $this->assertInstanceOf(TimeInterval::class, $timeIntervals[0]);
+        $this->assertSame('2020-01-01 00:00:00', $timeIntervals[0]->startDateTime()->format('Y-m-d H:i:s'));
+        $this->assertSame('2020-01-01 01:00:00', $timeIntervals[0]->endDateTime()->format('Y-m-d H:i:s'));
+    }
+
+    public function test_iterating_until_backward() : void
+    {
+        $timeIntervals = DateTime::fromString('2020-01-02 00:00:00')
+            ->until(
+                DateTime::fromString('2020-01-01 00:00:00'),
+                TimeUnit::hour()
+            );
+
+        $this->assertInstanceOf(TimeInterval::class, $timeIntervals[0]);
+        $this->assertSame('2020-01-02 00:00:00', $timeIntervals[0]->startDateTime()->format('Y-m-d H:i:s'));
+        $this->assertSame('2020-01-01 23:00:00', $timeIntervals[0]->endDateTime()->format('Y-m-d H:i:s'));
     }
 }

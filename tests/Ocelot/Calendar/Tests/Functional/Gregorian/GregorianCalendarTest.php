@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Ocelot\Calendar\Tests\Functional\Gregorian;
 
-use Ocelot\Ocelot\Calendar\Gregorian\DateTime;
 use Ocelot\Ocelot\Calendar\Gregorian\TimeInterval;
 use Ocelot\Ocelot\Calendar\Gregorian\TimeUnit;
 use Ocelot\Ocelot\Calendar\Gregorian\GregorianCalendar;
@@ -96,12 +95,12 @@ final class GregorianCalendarTest extends TestCase
         $this->assertCount(48, $intervals);
 
         $this->assertSame(
-            (new \DateTimeImmutable('tomorrow midnight'))->modify('-1 hour')->format('Y-m-d H:i:s'),
+            (new \DateTimeImmutable('tomorrow midnight'))->format('Y-m-d H:i:s'),
             $intervals[0]
         );
 
         $this->assertSame(
-            (new \DateTimeImmutable('yesterday midnight'))->format('Y-m-d H:i:s'),
+            (new \DateTimeImmutable('yesterday midnight'))->modify('+1 hour')->format('Y-m-d H:i:s'),
             $intervals[47]
         );
     }

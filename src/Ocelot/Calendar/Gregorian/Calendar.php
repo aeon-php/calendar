@@ -2,9 +2,6 @@
 
 namespace Ocelot\Ocelot\Calendar\Gregorian;
 
-/**
- * @psalm-immutable
- */
 interface Calendar
 {
     public function year() : Year;

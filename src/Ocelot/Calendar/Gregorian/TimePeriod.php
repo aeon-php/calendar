@@ -64,9 +64,9 @@ final class TimePeriod
             ...\array_map(
                 function (\DateTimeImmutable $dateTimeImmutable) use ($timeUnit)  {
                     return new TimeInterval(
-                        DateTime::fromDateTime($dateTimeImmutable),
+                        DateTime::fromDateTime($dateTimeImmutable)->add($timeUnit),
                         $timeUnit,
-                        DateTime::fromDateTime($dateTimeImmutable)->add($timeUnit)
+                        DateTime::fromDateTime($dateTimeImmutable)
                     );
                 },
                 \array_reverse(
