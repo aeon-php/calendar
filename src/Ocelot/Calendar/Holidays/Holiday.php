@@ -26,7 +26,7 @@ final class Holiday
         return $this->day;
     }
 
-    public function name(string $locale = 'en'): string
+    public function name(?string $locale = null): string
     {
         return $this->name->name($locale);
     }
