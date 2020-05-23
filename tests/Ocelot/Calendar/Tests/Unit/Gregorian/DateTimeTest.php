@@ -120,6 +120,7 @@ final class DateTimeTest extends TestCase
 
         $this->assertInstanceOf(TimeInterval::class, $timeIntervals[0]);
         $this->assertSame('2020-01-01 00:00:00', $timeIntervals[0]->startDateTime()->format('Y-m-d H:i:s'));
+        $this->assertFalse($timeIntervals[0]->interval()->isNegative());
         $this->assertSame('2020-01-01 01:00:00', $timeIntervals[0]->endDateTime()->format('Y-m-d H:i:s'));
     }
 
@@ -133,6 +134,7 @@ final class DateTimeTest extends TestCase
 
         $this->assertInstanceOf(TimeInterval::class, $timeIntervals[0]);
         $this->assertSame('2020-01-02 00:00:00', $timeIntervals[0]->startDateTime()->format('Y-m-d H:i:s'));
+        $this->assertTrue($timeIntervals[0]->interval()->isNegative());
         $this->assertSame('2020-01-01 23:00:00', $timeIntervals[0]->endDateTime()->format('Y-m-d H:i:s'));
     }
 }

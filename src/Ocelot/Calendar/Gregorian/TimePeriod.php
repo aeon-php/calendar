@@ -65,7 +65,7 @@ final class TimePeriod
                 function (\DateTimeImmutable $dateTimeImmutable) use ($timeUnit)  {
                     return new TimeInterval(
                         DateTime::fromDateTime($dateTimeImmutable)->add($timeUnit),
-                        $timeUnit,
+                        $timeUnit->invert(),
                         DateTime::fromDateTime($dateTimeImmutable)
                     );
                 },
