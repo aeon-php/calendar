@@ -52,6 +52,7 @@ final class Day
 
     /**
      * @throws \Exception
+     * @psalm-pure
      */
     public static function fromString(string $date) : self
     {
@@ -86,6 +87,11 @@ final class Day
     public function month() : Month
     {
         return $this->month;
+    }
+
+    public function year() : Year
+    {
+        return $this->month()->year();
     }
 
     public function number() : int
@@ -127,8 +133,30 @@ final class Day
         return ((int) $this->toDateTimeImmutable()->format('z')) + 1;
     }
 
+    public function isWeekend() : bool
+    {
+        return \in_array($this->dayOfWeek(), [6, 7]);
+    }
+
     public function toDateTimeImmutable() : \DateTimeImmutable
     {
         return (new \DateTimeImmutable('now'))->setDate($this->month()->year()->number(), $this->month()->number(), $this->number());
+    }
+
+    public function format(string $format) : string
+    {
+        return $this->toDateTimeImmutable()->format($format);
+    }
+
+    public function equals(Day $day) : bool
+    {
+        return $this->year()->number() === $day->year()->number()
+            && $this->month()->number() === $day->month()->number()
+            && $this->number() === $day->number();
+    }
+
+    public function equalsString(string $date) : bool
+    {
+        return $this->equals(self::fromString($date));
     }
 }

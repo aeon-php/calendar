@@ -1,0 +1,33 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Ocelot\Ocelot\Calendar\Holidays;
+
+use Ocelot\Ocelot\Calendar\Gregorian\Day;
+
+/**
+ * @psalm-immutable
+ */
+final class Holiday
+{
+    private Day $day;
+
+    private HolidayName $name;
+
+    public function __construct(Day $day, HolidayName $name)
+    {
+        $this->day = $day;
+        $this->name = $name;
+    }
+
+    public function day(): Day
+    {
+        return $this->day;
+    }
+
+    public function name(string $locale = 'en'): string
+    {
+        return $this->name->name($locale);
+    }
+}
