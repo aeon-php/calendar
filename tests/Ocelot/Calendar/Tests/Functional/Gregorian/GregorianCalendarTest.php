@@ -7,7 +7,7 @@ namespace Ocelot\Calendar\Tests\Functional\Gregorian;
 use Ocelot\Ocelot\Calendar\Gregorian\DateTime;
 use Ocelot\Ocelot\Calendar\Gregorian\TimeInterval;
 use Ocelot\Ocelot\Calendar\Gregorian\TimeUnit;
-use Ocelot\Ocelot\Calendar\GregorianCalendar;
+use Ocelot\Ocelot\Calendar\Gregorian\GregorianCalendar;
 use PHPUnit\Framework\TestCase;
 
 final class GregorianCalendarTest extends TestCase

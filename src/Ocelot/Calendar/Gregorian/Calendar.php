@@ -1,16 +1,11 @@
 <?php
 
-namespace Ocelot\Ocelot\Calendar;
-
-use Ocelot\Ocelot\Calendar\Gregorian\DateTime;
-use Ocelot\Ocelot\Calendar\Gregorian\Day;
-use Ocelot\Ocelot\Calendar\Gregorian\Month;
-use Ocelot\Ocelot\Calendar\Gregorian\Year;
+namespace Ocelot\Ocelot\Calendar\Gregorian;
 
 /**
  * @psalm-immutable
  */
-interface SolarCalendar
+interface Calendar
 {
     public function year() : Year;
 

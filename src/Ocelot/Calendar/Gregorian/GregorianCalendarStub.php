@@ -2,19 +2,20 @@
 
 declare(strict_types=1);
 
-namespace Ocelot\Ocelot\Calendar;
-
-use Ocelot\Ocelot\Calendar\Gregorian\DateTime;
-use Ocelot\Ocelot\Calendar\Gregorian\Day;
-use Ocelot\Ocelot\Calendar\Gregorian\Month;
-use Ocelot\Ocelot\Calendar\Gregorian\Time;
-use Ocelot\Ocelot\Calendar\Gregorian\Year;
+namespace Ocelot\Ocelot\Calendar\Gregorian;
 
 /**
  * @psalm-immutable
  */
-final class GregorianCalendar implements SolarCalendar
+final class GregorianCalendarStub implements Calendar
 {
+    private ?\DateTimeImmutable $currentDate;
+
+    public function __construct(?\DateTimeImmutable $currentDate = null)
+    {
+        $this->currentDate = $currentDate;
+    }
+
     public function year(): Year
     {
         return Year::fromDateTime($this->now()->toDateTimeImmutable());
@@ -43,5 +44,13 @@ final class GregorianCalendar implements SolarCalendar
     public function tomorrow() : DateTime
     {
         return new DateTime($this->day()->next(), new Time(0, 0, 0, 0));
+    }
+
+    /**
+     * @psalm-suppress InaccessibleProperty
+     */
+    public function setNow(DateTime $dateTime) : void
+    {
+        $this->currentDate = $dateTime->toDateTimeImmutable();
     }
 }
