@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Ocelot\Ocelot\Calendar\Gregorian;
 
-use Ocelot\Ocelot\Calendar\Gregorian\TimeZone\TimeOffset;
-
 /**
  * @psalm-immutable
  */
