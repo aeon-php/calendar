@@ -59,6 +59,9 @@ final class TimeUnit
         return new self(self::HOURS_IN_DAY * self::MINUTES_IN_HOUR * self::SECONDS_IN_MINUTE, 0);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function days(int $days) : self
     {
         return new self($days * self::HOURS_IN_DAY * self::MINUTES_IN_HOUR * self::SECONDS_IN_MINUTE, 0);
@@ -69,6 +72,9 @@ final class TimeUnit
         return new self(self::MINUTES_IN_HOUR * self::SECONDS_IN_MINUTE, 0);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function hours(int $hours) : self
     {
         return new self($hours * self::MINUTES_IN_HOUR * self::SECONDS_IN_MINUTE, 0);
@@ -79,6 +85,9 @@ final class TimeUnit
         return new self(self::SECONDS_IN_MINUTE, 0);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function minutes(int $minutes) : self
     {
         return new self($minutes * self::SECONDS_IN_MINUTE, 0);
@@ -87,6 +96,19 @@ final class TimeUnit
     public static function second() : self
     {
         return new self(1, 0);
+    }
+
+    /**
+     * @psalm-pure
+     */
+    public static function seconds(int $seconds) : self
+    {
+        return new self($seconds, 0);
+    }
+
+    public function inSeconds() : int
+    {
+        return $this->negative ? -$this->seconds : $this->seconds;
     }
 
     public function add(TimeUnit $timeUnit) : self
@@ -122,19 +144,6 @@ final class TimeUnit
     public function isEqual(TimeUnit $timeUnit) : bool
     {
         return $timeUnit->inSeconds() === $timeUnit->inSeconds();
-    }
-
-    /**
-     * @psalm-pure
-     */
-    public static function seconds(int $seconds) : self
-    {
-        return new self($seconds, 0);
-    }
-
-    public function inSeconds() : int
-    {
-        return $this->negative ? -$this->seconds : $this->seconds;
     }
 
     public function inSecondsAbs() : int

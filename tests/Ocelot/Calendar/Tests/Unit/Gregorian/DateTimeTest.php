@@ -5,14 +5,23 @@ declare(strict_types=1);
 namespace Ocelot\Calendar\Tests\Unit\Gregorian;
 
 use Ocelot\Ocelot\Calendar\Gregorian\DateTime;
+use Ocelot\Ocelot\Calendar\Gregorian\Day;
+use Ocelot\Ocelot\Calendar\Gregorian\Time;
 use Ocelot\Ocelot\Calendar\Gregorian\TimeInterval;
-use Ocelot\Ocelot\Calendar\Gregorian\TimeIntervals;
 use Ocelot\Ocelot\Calendar\Gregorian\TimeUnit;
 use Ocelot\Ocelot\Calendar\Gregorian\TimeZone;
+use Ocelot\Ocelot\Calendar\Gregorian\TimeZone\TimeOffset;
 use PHPUnit\Framework\TestCase;
 
 final class DateTimeTest extends TestCase
 {
+    public function test_creating_datetime_with_timezone_not_matching_offset() : void
+    {
+        $this->expectExceptionMessage('TimeOffset +00:00 does not match TimeZone Europe/Warsaw at 2020-01-01 00:00:00');
+
+        new DateTime(Day::fromString('2020-01-01'), new Time(0, 0, 0, 0), TimeZone::europeWarsaw(), TimeOffset::fromString('00:00'));
+    }
+
     public function test_year() : void
     {
         $dateTime = DateTime::fromString('2020-01-01 00:00:00');
@@ -42,6 +51,13 @@ final class DateTimeTest extends TestCase
         $this->assertSame(54, $dateTime->time()->minute());
         $this->assertSame(23, $dateTime->time()->second());
         $this->assertSame(1, $dateTime->time()->microsecond());
+    }
+
+    public function test_creating_time_offset_from_timezone() : void
+    {
+        $dateTime = DateTime::fromString('2020-01-01 00:00:00')->toTimeZone(TimeZone::americaLosAngeles());
+
+        $this->assertSame('-08:00', $dateTime->timeOffset()->toString());
     }
 
     public function test_timezone_conversion() : void

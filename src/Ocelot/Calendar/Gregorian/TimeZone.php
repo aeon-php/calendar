@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Ocelot\Ocelot\Calendar\Gregorian;
 
+use Ocelot\Ocelot\Calendar\Gregorian\TimeZone\TimeOffset;
 use Webmozart\Assert\Assert;
 
 /**
@@ -117,6 +118,7 @@ final class TimeZone
     public const AMERICA_FORTALEZA = "America/Fortaleza";
     public const AMERICA_GLACE_BAY = "America/Glace_Bay";
     public const AMERICA_GOOSE_BAY = "America/Goose_Bay";
+    public const AMERICA_GODTHAB = 'America/Godthab';
     public const AMERICA_GRAND_TURK = "America/Grand_Turk";
     public const AMERICA_GRENADA = "America/Grenada";
     public const AMERICA_GUADELOUPE = "America/Guadeloupe";
@@ -414,6 +416,7 @@ final class TimeZone
     public const PACIFIC_GUADALCANAL = "Pacific/Guadalcanal";
     public const PACIFIC_GUAM = "Pacific/Guam";
     public const PACIFIC_HONOLULU = "Pacific/Honolulu";
+    public const PACIFIC_JOHNSTON = 'Pacific/Johnston';
     public const PACIFIC_KIRITIMATI = "Pacific/Kiritimati";
     public const PACIFIC_KOSRAE = "Pacific/Kosrae";
     public const PACIFIC_KWAJALEIN = "Pacific/Kwajalein";
@@ -438,17 +441,21 @@ final class TimeZone
     public const PACIFIC_WALLIS = "Pacific/Wallis";
     public const UTC = "UTC";
 
-    private const OFFSET_REGEXP = '/^([+-](?:2[0-3]|[01][0-9]):[0-5][0-9])$/';
-
     private string $name;
 
     public function __construct(string $name)
     {
-        if (!\in_array($name, (array) \DateTimeZone::listIdentifiers())) {
-            Assert::regex($name, self::OFFSET_REGEXP, "\"$name\" is not a valid timezone.");
-        }
+        Assert::inArray($name, (array) \DateTimeZone::listIdentifiers(), "\"$name\" is not a valid timezone.");
 
         $this->name = $name;
+    }
+
+    /**
+     * @psalm-pure
+     */
+    public static function isValid(string $name) : bool
+    {
+        return \in_array($name, (array) \DateTimeZone::listIdentifiers());
     }
 
     /**
@@ -473,17 +480,9 @@ final class TimeZone
      * Offset depends on date because daylight & saving time will have it different and
      * the only way to get it is to take it from date time.
      */
-    public function offsetUTCString(DateTime $dateTime) : string
+    public function timeOffset(DateTime $dateTime) : TimeOffset
     {
-        $offsetTimeUnit = $this->offsetUTC($dateTime);
-
-        return $offsetTimeUnit->isNegative() ? '-' : '+'
-            . \str_pad((string) $offsetTimeUnit->inHours(), 2, '0', STR_PAD_LEFT) . ':' . \str_pad((string) $offsetTimeUnit->inTimeMinutes(), 2, '0', STR_PAD_LEFT);
-    }
-
-    public function offsetUTC(DateTime $dateTime) : TimeUnit
-    {
-        return TimeUnit::seconds($this->toDateTimeZone()->getOffset($dateTime->toDateTimeImmutable()));
+        return TimeOffset::fromTimeUnit(TimeUnit::seconds($this->toDateTimeZone()->getOffset($dateTime->toDateTimeImmutable())));
     }
 
     public static function africaAbidjan() : self
@@ -1014,6 +1013,11 @@ final class TimeZone
     public static function americaGooseBay() : self
     {
         return new self(self::AMERICA_GOOSE_BAY);
+    }
+
+    public static function americaGodthab() : self
+    {
+        return new self(self::AMERICA_GODTHAB);
     }
 
     public static function americaGrandTurk() : self
@@ -2506,6 +2510,11 @@ final class TimeZone
         return new self(self::PACIFIC_KIRITIMATI);
     }
 
+    public static function pacificJohnston() : self
+    {
+        return new self(self::PACIFIC_JOHNSTON);
+    }
+
     public static function pacificKosrae() : self
     {
         return new self(self::PACIFIC_KOSRAE);
@@ -2614,5 +2623,433 @@ final class TimeZone
     public static function UTC() : self
     {
         return new self(self::UTC);
+    }
+
+    public function toCountryCode() : ?string
+    {
+        $mapping = [
+            self::AMERICA_ARUBA => 'AW',
+            self::ASIA_KABUL => 'AF',
+            self::AFRICA_LUANDA => 'AO',
+            self::AMERICA_ANGUILLA => 'AI',
+            self::EUROPE_MARIEHAMN => 'AX',
+            self::EUROPE_TIRANE => 'AL',
+            self::EUROPE_ANDORRA => 'AD',
+            self::ASIA_DUBAI => 'AE',
+            self::AMERICA_ARGENTINA_BUENOS_AIRES => 'AR',
+            self::AMERICA_ARGENTINA_CORDOBA => 'AR',
+            self::AMERICA_ARGENTINA_SALTA => 'AR',
+            self::AMERICA_ARGENTINA_JUJUY => 'AR',
+            self::AMERICA_ARGENTINA_TUCUMAN => 'AR',
+            self::AMERICA_ARGENTINA_CATAMARCA => 'AR',
+            self::AMERICA_ARGENTINA_LA_RIOJA => 'AR',
+            self::AMERICA_ARGENTINA_SAN_JUAN => 'AR',
+            self::AMERICA_ARGENTINA_MENDOZA => 'AR',
+            self::AMERICA_ARGENTINA_SAN_LUIS => 'AR',
+            self::AMERICA_ARGENTINA_RIO_GALLEGOS => 'AR',
+            self::AMERICA_ARGENTINA_USHUAIA => 'AR',
+            self::ASIA_YEREVAN => 'AM',
+            self::PACIFIC_PAGO_PAGO => 'AS',
+            self::ANTARCTICA_MCMURDO => 'AQ',
+            self::ANTARCTICA_CASEY => 'AQ',
+            self::ANTARCTICA_DAVIS => 'AQ',
+            self::ANTARCTICA_DUMONTDURVILLE => 'AQ',
+            self::ANTARCTICA_MAWSON => 'AQ',
+            self::ANTARCTICA_PALMER => 'AQ',
+            self::ANTARCTICA_ROTHERA => 'AQ',
+            self::ANTARCTICA_SYOWA => 'AQ',
+            self::ANTARCTICA_TROLL => 'AQ',
+            self::ANTARCTICA_VOSTOK => 'AQ',
+            self::INDIAN_KERGUELEN => 'TF',
+            self::AMERICA_ANTIGUA => 'AG',
+            self::AUSTRALIA_LORD_HOWE => 'AU',
+            self::ANTARCTICA_MACQUARIE => 'AU',
+            self::AUSTRALIA_HOBART => 'AU',
+            self::AUSTRALIA_CURRIE => 'AU',
+            self::AUSTRALIA_MELBOURNE => 'AU',
+            self::AUSTRALIA_SYDNEY => 'AU',
+            self::AUSTRALIA_BROKEN_HILL => 'AU',
+            self::AUSTRALIA_BRISBANE => 'AU',
+            self::AUSTRALIA_LINDEMAN => 'AU',
+            self::AUSTRALIA_ADELAIDE => 'AU',
+            self::AUSTRALIA_DARWIN => 'AU',
+            self::AUSTRALIA_PERTH => 'AU',
+            self::AUSTRALIA_EUCLA => 'AU',
+            self::EUROPE_VIENNA => 'AT',
+            self::ASIA_BAKU => 'AZ',
+            self::AFRICA_BUJUMBURA => 'BI',
+            self::EUROPE_BRUSSELS => 'BE',
+            self::AFRICA_PORTO_NOVO => 'BJ',
+            self::AFRICA_OUAGADOUGOU => 'BF',
+            self::ASIA_DHAKA => 'BD',
+            self::EUROPE_SOFIA => 'BG',
+            self::ASIA_BAHRAIN => 'BH',
+            self::AMERICA_NASSAU => 'BS',
+            self::EUROPE_SARAJEVO => 'BA',
+            self::AMERICA_ST_BARTHELEMY => 'BL',
+            self::EUROPE_MINSK => 'BY',
+            self::AMERICA_BELIZE => 'BZ',
+            self::ATLANTIC_BERMUDA => 'BM',
+            self::AMERICA_LA_PAZ => 'BO',
+            self::AMERICA_NORONHA => 'BR',
+            self::AMERICA_BELEM => 'BR',
+            self::AMERICA_FORTALEZA => 'BR',
+            self::AMERICA_RECIFE => 'BR',
+            self::AMERICA_ARAGUAINA => 'BR',
+            self::AMERICA_MACEIO => 'BR',
+            self::AMERICA_BAHIA => 'BR',
+            self::AMERICA_SAO_PAULO => 'BR',
+            self::AMERICA_CAMPO_GRANDE => 'BR',
+            self::AMERICA_CUIABA => 'BR',
+            self::AMERICA_SANTAREM => 'BR',
+            self::AMERICA_PORTO_VELHO => 'BR',
+            self::AMERICA_BOA_VISTA => 'BR',
+            self::AMERICA_MANAUS => 'BR',
+            self::AMERICA_EIRUNEPE => 'BR',
+            self::AMERICA_RIO_BRANCO => 'BR',
+            self::AMERICA_BARBADOS => 'BB',
+            self::ASIA_BRUNEI => 'BN',
+            self::ASIA_THIMPHU => 'BT',
+            self::AFRICA_GABORONE => 'BW',
+            self::AFRICA_BANGUI => 'CF',
+            self::AMERICA_ST_JOHNS => 'CA',
+            self::AMERICA_HALIFAX => 'CA',
+            self::AMERICA_GLACE_BAY => 'CA',
+            self::AMERICA_MONCTON => 'CA',
+            self::AMERICA_GOOSE_BAY => 'CA',
+            self::AMERICA_BLANC_SABLON => 'CA',
+            self::AMERICA_TORONTO => 'CA',
+            self::AMERICA_NIPIGON => 'CA',
+            self::AMERICA_THUNDER_BAY => 'CA',
+            self::AMERICA_IQALUIT => 'CA',
+            self::AMERICA_PANGNIRTUNG => 'CA',
+            self::AMERICA_ATIKOKAN => 'CA',
+            self::AMERICA_WINNIPEG => 'CA',
+            self::AMERICA_RAINY_RIVER => 'CA',
+            self::AMERICA_RESOLUTE => 'CA',
+            self::AMERICA_RANKIN_INLET => 'CA',
+            self::AMERICA_REGINA => 'CA',
+            self::AMERICA_SWIFT_CURRENT => 'CA',
+            self::AMERICA_EDMONTON => 'CA',
+            self::AMERICA_CAMBRIDGE_BAY => 'CA',
+            self::AMERICA_YELLOWKNIFE => 'CA',
+            self::AMERICA_INUVIK => 'CA',
+            self::AMERICA_CRESTON => 'CA',
+            self::AMERICA_DAWSON_CREEK => 'CA',
+            self::AMERICA_FORT_NELSON => 'CA',
+            self::AMERICA_VANCOUVER => 'CA',
+            self::AMERICA_WHITEHORSE => 'CA',
+            self::AMERICA_DAWSON => 'CA',
+            self::INDIAN_COCOS => 'CC',
+            self::EUROPE_ZURICH => 'CH',
+            self::AMERICA_SANTIAGO => 'CL',
+            self::PACIFIC_EASTER => 'CL',
+            self::ASIA_SHANGHAI => 'CN',
+            self::ASIA_URUMQI => 'CN',
+            self::AFRICA_ABIDJAN => 'CI',
+            self::AFRICA_DOUALA => 'CM',
+            self::AFRICA_KINSHASA => 'CD',
+            self::AFRICA_LUBUMBASHI => 'CD',
+            self::AFRICA_BRAZZAVILLE => 'CG',
+            self::PACIFIC_RAROTONGA => 'CK',
+            self::AMERICA_BOGOTA => 'CO',
+            self::INDIAN_COMORO => 'KM',
+            self::ATLANTIC_CAPE_VERDE => 'CV',
+            self::AMERICA_COSTA_RICA => 'CR',
+            self::AMERICA_HAVANA => 'CU',
+            self::AMERICA_CURACAO => 'CW',
+            self::INDIAN_CHRISTMAS => 'CX',
+            self::AMERICA_CAYMAN => 'KY',
+            self::ASIA_NICOSIA => 'CY',
+            self::EUROPE_PRAGUE => 'CZ',
+            self::EUROPE_BERLIN => 'DE',
+            self::EUROPE_BUSINGEN => 'DE',
+            self::AFRICA_DJIBOUTI => 'DJ',
+            self::AMERICA_DOMINICA => 'DM',
+            self::EUROPE_COPENHAGEN => 'DK',
+            self::AMERICA_SANTO_DOMINGO => 'DO',
+            self::AFRICA_ALGIERS => 'DZ',
+            self::AMERICA_GUAYAQUIL => 'EC',
+            self::PACIFIC_GALAPAGOS => 'EC',
+            self::AFRICA_CAIRO => 'EG',
+            self::AFRICA_ASMARA => 'ER',
+            self::AFRICA_EL_AAIUN => 'EH',
+            self::EUROPE_MADRID => 'ES',
+            self::AFRICA_CEUTA => 'ES',
+            self::ATLANTIC_CANARY => 'ES',
+            self::EUROPE_TALLINN => 'EE',
+            self::AFRICA_ADDIS_ABABA => 'ET',
+            self::EUROPE_HELSINKI => 'FI',
+            self::PACIFIC_FIJI => 'FJ',
+            self::ATLANTIC_STANLEY => 'FK',
+            self::EUROPE_PARIS => 'FR',
+            self::ATLANTIC_FAROE => 'FO',
+            self::PACIFIC_CHUUK => 'FM',
+            self::PACIFIC_POHNPEI => 'FM',
+            self::PACIFIC_KOSRAE => 'FM',
+            self::AFRICA_LIBREVILLE => 'GA',
+            self::EUROPE_LONDON => 'GB',
+            self::ASIA_TBILISI => 'GE',
+            self::EUROPE_GUERNSEY => 'GG',
+            self::AFRICA_ACCRA => 'GH',
+            self::EUROPE_GIBRALTAR => 'GI',
+            self::AFRICA_CONAKRY => 'GN',
+            self::AMERICA_GUADELOUPE => 'GP',
+            self::AFRICA_BANJUL => 'GM',
+            self::AFRICA_BISSAU => 'GW',
+            self::AFRICA_MALABO => 'GQ',
+            self::EUROPE_ATHENS => 'GR',
+            self::AMERICA_GRENADA => 'GD',
+            self::AMERICA_GODTHAB => 'GL',
+            self::AMERICA_DANMARKSHAVN => 'GL',
+            self::AMERICA_SCORESBYSUND => 'GL',
+            self::AMERICA_THULE => 'GL',
+            self::AMERICA_GUATEMALA => 'GT',
+            self::AMERICA_CAYENNE => 'GF',
+            self::PACIFIC_GUAM => 'GU',
+            self::AMERICA_GUYANA => 'GY',
+            self::ASIA_HONG_KONG => 'HK',
+            self::AMERICA_TEGUCIGALPA => 'HN',
+            self::EUROPE_ZAGREB => 'HR',
+            self::AMERICA_PORT_AU_PRINCE => 'HT',
+            self::EUROPE_BUDAPEST => 'HU',
+            self::ASIA_JAKARTA => 'ID',
+            self::ASIA_PONTIANAK => 'ID',
+            self::ASIA_MAKASSAR => 'ID',
+            self::ASIA_JAYAPURA => 'ID',
+            self::EUROPE_ISLE_OF_MAN => 'IM',
+            self::ASIA_KOLKATA => 'IN',
+            self::INDIAN_CHAGOS => 'IO',
+            self::EUROPE_DUBLIN => 'IE',
+            self::ASIA_TEHRAN => 'IR',
+            self::ASIA_BAGHDAD => 'IQ',
+            self::ATLANTIC_REYKJAVIK => 'IS',
+            self::ASIA_JERUSALEM => 'IL',
+            self::EUROPE_ROME => 'IT',
+            self::AMERICA_JAMAICA => 'JM',
+            self::EUROPE_JERSEY => 'JE',
+            self::ASIA_AMMAN => 'JO',
+            self::ASIA_TOKYO => 'JP',
+            self::ASIA_ALMATY => 'KZ',
+            self::ASIA_QYZYLORDA => 'KZ',
+            self::ASIA_AQTOBE => 'KZ',
+            self::ASIA_AQTAU => 'KZ',
+            self::ASIA_ORAL => 'KZ',
+            self::AFRICA_NAIROBI => 'KE',
+            self::ASIA_BISHKEK => 'KG',
+            self::ASIA_PHNOM_PENH => 'KH',
+            self::PACIFIC_TARAWA => 'KI',
+            self::PACIFIC_ENDERBURY => 'KI',
+            self::PACIFIC_KIRITIMATI => 'KI',
+            self::AMERICA_ST_KITTS => 'KN',
+            self::ASIA_SEOUL => 'KR',
+            self::ASIA_KUWAIT => 'KW',
+            self::ASIA_VIENTIANE => 'LA',
+            self::ASIA_BEIRUT => 'LB',
+            self::AFRICA_MONROVIA => 'LR',
+            self::AFRICA_TRIPOLI => 'LY',
+            self::AMERICA_ST_LUCIA => 'LC',
+            self::EUROPE_VADUZ => 'LI',
+            self::ASIA_COLOMBO => 'LK',
+            self::AFRICA_MASERU => 'LS',
+            self::EUROPE_VILNIUS => 'LT',
+            self::EUROPE_LUXEMBOURG => 'LU',
+            self::EUROPE_RIGA => 'LV',
+            self::ASIA_MACAU => 'MO',
+            self::AMERICA_MARIGOT => 'MF',
+            self::AFRICA_CASABLANCA => 'MA',
+            self::EUROPE_MONACO => 'MC',
+            self::EUROPE_CHISINAU => 'MD',
+            self::INDIAN_ANTANANARIVO => 'MG',
+            self::INDIAN_MALDIVES => 'MV',
+            self::AMERICA_MEXICO_CITY => 'MX',
+            self::AMERICA_CANCUN => 'MX',
+            self::AMERICA_MERIDA => 'MX',
+            self::AMERICA_MONTERREY => 'MX',
+            self::AMERICA_MATAMOROS => 'MX',
+            self::AMERICA_MAZATLAN => 'MX',
+            self::AMERICA_CHIHUAHUA => 'MX',
+            self::AMERICA_OJINAGA => 'MX',
+            self::AMERICA_HERMOSILLO => 'MX',
+            self::AMERICA_TIJUANA => 'MX',
+            self::AMERICA_BAHIA_BANDERAS => 'MX',
+            self::PACIFIC_MAJURO => 'MH',
+            self::PACIFIC_KWAJALEIN => 'MH',
+            self::EUROPE_SKOPJE => 'MK',
+            self::AFRICA_BAMAKO => 'ML',
+            self::EUROPE_MALTA => 'MT',
+            self::EUROPE_PODGORICA => 'ME',
+            self::ASIA_ULAANBAATAR => 'MN',
+            self::ASIA_HOVD => 'MN',
+            self::ASIA_CHOIBALSAN => 'MN',
+            self::PACIFIC_SAIPAN => 'MP',
+            self::AFRICA_MAPUTO => 'MZ',
+            self::AFRICA_NOUAKCHOTT => 'MR',
+            self::AMERICA_MONTSERRAT => 'MS',
+            self::AMERICA_MARTINIQUE => 'MQ',
+            self::INDIAN_MAURITIUS => 'MU',
+            self::AFRICA_BLANTYRE => 'MW',
+            self::ASIA_KUALA_LUMPUR => 'MY',
+            self::ASIA_KUCHING => 'MY',
+            self::INDIAN_MAYOTTE => 'YT',
+            self::AFRICA_WINDHOEK => 'NA',
+            self::PACIFIC_NOUMEA => 'NC',
+            self::AFRICA_NIAMEY => 'NE',
+            self::PACIFIC_NORFOLK => 'NF',
+            self::AFRICA_LAGOS => 'NG',
+            self::AMERICA_MANAGUA => 'NI',
+            self::PACIFIC_NIUE => 'NU',
+            self::EUROPE_AMSTERDAM => 'NL',
+            self::EUROPE_OSLO => 'NO',
+            self::ASIA_KATHMANDU => 'NP',
+            self::PACIFIC_NAURU => 'NR',
+            self::PACIFIC_AUCKLAND => 'NZ',
+            self::PACIFIC_CHATHAM => 'NZ',
+            self::ASIA_MUSCAT => 'OM',
+            self::ASIA_KARACHI => 'PK',
+            self::AMERICA_PANAMA => 'PA',
+            self::PACIFIC_PITCAIRN => 'PN',
+            self::AMERICA_LIMA => 'PE',
+            self::ASIA_MANILA => 'PH',
+            self::PACIFIC_PALAU => 'PW',
+            self::PACIFIC_PORT_MORESBY => 'PG',
+            self::PACIFIC_BOUGAINVILLE => 'PG',
+            self::EUROPE_WARSAW => 'PL',
+            self::AMERICA_PUERTO_RICO => 'PR',
+            self::ASIA_PYONGYANG => 'KP',
+            self::EUROPE_LISBON => 'PT',
+            self::ATLANTIC_MADEIRA => 'PT',
+            self::ATLANTIC_AZORES => 'PT',
+            self::AMERICA_ASUNCION => 'PY',
+            self::ASIA_GAZA => 'PS',
+            self::ASIA_HEBRON => 'PS',
+            self::PACIFIC_TAHITI => 'PF',
+            self::PACIFIC_MARQUESAS => 'PF',
+            self::PACIFIC_GAMBIER => 'PF',
+            self::ASIA_QATAR => 'QA',
+            self::INDIAN_REUNION => 'RE',
+            self::EUROPE_BUCHAREST => 'RO',
+            self::EUROPE_KALININGRAD => 'RU',
+            self::EUROPE_MOSCOW => 'RU',
+            self::EUROPE_SIMFEROPOL => 'RU',
+            self::EUROPE_VOLGOGRAD => 'RU',
+            self::EUROPE_KIROV => 'RU',
+            self::EUROPE_ASTRAKHAN => 'RU',
+            self::EUROPE_SAMARA => 'RU',
+            self::EUROPE_ULYANOVSK => 'RU',
+            self::ASIA_YEKATERINBURG => 'RU',
+            self::ASIA_OMSK => 'RU',
+            self::ASIA_NOVOSIBIRSK => 'RU',
+            self::ASIA_BARNAUL => 'RU',
+            self::ASIA_TOMSK => 'RU',
+            self::ASIA_NOVOKUZNETSK => 'RU',
+            self::ASIA_KRASNOYARSK => 'RU',
+            self::ASIA_IRKUTSK => 'RU',
+            self::ASIA_CHITA => 'RU',
+            self::ASIA_YAKUTSK => 'RU',
+            self::ASIA_KHANDYGA => 'RU',
+            self::ASIA_VLADIVOSTOK => 'RU',
+            self::ASIA_UST_NERA => 'RU',
+            self::ASIA_MAGADAN => 'RU',
+            self::ASIA_SAKHALIN => 'RU',
+            self::ASIA_SREDNEKOLYMSK => 'RU',
+            self::ASIA_KAMCHATKA => 'RU',
+            self::ASIA_ANADYR => 'RU',
+            self::AFRICA_KIGALI => 'RW',
+            self::ASIA_RIYADH => 'SA',
+            self::AFRICA_KHARTOUM => 'SD',
+            self::AFRICA_DAKAR => 'SN',
+            self::ASIA_SINGAPORE => 'SG',
+            self::ATLANTIC_SOUTH_GEORGIA => 'GS',
+            self::ARCTIC_LONGYEARBYEN => 'SJ',
+            self::PACIFIC_GUADALCANAL => 'SB',
+            self::AFRICA_FREETOWN => 'SL',
+            self::AMERICA_EL_SALVADOR => 'SV',
+            self::EUROPE_SAN_MARINO => 'SM',
+            self::AFRICA_MOGADISHU => 'SO',
+            self::AMERICA_MIQUELON => 'PM',
+            self::EUROPE_BELGRADE => 'RS',
+            self::AFRICA_JUBA => 'SS',
+            self::AFRICA_SAO_TOME => 'ST',
+            self::AMERICA_PARAMARIBO => 'SR',
+            self::EUROPE_BRATISLAVA => 'SK',
+            self::EUROPE_LJUBLJANA => 'SI',
+            self::EUROPE_STOCKHOLM => 'SE',
+            self::AFRICA_MBABANE => 'SZ',
+            self::AMERICA_LOWER_PRINCES => 'SX',
+            self::INDIAN_MAHE => 'SC',
+            self::ASIA_DAMASCUS => 'SY',
+            self::AMERICA_GRAND_TURK => 'TC',
+            self::AFRICA_NDJAMENA => 'TD',
+            self::AFRICA_LOME => 'TG',
+            self::ASIA_BANGKOK => 'TH',
+            self::ASIA_DUSHANBE => 'TJ',
+            self::PACIFIC_FAKAOFO => 'TK',
+            self::ASIA_ASHGABAT => 'TM',
+            self::ASIA_DILI => 'TL',
+            self::PACIFIC_TONGATAPU => 'TO',
+            self::AMERICA_PORT_OF_SPAIN => 'TT',
+            self::AFRICA_TUNIS => 'TN',
+            self::EUROPE_ISTANBUL => 'TR',
+            self::PACIFIC_FUNAFUTI => 'TV',
+            self::ASIA_TAIPEI => 'TW',
+            self::AFRICA_DAR_ES_SALAAM => 'TZ',
+            self::AFRICA_KAMPALA => 'UG',
+            self::EUROPE_KIEV => 'UA',
+            self::EUROPE_UZHGOROD => 'UA',
+            self::EUROPE_ZAPOROZHYE => 'UA',
+            self::PACIFIC_JOHNSTON => 'UM',
+            self::PACIFIC_MIDWAY => 'UM',
+            self::PACIFIC_WAKE => 'UM',
+            self::AMERICA_MONTEVIDEO => 'UY',
+            self::AMERICA_NEW_YORK => 'US',
+            self::AMERICA_DETROIT => 'US',
+            self::AMERICA_KENTUCKY_LOUISVILLE => 'US',
+            self::AMERICA_KENTUCKY_MONTICELLO => 'US',
+            self::AMERICA_INDIANA_INDIANAPOLIS => 'US',
+            self::AMERICA_INDIANA_VINCENNES => 'US',
+            self::AMERICA_INDIANA_WINAMAC => 'US',
+            self::AMERICA_INDIANA_MARENGO => 'US',
+            self::AMERICA_INDIANA_PETERSBURG => 'US',
+            self::AMERICA_INDIANA_VEVAY => 'US',
+            self::AMERICA_CHICAGO => 'US',
+            self::AMERICA_INDIANA_TELL_CITY => 'US',
+            self::AMERICA_INDIANA_KNOX => 'US',
+            self::AMERICA_MENOMINEE => 'US',
+            self::AMERICA_NORTH_DAKOTA_CENTER => 'US',
+            self::AMERICA_NORTH_DAKOTA_NEW_SALEM => 'US',
+            self::AMERICA_NORTH_DAKOTA_BEULAH => 'US',
+            self::AMERICA_DENVER => 'US',
+            self::AMERICA_BOISE => 'US',
+            self::AMERICA_PHOENIX => 'US',
+            self::AMERICA_LOS_ANGELES => 'US',
+            self::AMERICA_ANCHORAGE => 'US',
+            self::AMERICA_JUNEAU => 'US',
+            self::AMERICA_SITKA => 'US',
+            self::AMERICA_METLAKATLA => 'US',
+            self::AMERICA_YAKUTAT => 'US',
+            self::AMERICA_NOME => 'US',
+            self::AMERICA_ADAK => 'US',
+            self::PACIFIC_HONOLULU => 'US',
+            self::ASIA_SAMARKAND => 'UZ',
+            self::ASIA_TASHKENT => 'UZ',
+            self::EUROPE_VATICAN => 'VA',
+            self::AMERICA_ST_VINCENT => 'VC',
+            self::AMERICA_CARACAS => 'VE',
+            self::AMERICA_TORTOLA => 'VG',
+            self::AMERICA_ST_THOMAS => 'VI',
+            self::ASIA_HO_CHI_MINH => 'VN',
+            self::PACIFIC_EFATE => 'VU',
+            self::PACIFIC_WALLIS => 'WF',
+            self::PACIFIC_APIA => 'WS',
+            self::ASIA_ADEN => 'YE',
+            self::AFRICA_JOHANNESBURG => 'ZA',
+            self::AFRICA_LUSAKA => 'ZM',
+            self::AFRICA_HARARE => 'ZW',
+        ];
+
+        return \array_key_exists($this->name(), $mapping)
+            ? $mapping[$this->name()]
+            : null;
     }
 }

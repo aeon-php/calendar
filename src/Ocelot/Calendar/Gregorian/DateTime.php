@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Ocelot\Ocelot\Calendar\Gregorian;
 
+use Ocelot\Ocelot\Calendar\Gregorian\TimeZone\TimeOffset;
+use Webmozart\Assert\Assert;
+
 /**
  * @psalm-immutable
  * @psalm-external-mutation-free
@@ -14,13 +17,38 @@ final class DateTime
 
     private Time $time;
 
-    private TimeZone $timeZone;
+    private ?TimeZone $timeZone;
 
-    public function __construct(Day $day, Time $time, TimeZone $timeZone = null)
+    private TimeOffset $timeOffset;
+
+    /**
+     * TimeZone is optional, if not provided it will be set to UTC.
+     * DateTime always has TimeOffset but when not provided it's calculated from offset and when
+     * offset is not provided is set to UTC.
+     */
+    public function __construct(Day $day, Time $time, ?TimeZone $timeZone = null, ?TimeOffset $timeOffset = null)
     {
+        if ($timeZone !== null && $timeOffset !== null) {
+            Assert::same(
+                $timeZone->toDateTimeZone()->getOffset($day->toDateTimeImmutable()->setTime($time->hour(), $time->minute(), $time->second())),
+                $timeOffset->toTimeUnit()->inSeconds(),
+                \sprintf(
+                    "TimeOffset %s does not match TimeZone %s at %s",
+                    $timeOffset->toString(),
+                    $timeZone->name(),
+                    $day->toDateTimeImmutable()->setTime($time->hour(), $time->minute(), $time->second())->format('Y-m-d H:i:s')
+                )
+            );
+        }
+
         $this->day = $day;
         $this->time = $time;
-        $this->timeZone = $timeZone ? $timeZone : TimeZone::UTC();
+        $this->timeOffset = $timeOffset !== null
+            ? $timeOffset
+            : ($timeZone !== null ? $timeZone->timeOffset($this) : TimeOffset::UTC());
+        $this->timeZone = ($timeZone)
+            ? $timeZone
+            : ($this->timeOffset->isUTC() ? TimeZone::UTC() : null);
     }
 
     /**
@@ -31,7 +59,10 @@ final class DateTime
         return new self(
             Day::fromDateTime($dateTime),
             Time::fromDateTime($dateTime),
-            TimeZone::fromDateTimeZone($dateTime->getTimezone())
+            TimeZone::isValid($dateTime->getTimezone()->getName())
+                ? TimeZone::fromDateTimeZone($dateTime->getTimezone())
+                : null,
+            TimeOffset::fromString($dateTime->format('P'))
         );
     }
 
@@ -70,7 +101,9 @@ final class DateTime
         return (
             new \DateTimeImmutable(
                 $this->day->toDateTimeImmutable()->format('Y-m-d'),
-                $this->timeZone()->toDateTimeZone()
+                $this->timeZone() !== null
+                    ? $this->timeZone()->toDateTimeZone()
+                    : $this->timeOffset()->toDateTimeZone()
             ))
             ->setTime(
                 $this->time->hour(),
@@ -85,9 +118,14 @@ final class DateTime
         return $this->toDateTimeImmutable()->format($format);
     }
 
-    public function timeZone(): TimeZone
+    public function timeZone(): ?TimeZone
     {
         return $this->timeZone;
+    }
+
+    public function timeOffset() : TimeOffset
+    {
+        return $this->timeOffset;
     }
 
     public function toTimeZone(TimeZone $dateTimeZone) : self
