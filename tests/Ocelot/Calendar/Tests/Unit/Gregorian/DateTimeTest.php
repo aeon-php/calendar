@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Ocelot\Calendar\Tests\Unit\Gregorian;
 
-use Ocelot\Ocelot\Calendar\Gregorian\DateTime;
-use Ocelot\Ocelot\Calendar\Gregorian\Day;
-use Ocelot\Ocelot\Calendar\Gregorian\Time;
-use Ocelot\Ocelot\Calendar\Gregorian\TimeInterval;
-use Ocelot\Ocelot\Calendar\Gregorian\TimeUnit;
-use Ocelot\Ocelot\Calendar\Gregorian\TimeZone;
-use Ocelot\Ocelot\Calendar\Gregorian\TimeZone\TimeOffset;
+use Ocelot\Calendar\Gregorian\DateTime;
+use Ocelot\Calendar\Gregorian\Day;
+use Ocelot\Calendar\Gregorian\Time;
+use Ocelot\Calendar\Gregorian\TimeInterval;
+use Ocelot\Calendar\Gregorian\TimeUnit;
+use Ocelot\Calendar\Gregorian\TimeZone;
+use Ocelot\Calendar\Gregorian\TimeZone\TimeOffset;
 use PHPUnit\Framework\TestCase;
 
 final class DateTimeTest extends TestCase

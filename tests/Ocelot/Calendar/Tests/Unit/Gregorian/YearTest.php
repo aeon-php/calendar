@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Ocelot\Calendar\Tests\Unit\Gregorian;
 
-use Ocelot\Ocelot\Calendar\Gregorian\Year;
+use Ocelot\Calendar\Gregorian\Year;
 use PHPUnit\Framework\TestCase;
 
 final class YearTest extends TestCase

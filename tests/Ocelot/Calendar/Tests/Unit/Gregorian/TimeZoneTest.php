@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Ocelot\Calendar\Tests\Unit\Gregorian;
 
-use Ocelot\Ocelot\Calendar\Gregorian\DateTime;
-use Ocelot\Ocelot\Calendar\Gregorian\TimeZone;
+use Ocelot\Calendar\Gregorian\DateTime;
+use Ocelot\Calendar\Gregorian\TimeZone;
 use PHPUnit\Framework\TestCase;
 
 final class TimeZoneTest extends TestCase

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Ocelot\Calendar\Tests\Unit\Gregorian;
 
-use Ocelot\Ocelot\Calendar\Gregorian\Month;
+use Ocelot\Calendar\Gregorian\Month;
 use PHPUnit\Framework\TestCase;
 
 final class MonthTest extends TestCase

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Ocelot\Calendar\Tests\Unit\Gregorian;
 
-use Ocelot\Ocelot\Calendar\Gregorian\Day;
+use Ocelot\Calendar\Gregorian\Day;
 use PHPUnit\Framework\TestCase;
 
 final class DayTest extends TestCase
