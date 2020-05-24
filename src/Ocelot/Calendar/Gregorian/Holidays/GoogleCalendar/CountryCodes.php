@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Ocelot\Calendar\Holidays\GoogleCalendar;
+namespace Ocelot\Calendar\Gregorian\Holidays\GoogleCalendar;
 
 /**
  * @psalm-immutable

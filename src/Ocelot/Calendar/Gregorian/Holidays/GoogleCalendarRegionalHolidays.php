@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Ocelot\Calendar\Holidays;
+namespace Ocelot\Calendar\Gregorian\Holidays;
 
-use Ocelot\Calendar\Exception\HolidayYearException;
+use Ocelot\Calendar\Gregorian\Exception\HolidayYearException;
 use Ocelot\Calendar\Gregorian\Day;
-use Ocelot\Calendar\Holidays;
+use Ocelot\Calendar\Gregorian\Holidays;
 use Webmozart\Assert\Assert;
 
 final class GoogleCalendarRegionalHolidays implements Holidays

@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Ocelot\Calendar\Tests\Functional\Holidays;
 
 use Ocelot\Calendar\Gregorian\Day;
-use Ocelot\Calendar\Holidays\GoogleCalendar\CountryCodes;
-use Ocelot\Calendar\Holidays\GoogleCalendarRegionalHolidays;
-use Ocelot\Calendar\Holidays\Holiday;
+use Ocelot\Calendar\Gregorian\Holidays\GoogleCalendar\CountryCodes;
+use Ocelot\Calendar\Gregorian\Holidays\GoogleCalendarRegionalHolidays;
+use Ocelot\Calendar\Gregorian\Holidays\Holiday;
 use PHPUnit\Framework\TestCase;
 
 final class GoogleCalendarRegionalHolidaysTest extends TestCase
