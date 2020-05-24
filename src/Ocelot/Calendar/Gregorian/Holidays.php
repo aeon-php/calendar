@@ -2,7 +2,6 @@
 
 namespace Ocelot\Calendar\Gregorian;
 
-use Ocelot\Calendar\Gregorian\Day;
 use Ocelot\Calendar\Gregorian\Holidays\Holiday;
 
 interface Holidays
