@@ -305,6 +305,11 @@ final class DateTime
             ->modify(\sprintf('%s%d seconds', $timeUnit->isPositive() ? '-' : '+', $timeUnit->inSeconds())));
     }
 
+    public function isEquals(DateTime $dateTime) : bool
+    {
+        return $this->toDateTimeImmutable() == $dateTime->toDateTimeImmutable();
+    }
+
     public function isAfter(DateTime $dateTime) : bool
     {
         return $this->toDateTimeImmutable() > $dateTime->toDateTimeImmutable();
@@ -337,12 +342,12 @@ final class DateTime
 
     public function distanceTo(DateTime $dateTime) : TimeUnit
     {
-        return $this->to($dateTime)->distanceStartToEnd();
+        return $this->to($dateTime)->distance();
     }
 
     public function distanceFrom(DateTime $dateTime) : TimeUnit
     {
-        return $this->from($dateTime)->distanceEndToStart();
+        return $this->from($dateTime)->distanceBackward();
     }
 
     public function until(DateTime $pointInTime, TimeUnit $by) : TimeIntervals

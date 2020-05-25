@@ -19,8 +19,8 @@ final class TimePeriodTest extends TestCase
             DateTime::fromString('2020-01-02 00:00:00.0000')
         );
 
-        $this->assertSame(86400, $period->distanceStartToEnd()->inSeconds());
-        $this->assertFalse($period->distanceStartToEnd()->isNegative());
+        $this->assertSame(86400, $period->distance()->inSeconds());
+        $this->assertFalse($period->distance()->isNegative());
     }
 
     public function test_distance_in_time_unit_from_start_to_end_date_between_years() : void
@@ -30,8 +30,8 @@ final class TimePeriodTest extends TestCase
             DateTime::fromString('2021-01-01 00:00:00.0000')
         );
 
-        $this->assertSame(DateTime::fromString('2020-01-01 00:00:00.0000')->year()->numberOfDays(), $period->distanceStartToEnd()->inDays());
-        $this->assertFalse($period->distanceStartToEnd()->isNegative());
+        $this->assertSame(DateTime::fromString('2020-01-01 00:00:00.0000')->year()->numberOfDays(), $period->distance()->inDays());
+        $this->assertFalse($period->distance()->isNegative());
         $this->assertTrue(DateTime::fromString('2020-01-01 00:00:00.0000')->year()->isLeap());
     }
 
@@ -42,9 +42,9 @@ final class TimePeriodTest extends TestCase
             DateTime::fromString('2020-01-02 00:00:00.0000')
         );
 
-        $this->assertSame(-86400, $period->distanceEndToStart()->inSeconds());
-        $this->assertSame(86400, $period->distanceEndToStart()->inSecondsAbs());
-        $this->assertTrue($period->distanceEndToStart()->isNegative());
+        $this->assertSame(-86400, $period->distanceBackward()->inSeconds());
+        $this->assertSame(86400, $period->distanceBackward()->inSecondsAbs());
+        $this->assertTrue($period->distanceBackward()->isNegative());
     }
 
     public function test_iterating_through_day_by_hour() : void

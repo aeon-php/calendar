@@ -22,14 +22,16 @@ final class TimePeriod
         $this->end = $end;
     }
 
-    public function distanceStartToEnd() : TimeUnit
+    public function distance() : TimeUnit
     {
-        return TimeUnit::seconds(
-            $this->end->secondsSinceUnixEpoch() - $this->start->secondsSinceUnixEpoch()
+        return TimeUnit::precise(
+            (float) \sprintf("%d.%d", $this->end->secondsSinceUnixEpoch(), $this->end->time()->microsecond())
+            -
+            (float) \sprintf("%d.%d", $this->start->secondsSinceUnixEpoch(), $this->start->time()->microsecond())
         );
     }
 
-    public function distanceEndToStart() : TimeUnit
+    public function distanceBackward() : TimeUnit
     {
         return TimeUnit::seconds(
             $this->start->secondsSinceUnixEpoch() - $this->end->secondsSinceUnixEpoch()

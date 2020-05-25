@@ -43,7 +43,7 @@ final class Time
     {
         return [
             'hour' => $this->hour,
-            'minute' => $this->microsecond,
+            'minute' => $this->minute,
             'second' => $this->second,
             'microsecond' => $this->microsecond
         ];
@@ -85,6 +85,11 @@ final class Time
     public function microsecond() : int
     {
         return $this->microsecond;
+    }
+
+    public function millisecond() : int
+    {
+        return \intval($this->microsecond() / 1000);
     }
 
     public function isAM() : bool

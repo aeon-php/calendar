@@ -15,7 +15,7 @@ final class GregorianCalendarTest extends TestCase
     {
         $this->assertSame(
             (new \DateTimeImmutable())->format('Y-m-d'),
-            (new GregorianCalendar())->day()->toDateTimeImmutable()->format('Y-m-d')
+            (GregorianCalendar::UTC())->day()->toDateTimeImmutable()->format('Y-m-d')
         );
     }
 
@@ -23,7 +23,7 @@ final class GregorianCalendarTest extends TestCase
     {
         $this->assertSame(
             (new \DateTimeImmutable('yesterday'))->format('Y-m-d'),
-            (new GregorianCalendar())->yesterday()->format('Y-m-d')
+            GregorianCalendar::UTC()->yesterday()->format('Y-m-d')
         );
     }
 
@@ -31,7 +31,7 @@ final class GregorianCalendarTest extends TestCase
     {
         $this->assertSame(
             (new \DateTimeImmutable('tomorrow'))->format('Y-m-d'),
-            (new GregorianCalendar())->tomorrow()->format('Y-m-d')
+            (GregorianCalendar::UTC())->tomorrow()->format('Y-m-d')
         );
     }
 
@@ -39,7 +39,7 @@ final class GregorianCalendarTest extends TestCase
     {
         $this->assertSame(
             (new \DateTimeImmutable('midnight'))->format('Y-m-d 00:00:00'),
-            (new GregorianCalendar())->now()->midnight()->format('Y-m-d H:i:s')
+            (GregorianCalendar::UTC())->now()->midnight()->format('Y-m-d H:i:s')
         );
     }
 
@@ -47,7 +47,7 @@ final class GregorianCalendarTest extends TestCase
     {
         $this->assertSame(
             (new \DateTimeImmutable('midnight'))->format('Y-m-d 12:00:00'),
-            (new GregorianCalendar())->now()->noon()->format('Y-m-d H:i:s')
+            (GregorianCalendar::UTC())->now()->noon()->format('Y-m-d H:i:s')
         );
     }
 
@@ -55,13 +55,13 @@ final class GregorianCalendarTest extends TestCase
     {
         $this->assertSame(
             (new \DateTimeImmutable('midnight'))->format('Y-m-d 23:59:59'),
-            (new GregorianCalendar())->now()->endOfDay()->format('Y-m-d H:i:s')
+            (GregorianCalendar::UTC())->now()->endOfDay()->format('Y-m-d H:i:s')
         );
     }
 
     public function test_iterating_overt_time() : void
     {
-        $intervals = ($calendar = new GregorianCalendar())
+        $intervals = ($calendar = GregorianCalendar::UTC())
             ->yesterday()
             ->to($calendar->tomorrow())
             ->iterate(TimeUnit::hour())
@@ -84,7 +84,7 @@ final class GregorianCalendarTest extends TestCase
 
     public function test_iterating_overt_time_backward() : void
     {
-        $intervals = ($calendar = new GregorianCalendar())
+        $intervals = ($calendar = GregorianCalendar::UTC())
             ->yesterday()
             ->to($calendar->tomorrow())
             ->iterateBackward(TimeUnit::hour())

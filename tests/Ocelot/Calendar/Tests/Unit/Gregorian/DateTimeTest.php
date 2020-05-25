@@ -45,12 +45,13 @@ final class DateTimeTest extends TestCase
 
     public function test_time() : void
     {
-        $dateTime = DateTime::fromString('2020-01-01 12:54:23.000001');
+        $dateTime = DateTime::fromString('2020-01-01 12:54:23.001000');
 
         $this->assertSame(12, $dateTime->time()->hour());
         $this->assertSame(54, $dateTime->time()->minute());
         $this->assertSame(23, $dateTime->time()->second());
-        $this->assertSame(1, $dateTime->time()->microsecond());
+        $this->assertSame(1, $dateTime->time()->millisecond());
+        $this->assertSame(1000, $dateTime->time()->microsecond());
     }
 
     public function test_creating_time_offset_from_timezone() : void
@@ -152,5 +153,16 @@ final class DateTimeTest extends TestCase
         $this->assertSame('2020-01-02 00:00:00', $timeIntervals[0]->startDateTime()->format('Y-m-d H:i:s'));
         $this->assertTrue($timeIntervals[0]->interval()->isNegative());
         $this->assertSame('2020-01-01 23:00:00', $timeIntervals[0]->endDateTime()->format('Y-m-d H:i:s'));
+    }
+
+    public function test_equal_dates_in_different_timezones() : void
+    {
+        $this->assertTrue(
+            DateTime::fromString('2020-01-01 00:00:00.100001')
+                ->toTimeZone(TimeZone::australiaSydney())
+                ->isEquals(
+                    DateTime::fromString('2020-01-01 00:00:00.100001')->toTimeZone(TimeZone::europeWarsaw())
+                )
+        );
     }
 }
