@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Ocelot\Calendar\Tests\Unit\Gregorian;
+namespace Ocelot\Calendar\Tests\Unit;
 
-use Ocelot\Calendar\Gregorian\TimeUnit;
+use Ocelot\Calendar\TimeUnit;
 use PHPUnit\Framework\TestCase;
 
 final class TimeUnitTest extends TestCase

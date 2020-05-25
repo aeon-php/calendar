@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Ocelot\Calendar\Gregorian\TimeZone;
 
-use Ocelot\Calendar\Gregorian\TimeUnit;
+use Ocelot\Calendar\TimeUnit;
 use Webmozart\Assert\Assert;
 
 /**

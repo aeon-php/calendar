@@ -8,7 +8,7 @@ use Ocelot\Calendar\Gregorian\DateTime;
 use Ocelot\Calendar\Gregorian\Day;
 use Ocelot\Calendar\Gregorian\Time;
 use Ocelot\Calendar\Gregorian\TimeInterval;
-use Ocelot\Calendar\Gregorian\TimeUnit;
+use Ocelot\Calendar\TimeUnit;
 use Ocelot\Calendar\Gregorian\TimeZone;
 use Ocelot\Calendar\Gregorian\TimeZone\TimeOffset;
 use PHPUnit\Framework\TestCase;

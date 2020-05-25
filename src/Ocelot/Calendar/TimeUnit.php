@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Ocelot\Calendar\Gregorian;
+namespace Ocelot\Calendar;
 
-use Ocelot\Calendar\Gregorian\Exception\InvalidArgumentException;
+use Ocelot\Calendar\Exception\InvalidArgumentException;
 use Webmozart\Assert\Assert;
 
 /**

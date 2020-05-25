@@ -7,7 +7,7 @@ namespace Ocelot\Calendar\Tests\Unit\Gregorian;
 use Ocelot\Calendar\Gregorian\DateTime;
 use Ocelot\Calendar\Gregorian\TimeInterval;
 use Ocelot\Calendar\Gregorian\TimePeriod;
-use Ocelot\Calendar\Gregorian\TimeUnit;
+use Ocelot\Calendar\TimeUnit;
 use PHPUnit\Framework\TestCase;
 
 final class TimePeriodTest extends TestCase

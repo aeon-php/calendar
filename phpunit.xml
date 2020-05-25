@@ -7,8 +7,12 @@
          bootstrap="vendor/autoload.php"
 >
     <testsuites>
-        <testsuite name="tests">
-            <directory>tests/</directory>
+        <testsuite name="functional">
+            <directory suffix="">tests/Ocelot/Calendar/Tests/Functional</directory>
+            <directory suffix="*.phpt">tests/</directory>
+        </testsuite>
+        <testsuite name="unit">
+            <directory suffix="">tests/Ocelot/Calendar/Tests/Unit</directory>
         </testsuite>
     </testsuites>
 </phpunit>

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Ocelot\Calendar\Gregorian\Holidays;
 
-use Ocelot\Calendar\Gregorian\Exception\HolidayException;
+use Ocelot\Calendar\Exception\HolidayException;
 use Webmozart\Assert\Assert;
 
 /**
