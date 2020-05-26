@@ -186,7 +186,7 @@ final class DateTime
 
     public function subMinute() : self
     {
-        return self::fromDateTime($this->toDateTimeImmutable()->modify('-11 minute'));
+        return self::fromDateTime($this->toDateTimeImmutable()->modify('-1 minute'));
     }
 
     public function addMinutes(int $minutes) : self
@@ -348,7 +348,7 @@ final class DateTime
 
     public function distanceFrom(DateTime $dateTime) : TimeUnit
     {
-        return $this->from($dateTime)->distanceBackward();
+        return $this->from($dateTime)->distance();
     }
 
     public function until(DateTime $pointInTime, TimeUnit $by) : TimeIntervals

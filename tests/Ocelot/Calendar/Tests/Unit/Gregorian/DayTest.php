@@ -59,4 +59,19 @@ final class DayTest extends TestCase
         $this->assertTrue(Day::fromString('2020-01-05')->isWeekend());
         $this->assertFalse(Day::fromString('2020-01-06')->isWeekend());
     }
+
+    public function test_name() : void
+    {
+        $this->assertSame('Wednesday', Day::fromString('2020-01-01')->name());
+    }
+
+    public function test_short_name() : void
+    {
+        $this->assertSame('Wed', Day::fromString('2020-01-01')->shortName());
+    }
+
+    public function test_equal() : void
+    {
+        $this->assertTrue(Day::fromString('2020-01-01')->equals(Day::fromString('2020-01-01')));
+    }
 }

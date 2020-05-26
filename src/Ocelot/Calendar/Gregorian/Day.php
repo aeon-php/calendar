@@ -154,9 +154,4 @@ final class Day
             && $this->month()->number() === $day->month()->number()
             && $this->number() === $day->number();
     }
-
-    public function equalsString(string $date) : bool
-    {
-        return $this->equals(self::fromString($date));
-    }
 }

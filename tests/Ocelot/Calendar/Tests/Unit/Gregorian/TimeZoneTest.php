@@ -26,4 +26,28 @@ final class TimeZoneTest extends TestCase
         $this->assertSame('+02:00', $tz->timeOffset(DateTime::fromString('2020-06-01 12:00:00'))->toString());
         $this->assertSame(7200, $tz->timeOffset(DateTime::fromString('2020-06-01 12:00:00'))->toTimeUnit()->inSeconds());
     }
+
+    public function test_creating_timezones() : void
+    {
+        foreach (\DateTimeZone::listIdentifiers() as $identifier) {
+            $identifierFunctionName = \lcfirst(\implode('', \array_map(
+                function (string $part) {
+                    return \ucfirst($part);
+                },
+                \explode('/', \str_replace('_', '/', \str_replace('-', '/', $identifier)))
+            )));
+
+            if ($identifierFunctionName === 'uTC') {
+                $identifierFunctionName = 'UTC';
+            }
+
+            $this->assertInstanceOf(TimeZone::class, TimeZone::$identifierFunctionName());
+            $this->assertSame($identifier, TimeZone::$identifierFunctionName()->name());
+        }
+    }
+
+    public function test_converting_to_country_code() : void
+    {
+        $this->assertSame('PL', TimeZone::europeWarsaw()->toCountryCode());
+    }
 }

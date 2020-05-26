@@ -2,17 +2,27 @@
 
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="./vendor/phpunit/phpunit/phpunit.xsd"
-         backupGlobals="false"
          colors="true"
          bootstrap="vendor/autoload.php"
+         cacheResultFile="var/phpunit/.result.cache"
 >
+    <logging>
+        <log type="coverage-html" target="var/phpunit/coverage/html" lowUpperBound="90" highLowerBound="95"/>
+    </logging>
+    <filter>
+        <whitelist>
+            <directory suffix=".php">src</directory>
+        </whitelist>
+    </filter>
+
     <testsuites>
         <testsuite name="functional">
             <directory suffix="">tests/Ocelot/Calendar/Tests/Functional</directory>
-            <directory suffix="*.phpt">tests/</directory>
+            <directory suffix="*.phpt">tests/Ocelot/Calendar/Tests/Functional</directory>
         </testsuite>
         <testsuite name="unit">
             <directory suffix="">tests/Ocelot/Calendar/Tests/Unit</directory>
+            <directory suffix="*.phpt">tests/tests/Ocelot/Calendar/Tests/Unit</directory>
         </testsuite>
     </testsuites>
 </phpunit>

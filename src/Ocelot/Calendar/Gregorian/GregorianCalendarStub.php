@@ -6,6 +6,7 @@ namespace Ocelot\Calendar\Gregorian;
 
 /**
  * @psalm-immutable
+ * @codeCoverageIgnore
  */
 final class GregorianCalendarStub implements Calendar
 {

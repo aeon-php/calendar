@@ -22,4 +22,24 @@ final class MonthTest extends TestCase
 
         $this->assertSame(31, $month->lastDay()->number());
     }
+
+    public function test_next_month() : void
+    {
+        $this->assertSame(2, Month::fromString('2020-01-01')->next()->number());
+    }
+
+    public function test_previous_month() : void
+    {
+        $this->assertSame(1, Month::fromString('2020-02-01')->previous()->number());
+    }
+
+    public function test_name() : void
+    {
+        $this->assertSame('January', Month::fromString('2020-01-01')->name());
+    }
+
+    public function test_short_name() : void
+    {
+        $this->assertSame('Jan', Month::fromString('2020-01-01')->shortName());
+    }
 }

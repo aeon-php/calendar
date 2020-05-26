@@ -9,6 +9,13 @@ use PHPUnit\Framework\TestCase;
 
 final class TimeUnitTest extends TestCase
 {
+    public function test_time_unit_create_from_day() : void
+    {
+        $unit = TimeUnit::day();
+
+        $this->assertSame(1, $unit->inDays());
+    }
+
     public function test_time_unit_create_from_days() : void
     {
         $unit = TimeUnit::days(5);
@@ -20,6 +27,7 @@ final class TimeUnitTest extends TestCase
         $this->assertSame(432000.0, $unit->inSecondsPrecise());
         $this->assertSame("432000.000000", $unit->inSecondsPreciseString());
         $this->assertSame(432000000, $unit->inMilliseconds());
+        $this->assertSame(432000, $unit->toDateInterval()->s);
     }
 
     public function test_time_unit_create_from_days_negative() : void
@@ -37,6 +45,8 @@ final class TimeUnitTest extends TestCase
         $this->assertSame("-432000.000000", $unit->inSecondsPreciseString());
         $this->assertSame(-432000000, $unit->inMilliseconds());
         $this->assertSame(432000000, $unit->inMillisecondsAbs());
+        $this->assertSame(432000, $unit->toDateInterval()->s);
+        $this->assertSame(1, $unit->toDateInterval()->invert);
     }
 
     public function test_time_unit_create_from_hours() : void
@@ -47,6 +57,13 @@ final class TimeUnitTest extends TestCase
         $this->assertSame(2, $unit->inHours());
         $this->assertSame(120, $unit->inMinutes());
         $this->assertSame(7200, $unit->inSeconds());
+    }
+
+    public function test_time_unit_create_from_minute() : void
+    {
+        $unit = TimeUnit::minute();
+
+        $this->assertSame(1, $unit->inMinutes());
     }
 
     public function test_time_unit_create_from_minutes() : void
@@ -64,6 +81,21 @@ final class TimeUnitTest extends TestCase
         $this->assertSame(8, TimeUnit::seconds(68)->inTimeSeconds());
         $this->assertSame(8, TimeUnit::minutes(68)->inTimeMinutes());
         $this->assertSame(15, TimeUnit::minutes(135)->inTimeMinutes());
+    }
+
+    public function test_second() : void
+    {
+        $timeUnit = TimeUnit::second();
+
+        $this->assertSame(1, $timeUnit->inSeconds());
+    }
+
+    public function test_millisecond() : void
+    {
+        $timeUnit = TimeUnit::millisecond();
+
+        $this->assertSame(1000, $timeUnit->microsecond());
+        $this->assertSame(1, $timeUnit->inMilliseconds());
     }
 
     public function test_milliseconds() : void

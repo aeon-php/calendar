@@ -11,11 +11,35 @@ use PHPUnit\Framework\TestCase;
 
 final class GregorianCalendarTest extends TestCase
 {
+    public function test_creating_calendar_with_system_default_tz() : void
+    {
+        $this->assertSame(
+            \date_default_timezone_get(),
+            (GregorianCalendar::systemDefault())->now()->timeZone()->name()
+        );
+    }
+
     public function test_current_date() : void
     {
         $this->assertSame(
             (new \DateTimeImmutable())->format('Y-m-d'),
             (GregorianCalendar::UTC())->day()->toDateTimeImmutable()->format('Y-m-d')
+        );
+    }
+
+    public function test_current_year() : void
+    {
+        $this->assertSame(
+            (int) (new \DateTimeImmutable())->format('Y'),
+            (GregorianCalendar::UTC())->year()->number()
+        );
+    }
+
+    public function test_current_month() : void
+    {
+        $this->assertSame(
+            (int) (new \DateTimeImmutable())->format('m'),
+            (GregorianCalendar::UTC())->month()->number()
         );
     }
 

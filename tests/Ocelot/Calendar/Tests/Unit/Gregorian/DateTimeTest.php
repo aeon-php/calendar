@@ -15,6 +15,12 @@ use PHPUnit\Framework\TestCase;
 
 final class DateTimeTest extends TestCase
 {
+    public function test_to_string() : void
+    {
+        $dateTime = DateTime::fromString('2020-01-01 00:00:00+00');
+        $this->assertSame($dateTime->toISO8601(), $dateTime->__toString());
+    }
+
     public function test_creating_datetime_with_timezone_not_matching_offset() : void
     {
         $this->expectExceptionMessage('TimeOffset +00:00 does not match TimeZone Europe/Warsaw at 2020-01-01 00:00:00');
@@ -163,6 +169,214 @@ final class DateTimeTest extends TestCase
                 ->isEquals(
                     DateTime::fromString('2020-01-01 00:00:00.100001')->toTimeZone(TimeZone::europeWarsaw())
                 )
+        );
+    }
+
+    public function test_add_second() : void
+    {
+        $dateTime = DateTime::fromString('2020-01-01 00:00:00+00');
+
+        $this->assertSame(1, $dateTime->addSecond()->time()->second());
+    }
+
+    public function test_add_seconds() : void
+    {
+        $dateTime = DateTime::fromString('2020-01-01 00:00:00+00');
+
+        $this->assertSame(5, $dateTime->addSeconds(5)->time()->second());
+    }
+
+    public function test_sub_second() : void
+    {
+        $dateTime = DateTime::fromString('2020-01-01 00:00:00+00');
+
+        $this->assertSame(59, $dateTime->subSecond()->time()->second());
+    }
+
+    public function test_sub_seconds() : void
+    {
+        $dateTime = DateTime::fromString('2020-01-01 00:00:00+00');
+
+        $this->assertSame(55, $dateTime->subSeconds(5)->time()->second());
+    }
+
+    public function test_add_minute() : void
+    {
+        $dateTime = DateTime::fromString('2020-01-01 00:00:00+00');
+
+        $this->assertSame(1, $dateTime->addMinute()->time()->minute());
+    }
+
+    public function test_add_minutes() : void
+    {
+        $dateTime = DateTime::fromString('2020-01-01 00:00:00+00');
+
+        $this->assertSame(5, $dateTime->addMinutes(5)->time()->minute());
+    }
+
+    public function test_sub_minute() : void
+    {
+        $dateTime = DateTime::fromString('2020-01-01 00:00:00+00');
+
+        $this->assertSame(59, $dateTime->subMinute()->time()->minute());
+    }
+
+    public function test_sub_minutes() : void
+    {
+        $dateTime = DateTime::fromString('2020-01-01 00:00:00+00');
+
+        $this->assertSame(55, $dateTime->subMinutes(5)->time()->minute());
+    }
+
+    public function test_add_day() : void
+    {
+        $dateTime = DateTime::fromString('2020-01-01 00:00:00+00');
+
+        $this->assertSame('2020-01-02 00:00:00+0000', $dateTime->addDay()->format('Y-m-d H:i:sO'));
+    }
+
+    public function test_add_days() : void
+    {
+        $dateTime = DateTime::fromString('2020-01-01 00:00:00+00');
+
+        $this->assertSame('2020-01-03 00:00:00+0000', $dateTime->addDays(2)->format('Y-m-d H:i:sO'));
+    }
+
+    public function test_sub_day() : void
+    {
+        $dateTime = DateTime::fromString('2020-01-02 00:00:00+00');
+
+        $this->assertSame('2020-01-01 00:00:00+0000', $dateTime->subDay()->format('Y-m-d H:i:sO'));
+    }
+
+    public function test_sub_days() : void
+    {
+        $dateTime = DateTime::fromString('2020-01-05 00:00:00+00');
+
+        $this->assertSame('2020-01-01 00:00:00+0000', $dateTime->subDays(4)->format('Y-m-d H:i:sO'));
+    }
+
+    public function test_add_month() : void
+    {
+        $dateTime = DateTime::fromString('2020-01-01 00:00:00+00');
+
+        $this->assertSame('2020-02-01 00:00:00+0000', $dateTime->addMonth()->format('Y-m-d H:i:sO'));
+    }
+
+    public function test_add_months() : void
+    {
+        $dateTime = DateTime::fromString('2020-01-01 00:00:00+00');
+
+        $this->assertSame('2020-03-01 00:00:00+0000', $dateTime->addMonths(2)->format('Y-m-d H:i:sO'));
+    }
+
+    public function test_sub_month() : void
+    {
+        $dateTime = DateTime::fromString('2020-02-01 00:00:00+00');
+
+        $this->assertSame('2020-01-01 00:00:00+0000', $dateTime->subMonth()->format('Y-m-d H:i:sO'));
+    }
+
+    public function test_sub_months() : void
+    {
+        $dateTime = DateTime::fromString('2020-03-01 00:00:00+00');
+
+        $this->assertSame('2020-01-01 00:00:00+0000', $dateTime->subMonths(2)->format('Y-m-d H:i:sO'));
+    }
+
+    public function test_add_year() : void
+    {
+        $dateTime = DateTime::fromString('2020-01-01 00:00:00+00');
+
+        $this->assertSame('2021-01-01 00:00:00+0000', $dateTime->addYear()->format('Y-m-d H:i:sO'));
+    }
+
+    public function test_add_years() : void
+    {
+        $dateTime = DateTime::fromString('2020-01-01 00:00:00+00');
+
+        $this->assertSame('2022-01-01 00:00:00+0000', $dateTime->addYears(2)->format('Y-m-d H:i:sO'));
+    }
+
+    public function test_sub_year() : void
+    {
+        $dateTime = DateTime::fromString('2020-01-01 00:00:00+00');
+
+        $this->assertSame('2019-01-01 00:00:00+0000', $dateTime->subYear()->format('Y-m-d H:i:sO'));
+    }
+
+    public function test_sub_years() : void
+    {
+        $dateTime = DateTime::fromString('2020-01-01 00:00:00+00');
+
+        $this->assertSame('2018-01-01 00:00:00+0000', $dateTime->subYears(2)->format('Y-m-d H:i:sO'));
+    }
+
+    public function test_add_timeunit() : void
+    {
+        $this->assertSame(
+            '2020-01-01 01:00:00+0000',
+            DateTime::fromString('2020-01-01 00:00:00+00')->add(TimeUnit::hour())->format('Y-m-d H:i:sO')
+        );
+    }
+
+    public function test_sub_timeunit() : void
+    {
+        $this->assertSame(
+            '2020-01-01 00:00:00+0000',
+            DateTime::fromString('2020-01-01 01:00:00+00')->sub(TimeUnit::hour())->format('Y-m-d H:i:sO')
+        );
+    }
+
+    public function test_is_after() : void
+    {
+        $this->assertTrue(
+            DateTime::fromString('2020-01-01 01:00:00+00')
+                ->isAfter(DateTime::fromString('2020-01-01 00:00:00+00'))
+        );
+    }
+
+    public function test_is_before() : void
+    {
+        $this->assertTrue(
+            DateTime::fromString('2020-01-01 00:00:00+00')
+                ->isBefore(DateTime::fromString('2020-01-01 01:00:00+00'))
+        );
+    }
+
+    public function test_is_after_or_equal() : void
+    {
+        $this->assertTrue(
+            DateTime::fromString('2020-01-01 00:00:00+00')
+                ->isAfterOrEqual(DateTime::fromString('2020-01-01 00:00:00+00'))
+        );
+    }
+
+    public function test_is_before_or_equal() : void
+    {
+        $this->assertTrue(
+            DateTime::fromString('2020-01-01 00:00:00+00')
+                ->isBeforeOrEqual(DateTime::fromString('2020-01-01 00:00:00+00'))
+        );
+    }
+
+    public function test_distance_to() : void
+    {
+        $this->assertSame(
+            1,
+            DateTime::fromString('2020-01-01 00:00:00+00')
+                ->distanceTo(DateTime::fromString('2020-01-01 01:00:00+00'))
+                ->inHours()
+        );
+    }
+
+    public function test_distance_from() : void
+    {
+        $this->assertSame(
+            1,
+            DateTime::fromString('2020-01-01 01:00:00+00')
+                ->distanceFrom(DateTime::fromString('2020-01-01 00:00:00+00'))
+                ->inHours()
         );
     }
 }

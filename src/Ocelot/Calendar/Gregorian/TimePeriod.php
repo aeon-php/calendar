@@ -18,7 +18,7 @@ final class TimePeriod
 
     public function __construct(DateTime $start, DateTime $end)
     {
-        Assert::true($start->isBeforeOrEqual($end));
+        Assert::true($start->isBeforeOrEqual($end), "Start date of period must be before end date");
         $this->start = $start;
         $this->end = $end;
     }
