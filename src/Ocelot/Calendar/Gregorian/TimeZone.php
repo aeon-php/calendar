@@ -417,7 +417,7 @@ final class TimeZone
     public const PACIFIC_GUADALCANAL = "Pacific/Guadalcanal";
     public const PACIFIC_GUAM = "Pacific/Guam";
     public const PACIFIC_HONOLULU = "Pacific/Honolulu";
-    public const PACIFIC_JOHNSTON = 'Pacific/Johnston';
+    public const PACIFIC_JOHNSTON = "Pacific/Johnston";
     public const PACIFIC_KIRITIMATI = "Pacific/Kiritimati";
     public const PACIFIC_KOSRAE = "Pacific/Kosrae";
     public const PACIFIC_KWAJALEIN = "Pacific/Kwajalein";
@@ -446,7 +446,14 @@ final class TimeZone
 
     public function __construct(string $name)
     {
-        Assert::inArray($name, (array) \DateTimeZone::listIdentifiers(), "\"$name\" is not a valid timezone.");
+        Assert::inArray(
+            $name,
+            \array_merge(
+                (array) \DateTimeZone::listIdentifiers(),
+                [self::AMERICA_GODTHAB, self::PACIFIC_JOHNSTON]
+            ),
+            "\"$name\" is not a valid timezone."
+        );
 
         $this->name = $name;
     }

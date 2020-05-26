@@ -54,9 +54,10 @@ final class TimeIntervals implements \Countable, \IteratorAggregate, \ArrayAcces
      */
     public function each(callable $iterator) : void
     {
-        foreach ($this->all() as $interval) {
-            $iterator($interval);
-        }
+        \array_map(
+            $iterator,
+            $this->all()
+        );
     }
 
     /**

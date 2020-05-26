@@ -35,7 +35,10 @@
         "webmozart/assert": "^1.8"
     },
     "scripts": {
-        "test": "phpunit",
+        "test": [
+            "@static:analyze",
+            "phpunit"
+        ],
         "static:analyze": [
             "psalm --output-format=compact",
             "phpstan analyze -c phpstan.neon"

@@ -7,7 +7,7 @@
          cacheResultFile="var/phpunit/.result.cache"
 >
     <logging>
-        <log type="coverage-html" target="var/phpunit/coverage/html" lowUpperBound="90" highLowerBound="95"/>
+        <log type="coverage-html" target="var/phpunit/coverage/html" lowUpperBound="95" highLowerBound="100"/>
     </logging>
     <filter>
         <whitelist>

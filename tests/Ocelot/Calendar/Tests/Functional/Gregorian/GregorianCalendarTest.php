@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Ocelot\Calendar\Tests\Functional\Gregorian;
 
 use Ocelot\Calendar\Gregorian\TimeInterval;
+use Ocelot\Calendar\Gregorian\TimeZone;
 use Ocelot\Calendar\TimeUnit;
 use Ocelot\Calendar\Gregorian\GregorianCalendar;
 use PHPUnit\Framework\TestCase;
@@ -13,9 +14,13 @@ final class GregorianCalendarTest extends TestCase
 {
     public function test_creating_calendar_with_system_default_tz() : void
     {
+        $timezone = (GregorianCalendar::systemDefault())->now()->timeZone();
+
         $this->assertSame(
             \date_default_timezone_get(),
-            (GregorianCalendar::systemDefault())->now()->timeZone()->name()
+            $timezone instanceof TimeZone
+                ? $timezone->name()
+                : null
         );
     }
 

@@ -64,4 +64,14 @@ final class YearTest extends TestCase
     {
         $this->assertSame(52, \count((new Year(2020))->filterDays(fn(Day $day) : bool => $day->isWeekend())) / 2);
     }
+
+    public function test_next_year() : void
+    {
+        $this->assertSame(2021, (new Year(2020))->next()->number());
+    }
+
+    public function test_previous_year() : void
+    {
+        $this->assertSame(2019, (new Year(2020))->previous()->number());
+    }
 }

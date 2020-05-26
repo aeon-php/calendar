@@ -29,20 +29,35 @@ final class TimeZoneTest extends TestCase
 
     public function test_creating_timezones() : void
     {
-        foreach (\DateTimeZone::listIdentifiers() as $identifier) {
+        /** @var array<int, string> $timezoneIdentifiers */
+        $timezoneIdentifiers = \array_merge(
+            (array)\DateTimeZone::listIdentifiers(),
+            [
+                'America/Godthab',
+                'Pacific/Johnston'
+            ]
+        );
+
+
+        foreach ($timezoneIdentifiers as $identifier) {
             $identifierFunctionName = \lcfirst(\implode('', \array_map(
                 function (string $part) {
                     return \ucfirst($part);
                 },
-                \explode('/', \str_replace('_', '/', \str_replace('-', '/', $identifier)))
+                \explode('/', \str_replace('_', '/', \str_replace('-', '/', (string) $identifier)))
             )));
 
             if ($identifierFunctionName === 'uTC') {
                 $identifierFunctionName = 'UTC';
             }
 
-            $this->assertInstanceOf(TimeZone::class, TimeZone::$identifierFunctionName());
-            $this->assertSame($identifier, TimeZone::$identifierFunctionName()->name());
+            $this->assertTrue(method_exists(TimeZone::class, $identifierFunctionName));
+
+            /** @psalm-suppress MixedAssignment */
+            $timeZone = TimeZone::$identifierFunctionName();
+
+            $this->assertInstanceOf(TimeZone::class, $timeZone);
+            $this->assertSame($identifier, $timeZone->name());
         }
     }
 

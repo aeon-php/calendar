@@ -30,4 +30,12 @@ final class Holiday
     {
         return $this->name->name($locale);
     }
+
+    /**
+     * @return array<int, string>
+     */
+    public function locales() : array
+    {
+        return $this->name->locales();
+    }
 }

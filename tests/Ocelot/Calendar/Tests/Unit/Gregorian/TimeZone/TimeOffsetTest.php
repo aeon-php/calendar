@@ -12,11 +12,14 @@ final class TimeOffsetTest extends TestCase
     /**
      * @dataProvider valid_time_offset_data_provider
      */
-    public function test_valid_time_offset(string $offset)
+    public function test_valid_time_offset(string $offset) : void
     {
         $this->assertTrue(TimeOffset::isValid($offset));
     }
 
+    /**
+     * @return \Generator<int, array{string}, mixed, void>
+     */
     public function valid_time_offset_data_provider() : \Generator
     {
         yield ['00:00'];
@@ -33,11 +36,14 @@ final class TimeOffsetTest extends TestCase
     /**
      * @dataProvider invalid_time_offset_data_provider
      */
-    public function test_invalid_time_offset(string $offset)
+    public function test_invalid_time_offset(string $offset) : void
     {
         $this->assertFalse(TimeOffset::isValid($offset));
     }
 
+    /**
+     * @return \Generator<int, array{string}, mixed, void>
+     */
     public function invalid_time_offset_data_provider() : \Generator
     {
         yield ['abcd'];

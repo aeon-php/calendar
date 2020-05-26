@@ -35,9 +35,22 @@ final class HolidayName
         );
 
         if (!\count($localeNames)) {
-            throw new HolidayException(\sprintf("Holiday %s does not have name in %s locale", $this->name(), $locale));
+            throw new HolidayException(\sprintf("Holiday \"%s\" does not have name in %s locale", $this->name(), $locale));
         }
 
         return \current($localeNames)->name();
+    }
+
+    /**
+     * @return array<int, string>
+     */
+    public function locales() : array
+    {
+        return \array_values(\array_map(
+            function (HolidayLocaleName $holidayLocaleName) : string {
+                return $holidayLocaleName->locale();
+            },
+            $this->localeHolidayNames
+        ));
     }
 }

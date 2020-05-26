@@ -46,7 +46,9 @@ final class TimeUnit
         $secondsStringParts = \explode('.', $secondsString);
 
         if (\count($secondsStringParts) !== 2) {
+            // @codeCoverageIgnoreStart
             throw new InvalidArgumentException(\sprintf("Malformed representation of seconds as float, expected number with 6 decimals, got %s", $secondsString));
+            // @codeCoverageIgnoreEnd
         }
 
         return new self(

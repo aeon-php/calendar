@@ -10,7 +10,7 @@ use Ocelot\Calendar\Gregorian\GregorianCalendar;
 require __DIR__ . '/../../../../../../vendor/autoload.php';
 
 $start = GregorianCalendar::UTC()->now();
-(new SystemProcess())->sleep(TimeUnit::seconds(2));
+(new SystemProcess())->sleep(TimeUnit::precise(2.5));
 $end = GregorianCalendar::UTC()->now();
 
 var_dump($start->to($end)->distance()->inSeconds());

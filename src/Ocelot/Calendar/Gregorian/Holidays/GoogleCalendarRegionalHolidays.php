@@ -48,11 +48,15 @@ final class GoogleCalendarRegionalHolidays implements Holidays
         $calendars = (array) $this->calendars;
 
         if (!\count($calendars)) {
+            // @codeCoverageIgnoreStart
             throw new HolidayYearException("Holidays list is empty");
+            // @codeCoverageIgnoreEnd
         }
 
         if (!\array_key_exists($day->year()->number(), $calendars)) {
+            // @codeCoverageIgnoreStart
             throw new HolidayYearException(\sprintf("There are no holidays in %d, please check regional holidays data set.", $day->year()->number()));
+            // @codeCoverageIgnoreStart
         }
 
         return isset($calendars[$day->year()->number()][$day->format('Y-m-d')]);

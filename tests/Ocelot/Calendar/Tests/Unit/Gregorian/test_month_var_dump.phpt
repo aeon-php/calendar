@@ -9,8 +9,8 @@ require __DIR__ . '/../../../../../../vendor/autoload.php';
 
 \var_dump(Month::fromString('2020-01-01'));
 
---EXPECT--
-object(Ocelot\Calendar\Gregorian\Month)#9 (2) {
+--EXPECTF--
+object(Ocelot\Calendar\Gregorian\Month)#%d (2) {
   ["year"]=>
   int(2020)
   ["month"]=>

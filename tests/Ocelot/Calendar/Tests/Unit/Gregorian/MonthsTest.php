@@ -10,6 +10,11 @@ use PHPUnit\Framework\TestCase;
 
 final class MonthsTest extends TestCase
 {
+    public function test_count() : void
+    {
+        $this->assertSame(12, (new Year(2020))->months()->count());
+    }
+
     public function test_map_months() : void
     {
         $this->assertSame(
