@@ -2,6 +2,15 @@
 
 declare(strict_types=1);
 
+/*
+ * This file is part of the Aeon time management framework for PHP.
+ *
+ * (c) Norbert Orzechowicz <contact@norbert.tech>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Aeon\Calendar\Gregorian;
 
 /**
@@ -17,22 +26,22 @@ final class GregorianCalendarStub implements Calendar
         $this->currentDate = $currentDate;
     }
 
-    public function year(): Year
+    public function year() : Year
     {
         return Year::fromDateTime($this->now()->toDateTimeImmutable());
     }
 
-    public function month(): Month
+    public function month() : Month
     {
         return Month::fromDateTime($this->now()->toDateTimeImmutable());
     }
 
-    public function day(): Day
+    public function day() : Day
     {
         return Day::fromDateTime($this->now()->toDateTimeImmutable());
     }
 
-    public function now(): DateTime
+    public function now() : DateTime
     {
         return DateTime::fromDateTime(
             $this->currentDate

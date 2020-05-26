@@ -2,6 +2,15 @@
 
 declare(strict_types=1);
 
+/*
+ * This file is part of the Aeon time management framework for PHP.
+ *
+ * (c) Norbert Orzechowicz <contact@norbert.tech>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Aeon\Calendar\Gregorian\Holidays;
 
 use Aeon\Calendar\Exception\HolidayYearException;
@@ -26,7 +35,7 @@ final class GoogleCalendarRegionalHolidays implements Holidays
         Assert::greaterThan(\count($countryCodes), 0);
         Assert::allInArray(
             $normalizedCountryCodes = \array_map(
-                function (string $countryCode): string {
+                function (string $countryCode) : string {
                     return \mb_strtoupper($countryCode);
                 },
                 $countryCodes
@@ -38,7 +47,7 @@ final class GoogleCalendarRegionalHolidays implements Holidays
         $this->calendars = null;
     }
 
-    public function isHoliday(Day $day): bool
+    public function isHoliday(Day $day) : bool
     {
         if ($this->calendars === null) {
             $this->loadCalendars();
@@ -89,7 +98,7 @@ final class GoogleCalendarRegionalHolidays implements Holidays
         return [];
     }
 
-    private function loadCalendars(): void
+    private function loadCalendars() : void
     {
         if ($this->calendars !== null) {
             return ;
@@ -100,8 +109,7 @@ final class GoogleCalendarRegionalHolidays implements Holidays
         }
     }
 
-
-    private function loadCalendar(string $countryCode): void
+    private function loadCalendar(string $countryCode) : void
     {
         /**
          * @var array{
@@ -127,7 +135,6 @@ final class GoogleCalendarRegionalHolidays implements Holidays
 
         foreach ($data['google_calendar'] as $googleCalendar) {
             foreach ($googleCalendar['years'] as $googleCalendarYear) {
-
                 if (!\array_key_exists($googleCalendarYear['year'], $this->calendars)) {
                     $this->calendars[$googleCalendarYear['year']] = [];
                 }

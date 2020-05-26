@@ -2,12 +2,21 @@
 
 declare(strict_types=1);
 
+/*
+ * This file is part of the Aeon time management framework for PHP.
+ *
+ * (c) Norbert Orzechowicz <contact@norbert.tech>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Aeon\Calendar\Tests\Functional\Gregorian;
 
+use Aeon\Calendar\Gregorian\GregorianCalendar;
 use Aeon\Calendar\Gregorian\TimeInterval;
 use Aeon\Calendar\Gregorian\TimeZone;
 use Aeon\Calendar\TimeUnit;
-use Aeon\Calendar\Gregorian\GregorianCalendar;
 use PHPUnit\Framework\TestCase;
 
 final class GregorianCalendarTest extends TestCase
@@ -48,7 +57,7 @@ final class GregorianCalendarTest extends TestCase
         );
     }
 
-    public function test_yesterday () : void
+    public function test_yesterday() : void
     {
         $this->assertSame(
             (new \DateTimeImmutable('yesterday'))->format('Y-m-d'),
@@ -56,7 +65,7 @@ final class GregorianCalendarTest extends TestCase
         );
     }
 
-    public function test_tomorrow () : void
+    public function test_tomorrow() : void
     {
         $this->assertSame(
             (new \DateTimeImmutable('tomorrow'))->format('Y-m-d'),
@@ -64,7 +73,7 @@ final class GregorianCalendarTest extends TestCase
         );
     }
 
-    public function test_today_midnight () : void
+    public function test_today_midnight() : void
     {
         $this->assertSame(
             (new \DateTimeImmutable('midnight'))->format('Y-m-d 00:00:00'),
@@ -94,7 +103,7 @@ final class GregorianCalendarTest extends TestCase
             ->yesterday()
             ->to($calendar->tomorrow())
             ->iterate(TimeUnit::hour())
-            ->map(function(TimeInterval $interval) use (&$iterations) {
+            ->map(function (TimeInterval $interval) use (&$iterations) {
                 return $interval->startDateTime()->toDateTimeImmutable()->format('Y-m-d H:i:s');
             });
 
@@ -117,7 +126,7 @@ final class GregorianCalendarTest extends TestCase
             ->yesterday()
             ->to($calendar->tomorrow())
             ->iterateBackward(TimeUnit::hour())
-            ->map(function(TimeInterval $interval) {
+            ->map(function (TimeInterval $interval) {
                 return $interval->startDateTime()->toDateTimeImmutable()->format('Y-m-d H:i:s');
             });
 

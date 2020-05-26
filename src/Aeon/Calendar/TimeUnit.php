@@ -2,6 +2,15 @@
 
 declare(strict_types=1);
 
+/*
+ * This file is part of the Aeon time management framework for PHP.
+ *
+ * (c) Norbert Orzechowicz <contact@norbert.tech>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Aeon\Calendar;
 
 use Aeon\Calendar\Exception\InvalidArgumentException;
@@ -13,14 +22,21 @@ use Webmozart\Assert\Assert;
 final class TimeUnit
 {
     private const MICROSECONDS_IN_SECOND = 1000000;
+
     private const MICROSECONDS_IN_MILLISECOND = 1000;
+
     private const MILLISECONDS_IN_SECOND = 1000;
+
     private const SECONDS_IN_MINUTE = 60;
+
     private const MINUTES_IN_HOUR = 60;
+
     private const HOURS_IN_DAY = 24;
 
     private int $seconds;
+
     private int $microsecond;
+
     private bool $negative;
 
     private function __construct(bool $negative, int $seconds, int $microseconds)
@@ -278,7 +294,7 @@ final class TimeUnit
      * Number of microseconds from last full second to the next full second.
      * To get super precise time unit use Time::inSeconds() Time::microsecond()
      */
-    public function microsecond(): int
+    public function microsecond() : int
     {
         return $this->microsecond;
     }

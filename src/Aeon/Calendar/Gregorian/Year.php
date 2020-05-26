@@ -2,6 +2,15 @@
 
 declare(strict_types=1);
 
+/*
+ * This file is part of the Aeon time management framework for PHP.
+ *
+ * (c) Norbert Orzechowicz <contact@norbert.tech>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Aeon\Calendar\Gregorian;
 
 /**
@@ -102,7 +111,7 @@ final class Year
         return $this->months->byNumber(12);
     }
 
-    public function months(): Months
+    public function months() : Months
     {
         return $this->months;
     }
@@ -142,7 +151,7 @@ final class Year
             $iterator,
             \array_merge(
                 ...\array_map(
-                    fn(int $month) : array => $this->months->byNumber($month)->days()->all(),
+                    fn (int $month) : array => $this->months->byNumber($month)->days()->all(),
                     \range(1, 12)
                 )
             )
@@ -158,7 +167,7 @@ final class Year
         return \array_filter(
             \array_merge(
                 ...\array_map(
-                    fn(int $month) : array => $this->months->byNumber($month)->days()->all(),
+                    fn (int $month) : array => $this->months->byNumber($month)->days()->all(),
                     \range(1, 12)
                 )
             ),

@@ -2,6 +2,15 @@
 
 declare(strict_types=1);
 
+/*
+ * This file is part of the Aeon time management framework for PHP.
+ *
+ * (c) Norbert Orzechowicz <contact@norbert.tech>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Aeon\Calendar\Tests\Unit\Gregorian;
 
 use Aeon\Calendar\Gregorian\Day;
@@ -39,7 +48,7 @@ final class DaysTest extends TestCase
     {
         $this->assertSame(
             \range(1, 31),
-            (new Month(new Year(2020), 01))->days()->map(fn(Day $day) => $day->number())
+            (new Month(new Year(2020), 01))->days()->map(fn (Day $day) => $day->number())
         );
     }
 
@@ -48,10 +57,10 @@ final class DaysTest extends TestCase
         $this->assertSame(
             [2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30],
             \array_map(
-                function(Day $day) : int {
+                function (Day $day) : int {
                     return $day->number();
                 },
-                \array_values((new Month(new Year(2020), 01))->days()->filter(fn(Day $day) => $day->number() % 2 === 0))
+                \array_values((new Month(new Year(2020), 01))->days()->filter(fn (Day $day) => $day->number() % 2 === 0))
             )
         );
     }

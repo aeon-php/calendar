@@ -2,6 +2,15 @@
 
 declare(strict_types=1);
 
+/*
+ * This file is part of the Aeon time management framework for PHP.
+ *
+ * (c) Norbert Orzechowicz <contact@norbert.tech>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Aeon\Calendar\Gregorian\Holidays;
 
 /**
@@ -10,6 +19,7 @@ namespace Aeon\Calendar\Gregorian\Holidays;
 final class HolidayLocaleName
 {
     private string $locale;
+
     private string $name;
 
     public function __construct(string $locale, string $name)
@@ -18,12 +28,12 @@ final class HolidayLocaleName
         $this->name = $name;
     }
 
-    public function locale(): string
+    public function locale() : string
     {
         return $this->locale;
     }
 
-    public function name(): string
+    public function name() : string
     {
         return $this->name;
     }

@@ -2,6 +2,15 @@
 
 declare(strict_types=1);
 
+/*
+ * This file is part of the Aeon time management framework for PHP.
+ *
+ * (c) Norbert Orzechowicz <contact@norbert.tech>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Aeon\Calendar\Tests\Unit\Gregorian;
 
 use Aeon\Calendar\Gregorian\Day;
@@ -57,12 +66,12 @@ final class YearTest extends TestCase
 
     public function test_map_days() : void
     {
-        $this->assertCount(366, (new Year(2020))->mapDays(fn(Day $day) : int => $day->number()));
+        $this->assertCount(366, (new Year(2020))->mapDays(fn (Day $day) : int => $day->number()));
     }
 
     public function test_filter_days() : void
     {
-        $this->assertSame(52, \count((new Year(2020))->filterDays(fn(Day $day) : bool => $day->isWeekend())) / 2);
+        $this->assertSame(52, \count((new Year(2020))->filterDays(fn (Day $day) : bool => $day->isWeekend())) / 2);
     }
 
     public function test_next_year() : void

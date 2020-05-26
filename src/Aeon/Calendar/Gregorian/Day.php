@@ -2,6 +2,15 @@
 
 declare(strict_types=1);
 
+/*
+ * This file is part of the Aeon time management framework for PHP.
+ *
+ * (c) Norbert Orzechowicz <contact@norbert.tech>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Aeon\Calendar\Gregorian;
 
 use Webmozart\Assert\Assert;
@@ -32,7 +41,7 @@ final class Day
         return [
             'year' => $this->month->year()->number(),
             'month' => $this->month->number(),
-            'day' => $this->number
+            'day' => $this->number,
         ];
     }
 
@@ -135,7 +144,7 @@ final class Day
 
     public function isWeekend() : bool
     {
-        return \in_array($this->dayOfWeek(), [6, 7]);
+        return \in_array($this->dayOfWeek(), [6, 7], true);
     }
 
     public function toDateTimeImmutable() : \DateTimeImmutable

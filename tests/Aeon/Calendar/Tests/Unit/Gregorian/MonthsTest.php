@@ -2,6 +2,15 @@
 
 declare(strict_types=1);
 
+/*
+ * This file is part of the Aeon time management framework for PHP.
+ *
+ * (c) Norbert Orzechowicz <contact@norbert.tech>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Aeon\Calendar\Tests\Unit\Gregorian;
 
 use Aeon\Calendar\Gregorian\Month;
@@ -19,7 +28,7 @@ final class MonthsTest extends TestCase
     {
         $this->assertSame(
             \range(1, 12),
-            (new Year(2020))->months()->map(fn(Month $month) => $month->number())
+            (new Year(2020))->months()->map(fn (Month $month) => $month->number())
         );
     }
 
@@ -28,8 +37,8 @@ final class MonthsTest extends TestCase
         $this->assertSame(
             [2, 4, 6, 8, 10, 12],
             \array_map(
-                fn(Month $month) : int => $month->number(),
-                \array_values((new Year(2020))->months()->filter(fn(Month $month) => $month->number() % 2 === 0))
+                fn (Month $month) : int => $month->number(),
+                \array_values((new Year(2020))->months()->filter(fn (Month $month) => $month->number() % 2 === 0))
             )
         );
     }

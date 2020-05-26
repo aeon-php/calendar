@@ -2,6 +2,15 @@
 
 declare(strict_types=1);
 
+/*
+ * This file is part of the Aeon time management framework for PHP.
+ *
+ * (c) Norbert Orzechowicz <contact@norbert.tech>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Aeon\Calendar\Gregorian\TimeZone;
 
 use Aeon\Calendar\TimeUnit;
@@ -15,7 +24,9 @@ final class TimeOffset
     private const OFFSET_REGEXP = '/^([)+-]?)(2[0-3]|[01][0-9]):?([0-5][0-9])$/';
 
     private bool $negative;
+
     private int $hours;
+
     private int $minutes;
 
     private function __construct(bool $negative, int $hours, int $minutes)

@@ -2,6 +2,15 @@
 
 declare(strict_types=1);
 
+/*
+ * This file is part of the Aeon time management framework for PHP.
+ *
+ * (c) Norbert Orzechowicz <contact@norbert.tech>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Aeon\Calendar\Gregorian;
 
 use Webmozart\Assert\Assert;
@@ -34,7 +43,7 @@ final class Month
     {
         return [
             'year' => $this->year->number(),
-            'month' => $this->number
+            'month' => $this->number,
         ];
     }
 
@@ -84,7 +93,7 @@ final class Month
         return $this->year;
     }
 
-    public function days(): Days
+    public function days() : Days
     {
         return $this->days;
     }

@@ -2,15 +2,24 @@
 
 declare(strict_types=1);
 
+/*
+ * This file is part of the Aeon time management framework for PHP.
+ *
+ * (c) Norbert Orzechowicz <contact@norbert.tech>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Aeon\Calendar\Tests\Unit\Gregorian;
 
 use Aeon\Calendar\Gregorian\DateTime;
 use Aeon\Calendar\Gregorian\Day;
 use Aeon\Calendar\Gregorian\Time;
 use Aeon\Calendar\Gregorian\TimeInterval;
-use Aeon\Calendar\TimeUnit;
 use Aeon\Calendar\Gregorian\TimeZone;
 use Aeon\Calendar\Gregorian\TimeZone\TimeOffset;
+use Aeon\Calendar\TimeUnit;
 use PHPUnit\Framework\TestCase;
 
 final class DateTimeTest extends TestCase
@@ -82,7 +91,8 @@ final class DateTimeTest extends TestCase
     public function test_daylight() : void
     {
         $dateTime = DateTime::fromString('2020-01-01 00:00:00')
-            ->toTimeZone(new TimeZone('Europe/Warsaw'));;
+            ->toTimeZone(new TimeZone('Europe/Warsaw'));
+        ;
 
         $this->assertFalse($dateTime->isDaylight());
         $this->assertTrue($dateTime->isSavingTime());

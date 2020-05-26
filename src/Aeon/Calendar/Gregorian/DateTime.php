@@ -2,6 +2,15 @@
 
 declare(strict_types=1);
 
+/*
+ * This file is part of the Aeon time management framework for PHP.
+ *
+ * (c) Norbert Orzechowicz <contact@norbert.tech>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Aeon\Calendar\Gregorian;
 
 use Aeon\Calendar\Gregorian\TimeZone\TimeOffset;
@@ -87,12 +96,12 @@ final class DateTime
         return $this->day()->month();
     }
 
-    public function day(): Day
+    public function day() : Day
     {
         return $this->day;
     }
 
-    public function time(): Time
+    public function time() : Time
     {
         return $this->time;
     }
@@ -119,7 +128,7 @@ final class DateTime
         return $this->toDateTimeImmutable()->format($format);
     }
 
-    public function timeZone(): ?TimeZone
+    public function timeZone() : ?TimeZone
     {
         return $this->timeZone;
     }
