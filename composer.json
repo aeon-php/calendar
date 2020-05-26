@@ -37,7 +37,7 @@
     "scripts": {
         "test": "phpunit",
         "static:analyze": [
-            "psalm",
+            "psalm --output-format=compact",
             "phpstan analyze -c phpstan.neon"
         ]
     }

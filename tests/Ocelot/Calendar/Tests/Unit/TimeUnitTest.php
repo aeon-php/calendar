@@ -17,6 +17,26 @@ final class TimeUnitTest extends TestCase
         $this->assertSame(120, $unit->inHours());
         $this->assertSame(7200, $unit->inMinutes());
         $this->assertSame(432000, $unit->inSeconds());
+        $this->assertSame(432000.0, $unit->inSecondsPrecise());
+        $this->assertSame("432000.000000", $unit->inSecondsPreciseString());
+        $this->assertSame(432000000, $unit->inMilliseconds());
+    }
+
+    public function test_time_unit_create_from_days_negative() : void
+    {
+        $unit = TimeUnit::days(-5);
+
+        $this->assertSame(5, $unit->inDaysAbs());
+        $this->assertSame(-5, $unit->inDays());
+        $this->assertSame(-120, $unit->inHours());
+        $this->assertSame(120, $unit->inHoursAbs());
+        $this->assertSame(-7200, $unit->inMinutes());
+        $this->assertSame(7200, $unit->inMinutesAbs());
+        $this->assertSame(-432000, $unit->inSeconds());
+        $this->assertSame(432000, $unit->inSecondsAbs());
+        $this->assertSame("-432000.000000", $unit->inSecondsPreciseString());
+        $this->assertSame(-432000000, $unit->inMilliseconds());
+        $this->assertSame(432000000, $unit->inMillisecondsAbs());
     }
 
     public function test_time_unit_create_from_hours() : void
@@ -73,6 +93,118 @@ final class TimeUnitTest extends TestCase
         $this->assertTrue(TimeUnit::precise(-0.5)->isNegative());
         $this->assertSame(-0.500000, TimeUnit::precise(-0.5)->inSecondsPrecise());
         $this->assertSame("-0.500000", TimeUnit::precise(-0.5)->inSecondsPreciseString());
+    }
+
+    /**
+     * @dataProvider greater_than_data_provider
+     */
+    public function test_greater_than(TimeUnit $timeUnit, TimeUnit $nextTimeUnit, bool $expectedResult) : void
+    {
+        $this->assertSame($expectedResult, $timeUnit->isGreaterThan($nextTimeUnit));
+    }
+
+    /**
+     * @return \Generator<int, array{TimeUnit, TimeUnit, bool}, mixed, void>
+     */
+    public function greater_than_data_provider() : \Generator
+    {
+        yield [TimeUnit::seconds(1), TimeUnit::seconds(-5), true];
+        yield [TimeUnit::seconds(1), TimeUnit::seconds(5), false];
+        yield [TimeUnit::seconds(5), TimeUnit::seconds(5), false];
+        yield [TimeUnit::seconds(10), TimeUnit::seconds(5), true];
+        yield [TimeUnit::precise(0.000001), TimeUnit::precise(0.000000), true];
+        yield [TimeUnit::precise(0.000010), TimeUnit::precise(0.000000), true];
+        yield [TimeUnit::precise(0.000001), TimeUnit::precise(0.000010), false];
+        yield [TimeUnit::precise(0.000000), TimeUnit::precise(0.000000), false];
+        yield [TimeUnit::precise(0.000000), TimeUnit::precise(0.000001), false];
+    }
+
+    /**
+     * @dataProvider greater_than_eq_data_provider
+     */
+    public function test_greater_than_eq(TimeUnit $timeUnit, TimeUnit $nextTimeUnit, bool $expectedResult) : void
+    {
+        $this->assertSame($expectedResult, $timeUnit->isGreaterThanEq($nextTimeUnit));
+    }
+
+    /**
+     * @return \Generator<int, array{TimeUnit, TimeUnit, bool}, mixed, void>
+     */
+    public function greater_than_eq_data_provider() : \Generator
+    {
+        yield [TimeUnit::seconds(1), TimeUnit::seconds(-5), true];
+        yield [TimeUnit::seconds(1), TimeUnit::seconds(5), false];
+        yield [TimeUnit::seconds(5), TimeUnit::seconds(5), true];
+        yield [TimeUnit::seconds(10), TimeUnit::seconds(5), true];
+        yield [TimeUnit::precise(0.000001), TimeUnit::precise(0.000000), true];
+        yield [TimeUnit::precise(0.000000), TimeUnit::precise(0.000000), true];
+        yield [TimeUnit::precise(0.000000), TimeUnit::precise(0.000001), false];
+    }
+
+    /**
+     * @dataProvider less_than_data_provider
+     */
+    public function test_less_than(TimeUnit $timeUnit, TimeUnit $nextTimeUnit, bool $expectedResult) : void
+    {
+        $this->assertSame($expectedResult, $timeUnit->isLessThan($nextTimeUnit));
+    }
+
+    /**
+     * @return \Generator<int, array{TimeUnit, TimeUnit, bool}, mixed, void>
+     */
+    public function less_than_data_provider() : \Generator
+    {
+        yield [TimeUnit::seconds(1), TimeUnit::seconds(-5), false];
+        yield [TimeUnit::seconds(1), TimeUnit::seconds(5), true];
+        yield [TimeUnit::seconds(5), TimeUnit::seconds(5), false];
+        yield [TimeUnit::seconds(10), TimeUnit::seconds(5), false];
+        yield [TimeUnit::precise(0.000001), TimeUnit::precise(0.000000), false];
+        yield [TimeUnit::precise(0.000000), TimeUnit::precise(0.000000), false];
+        yield [TimeUnit::precise(0.000000), TimeUnit::precise(0.000001), true];
+    }
+
+    /**
+     * @dataProvider less_than_eq_data_provider
+     */
+    public function test_less_than_eq(TimeUnit $timeUnit, TimeUnit $nextTimeUnit, bool $expectedResult) : void
+    {
+        $this->assertSame($expectedResult, $timeUnit->isLessThanEq($nextTimeUnit));
+    }
+
+    /**
+     * @return \Generator<int, array{TimeUnit, TimeUnit, bool}, mixed, void>
+     */
+    public function less_than_eq_data_provider() : \Generator
+    {
+        yield [TimeUnit::seconds(1), TimeUnit::seconds(-5), false];
+        yield [TimeUnit::seconds(1), TimeUnit::seconds(5), true];
+        yield [TimeUnit::seconds(5), TimeUnit::seconds(5), true];
+        yield [TimeUnit::seconds(10), TimeUnit::seconds(5), false];
+        yield [TimeUnit::precise(0.000001), TimeUnit::precise(0.000000), false];
+        yield [TimeUnit::precise(0.000000), TimeUnit::precise(0.000000), true];
+        yield [TimeUnit::precise(0.000000), TimeUnit::precise(0.000001), true];
+    }
+
+    /**
+     * @dataProvider equal_data_provider
+     */
+    public function test_equal(TimeUnit $timeUnit, TimeUnit $nextTimeUnit, bool $expectedResult) : void
+    {
+        $this->assertSame($expectedResult, $timeUnit->isEqual($nextTimeUnit));
+    }
+
+    /**
+     * @return \Generator<int, array{TimeUnit, TimeUnit, bool}, mixed, void>
+     */
+    public function equal_data_provider() : \Generator
+    {
+        yield [TimeUnit::seconds(1), TimeUnit::seconds(-5), false];
+        yield [TimeUnit::seconds(1), TimeUnit::seconds(5), false];
+        yield [TimeUnit::seconds(5), TimeUnit::seconds(5), true];
+        yield [TimeUnit::seconds(10), TimeUnit::seconds(5), false];
+        yield [TimeUnit::precise(0.000001), TimeUnit::precise(0.000000), false];
+        yield [TimeUnit::precise(0.000000), TimeUnit::precise(0.000000), true];
+        yield [TimeUnit::precise(0.000000), TimeUnit::precise(0.000001), false];
     }
 
     /**

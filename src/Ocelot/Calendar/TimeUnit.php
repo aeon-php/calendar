@@ -158,27 +158,37 @@ final class TimeUnit
 
     public function isGreaterThan(TimeUnit $timeUnit) : bool
     {
-        return $timeUnit->inSeconds() > $timeUnit->inSeconds();
+        return $this->inSeconds() === $timeUnit->inSeconds()
+            ? $this->inSecondsPrecise() > $timeUnit->inSecondsPrecise()
+            : $this->inSeconds() > $timeUnit->inSeconds();
     }
 
     public function isGreaterThanEq(TimeUnit $timeUnit) : bool
     {
-        return $timeUnit->inSeconds() >= $timeUnit->inSeconds();
+        return $this->inSeconds() === $timeUnit->inSeconds()
+            ? $this->inSecondsPrecise() >= $timeUnit->inSecondsPrecise()
+            : $this->inSeconds() >= $timeUnit->inSeconds();
     }
 
     public function isLessThan(TimeUnit $timeUnit) : bool
     {
-        return $timeUnit->inSeconds() < $timeUnit->inSeconds();
+        return $this->inSeconds() === $timeUnit->inSeconds()
+            ? $this->inSecondsPrecise() < $timeUnit->inSecondsPrecise()
+            : $this->inSeconds() < $timeUnit->inSeconds();
     }
 
     public function isLessThanEq(TimeUnit $timeUnit) : bool
     {
-        return $timeUnit->inSeconds() <= $timeUnit->inSeconds();
+        return $this->inSeconds() === $timeUnit->inSeconds()
+            ? $this->inSecondsPrecise() <= $timeUnit->inSecondsPrecise()
+            : $this->inSeconds() <= $timeUnit->inSeconds();
     }
 
     public function isEqual(TimeUnit $timeUnit) : bool
     {
-        return $timeUnit->inSeconds() === $timeUnit->inSeconds();
+        return $this->inSeconds() === $timeUnit->inSeconds()
+            ? $this->inSecondsPrecise() === $timeUnit->inSecondsPrecise()
+            : $this->inSeconds() === $timeUnit->inSeconds();
     }
 
     public function inSeconds() : int
@@ -262,11 +272,6 @@ final class TimeUnit
         return \abs($this->inDays());
     }
 
-    public function invert() : self
-    {
-        return new self(!$this->negative, $this->seconds, $this->microsecond);
-    }
-
     /**
      * Number of microseconds from last full second to the next full second.
      * To get super precise time unit use Time::inSeconds() Time::microsecond()
@@ -278,6 +283,18 @@ final class TimeUnit
 
     public function inMilliseconds() : int
     {
-        return $this->seconds * 1000 + \intval($this->microsecond / self::MICROSECONDS_IN_MILLISECOND);
+        return $this->isNegative()
+            ? -($this->seconds * 1000 + \intval($this->microsecond / self::MICROSECONDS_IN_MILLISECOND))
+            : ($this->seconds * 1000 + \intval($this->microsecond / self::MICROSECONDS_IN_MILLISECOND));
+    }
+
+    public function inMillisecondsAbs() : int
+    {
+        return \abs($this->inMilliseconds());
+    }
+
+    public function invert() : self
+    {
+        return new self(!$this->negative, $this->seconds, $this->microsecond);
     }
 }
