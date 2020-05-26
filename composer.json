@@ -1,5 +1,5 @@
 {
-    "name": "ocelot/calendar",
+    "name": "aeon-php/calendar",
     "type": "library",
     "description": "PHP type safe, immutable calendar library",
     "require-dev": {
@@ -11,23 +11,17 @@
         "psalm/plugin-phpunit": "^0.10.1"
     },
     "license": "MIT",
-    "authors": [
-        {
-            "name": "Norbert Orzechowicz",
-            "email": "contact@norbert.tech"
-        }
-    ],
     "autoload": {
-        "files": ["src/Ocelot/Calendar/System/sleep.php"],
+        "files": ["src/Aeon/Calendar/System/sleep.php"],
         "psr-4": {
-            "Ocelot\\": [
-                "src/Ocelot"
+            "Aeon\\": [
+                "src/Aeon"
             ]
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Ocelot\\Calendar\\Tests\\": "tests/Ocelot/Calendar/Tests/"
+            "Aeon\\Calendar\\Tests\\": "tests/Aeon/Calendar/Tests/"
         }
     },
     "require": {
