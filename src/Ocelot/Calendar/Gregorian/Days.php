@@ -30,4 +30,39 @@ final class Days implements \Countable
     {
         return new Day($this->month, $this->month->numberOfDays());
     }
+
+    /**
+     * @return array<int, Day>
+     */
+    public function all() : array
+    {
+        return \array_map(
+            fn(int $dayNumber) : Day => new Day($this->month, $dayNumber),
+            \range(1, $this->month->numberOfDays())
+        );
+    }
+
+    /**
+     * @param callable(Day $day) : void $iterator
+     * @return array<mixed>
+     */
+    public function map(callable $iterator) : array
+    {
+        return \array_map(
+            $iterator,
+            $this->all()
+        );
+    }
+
+    /**
+     * @param callable(Day $day) : bool $iterator
+     * @return array<Day>
+     */
+    public function filter(callable $iterator) : array
+    {
+        return \array_filter(
+            $this->all(),
+            $iterator
+        );
+    }
 }

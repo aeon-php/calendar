@@ -30,4 +30,39 @@ final class Months implements \Countable
 
         return new Month($this->year, $number);
     }
+
+    /**
+     * @return array<int, Month>
+     */
+    public function all() : array
+    {
+        return \array_map(
+            fn(int $monthNumber) : Month => new Month($this->year, $monthNumber),
+            \range(1, $this->year->numberOfMonths())
+        );
+    }
+
+    /**
+     * @param callable(Month $day) : void $iterator
+     * @return array<mixed>
+     */
+    public function map(callable $iterator) : array
+    {
+        return \array_map(
+            $iterator,
+            $this->all()
+        );
+    }
+
+    /**
+     * @param callable(Month $day) : bool $iterator
+     * @return array<Month>
+     */
+    public function filter(callable $iterator) : array
+    {
+        return \array_filter(
+            $this->all(),
+            $iterator
+        );
+    }
 }

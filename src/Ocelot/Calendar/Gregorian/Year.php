@@ -132,6 +132,40 @@ final class Year
         return $this->isLeap() ? 366 : 365;
     }
 
+    /**
+     * @param callable(Day $day) : void $iterator
+     * @return array<mixed>
+     */
+    public function mapDays(callable $iterator) : array
+    {
+        return \array_map(
+            $iterator,
+            \array_merge(
+                ...\array_map(
+                    fn(int $month) : array => $this->months->byNumber($month)->days()->all(),
+                    \range(1, 12)
+                )
+            )
+        );
+    }
+
+    /**
+     * @param callable(Day $day) : bool $iterator
+     * @return array<Day>
+     */
+    public function filterDays(callable $iterator) : array
+    {
+        return \array_filter(
+            \array_merge(
+                ...\array_map(
+                    fn(int $month) : array => $this->months->byNumber($month)->days()->all(),
+                    \range(1, 12)
+                )
+            ),
+            $iterator
+        );
+    }
+
     public function isLeap() : bool
     {
         return (bool) $this->toDateTimeImmutable()->format('L');

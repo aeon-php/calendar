@@ -89,7 +89,7 @@ final class TimeUnitTest extends TestCase
     {
         $this->assertSame(500000, TimeUnit::precise(-0.5)->microsecond());
         $this->assertSame(0, TimeUnit::precise(-0.5)->inSeconds());
-        $this->assertSame(500, TimeUnit::precise(-0.5)->inMilliseconds());
+        $this->assertSame(-500, TimeUnit::precise(-0.5)->inMilliseconds());
         $this->assertTrue(TimeUnit::precise(-0.5)->isNegative());
         $this->assertSame(-0.500000, TimeUnit::precise(-0.5)->inSecondsPrecise());
         $this->assertSame("-0.500000", TimeUnit::precise(-0.5)->inSecondsPreciseString());
