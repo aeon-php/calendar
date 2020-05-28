@@ -2,6 +2,7 @@
     "name": "aeon-php/calendar",
     "type": "library",
     "description": "PHP type safe, immutable calendar library",
+    "keywords": ["calendar", "immutable", "holidays", "sleep"],
     "require-dev": {
         "phpunit/phpunit": "^9.1",
         "phpstan/phpstan": "^0.12.25",
