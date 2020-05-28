@@ -35,9 +35,9 @@ final class TimePeriod
     public function distance() : TimeUnit
     {
         return TimeUnit::precise(
-            (float) \sprintf("%d.%d", $this->end->secondsSinceUnixEpoch(), $this->end->time()->microsecond())
+            (float) \sprintf("%d.%s", $this->end->secondsSinceUnixEpoch(), \str_pad((string) $this->end->time()->microsecond(), 6, "0", STR_PAD_LEFT))
             -
-            (float) \sprintf("%d.%d", $this->start->secondsSinceUnixEpoch(), $this->start->time()->microsecond())
+            (float) \sprintf("%d.%s", $this->start->secondsSinceUnixEpoch(), \str_pad((string) $this->start->time()->microsecond(), 6, "0", STR_PAD_LEFT))
         );
     }
 
