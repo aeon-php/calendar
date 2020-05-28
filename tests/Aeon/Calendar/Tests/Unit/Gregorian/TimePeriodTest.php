@@ -23,7 +23,7 @@ final class TimePeriodTest extends TestCase
         $this->assertFalse($period->distance()->isNegative());
     }
 
-    public function test_precide_distance_in_time_unit_from_start_to_end() : void
+    public function test_precise_distance_in_time_unit_from_start_to_end() : void
     {
         $period = new TimePeriod(
             DateTime::fromString('2020-01-01 12:25:30.079635'),
@@ -31,6 +31,16 @@ final class TimePeriodTest extends TestCase
         );
 
         $this->assertSame("2.508825", $period->distance()->inSecondsPreciseString());
+    }
+
+    public function test_precise_distance_in_time_unit_from_start_to_end_backward() : void
+    {
+        $period = new TimePeriod(
+            DateTime::fromString('2020-01-01 12:25:30.079635'),
+            DateTime::fromString('2020-01-01 12:25:32.588460')
+        );
+
+        $this->assertSame("-2.508825", $period->distanceBackward()->inSecondsPreciseString());
     }
 
     public function test_distance_in_time_unit_from_start_to_end_date_between_years() : void

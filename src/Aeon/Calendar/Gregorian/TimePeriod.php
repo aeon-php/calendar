@@ -34,8 +34,10 @@ final class TimePeriod
 
     public function distanceBackward() : TimeUnit
     {
-        return TimeUnit::seconds(
-            $this->start->secondsSinceUnixEpoch() - $this->end->secondsSinceUnixEpoch()
+        return TimeUnit::precise(
+            (float) \sprintf("%d.%s", $this->start->secondsSinceUnixEpoch(), \str_pad((string) $this->start->time()->microsecond(), 6, "0", STR_PAD_LEFT))
+            -
+            (float) \sprintf("%d.%s", $this->end->secondsSinceUnixEpoch(), \str_pad((string) $this->end->time()->microsecond(), 6, "0", STR_PAD_LEFT))
         );
     }
 
