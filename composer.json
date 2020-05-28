@@ -41,7 +41,9 @@
         ],
         "static:analyze": [
             "psalm --output-format=compact",
-            "phpstan analyze -c phpstan.neon"
-        ]
+            "phpstan analyze -c phpstan.neon",
+            "php-cs-fixer fix --dry-run"
+        ],
+        "cs:php:fix": "php-cs-fixer fix"
     }
 }
