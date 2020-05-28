@@ -4,7 +4,7 @@
     "description": "PHP type safe, immutable calendar library",
     "keywords": ["calendar", "immutable", "holidays", "sleep"],
     "require": {
-        "php": ">=7.4.1,<7.5.0",
+        "php": "7.4.*",
         "ext-json": "*",
         "webmozart/assert": "^1.8"
     },
@@ -34,7 +34,6 @@
     },
     "scripts": {
         "test": [
-            "@static:analyze",
             "phpunit"
         ],
         "test:mutation": [
