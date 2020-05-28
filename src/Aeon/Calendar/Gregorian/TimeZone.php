@@ -929,6 +929,7 @@ final class TimeZone
         return TimeOffset::fromTimeUnit(TimeUnit::seconds($this->toDateTimeZone()->getOffset($dateTime->toDateTimeImmutable())));
     }
 
+    // @codeCoverageIgnoreStart
     public static function africaAbidjan() : self
     {
         return new self(self::AFRICA_ABIDJAN);
@@ -3069,6 +3070,7 @@ final class TimeZone
         return new self(self::UTC);
     }
 
+    // @codeCoverageIgnoreEnd
     public function toCountryCode() : ?string
     {
         $mapping = [

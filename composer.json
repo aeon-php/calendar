@@ -9,7 +9,8 @@
         "phpstan/phpstan-phpunit": "^0.12.8",
         "phpstan/phpstan-webmozart-assert": "^0.12.4",
         "psalm/plugin-phpunit": "^0.10.1",
-        "friendsofphp/php-cs-fixer": "^2.16"
+        "friendsofphp/php-cs-fixer": "^2.16",
+        "infection/infection": "^0.16.3"
     },
     "license": "MIT",
     "autoload": {
@@ -33,6 +34,9 @@
         "test": [
             "@static:analyze",
             "phpunit"
+        ],
+        "test:mutation": [
+            "infection -vvv --test-framework-options='--testsuite=unit' --only-covered --log-verbosity=default --min-covered-msi=70"
         ],
         "static:analyze": [
             "psalm --output-format=compact",
