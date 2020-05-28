@@ -5,7 +5,6 @@
     "keywords": ["calendar", "immutable", "holidays", "sleep"],
     "require": {
         "php": "7.4.*",
-        "ext-json": "*",
         "webmozart/assert": "^1.8"
     },
     "require-dev": {
@@ -20,7 +19,6 @@
     },
     "license": "MIT",
     "autoload": {
-        "files": ["src/Aeon/Calendar/System/sleep.php"],
         "psr-4": {
             "Aeon\\": [
                 "src/Aeon"
