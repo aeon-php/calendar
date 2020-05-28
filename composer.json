@@ -3,6 +3,11 @@
     "type": "library",
     "description": "PHP type safe, immutable calendar library",
     "keywords": ["calendar", "immutable", "holidays", "sleep"],
+    "require": {
+        "php": ">=7.4.1,<7.5.0",
+        "ext-json": "*",
+        "webmozart/assert": "^1.8"
+    },
     "require-dev": {
         "phpunit/phpunit": "^9.1",
         "phpstan/phpstan": "^0.12.25",
@@ -26,10 +31,6 @@
         "psr-4": {
             "Aeon\\Calendar\\Tests\\": "tests/Aeon/Calendar/Tests/"
         }
-    },
-    "require": {
-        "ext-json": "*",
-        "webmozart/assert": "^1.8"
     },
     "scripts": {
         "test": [

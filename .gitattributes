@@ -1,4 +1,7 @@
-/.github export-ignore
+*.php text eol=lf
+*.phpt text eol=lf
+/composer.lock export-ignore
+/.github/ export-ignore
 /docs export-ignore
 /tests export-ignore
 /.gitattributes export-ignore
@@ -7,3 +10,4 @@
 /depfile.yml export-ignore
 /phpstan.neon export-ignore
 /phpunit.xml export-ignore
+/infection.json export-ignore
