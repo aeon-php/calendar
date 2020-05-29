@@ -6,11 +6,11 @@ namespace Aeon\Calendar\Gregorian;
 
 interface Calendar
 {
-    public function year() : Year;
+    public function currentYear() : Year;
 
-    public function month() : Month;
+    public function currentMonth() : Month;
 
-    public function day() : Day;
+    public function currentDay() : Day;
 
     public function now() : DateTime;
 
