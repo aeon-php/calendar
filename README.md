@@ -87,3 +87,27 @@ echo DateTime::fromString('2020-01-01 10:00:00')
     ->toTimeZone(TimeZone::australiaSydney())
     ->toISO8601(); // 2020-01-01T21:00:00+1100
 ```
+
+## Extensions
+
+### Holidays
+
+[Calendar Holidays](https://github.com/aeon-php/calendar-holidays) 
+
+Check if specific day is a holiday.  
+
+```php
+$regionalHolidays = new GoogleCalendarRegionalHolidays(CountryCodes::PL);
+
+echo $regionalHolidays->isHoliday(Day::fromString('2020-01-01'); // true 
+```
+
+### Process Sleep
+
+[Process](https://github.com/aeon-php/process)
+
+Friendly sleep 
+
+```php
+SystemProcess::current()->sleep(TimeUnit::milliseconds(250));
+```
