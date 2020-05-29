@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Aeon\Calendar\Gregorian;
 
+use Aeon\Calendar\Gregorian\Day\WeekDay;
 use Webmozart\Assert\Assert;
 
 /**
@@ -99,14 +100,9 @@ final class Day
         return $this->number;
     }
 
-    public function name() : string
+    public function weekDay() : WeekDay
     {
-        return $this->toDateTimeImmutable()->format('l');
-    }
-
-    public function shortName() : string
-    {
-        return $this->toDateTimeImmutable()->format('D');
+        return new WeekDay((int) $this->toDateTimeImmutable()->format('N'));
     }
 
     /**
@@ -115,14 +111,6 @@ final class Day
     public function weekOfYear() : int
     {
         return (int) $this->toDateTimeImmutable()->format('W');
-    }
-
-    /**
-     * Day of week starting from 1
-     */
-    public function dayOfWeek() : int
-    {
-        return (int) $this->toDateTimeImmutable()->format('N');
     }
 
     /**
@@ -135,7 +123,7 @@ final class Day
 
     public function isWeekend() : bool
     {
-        return \in_array($this->dayOfWeek(), [6, 7], true);
+        return $this->weekDay()->isWeekend();
     }
 
     public function toDateTimeImmutable() : \DateTimeImmutable

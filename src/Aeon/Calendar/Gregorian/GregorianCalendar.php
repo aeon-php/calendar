@@ -29,17 +29,17 @@ final class GregorianCalendar implements Calendar
         return new self(new TimeZone(\date_default_timezone_get()));
     }
 
-    public function year() : Year
+    public function currentYear() : Year
     {
         return Year::fromDateTime($this->now()->toDateTimeImmutable());
     }
 
-    public function month() : Month
+    public function currentMonth() : Month
     {
         return Month::fromDateTime($this->now()->toDateTimeImmutable());
     }
 
-    public function day() : Day
+    public function currentDay() : Day
     {
         return Day::fromDateTime($this->now()->toDateTimeImmutable());
     }
@@ -51,11 +51,11 @@ final class GregorianCalendar implements Calendar
 
     public function yesterday() : DateTime
     {
-        return new DateTime($this->day()->previous(), new Time(0, 0, 0, 0));
+        return new DateTime($this->currentDay()->previous(), new Time(0, 0, 0, 0));
     }
 
     public function tomorrow() : DateTime
     {
-        return new DateTime($this->day()->next(), new Time(0, 0, 0, 0));
+        return new DateTime($this->currentDay()->next(), new Time(0, 0, 0, 0));
     }
 }

@@ -28,7 +28,7 @@ final class GregorianCalendarTest extends TestCase
     {
         $this->assertSame(
             (new \DateTimeImmutable())->format('Y-m-d'),
-            (GregorianCalendar::UTC())->day()->toDateTimeImmutable()->format('Y-m-d')
+            (GregorianCalendar::UTC())->currentDay()->toDateTimeImmutable()->format('Y-m-d')
         );
     }
 
@@ -36,7 +36,7 @@ final class GregorianCalendarTest extends TestCase
     {
         $this->assertSame(
             (int) (new \DateTimeImmutable())->format('Y'),
-            (GregorianCalendar::UTC())->year()->number()
+            (GregorianCalendar::UTC())->currentYear()->number()
         );
     }
 
@@ -44,7 +44,7 @@ final class GregorianCalendarTest extends TestCase
     {
         $this->assertSame(
             (int) (new \DateTimeImmutable())->format('m'),
-            (GregorianCalendar::UTC())->month()->number()
+            (GregorianCalendar::UTC())->currentMonth()->number()
         );
     }
 

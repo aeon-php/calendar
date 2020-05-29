@@ -44,12 +44,16 @@ final class DayTest extends TestCase
         $this->assertSame(32, $day->dayOfYear());
     }
 
-    public function test_day_of_week() : void
+    public function test_week_day() : void
     {
-        $this->assertSame(5, Day::fromString('2020-01-03')->dayOfWeek());
-        $this->assertSame(6, Day::fromString('2020-01-04')->dayOfWeek());
-        $this->assertSame(7, Day::fromString('2020-01-05')->dayOfWeek());
-        $this->assertSame(1, Day::fromString('2020-01-06')->dayOfWeek());
+        $this->assertSame(5, Day::fromString('2020-01-03')->weekDay()->number());
+        $this->assertSame('Friday', Day::fromString('2020-01-03')->weekDay()->name());
+        $this->assertSame('Fri', Day::fromString('2020-01-03')->weekDay()->shortName());
+    }
+
+    public function test_format() : void
+    {
+        $this->assertSame('2020-01-03', Day::fromString('2020-01-03')->format('Y-m-d'));
     }
 
     public function test_is_weekend() : void
@@ -58,16 +62,6 @@ final class DayTest extends TestCase
         $this->assertTrue(Day::fromString('2020-01-04')->isWeekend());
         $this->assertTrue(Day::fromString('2020-01-05')->isWeekend());
         $this->assertFalse(Day::fromString('2020-01-06')->isWeekend());
-    }
-
-    public function test_name() : void
-    {
-        $this->assertSame('Wednesday', Day::fromString('2020-01-01')->name());
-    }
-
-    public function test_short_name() : void
-    {
-        $this->assertSame('Wed', Day::fromString('2020-01-01')->shortName());
     }
 
     public function test_equal() : void
