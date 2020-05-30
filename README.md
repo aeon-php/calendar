@@ -92,7 +92,7 @@ echo DateTime::fromString('2020-01-01 10:00:00')
 
 ### Holidays
 
-[Calendar Holidays](https://github.com/aeon-php/calendar-holidays) 
+[Github: Calendar Holidays](https://github.com/aeon-php/calendar-holidays) 
 
 Check if specific day is a holiday.  
 
@@ -104,10 +104,27 @@ echo $regionalHolidays->isHoliday(Day::fromString('2020-01-01'); // true
 
 ### Process Sleep
 
-[Process](https://github.com/aeon-php/process)
+[Github: Process](https://github.com/aeon-php/process)
 
 Friendly sleep 
 
 ```php
 SystemProcess::current()->sleep(TimeUnit::milliseconds(250));
+```
+
+### Doctrine Type
+
+[Github: Doctrine Types](https://github.com/aeon-php/calendar-doctrine)
+
+Friendly sleep 
+
+```yaml
+# config/packages/doctrine.yaml
+
+doctrine:
+    dbal:
+        types:
+            aeon_date: Aeon\Calendar\Doctrine\Gregorian\DateType
+            aeon_datetime: Aeon\Calendar\Doctrine\Gregorian\DateTimeType
+            aeon_datetime_tz: Aeon\Calendar\Doctrine\Gregorian\DateTimeTzType
 ```
