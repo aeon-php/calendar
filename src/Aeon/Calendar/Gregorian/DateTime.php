@@ -159,124 +159,129 @@ final class DateTime
         return $this->secondsSinceUnixEpoch();
     }
 
+    public function modify(string $modify) : self
+    {
+        return self::fromDateTime($this->toDateTimeImmutable()->modify($modify));
+    }
+
     public function addHour() : self
     {
-        return self::fromDateTime($this->toDateTimeImmutable()->modify('+1 hour'));
+        return $this->modify('+1 hour');
     }
 
     public function subHour() : self
     {
-        return self::fromDateTime($this->toDateTimeImmutable()->modify('-1 hour'));
+        return $this->modify('-1 hour');
     }
 
     public function addHours(int $hours) : self
     {
-        return self::fromDateTime($this->toDateTimeImmutable()->modify(\sprintf('+%d hour', $hours)));
+        return $this->modify(\sprintf('+%d hour', $hours));
     }
 
     public function subHours(int $hours) : self
     {
-        return self::fromDateTime($this->toDateTimeImmutable()->modify(\sprintf('-%d hour', $hours)));
+        return $this->modify(\sprintf('-%d hour', $hours));
     }
 
     public function addMinute() : self
     {
-        return self::fromDateTime($this->toDateTimeImmutable()->modify('+1 minute'));
+        return $this->modify('+1 minute');
     }
 
     public function subMinute() : self
     {
-        return self::fromDateTime($this->toDateTimeImmutable()->modify('-1 minute'));
+        return $this->modify('-1 minute');
     }
 
     public function addMinutes(int $minutes) : self
     {
-        return self::fromDateTime($this->toDateTimeImmutable()->modify(\sprintf('+%d minute', $minutes)));
+        return $this->modify(\sprintf('+%d minute', $minutes));
     }
 
     public function subMinutes(int $minutes) : self
     {
-        return self::fromDateTime($this->toDateTimeImmutable()->modify(\sprintf('-%d minute', $minutes)));
+        return $this->modify(\sprintf('-%d minute', $minutes));
     }
 
     public function addSecond() : self
     {
-        return self::fromDateTime($this->toDateTimeImmutable()->modify('+1 second'));
+        return $this->modify('+1 second');
     }
 
     public function subSecond() : self
     {
-        return self::fromDateTime($this->toDateTimeImmutable()->modify('-1 second'));
+        return $this->modify('-1 second');
     }
 
     public function addSeconds(int $seconds) : self
     {
-        return self::fromDateTime($this->toDateTimeImmutable()->modify(\sprintf('+%d second', $seconds)));
+        return $this->modify(\sprintf('+%d second', $seconds));
     }
 
     public function subSeconds(int $seconds) : self
     {
-        return self::fromDateTime($this->toDateTimeImmutable()->modify(\sprintf('-%d second', $seconds)));
+        return $this->modify(\sprintf('-%d second', $seconds));
     }
 
     public function addDay() : self
     {
-        return self::fromDateTime($this->toDateTimeImmutable()->modify('+1 day'));
+        return $this->modify('+1 day');
     }
 
     public function subDay() : self
     {
-        return self::fromDateTime($this->toDateTimeImmutable()->modify('-1 day'));
+        return $this->modify('-1 day');
     }
 
     public function addDays(int $days) : self
     {
-        return self::fromDateTime($this->toDateTimeImmutable()->modify(\sprintf('+%d day', $days)));
+        return $this->modify(\sprintf('+%d day', $days));
     }
 
     public function subDays(int $days) : self
     {
-        return self::fromDateTime($this->toDateTimeImmutable()->modify(\sprintf('-%d day', $days)));
+        return $this->modify(\sprintf('-%d day', $days));
     }
 
     public function addMonth() : self
     {
-        return self::fromDateTime($this->toDateTimeImmutable()->modify('+1 month'));
+        return $this->modify('+1 month');
     }
 
     public function subMonth() : self
     {
-        return self::fromDateTime($this->toDateTimeImmutable()->modify('-1 month'));
+        return $this->modify('-1 month');
     }
 
     public function addMonths(int $months) : self
     {
-        return self::fromDateTime($this->toDateTimeImmutable()->modify(\sprintf('+%d months', $months)));
+        return $this->modify(\sprintf('+%d months', $months));
     }
 
     public function subMonths(int $months) : self
     {
-        return self::fromDateTime($this->toDateTimeImmutable()->modify(\sprintf('-%d months', $months)));
+        return $this->modify(\sprintf('-%d months', $months));
     }
 
     public function addYear() : self
     {
-        return self::fromDateTime($this->toDateTimeImmutable()->modify('+1 year'));
+        return $this->modify('+1 year');
     }
 
     public function subYear() : self
     {
-        return self::fromDateTime($this->toDateTimeImmutable()->modify('-1 year'));
+        return $this->modify('-1 year');
     }
 
     public function addYears(int $years) : self
     {
-        return self::fromDateTime($this->toDateTimeImmutable()->modify(\sprintf('+%d years', $years)));
+        return $this->modify(\sprintf('+%d years', $years));
     }
 
     public function subYears(int $years) : self
     {
-        return self::fromDateTime($this->toDateTimeImmutable()->modify(\sprintf('-%d years', $years)));
+        return $this->modify(\sprintf('-%d years', $years));
     }
 
     public function midnight() : self
@@ -296,14 +301,12 @@ final class DateTime
 
     public function add(TimeUnit $timeUnit) : self
     {
-        return self::fromDateTime($this->toDateTimeImmutable()
-            ->modify(\sprintf('%s%d seconds', $timeUnit->isPositive() ? '+' : '-', $timeUnit->inSeconds())));
+        return $this->modify(\sprintf('%s%d seconds', $timeUnit->isPositive() ? '+' : '-', $timeUnit->inSeconds()));
     }
 
     public function sub(TimeUnit $timeUnit) : self
     {
-        return self::fromDateTime($this->toDateTimeImmutable()
-            ->modify(\sprintf('%s%d seconds', $timeUnit->isPositive() ? '-' : '+', $timeUnit->inSeconds())));
+        return $this->modify(\sprintf('%s%d seconds', $timeUnit->isPositive() ? '-' : '+', $timeUnit->inSeconds()));
     }
 
     public function isEquals(DateTime $dateTime) : bool
