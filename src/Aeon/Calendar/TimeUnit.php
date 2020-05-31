@@ -211,7 +211,7 @@ final class TimeUnit
             "%s%d.%s",
             $this->negative ? '-' : '+',
             $this->seconds,
-            \str_pad((string) $this->microsecond, 6, "0", STR_PAD_LEFT)
+            $this->microsecondString()
         );
     }
 
@@ -222,7 +222,7 @@ final class TimeUnit
                 "%s%d.%s",
                 $this->negative ? '-' : '',
                 $this->seconds,
-                \str_pad((string) $this->microsecond, 6, "0", STR_PAD_LEFT)
+                $this->microsecondString()
             ),
             6,
             '.',
@@ -283,11 +283,20 @@ final class TimeUnit
 
     /**
      * Number of microseconds from last full second to the next full second.
-     * To get super precise time unit use Time::inSeconds() Time::microsecond()
+     * Do not use this method to combine float seconds because for 50000 it returns 50000 not "050000"
      */
     public function microsecond() : int
     {
         return $this->microsecond;
+    }
+
+    /**
+     * Number of microseconds from last full second to the next full second.
+     * Use this method to combine float seconds because for 50000 it returns "050000" not 50000
+     */
+    public function microsecondString() : string
+    {
+        return \str_pad((string) $this->microsecond, 6, "0", STR_PAD_LEFT);
     }
 
     public function inMilliseconds() : int

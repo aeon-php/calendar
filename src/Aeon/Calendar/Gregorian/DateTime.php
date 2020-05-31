@@ -301,12 +301,22 @@ final class DateTime
 
     public function add(TimeUnit $timeUnit) : self
     {
-        return $this->modify(\sprintf('%s%d seconds', $timeUnit->isPositive() ? '+' : '-', $timeUnit->inSeconds()));
+        return $this->modify(\sprintf(
+            '%s%d seconds %s microsecond',
+            $timeUnit->isPositive() ? '+' : '-',
+            $timeUnit->inSeconds(),
+            $timeUnit->microsecondString()
+        ));
     }
 
     public function sub(TimeUnit $timeUnit) : self
     {
-        return $this->modify(\sprintf('%s%d seconds', $timeUnit->isPositive() ? '-' : '+', $timeUnit->inSeconds()));
+        return $this->modify(\sprintf(
+            '%s%d seconds %d microsecond',
+            $timeUnit->isPositive() ? '-' : '+',
+            $timeUnit->inSeconds(),
+            $timeUnit->microsecondString()
+        ));
     }
 
     public function isEquals(DateTime $dateTime) : bool
