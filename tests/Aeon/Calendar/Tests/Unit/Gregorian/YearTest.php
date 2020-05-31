@@ -82,7 +82,7 @@ final class YearTest extends TestCase
         while ($year->number() < 9999) {
             if ($year->isLeap()) {
                 $this->assertTrue(
-                    $year->number() % 4 == 0 && ($year->number() % 100 !== 0 || $year->number() % 400 == 0)
+                    $year->number() % 4 === 0 && ($year->number() % 100 !== 0 || $year->number() % 400 === 0)
                 );
             }
             $year = $year->next();
