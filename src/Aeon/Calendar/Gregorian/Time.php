@@ -51,8 +51,9 @@ final class Time
 
     /**
      * @psalm-pure
+     * @psalm-suppress ImpureMethodCall
      */
-    public static function fromDateTime(\DateTimeImmutable $dateTime) : self
+    public static function fromDateTime(\DateTimeInterface $dateTime) : self
     {
         return new self(
             (int) $dateTime->format('H'),
