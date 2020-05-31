@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Aeon\Calendar;
 
+use Aeon\Calendar\Exception\Exception;
 use Aeon\Calendar\Exception\InvalidArgumentException;
 use Webmozart\Assert\Assert;
 
@@ -63,6 +64,30 @@ final class TimeUnit
             \abs((int) $secondsStringParts[0]),
             \abs((int) $secondsStringParts[1]),
         );
+    }
+
+    /**
+     * Limitations: TimeUnit can't be created from relative DateIntervals like \DateInterval::createFromDateString('4 months')
+     * or \DateInterval::createFromDateString('1 years'). It's because years and months are can't be precisely
+     * converted into seconds/days/hours.
+     */
+    public static function fromDateInterval(\DateInterval $dateInterval) : self
+    {
+        if ($dateInterval->y && !$dateInterval->days) {
+            throw new Exception('Can\'t convert ' . $dateInterval->format('P%yY%mM%dDT%hH%iM%sS') . ' precisely to time unit because year can\'t be directly converted to number of seconds.');
+        }
+
+        if ($dateInterval->m && !$dateInterval->days) {
+            throw new Exception('Can\'t convert ' . $dateInterval->format('P%yY%mM%dDT%hH%iM%sS') . ' precisely to time unit because month can\'t be directly converted to number of seconds.');
+        }
+
+        $timeUnit = self::days($dateInterval->days ? (int) $dateInterval->days : $dateInterval->d)
+            ->add(self::hours($dateInterval->h))
+            ->add(self::minutes($dateInterval->i))
+            ->add(self::seconds($dateInterval->s))
+            ->add(self::precise($dateInterval->f));
+
+        return $dateInterval->invert === 1 ? $timeUnit->invert() : $timeUnit;
     }
 
     public static function millisecond() : self
