@@ -37,6 +37,20 @@ final class DayTest extends TestCase
         $this->assertSame(5, $day->weekOfYear());
     }
 
+    public function test_week_of_month() : void
+    {
+        $this->assertSame(1, Day::fromString('2020-01-05')->weekOfMonth());
+        $this->assertSame(2, Day::fromString('2020-01-12')->weekOfMonth());
+        $this->assertSame(3, Day::fromString('2020-01-19')->weekOfMonth());
+        $this->assertSame(4, Day::fromString('2020-01-26')->weekOfMonth());
+        $this->assertSame(5, Day::fromString('2020-01-31')->weekOfMonth());
+        $this->assertSame(1, Day::fromString('2020-02-1')->weekOfMonth());
+        $this->assertSame(2, Day::fromString('2020-02-9')->weekOfMonth());
+        $this->assertSame(3, Day::fromString('2020-02-16')->weekOfMonth());
+        $this->assertSame(4, Day::fromString('2020-02-23')->weekOfMonth());
+        $this->assertSame(5, Day::fromString('2020-02-29')->weekOfMonth());
+    }
+
     public function test_day_of_year() : void
     {
         $day = Day::fromString('2020-02-01');

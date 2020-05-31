@@ -115,6 +115,14 @@ final class Day
     }
 
     /**
+     * Week of year starting from 1
+     */
+    public function weekOfMonth() : int
+    {
+        return $this->weekOfYear() - $this->month()->days()->first()->weekOfYear() + 1;
+    }
+
+    /**
      * Day of year starting from 1
      */
     public function dayOfYear() : int
