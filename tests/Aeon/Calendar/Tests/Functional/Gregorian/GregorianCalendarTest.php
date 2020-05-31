@@ -111,6 +111,19 @@ final class GregorianCalendarTest extends TestCase
         );
     }
 
+    public function test_iterating_overt_time_and_taking_every_second_hour() : void
+    {
+        $intervals = ($calendar = GregorianCalendar::UTC())
+            ->yesterday()
+            ->to($calendar->tomorrow())
+            ->iterate(TimeUnit::hour())
+            ->filter(function (TimeInterval $interval) use (&$iterations) : bool {
+                return $interval->startDateTime()->time()->hour() % 2 === 0;
+            });
+
+        $this->assertCount(24, $intervals);
+    }
+
     public function test_iterating_overt_time_backward() : void
     {
         $intervals = ($calendar = GregorianCalendar::UTC())

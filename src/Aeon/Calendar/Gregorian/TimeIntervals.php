@@ -69,6 +69,15 @@ final class TimeIntervals implements \Countable, \IteratorAggregate, \ArrayAcces
         return \array_map($iterator, $this->all());
     }
 
+    /**
+     * @param callable(TimeInterval $timeInterval) : bool $iterator
+     * @return array<int, TimeInterval>
+     */
+    public function filter(callable $iterator) : array
+    {
+        return \array_filter($this->all(), $iterator);
+    }
+
     public function count() : int
     {
         return \count($this->all());
