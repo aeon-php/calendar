@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Aeon\Calendar\Tests\Unit;
 
+use Aeon\Calendar\Exception\Exception;
 use Aeon\Calendar\TimeUnit;
 use PHPUnit\Framework\TestCase;
 
@@ -334,5 +335,49 @@ final class TimeUnitTest extends TestCase
         yield [0, 500000, "-0.500000", 0.0, 0.500000];
         yield [0, 50000, "-0.050000", 0.0, 0.050000];
         yield [2, 508825, "2.508825", 2.588460, 0.079635];
+    }
+
+    /**
+     * @dataProvider creating_from_date_interval_provider
+     */
+    public function test_creating_from_date_interval(\DateInterval $dateInterval, TimeUnit $timeUnit) : void
+    {
+        $this->assertEquals(TimeUnit::fromDateInterval($dateInterval), $timeUnit);
+    }
+
+    /**
+     * @return \Generator<int, array{\DateInterval, TimeUnit}, mixed, void>
+     */
+    public function creating_from_date_interval_provider() : \Generator
+    {
+        yield [\DateInterval::createFromDateString('5 microseconds'), TimeUnit::precise(0.000005)];
+        yield [\DateInterval::createFromDateString('1 second 5 microseconds'), TimeUnit::precise(1.000005)];
+        yield [\DateInterval::createFromDateString('1 second'), TimeUnit::second()];
+        yield [\DateInterval::createFromDateString('5 seconds'), TimeUnit::seconds(5)];
+        yield [\DateInterval::createFromDateString('1 minute'), TimeUnit::minute()];
+        yield [\DateInterval::createFromDateString('5 minutes'), TimeUnit::minutes(5)];
+        yield [\DateInterval::createFromDateString('1 hour'), TimeUnit::hour()];
+        yield [\DateInterval::createFromDateString('10 hours'), TimeUnit::hours(10)];
+        yield [\DateInterval::createFromDateString('28 hours'), TimeUnit::hours(28)];
+        yield [\DateInterval::createFromDateString('1 day'), TimeUnit::day()];
+        yield [\DateInterval::createFromDateString('365 days'), TimeUnit::days(365)];
+        yield [(new \DateTimeImmutable('2020-01-01'))->diff(new \DateTimeImmutable('2019-01-01')), TimeUnit::days(365)->invert()];
+        yield [(new \DateTimeImmutable('2020-01-01'))->diff(new \DateTimeImmutable('2020-03-01')), TimeUnit::days(60)];
+    }
+
+    public function test_creating_from_inaccurate_date_interval_years() : void
+    {
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage('Can\'t convert P1Y0M0DT0H0M0S precisely to time unit because year can\'t be directly converted to number of seconds.');
+
+        Timeunit::fromDateInterval(\DateInterval::createFromDateString('1 year'));
+    }
+
+    public function test_creating_from_inaccurate_date_interval_months() : void
+    {
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage('Can\'t convert P0Y4M0DT0H0M0S precisely to time unit because month can\'t be directly converted to number of seconds.');
+
+        Timeunit::fromDateInterval(\DateInterval::createFromDateString('4 months'));
     }
 }
