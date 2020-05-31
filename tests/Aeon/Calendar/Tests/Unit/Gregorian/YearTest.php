@@ -74,4 +74,18 @@ final class YearTest extends TestCase
     {
         $this->assertSame(2019, (new Year(2020))->previous()->number());
     }
+
+    public function test_leap_years() : void
+    {
+        $year = new Year(0);
+
+        while ($year->number() < 9999) {
+            if ($year->isLeap()) {
+                $this->assertTrue(
+                    $year->number() % 4 === 0 && ($year->number() % 100 !== 0 || $year->number() % 400 === 0)
+                );
+            }
+            $year = $year->next();
+        }
+    }
 }
