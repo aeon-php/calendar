@@ -321,11 +321,27 @@ final class DateTimeTest extends TestCase
         );
     }
 
+    public function test_add_precse_timeunit() : void
+    {
+        $this->assertSame(
+            '2020-01-01 00:00:02.500000+0000',
+            DateTime::fromString('2020-01-01 00:00:00.000000+00')->add(TimeUnit::precise(2.500000))->format('Y-m-d H:i:s.uO')
+        );
+    }
+
     public function test_sub_timeunit() : void
     {
         $this->assertSame(
             '2020-01-01 00:00:00+0000',
             DateTime::fromString('2020-01-01 01:00:00+00')->sub(TimeUnit::hour())->format('Y-m-d H:i:sO')
+        );
+    }
+
+    public function test_sub_precse_timeunit() : void
+    {
+        $this->assertSame(
+            '2020-01-01 00:59:58.500000+0000',
+            DateTime::fromString('2020-01-01 01:00:00.000000+00')->sub(TimeUnit::precise(2.500000))->format('Y-m-d H:i:s.uO')
         );
     }
 
