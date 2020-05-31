@@ -103,6 +103,46 @@ final class Time
         return $this->toDateTimeImmutable()->format('a') === 'pm';
     }
 
+    public function isGreaterThan(self $time) : bool
+    {
+        $dateTimeImmutable = $this->toDateTimeImmutable();
+        $nextDateTimeImmutable = $dateTimeImmutable->setTime($time->hour(), $time->minute(), $time->second(), $time->microsecond());
+
+        return $dateTimeImmutable > $nextDateTimeImmutable;
+    }
+
+    public function isGreaterThanEq(self $time) : bool
+    {
+        $dateTimeImmutable = $this->toDateTimeImmutable();
+        $nextDateTimeImmutable = $dateTimeImmutable->setTime($time->hour(), $time->minute(), $time->second(), $time->microsecond());
+
+        return $dateTimeImmutable >= $nextDateTimeImmutable;
+    }
+
+    public function isEqual(self $time) : bool
+    {
+        $dateTimeImmutable = $this->toDateTimeImmutable();
+        $nextDateTimeImmutable = $dateTimeImmutable->setTime($time->hour(), $time->minute(), $time->second(), $time->microsecond());
+
+        return $dateTimeImmutable == $nextDateTimeImmutable;
+    }
+
+    public function isLessThan(self $time) : bool
+    {
+        $dateTimeImmutable = $this->toDateTimeImmutable();
+        $nextDateTimeImmutable = $dateTimeImmutable->setTime($time->hour(), $time->minute(), $time->second(), $time->microsecond());
+
+        return $dateTimeImmutable < $nextDateTimeImmutable;
+    }
+
+    public function isLessThanEq(self $time) : bool
+    {
+        $dateTimeImmutable = $this->toDateTimeImmutable();
+        $nextDateTimeImmutable = $dateTimeImmutable->setTime($time->hour(), $time->minute(), $time->second(), $time->microsecond());
+
+        return $dateTimeImmutable <= $nextDateTimeImmutable;
+    }
+
     private function toDateTimeImmutable() : \DateTimeImmutable
     {
         return (new \DateTimeImmutable('now'))->setTime($this->hour(), $this->minute(), $this->second(), $this->microsecond());
