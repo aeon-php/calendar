@@ -90,11 +90,13 @@ final class TimeUnit
         return $dateInterval->invert === 1 ? $timeUnit->invert() : $timeUnit;
     }
 
+    /** @psalm-pure */
     public static function millisecond() : self
     {
         return new self(false, 0, self::MICROSECONDS_IN_MILLISECOND);
     }
 
+    /** @psalm-pure */
     public static function milliseconds(int $milliseconds) : self
     {
         return new self(
@@ -104,66 +106,60 @@ final class TimeUnit
         );
     }
 
+    /** @psalm-pure */
     public static function day() : self
     {
         return new self(false, self::HOURS_IN_DAY * self::MINUTES_IN_HOUR * self::SECONDS_IN_MINUTE, 0);
     }
 
-    /**
-     * @psalm-pure
-     */
+    /** @psalm-pure */
     public static function days(int $days) : self
     {
         return new self($days < 0, \abs($days * self::HOURS_IN_DAY * self::MINUTES_IN_HOUR * self::SECONDS_IN_MINUTE), 0);
     }
 
+    /** @psalm-pure */
     public static function hour() : self
     {
         return new self(false, self::MINUTES_IN_HOUR * self::SECONDS_IN_MINUTE, 0);
     }
 
-    /**
-     * @psalm-pure
-     */
+    /** @psalm-pure */
     public static function hours(int $hours) : self
     {
         return new self($hours < 0, \abs($hours * self::MINUTES_IN_HOUR * self::SECONDS_IN_MINUTE), 0);
     }
 
+    /** @psalm-pure */
     public static function minute() : self
     {
         return new self(false, self::SECONDS_IN_MINUTE, 0);
     }
 
-    /**
-     * @psalm-pure
-     */
+    /** @psalm-pure */
     public static function minutes(int $minutes) : self
     {
         return new self($minutes < 0, \abs($minutes * self::SECONDS_IN_MINUTE), 0);
     }
 
+    /** @psalm-pure */
     public static function second() : self
     {
         return new self(false, 1, 0);
     }
 
-    /**
-     * @psalm-pure
-     */
+    /** @psalm-pure */
     public static function seconds(int $seconds) : self
     {
         return new self($seconds < 0, \abs($seconds), 0);
     }
 
-    /**
-     * @psalm-suppress ImpurePropertyAssignment
-     */
     public function toDateInterval() : \DateInterval
     {
         $interval = new \DateInterval(\sprintf("PT%dS", $this->seconds));
 
         if ($this->negative) {
+            /** @psalm-suppress ImpurePropertyAssignment */
             $interval->invert = 1;
         }
 

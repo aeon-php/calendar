@@ -30,17 +30,13 @@ final class TimeOffset
         $this->minutes = $minutes;
     }
 
-    /**
-     * @psalm-pure
-     */
+    /** @psalm-pure */
     public static function UTC() : self
     {
         return new self(false, 0, 0);
     }
 
-    /**
-     * @psalm-pure
-     */
+    /** @psalm-pure */
     public static function fromString(string $offset) : self
     {
         Assert::regex($offset, self::OFFSET_REGEXP, "\"$offset\" is not a valid UTC Offset.");
@@ -55,9 +51,7 @@ final class TimeOffset
         return (bool) \preg_match(self::OFFSET_REGEXP, $offset, $matches);
     }
 
-    /**
-     * @psalm-pure
-     */
+    /** @psalm-pure */
     public static function fromTimeUnit(TimeUnit $timeUnit) : self
     {
         return self::fromString(
