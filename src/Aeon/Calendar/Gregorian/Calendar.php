@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Aeon\Calendar\Gregorian;
 
+/**
+ * @psalm-immutable
+ */
 interface Calendar
 {
     public function currentYear() : Year;
