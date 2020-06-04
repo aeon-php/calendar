@@ -116,8 +116,6 @@ SystemProcess::current()->sleep(TimeUnit::milliseconds(250));
 
 [Github: Doctrine Types](https://github.com/aeon-php/calendar-doctrine)
 
-Friendly sleep 
-
 ```yaml
 # config/packages/doctrine.yaml
 
