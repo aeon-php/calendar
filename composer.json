@@ -3,6 +3,8 @@
     "type": "library",
     "description": "PHP type safe, immutable calendar library",
     "keywords": ["calendar", "immutable", "holidays", "sleep"],
+    "prefer-stable": true,
+    "minimum-stability": "dev",
     "require": {
         "php": ">=7.4.2",
         "webmozart/assert": "^1.8"
@@ -16,6 +18,10 @@
         "psalm/plugin-phpunit": "^0.10.1",
         "friendsofphp/php-cs-fixer": "^2.16",
         "infection/infection": "^0.16.3"
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "sort-packages": true
     },
     "license": "MIT",
     "autoload": {
@@ -48,5 +54,10 @@
             "php-cs-fixer fix --dry-run"
         ],
         "cs:php:fix": "php-cs-fixer fix"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0-dev"
+        }
     }
 }
