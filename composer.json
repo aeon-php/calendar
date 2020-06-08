@@ -4,7 +4,6 @@
     "description": "PHP type safe, immutable calendar library",
     "keywords": ["calendar", "immutable", "holidays", "sleep"],
     "prefer-stable": true,
-    "minimum-stability": "dev",
     "require": {
         "php": ">=7.4.2",
         "webmozart/assert": "^1.8"
