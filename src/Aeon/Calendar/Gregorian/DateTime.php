@@ -155,6 +155,11 @@ final class DateTime
         return (int) $this->toDateTimeImmutable()->format('U');
     }
 
+    public function secondsSinceUnixEpochPrecise() : float
+    {
+        return (float) \sprintf("%d.%s", $this->secondsSinceUnixEpoch(), \str_pad((string) $this->time()->microsecond(), 6, "0", STR_PAD_LEFT));
+    }
+
     public function timestamp() : int
     {
         return $this->secondsSinceUnixEpoch();
