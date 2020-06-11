@@ -33,20 +33,12 @@ final class TimePeriod
 
     public function distance() : TimeUnit
     {
-        return TimeUnit::precise(
-            (float) \sprintf("%d.%s", $this->end->secondsSinceUnixEpoch(), \str_pad((string) $this->end->time()->microsecond(), 6, "0", STR_PAD_LEFT))
-            -
-            (float) \sprintf("%d.%s", $this->start->secondsSinceUnixEpoch(), \str_pad((string) $this->start->time()->microsecond(), 6, "0", STR_PAD_LEFT))
-        );
+        return TimeUnit::precise($this->end->secondsSinceUnixEpochPrecise() - $this->start->secondsSinceUnixEpochPrecise());
     }
 
     public function distanceBackward() : TimeUnit
     {
-        return TimeUnit::precise(
-            (float) \sprintf("%d.%s", $this->start->secondsSinceUnixEpoch(), \str_pad((string) $this->start->time()->microsecond(), 6, "0", STR_PAD_LEFT))
-            -
-            (float) \sprintf("%d.%s", $this->end->secondsSinceUnixEpoch(), \str_pad((string) $this->end->time()->microsecond(), 6, "0", STR_PAD_LEFT))
-        );
+        return TimeUnit::precise($this->start->secondsSinceUnixEpochPrecise() - $this->end->secondsSinceUnixEpochPrecise());
     }
 
     public function iterate(TimeUnit $timeUnit) : TimePeriods
