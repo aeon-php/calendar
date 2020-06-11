@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Aeon\Calendar\Gregorian;
 
 use Aeon\Calendar\TimeUnit;
-use Webmozart\Assert\Assert;
 
 /**
  * @psalm-immutable
@@ -18,9 +17,18 @@ final class TimePeriod
 
     public function __construct(DateTime $start, DateTime $end)
     {
-        Assert::true($start->isBeforeOrEqual($end), "Start date of period must be before end date");
         $this->start = $start;
         $this->end = $end;
+    }
+
+    public function start() : DateTime
+    {
+        return $this->start;
+    }
+
+    public function end() : DateTime
+    {
+        return $this->end;
     }
 
     public function distance() : TimeUnit
@@ -41,14 +49,13 @@ final class TimePeriod
         );
     }
 
-    public function iterate(TimeUnit $timeUnit) : TimeIntervals
+    public function iterate(TimeUnit $timeUnit) : TimePeriods
     {
-        return new TimeIntervals(
+        return new TimePeriods(
             ...\array_map(
-                function (\DateTimeImmutable $dateTimeImmutable) use ($timeUnit) {
-                    return new TimeInterval(
+                function (\DateTimeImmutable $dateTimeImmutable) use ($timeUnit) : TimePeriod {
+                    return new TimePeriod(
                         DateTime::fromDateTime($dateTimeImmutable),
-                        $timeUnit,
                         DateTime::fromDateTime($dateTimeImmutable)->add($timeUnit)
                     );
                 },
@@ -63,14 +70,13 @@ final class TimePeriod
         );
     }
 
-    public function iterateBackward(TimeUnit $timeUnit) : TimeIntervals
+    public function iterateBackward(TimeUnit $timeUnit) : TimePeriods
     {
-        return new TimeIntervals(
+        return new TimePeriods(
             ...\array_map(
-                function (\DateTimeImmutable $dateTimeImmutable) use ($timeUnit) {
-                    return new TimeInterval(
+                function (\DateTimeImmutable $dateTimeImmutable) use ($timeUnit) : TimePeriod {
+                    return new TimePeriod(
                         DateTime::fromDateTime($dateTimeImmutable)->add($timeUnit),
-                        $timeUnit->invert(),
                         DateTime::fromDateTime($dateTimeImmutable)
                     );
                 },

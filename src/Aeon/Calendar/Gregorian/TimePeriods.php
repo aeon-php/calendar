@@ -6,19 +6,19 @@ namespace Aeon\Calendar\Gregorian;
 
 /**
  * @psalm-immutable
- * @implements \IteratorAggregate<int,TimeInterval>
- * @implements \ArrayAccess<int,TimeInterval>
+ * @implements \IteratorAggregate<int,TimePeriod>
+ * @implements \ArrayAccess<int,TimePeriod>
  */
-final class TimeIntervals implements \Countable, \IteratorAggregate, \ArrayAccess
+final class TimePeriods implements \Countable, \IteratorAggregate, \ArrayAccess
 {
     /**
-     * @var array<int, TimeInterval>
+     * @var array<int, TimePeriod>
      */
-    private array $intervals;
+    private array $periods;
 
-    public function __construct(TimeInterval ...$intervals)
+    public function __construct(TimePeriod ...$periods)
     {
-        $this->intervals = $intervals;
+        $this->periods = $periods;
     }
 
     public function offsetExists($offset) : bool
@@ -26,7 +26,7 @@ final class TimeIntervals implements \Countable, \IteratorAggregate, \ArrayAcces
         return isset($this->all()[(int) $offset]);
     }
 
-    public function offsetGet($offset) : ?TimeInterval
+    public function offsetGet($offset) : ?TimePeriod
     {
         return isset($this->all()[(int) $offset]) ? $this->all()[(int) $offset] : null;
     }
@@ -42,15 +42,15 @@ final class TimeIntervals implements \Countable, \IteratorAggregate, \ArrayAcces
     }
 
     /**
-     * @return array<int, TimeInterval>
+     * @return array<int, TimePeriod>
      */
     public function all() : array
     {
-        return $this->intervals;
+        return $this->periods;
     }
 
     /**
-     * @param callable(TimeInterval $timeInterval) : void $iterator
+     * @param callable(TimePeriod $timePeriod) : void $iterator
      */
     public function each(callable $iterator) : void
     {
@@ -61,7 +61,7 @@ final class TimeIntervals implements \Countable, \IteratorAggregate, \ArrayAcces
     }
 
     /**
-     * @param callable(TimeInterval $timeInterval) : mixed $iterator
+     * @param callable(TimePeriod $timePeriod) : mixed $iterator
      * @return array<mixed>
      */
     public function map(callable $iterator) : array
@@ -70,12 +70,12 @@ final class TimeIntervals implements \Countable, \IteratorAggregate, \ArrayAcces
     }
 
     /**
-     * @param callable(TimeInterval $timeInterval) : bool $iterator
-     * @return array<int, TimeInterval>
+     * @param callable(TimePeriod $timePeriod) : bool $iterator
+     * @return TimePeriods
      */
-    public function filter(callable $iterator) : array
+    public function filter(callable $iterator) : self
     {
-        return \array_filter($this->all(), $iterator);
+        return new self(...\array_filter($this->all(), $iterator));
     }
 
     public function count() : int
