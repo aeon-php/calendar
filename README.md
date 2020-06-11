@@ -38,15 +38,15 @@ $dateTime = GregorianCalendar::UTC()->now();
 
 ```php
 use Aeon\Calendar\Gregorian\GregorianCalendar;
-use Aeon\Calendar\Gregorian\TimeInterval;
+use Aeon\Calendar\Gregorian\TimePeriod;
 use Aeon\Calendar\TimeUnit;
 
 $now = GregorianCalendar::UTC()->now();
 
 $now->to($now->add(TimeUnit::days(7)))
     ->iterate(TimeUnit::day())
-    ->each(function(TimeInterval $interval) {
-        echo $interval->startDateTime()->day()->format('Y-m-d H:i:s.uO') . "\n";
+    ->each(function(TimePeriod $timePeriod) {
+        echo $timePeriod->startDateTime()->day()->format('Y-m-d H:i:s.uO') . "\n";
     });
 ```
 

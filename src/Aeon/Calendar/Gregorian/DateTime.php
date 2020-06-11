@@ -365,7 +365,7 @@ final class DateTime
         return $this->from($dateTime)->distance();
     }
 
-    public function until(DateTime $pointInTime, TimeUnit $by) : TimeIntervals
+    public function until(DateTime $pointInTime, TimeUnit $by) : TimePeriods
     {
         return $pointInTime->isBefore($this)
             ? $this->from($pointInTime)->iterateBackward($by)

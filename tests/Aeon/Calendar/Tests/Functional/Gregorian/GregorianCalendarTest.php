@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Aeon\Calendar\Tests\Functional\Gregorian;
 
 use Aeon\Calendar\Gregorian\GregorianCalendar;
-use Aeon\Calendar\Gregorian\TimeInterval;
+use Aeon\Calendar\Gregorian\TimePeriod;
 use Aeon\Calendar\Gregorian\TimeZone;
 use Aeon\Calendar\TimeUnit;
 use PHPUnit\Framework\TestCase;
@@ -90,60 +90,60 @@ final class GregorianCalendarTest extends TestCase
 
     public function test_iterating_overt_time() : void
     {
-        $intervals = ($calendar = GregorianCalendar::UTC())
+        $timePeriods = ($calendar = GregorianCalendar::UTC())
             ->yesterday()
             ->to($calendar->tomorrow())
             ->iterate(TimeUnit::hour())
-            ->map(function (TimeInterval $interval) use (&$iterations) {
-                return $interval->startDateTime()->toDateTimeImmutable()->format('Y-m-d H:i:s');
+            ->map(function (TimePeriod $timePeriod) use (&$iterations) {
+                return $timePeriod->start()->toDateTimeImmutable()->format('Y-m-d H:i:s');
             });
 
-        $this->assertCount(48, $intervals);
+        $this->assertCount(48, $timePeriods);
 
         $this->assertSame(
             (new \DateTimeImmutable('yesterday midnight'))->format('Y-m-d H:i:s'),
-            $intervals[0]
+            $timePeriods[0]
         );
 
         $this->assertSame(
             (new \DateTimeImmutable('tomorrow midnight'))->modify('-1 hour')->format('Y-m-d H:i:s'),
-            $intervals[47]
+            $timePeriods[47]
         );
     }
 
     public function test_iterating_overt_time_and_taking_every_second_hour() : void
     {
-        $intervals = ($calendar = GregorianCalendar::UTC())
+        $timePeriods = ($calendar = GregorianCalendar::UTC())
             ->yesterday()
             ->to($calendar->tomorrow())
             ->iterate(TimeUnit::hour())
-            ->filter(function (TimeInterval $interval) use (&$iterations) : bool {
-                return $interval->startDateTime()->time()->hour() % 2 === 0;
+            ->filter(function (TimePeriod $timePeriod) use (&$iterations) : bool {
+                return $timePeriod->start()->time()->hour() % 2 === 0;
             });
 
-        $this->assertCount(24, $intervals);
+        $this->assertCount(24, $timePeriods);
     }
 
     public function test_iterating_overt_time_backward() : void
     {
-        $intervals = ($calendar = GregorianCalendar::UTC())
+        $timePeriods = ($calendar = GregorianCalendar::UTC())
             ->yesterday()
             ->to($calendar->tomorrow())
             ->iterateBackward(TimeUnit::hour())
-            ->map(function (TimeInterval $interval) {
-                return $interval->startDateTime()->toDateTimeImmutable()->format('Y-m-d H:i:s');
+            ->map(function (TimePeriod $interval) {
+                return $interval->start()->toDateTimeImmutable()->format('Y-m-d H:i:s');
             });
 
-        $this->assertCount(48, $intervals);
+        $this->assertCount(48, $timePeriods);
 
         $this->assertSame(
             (new \DateTimeImmutable('tomorrow midnight'))->format('Y-m-d H:i:s'),
-            $intervals[0]
+            $timePeriods[0]
         );
 
         $this->assertSame(
             (new \DateTimeImmutable('yesterday midnight'))->modify('+1 hour')->format('Y-m-d H:i:s'),
-            $intervals[47]
+            $timePeriods[47]
         );
     }
 }

@@ -7,7 +7,7 @@ namespace Aeon\Calendar\Tests\Unit\Gregorian;
 use Aeon\Calendar\Gregorian\DateTime;
 use Aeon\Calendar\Gregorian\Day;
 use Aeon\Calendar\Gregorian\Time;
-use Aeon\Calendar\Gregorian\TimeInterval;
+use Aeon\Calendar\Gregorian\TimePeriod;
 use Aeon\Calendar\Gregorian\TimeZone;
 use Aeon\Calendar\Gregorian\TimeZone\TimeOffset;
 use Aeon\Calendar\TimeUnit;
@@ -136,30 +136,30 @@ final class DateTimeTest extends TestCase
 
     public function test_iterating_until_forward() : void
     {
-        $timeIntervals = DateTime::fromString('2020-01-01 00:00:00')
+        $timePeriods = DateTime::fromString('2020-01-01 00:00:00')
             ->until(
                 DateTime::fromString('2020-01-02 00:00:00'),
                 TimeUnit::hour()
             );
 
-        $this->assertInstanceOf(TimeInterval::class, $timeIntervals[0]);
-        $this->assertSame('2020-01-01 00:00:00', $timeIntervals[0]->startDateTime()->format('Y-m-d H:i:s'));
-        $this->assertFalse($timeIntervals[0]->interval()->isNegative());
-        $this->assertSame('2020-01-01 01:00:00', $timeIntervals[0]->endDateTime()->format('Y-m-d H:i:s'));
+        $this->assertInstanceOf(TimePeriod::class, $timePeriods[0]);
+        $this->assertSame('2020-01-01 00:00:00', $timePeriods[0]->start()->format('Y-m-d H:i:s'));
+        $this->assertFalse($timePeriods[0]->distance()->isNegative());
+        $this->assertSame('2020-01-01 01:00:00', $timePeriods[0]->end()->format('Y-m-d H:i:s'));
     }
 
     public function test_iterating_until_backward() : void
     {
-        $timeIntervals = DateTime::fromString('2020-01-02 00:00:00')
+        $timePeriods = DateTime::fromString('2020-01-02 00:00:00')
             ->until(
                 DateTime::fromString('2020-01-01 00:00:00'),
                 TimeUnit::hour()
             );
 
-        $this->assertInstanceOf(TimeInterval::class, $timeIntervals[0]);
-        $this->assertSame('2020-01-02 00:00:00', $timeIntervals[0]->startDateTime()->format('Y-m-d H:i:s'));
-        $this->assertTrue($timeIntervals[0]->interval()->isNegative());
-        $this->assertSame('2020-01-01 23:00:00', $timeIntervals[0]->endDateTime()->format('Y-m-d H:i:s'));
+        $this->assertInstanceOf(TimePeriod::class, $timePeriods[0]);
+        $this->assertSame('2020-01-02 00:00:00', $timePeriods[0]->start()->format('Y-m-d H:i:s'));
+        $this->assertTrue($timePeriods[0]->distance()->isNegative());
+        $this->assertSame('2020-01-01 23:00:00', $timePeriods[0]->end()->format('Y-m-d H:i:s'));
     }
 
     public function test_equal_dates_in_different_timezones() : void
