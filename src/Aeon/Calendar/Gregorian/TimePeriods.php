@@ -71,7 +71,6 @@ final class TimePeriods implements \Countable, \IteratorAggregate, \ArrayAccess
 
     /**
      * @param callable(TimePeriod $timePeriod) : bool $iterator
-     * @return TimePeriods
      */
     public function filter(callable $iterator) : self
     {
