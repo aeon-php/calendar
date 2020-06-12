@@ -105,8 +105,10 @@ final class Month
         return $this->toDateTimeImmutable()->format('F');
     }
 
-    private function toDateTimeImmutable() : \DateTimeImmutable
+    public function toDateTimeImmutable() : \DateTimeImmutable
     {
-        return (new \DateTimeImmutable('now'))->setDate($this->year()->number(), $this->number(), 1);
+        return (new \DateTimeImmutable('now', new \DateTimeZone('UTC')))
+            ->setDate($this->year()->number(), $this->number(), 1)
+            ->setTime(0, 0, 0, 0);
     }
 }

@@ -46,7 +46,8 @@ final class GregorianCalendar implements Calendar
 
     public function now() : DateTime
     {
-        return DateTime::fromDateTime(new \DateTimeImmutable('now', new \DateTimeZone('UTC')))->toTimeZone($this->timeZone);
+        return DateTime::fromDateTime(new \DateTimeImmutable('now', new \DateTimeZone('UTC')))
+            ->toTimeZone($this->timeZone);
     }
 
     public function yesterday() : DateTime

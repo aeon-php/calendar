@@ -172,8 +172,10 @@ final class Year
         return (bool) $this->toDateTimeImmutable()->format('L');
     }
 
-    private function toDateTimeImmutable() : \DateTimeImmutable
+    public function toDateTimeImmutable() : \DateTimeImmutable
     {
-        return (new \DateTimeImmutable('now'))->setDate($this->number(), 1, 1);
+        return (new \DateTimeImmutable('now', new \DateTimeZone('UTC')))
+            ->setDate($this->number(), 1, 1)
+            ->setTime(0, 0, 0, 0);
     }
 }
