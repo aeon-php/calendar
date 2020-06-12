@@ -137,7 +137,13 @@ final class Day
 
     public function toDateTimeImmutable() : \DateTimeImmutable
     {
-        return (new \DateTimeImmutable('now'))->setDate($this->month()->year()->number(), $this->month()->number(), $this->number());
+        return (new \DateTimeImmutable('now', new \DateTimeZone('UTC')))
+            ->setDate(
+                $this->month()->year()->number(),
+                $this->month()->number(),
+                $this->number()
+            )
+            ->setTime(0, 0, 0, 0);
     }
 
     public function format(string $format) : string

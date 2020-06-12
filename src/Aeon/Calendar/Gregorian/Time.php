@@ -145,6 +145,12 @@ final class Time
 
     private function toDateTimeImmutable() : \DateTimeImmutable
     {
-        return (new \DateTimeImmutable('now'))->setTime($this->hour(), $this->minute(), $this->second(), $this->microsecond());
+        return (new \DateTimeImmutable('now', new \DateTimeZone('UTC')))
+            ->setTime(
+                $this->hour(),
+                $this->minute(),
+                $this->second(),
+                $this->microsecond()
+            );
     }
 }

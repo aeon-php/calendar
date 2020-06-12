@@ -88,4 +88,15 @@ final class YearTest extends TestCase
             $year = $year->next();
         }
     }
+
+    public function test_reset_time_in_to_datetime_immutable() : void
+    {
+        $year = new Year(2020);
+
+        $dateTimeImmutable1 = $year->toDateTimeImmutable();
+        \sleep(1);
+        $dateTimeImmutable2 = $year->toDateTimeImmutable();
+
+        $this->assertTrue($dateTimeImmutable1 == $dateTimeImmutable2);
+    }
 }

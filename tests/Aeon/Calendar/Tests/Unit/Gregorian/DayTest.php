@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Aeon\Calendar\Tests\Unit\Gregorian;
 
 use Aeon\Calendar\Gregorian\Day;
+use Aeon\Calendar\Gregorian\Month;
+use Aeon\Calendar\Gregorian\Year;
 use PHPUnit\Framework\TestCase;
 
 final class DayTest extends TestCase
@@ -81,5 +83,16 @@ final class DayTest extends TestCase
     public function test_equal() : void
     {
         $this->assertTrue(Day::fromString('2020-01-01')->equals(Day::fromString('2020-01-01')));
+    }
+
+    public function test_reset_time_in_to_datetime_immutable() : void
+    {
+        $day = new Day(new Month(new Year(2020), 1), 1);
+
+        $dateTimeImmutable1 = $day->toDateTimeImmutable();
+        \sleep(1);
+        $dateTimeImmutable2 = $day->toDateTimeImmutable();
+
+        $this->assertTrue($dateTimeImmutable1 == $dateTimeImmutable2);
     }
 }
