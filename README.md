@@ -21,6 +21,8 @@ It works with precision up to microseconds if needed.
 #### Creating calendar
 
 ```php
+<?php 
+
 use Aeon\Calendar\Gregorian\GregorianCalendar;
 
 $calendar = GregorianCalendar::UTC();
@@ -29,6 +31,8 @@ $calendar = GregorianCalendar::UTC();
 #### Getting current time 
 
 ```php
+<?php 
+
 use Aeon\Calendar\Gregorian\GregorianCalendar;
 
 $dateTime = GregorianCalendar::UTC()->now();
@@ -37,6 +41,8 @@ $dateTime = GregorianCalendar::UTC()->now();
 #### Iterating over time 
 
 ```php
+<?php 
+
 use Aeon\Calendar\Gregorian\GregorianCalendar;
 use Aeon\Calendar\Gregorian\TimePeriod;
 use Aeon\Calendar\TimeUnit;
@@ -53,6 +59,8 @@ $now->to($now->add(TimeUnit::days(7)))
 #### Measuring difference between two points in time
 
 ```php
+<?php 
+
 use Aeon\Calendar\Gregorian\GregorianCalendar;
 
 $start = GregorianCalendar::UTC()->now();
@@ -65,25 +73,64 @@ echo $start->to($end)->distance()->inMilliseconds(); // int(250) +/-
 #### Iterating over all days in year
 
 ```php
+<?php 
+
+use Aeon\Calendar\Gregorian\Day;
 use Aeon\Calendar\Gregorian\GregorianCalendar;
 
 $days = GregorianCalendar::UTC()
     ->currentYear()
-    ->mapDays(fn(Day $day) => $day->dayOfYear())
+    ->mapDays(fn(Day $day) => $day->dayOfYear());
 ```
 
 #### Creating DateTime from string 
 
 ```php
+<?php 
+
 use Aeon\Calendar\Gregorian\DateTime;
 
 echo DateTime::fromString('2020-01-01 10:00:00')
     ->toISO8601(); // 2020-01-01T10:00:00+0000
 ```
 
+#### Creating DateTime from primitive types
+
+```php
+<?php 
+
+use Aeon\Calendar\Gregorian\DateTime;
+
+echo DateTime::create(2020, 01, 01, 00, 00, 00, 0, 'UTC')
+    ->toISO8601(); // 2020-01-01T00:00:00+0000
+```
+
+#### Creating DateTime from objects
+
+```php
+<?php 
+
+use Aeon\Calendar\Gregorian\Day;
+use Aeon\Calendar\Gregorian\Month;
+use Aeon\Calendar\Gregorian\Time;
+use Aeon\Calendar\Gregorian\TimeZone;
+use Aeon\Calendar\Gregorian\DateTime
+use Aeon\Calendar\Gregorian\Year;
+
+echo (new DateTime(
+        new Day(new Month(new Year(2020), 1), 1),
+        new Time(00, 00, 00),
+        TimeZone::UTC(),
+        TimeZone\TimeOffset::fromString('0000')
+    ))
+    ->toISO8601(); // 2020-01-01T00:00:00+0000
+```
+
 #### Casting DateTime to different timezone string 
 
 ```php
+<?php 
+
 use Aeon\Calendar\Gregorian\DateTime;
 use Aeon\Calendar\Gregorian\TimeZone;
 
@@ -101,9 +148,14 @@ echo DateTime::fromString('2020-01-01 10:00:00')
 Check if specific day is a holiday.  
 
 ```php
+<?php 
+use Aeon\Calendar\Gregorian\Day;
+use Aeon\Calendar\Gregorian\Holidays\GoogleCalendarRegionalHolidays;
+use Aeon\Calendar\Gregorian\Holidays\GoogleCalendar\CountryCodes;
+
 $regionalHolidays = new GoogleCalendarRegionalHolidays(CountryCodes::PL);
 
-echo $regionalHolidays->isHoliday(Day::fromString('2020-01-01'); // true 
+echo $regionalHolidays->isHoliday(Day::fromString('2020-01-01')); // true 
 ```
 
 ### Process Sleep

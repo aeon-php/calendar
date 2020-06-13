@@ -79,7 +79,9 @@ final class TimeUnitTest extends TestCase
 
     public function test_in_time_values() : void
     {
+        $this->assertSame(8, TimeUnit::seconds(-68)->inTimeSeconds());
         $this->assertSame(8, TimeUnit::seconds(68)->inTimeSeconds());
+        $this->assertSame(8, TimeUnit::minutes(-68)->inTimeMinutes());
         $this->assertSame(8, TimeUnit::minutes(68)->inTimeMinutes());
         $this->assertSame(15, TimeUnit::minutes(135)->inTimeMinutes());
     }

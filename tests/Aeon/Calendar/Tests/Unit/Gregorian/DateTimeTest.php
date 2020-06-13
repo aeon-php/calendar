@@ -6,19 +6,39 @@ namespace Aeon\Calendar\Tests\Unit\Gregorian;
 
 use Aeon\Calendar\Gregorian\DateTime;
 use Aeon\Calendar\Gregorian\Day;
+use Aeon\Calendar\Gregorian\Month;
 use Aeon\Calendar\Gregorian\Time;
 use Aeon\Calendar\Gregorian\TimePeriod;
 use Aeon\Calendar\Gregorian\TimeZone;
 use Aeon\Calendar\Gregorian\TimeZone\TimeOffset;
+use Aeon\Calendar\Gregorian\Year;
 use Aeon\Calendar\TimeUnit;
 use PHPUnit\Framework\TestCase;
 
 final class DateTimeTest extends TestCase
 {
-    public function test_to_string() : void
+    public function test_create_without_timezone_and_time_offset() : void
     {
-        $dateTime = DateTime::fromString('2020-01-01 00:00:00+00');
-        $this->assertSame($dateTime->toISO8601(), $dateTime->__toString());
+        $this->assertSame(
+            '2020-01-01 00:00:00.000000+0000',
+            (new DateTime(new Day(new Month(new Year(2020), 1), 1), new Time(0, 0, 0)))->format('Y-m-d H:i:s.uO')
+        );
+    }
+
+    public function test_create_with_timezone_and_without_time_offset() : void
+    {
+        $this->assertSame(
+            '2020-01-01 00:00:00.000000-0800',
+            (new DateTime(new Day(new Month(new Year(2020), 1), 1), new Time(0, 0, 0), TimeZone::americaLosAngeles()))->format('Y-m-d H:i:s.uO')
+        );
+    }
+
+    public function test_create_with_timezone_and_time_offset() : void
+    {
+        $this->assertSame(
+            '2020-01-01 00:00:00.000000-0800',
+            (new DateTime(new Day(new Month(new Year(2020), 1), 1), new Time(0, 0, 0), TimeZone::americaLosAngeles(), TimeOffset::fromString('-08:00')))->format('Y-m-d H:i:s.uO')
+        );
     }
 
     public function test_creating_datetime_with_timezone_not_matching_offset() : void
@@ -26,6 +46,35 @@ final class DateTimeTest extends TestCase
         $this->expectExceptionMessage('TimeOffset +00:00 does not match TimeZone Europe/Warsaw at 2020-01-01 00:00:00');
 
         new DateTime(Day::fromString('2020-01-01'), new Time(0, 0, 0, 0), TimeZone::europeWarsaw(), TimeOffset::fromString('00:00'));
+    }
+
+    public function test_create_without_timezone_and_with_time_offset() : void
+    {
+        $this->assertSame(
+            '2020-01-01 00:00:00.000000-0800',
+            (new DateTime(new Day(new Month(new Year(2020), 1), 1), new Time(0, 0, 0), null, TimeOffset::fromString('-08:00')))->format('Y-m-d H:i:s.uO')
+        );
+    }
+
+    public function test_to_string() : void
+    {
+        $dateTime = DateTime::fromString('2020-01-01 00:00:00+00');
+        $this->assertSame($dateTime->toISO8601(), $dateTime->__toString());
+    }
+
+    public function test_create() : void
+    {
+        $this->assertTrue(
+            DateTime::create(2020, 01, 01, 00, 00, 00, 0, 'America/Los_Angeles')
+                ->isEqual(DateTime::fromString('2020-01-01 00:00:00 America/Los_Angeles'))
+        );
+    }
+
+    public function test_from_timestamp() : void
+    {
+        $this->assertTrue(
+            DateTime::fromString('2020-01-01 00:00:00')->isEqual(DateTime::fromTimestamp(1577836800))
+        );
     }
 
     public function test_year() : void
@@ -167,7 +216,7 @@ final class DateTimeTest extends TestCase
         $this->assertTrue(
             DateTime::fromString('2020-01-01 00:00:00.100001')
                 ->toTimeZone(TimeZone::australiaSydney())
-                ->isEquals(
+                ->isEqual(
                     DateTime::fromString('2020-01-01 00:00:00.100001')->toTimeZone(TimeZone::europeWarsaw())
                 )
         );
