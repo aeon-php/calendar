@@ -5,6 +5,8 @@ on:
   push:
     branches:
       - "master"
+  schedule:
+    - cron:  '* 8 * * *'
 
 jobs:
   compatibility:
