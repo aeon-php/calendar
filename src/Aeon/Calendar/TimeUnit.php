@@ -258,7 +258,7 @@ final class TimeUnit
 
     public function inTimeSeconds() : int
     {
-        return $this->seconds % 60;
+        return \abs($this->seconds % 60);
     }
 
     public function inHours() : int
@@ -287,7 +287,7 @@ final class TimeUnit
 
     public function inTimeMinutes() : int
     {
-        return $this->inMinutes() % 60;
+        return \abs($this->inMinutes() % 60);
     }
 
     public function inDays() : int

@@ -10,7 +10,6 @@ use Webmozart\Assert\Assert;
 
 /**
  * @psalm-immutable
- * @psalm-external-mutation-free
  */
 final class DateTime
 {
@@ -44,12 +43,28 @@ final class DateTime
 
         $this->day = $day;
         $this->time = $time;
+        $this->timeZone = $timeZone !== null
+            ? $timeZone
+            : (($timeOffset !== null && $timeOffset->isUTC()) ? TimeZone::UTC() : null);
+
         $this->timeOffset = $timeOffset !== null
             ? $timeOffset
             : ($timeZone !== null ? $timeZone->timeOffset($this) : TimeOffset::UTC());
-        $this->timeZone = ($timeZone)
-            ? $timeZone
-            : ($this->timeOffset->isUTC() ? TimeZone::UTC() : null);
+    }
+
+    public static function create(int $year, int $month, int $day, int $hour, int $minute, int $second, int $microsecond = 0, string $timezone = 'UTC') : self
+    {
+        return new self(
+            new Day(
+                new Month(
+                    new Year($year),
+                    $month
+                ),
+                $day
+            ),
+            new Time($hour, $minute, $second, $microsecond),
+            new TimeZone($timezone)
+        );
     }
 
     /**
@@ -71,6 +86,11 @@ final class DateTime
     public static function fromString(string $date) : self
     {
         return self::fromDateTime(new \DateTimeImmutable($date));
+    }
+
+    public static function fromTimestamp(int $timestamp) : self
+    {
+        return self::fromDateTime((new \DateTimeImmutable)->setTimestamp($timestamp));
     }
 
     public function __toString() : string
@@ -325,7 +345,7 @@ final class DateTime
         ));
     }
 
-    public function isEquals(DateTime $dateTime) : bool
+    public function isEqual(DateTime $dateTime) : bool
     {
         return $this->toDateTimeImmutable() == $dateTime->toDateTimeImmutable();
     }

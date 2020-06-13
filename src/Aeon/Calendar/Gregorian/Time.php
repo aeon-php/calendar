@@ -19,7 +19,7 @@ final class Time
 
     private int $microsecond;
 
-    public function __construct(int $hour, int $minute, int $second, int $microseconds = 0)
+    public function __construct(int $hour, int $minute, int $second, int $microsecond = 0)
     {
         Assert::greaterThanEq($hour, 0);
         Assert::lessThanEq($hour, 23);
@@ -27,13 +27,13 @@ final class Time
         Assert::lessThanEq($minute, 60);
         Assert::greaterThanEq($second, 0);
         Assert::lessThanEq($second, 60);
-        Assert::greaterThanEq($microseconds, 0);
-        Assert::lessThan($microseconds, 1000000);
+        Assert::greaterThanEq($microsecond, 0);
+        Assert::lessThan($microsecond, 1000000);
 
         $this->hour = $hour;
         $this->minute = $minute;
         $this->second = $second;
-        $this->microsecond = $microseconds;
+        $this->microsecond = $microsecond;
     }
 
     /**
