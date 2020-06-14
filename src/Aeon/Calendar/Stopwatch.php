@@ -12,12 +12,12 @@ use Aeon\Calendar\Exception\Exception;
 final class Stopwatch
 {
     /**
-     * @var array<int, int>|null
+     * @var array{int, int}|null
      */
     private ?array $start;
 
     /**
-     * @var array<array<int, int>>
+     * @var array<array{int, int}>
      */
     private array $ends;
 
@@ -59,22 +59,8 @@ final class Stopwatch
             return $this->firstElapsedTime();
         }
 
-        return TimeUnit::precise(
-            (float) \sprintf(
-                "%d.%s",
-                $this->ends[$measurement - 1][0],
-                \str_pad((string) $this->ends[$measurement - 1][1], 9, "0", STR_PAD_LEFT)
-            )
-        )
-            ->sub(
-                TimeUnit::precise(
-                    (float) \sprintf(
-                        "%d.%s",
-                        $this->ends[$measurement - 2][0],
-                        \str_pad((string) $this->ends[$measurement - 2][1], 9, "0", STR_PAD_LEFT)
-                    )
-                )
-            );
+        return TimeUnit::precise($this->timeToFloat($this->ends[$measurement - 1]))
+            ->sub(TimeUnit::precise($this->timeToFloat($this->ends[$measurement - 2])));
     }
 
     public function firstElapsedTime() : TimeUnit
@@ -91,22 +77,8 @@ final class Stopwatch
             return $this->totalElapsedTime();
         }
 
-        return TimeUnit::precise(
-            (float) \sprintf(
-                "%d.%s",
-                $this->ends[0][0],
-                \str_pad((string) $this->ends[0][1], 9, "0", STR_PAD_LEFT)
-            )
-        )
-            ->sub(
-                TimeUnit::precise(
-                    (float) \sprintf(
-                        "%d.%s",
-                        $this->start[0],
-                        \str_pad((string) $this->start[1], 9, "0", STR_PAD_LEFT)
-                    )
-                )
-            );
+        return TimeUnit::precise($this->timeToFloat($this->ends[0]))
+            ->sub(TimeUnit::precise($this->timeToFloat($this->start)));
     }
 
     public function lastElapsedTime() : TimeUnit
@@ -123,22 +95,8 @@ final class Stopwatch
             return $this->totalElapsedTime();
         }
 
-        return TimeUnit::precise(
-            (float) \sprintf(
-                "%d.%s",
-                \end($this->ends)[0],
-                \str_pad((string) \end($this->ends)[1], 9, "0", STR_PAD_LEFT)
-            )
-        )
-            ->sub(
-                TimeUnit::precise(
-                    (float) \sprintf(
-                    "%d.%s",
-                    $this->ends[\count($this->ends) - 2][0],
-                    \str_pad((string) $this->ends[\count($this->ends) - 2][1], 9, "0", STR_PAD_LEFT)
-                )
-                )
-            );
+        return TimeUnit::precise($this->timeToFloat(\end($this->ends)))
+            ->sub(TimeUnit::precise($this->timeToFloat($this->ends[\count($this->ends) - 2])));
     }
 
     public function totalElapsedTime() : TimeUnit
@@ -151,21 +109,19 @@ final class Stopwatch
             throw new Exception("Stopwatch not stopped");
         }
 
-        return TimeUnit::precise(
-            (float) \sprintf(
-                "%d.%s",
-                \end($this->ends)[0],
-                \str_pad((string) \end($this->ends)[1], 9, "0", STR_PAD_LEFT)
-            )
-        )
-            ->sub(
-                TimeUnit::precise(
-                    (float) \sprintf(
-                    "%d.%s",
-                    $this->start[0],
-                    \str_pad((string) $this->start[1], 9, "0", STR_PAD_LEFT)
-                )
-                )
-            );
+        return TimeUnit::precise($this->timeToFloat(\end($this->ends)))
+            ->sub(TimeUnit::precise($this->timeToFloat($this->start)));
+    }
+
+    /**
+     * @param array{int, int} $time
+     */
+    private function timeToFloat(array $time) : float
+    {
+        return (float)\sprintf(
+            "%d.%s",
+            $time[0],
+            \str_pad((string) $time[1], 9, "0", STR_PAD_LEFT)
+        );
     }
 }
