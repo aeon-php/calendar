@@ -61,13 +61,39 @@ $now->to($now->add(TimeUnit::days(7)))
 ```php
 <?php 
 
-use Aeon\Calendar\Gregorian\GregorianCalendar;
+use \Aeon\Calendar\Gregorian\DateTime;
 
-$start = GregorianCalendar::UTC()->now();
-\usleep(250000);
-$end = GregorianCalendar::UTC()->now();
+$start = DateTime::fromString('2020-01-01 00:00:00');
+$end = DateTime::fromString('2020-01-10 00:00:00');
 
-echo $start->to($end)->distance()->inMilliseconds(); // int(250) +/-
+echo $start->to($end)->distance()->inDays(); // int(10)
+```
+
+#### Measuring elapsed time 
+
+It might look tempting to use `Measuring difference between two points in time` to 
+measure elapsed time if you are looking for precise results use `Stopwatch` class instead 
+which is built on top of [\hrtime](https://www.php.net/manual/en/function.hrtime.php) high resolution time php function.
+
+```php
+<?php
+
+use Aeon\Calendar\Stopwatch;
+use Aeon\Calendar\TimeUnit;
+
+$stopwatch = new Stopwatch();
+
+$stopwatch->start();
+usleep(TimeUnit::milliseconds(500)->microsecond());
+$stopwatch->stop();
+usleep(TimeUnit::milliseconds(700)->microsecond());
+$stopwatch->stop();
+
+var_dump($stopwatch->elapsedTime(1)->inSecondsPreciseString()); // ~0.500000
+var_dump($stopwatch->firstElapsedTime()->inSecondsPreciseString()); // ~0.500000
+var_dump($stopwatch->lastElapsedTime()->inSecondsPreciseString()); // ~0.700000
+var_dump($stopwatch->elapsedTime(2)->inSecondsPreciseString()); // ~0.700000
+var_dump($stopwatch->totalElapsedTime()->inSecondsPreciseString()); // ~1.200000
 ```
 
 #### Iterating over all days in year
@@ -114,7 +140,7 @@ use Aeon\Calendar\Gregorian\Day;
 use Aeon\Calendar\Gregorian\Month;
 use Aeon\Calendar\Gregorian\Time;
 use Aeon\Calendar\Gregorian\TimeZone;
-use Aeon\Calendar\Gregorian\DateTime
+use Aeon\Calendar\Gregorian\DateTime;
 use Aeon\Calendar\Gregorian\Year;
 
 echo (new DateTime(
