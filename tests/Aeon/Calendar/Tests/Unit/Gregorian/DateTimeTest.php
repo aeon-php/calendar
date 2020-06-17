@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace Aeon\Calendar\Tests\Unit\Gregorian;
 
+use Aeon\Calendar\Exception\Exception;
 use Aeon\Calendar\Gregorian\DateTime;
 use Aeon\Calendar\Gregorian\Day;
 use Aeon\Calendar\Gregorian\Month;
 use Aeon\Calendar\Gregorian\Time;
+use Aeon\Calendar\Gregorian\TimeEpoch;
 use Aeon\Calendar\Gregorian\TimePeriod;
 use Aeon\Calendar\Gregorian\TimeZone;
 use Aeon\Calendar\Gregorian\TimeZone\TimeOffset;
@@ -147,12 +149,47 @@ final class DateTimeTest extends TestCase
         $this->assertFalse($dateTime->isSavingTime());
     }
 
-    public function test_timestamp() : void
+    public function test_unix_timestamp() : void
     {
         $dateTime = DateTime::fromString('2020-01-01 00:00:00');
 
-        $this->assertSame(1577836800, $dateTime->timestamp());
-        $this->assertSame(1577836800, $dateTime->secondsSinceUnixEpoch());
+        $this->assertSame(1577836800, $dateTime->timestampUNIX()->inSeconds());
+    }
+
+    public function test_timestamp() : void
+    {
+        $dateTime = DateTime::fromString('2020-01-01 00:00:00 UTC');
+
+        $this->assertSame(1577836800, $dateTime->timestampUNIX()->inSeconds());
+        $this->assertSame(1577836800, $dateTime->timestamp(TimeEpoch::UNIX())->inSeconds());
+        $this->assertSame(1577836800, $dateTime->timestamp(TimeEpoch::POSIX())->inSeconds());
+        $this->assertSame(1514764837, $dateTime->timestamp(TimeEpoch::UTC())->inSeconds());
+        $this->assertSame(1261872018, $dateTime->timestamp(TimeEpoch::GPS())->inSeconds());
+        $this->assertSame(1956528037, $dateTime->timestamp(TimeEpoch::TAI())->inSeconds());
+    }
+
+    public function test_to_atomic_time() : void
+    {
+        $now = DateTime::fromString('2020-06-17 20:57:07 UTC');
+
+        $this->assertSame("2020-06-17T20:57:44+0000", $now->toAtomicTime()->toISO8601());
+    }
+
+    public function test_to_gps_time() : void
+    {
+        $now = DateTime::fromString('2020-06-17 20:57:07 UTC');
+
+        $this->assertSame("2020-06-17T20:57:25+0000", $now->toGPSTime()->toISO8601());
+    }
+
+    public function test_timestamp_before_epoch_start() : void
+    {
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage('Given epoch started at 1970-01-01T00:00:00+0000 which was after 1969-01-01T00:00:00+0000');
+
+        $dateTime = DateTime::fromString('1969-01-01 00:00:00 UTC');
+
+        $this->assertSame(1577836800, $dateTime->timestamp(TimeEpoch::UNIX())->inSeconds());
     }
 
     public function test_add_hour() : void
@@ -186,7 +223,7 @@ final class DateTimeTest extends TestCase
     public function test_iterating_until_forward() : void
     {
         $timePeriods = DateTime::fromString('2020-01-01 00:00:00')
-            ->until(
+            ->iterate(
                 DateTime::fromString('2020-01-02 00:00:00'),
                 TimeUnit::hour()
             );
@@ -200,7 +237,7 @@ final class DateTimeTest extends TestCase
     public function test_iterating_until_backward() : void
     {
         $timePeriods = DateTime::fromString('2020-01-02 00:00:00')
-            ->until(
+            ->iterate(
                 DateTime::fromString('2020-01-01 00:00:00'),
                 TimeUnit::hour()
             );
@@ -431,7 +468,7 @@ final class DateTimeTest extends TestCase
         $this->assertSame(
             1,
             DateTime::fromString('2020-01-01 00:00:00+00')
-                ->distanceTo(DateTime::fromString('2020-01-01 01:00:00+00'))
+                ->distanceSince(DateTime::fromString('2020-01-01 01:00:00+00'))
                 ->inHours()
         );
     }
@@ -441,7 +478,7 @@ final class DateTimeTest extends TestCase
         $this->assertSame(
             1,
             DateTime::fromString('2020-01-01 01:00:00+00')
-                ->distanceFrom(DateTime::fromString('2020-01-01 00:00:00+00'))
+                ->distanceUntil(DateTime::fromString('2020-01-01 00:00:00+00'))
                 ->inHours()
         );
     }

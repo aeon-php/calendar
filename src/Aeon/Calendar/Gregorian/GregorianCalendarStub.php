@@ -41,14 +41,14 @@ final class GregorianCalendarStub implements Calendar
         );
     }
 
-    public function yesterday() : DateTime
+    public function yesterday() : Day
     {
-        return new DateTime($this->currentDay()->previous(), new Time(0, 0, 0, 0));
+        return $this->currentDay()->previous();
     }
 
-    public function tomorrow() : DateTime
+    public function tomorrow() : Day
     {
-        return new DateTime($this->currentDay()->next(), new Time(0, 0, 0, 0));
+        return $this->currentDay()->next();
     }
 
     /**
