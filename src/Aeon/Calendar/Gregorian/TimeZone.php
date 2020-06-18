@@ -3056,6 +3056,9 @@ final class TimeZone
         return new self(self::PACIFIC_WALLIS);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function UTC() : self
     {
         return new self(self::UTC);

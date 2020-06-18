@@ -49,10 +49,27 @@ use Aeon\Calendar\TimeUnit;
 
 $now = GregorianCalendar::UTC()->now();
 
-$now->to($now->add(TimeUnit::days(7)))
+$now->until($now->add(TimeUnit::days(7)))
     ->iterate(TimeUnit::day())
     ->each(function(TimePeriod $timePeriod) {
-        echo $timePeriod->startDateTime()->day()->format('Y-m-d H:i:s.uO') . "\n";
+        echo $timePeriod->start()->day()->format('Y-m-d H:i:s.uO') . "\n";
+    });
+```
+
+or with shorter syntax
+
+```php
+<?php 
+
+use Aeon\Calendar\Gregorian\GregorianCalendar;
+use Aeon\Calendar\Gregorian\TimePeriod;
+use Aeon\Calendar\TimeUnit;
+
+$now = GregorianCalendar::UTC()->now();
+
+$now->iterate($now->add(TimeUnit::days(7)), TimeUnit::day())
+    ->each(function(TimePeriod $timePeriod) {
+        echo $timePeriod->start()->day()->format('Y-m-d H:i:s.uO') . "\n";
     });
 ```
 
@@ -66,7 +83,26 @@ use \Aeon\Calendar\Gregorian\DateTime;
 $start = DateTime::fromString('2020-01-01 00:00:00');
 $end = DateTime::fromString('2020-01-10 00:00:00');
 
-echo $start->to($end)->distance()->inDays(); // int(10)
+echo $start->until($end)->distance()->inDays(); // int(10)
+```
+
+#### Measuring difference between two points in time with leap second
+
+```php
+<?php 
+
+use \Aeon\Calendar\Gregorian\DateTime;
+
+$start = DateTime::fromString('2016-01-01 00:00:00 UTC');
+$end = DateTime::fromString('2020-01-10 00:00:00 UTC');
+
+echo $start->until($end)->distance()->inSeconds() . "\n"; 
+echo $start->until($end)->distance()
+    ->add($start->until($end)->leapSeconds()->count())
+    ->inSeconds() . "\n"; 
+
+// int(127008000)
+// int(127008001)
 ```
 
 #### Measuring elapsed time 

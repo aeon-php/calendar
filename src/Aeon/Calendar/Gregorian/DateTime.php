@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Aeon\Calendar\Gregorian;
 
+use Aeon\Calendar\Exception\Exception;
 use Aeon\Calendar\Gregorian\TimeZone\TimeOffset;
 use Aeon\Calendar\TimeUnit;
 use Webmozart\Assert\Assert;
@@ -83,6 +84,9 @@ final class DateTime
         );
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function fromString(string $date) : self
     {
         return self::fromDateTime(new \DateTimeImmutable($date));
@@ -135,6 +139,18 @@ final class DateTime
             );
     }
 
+    public function toAtomicTime() : DateTime
+    {
+        return $this->add(LeapSeconds::load()->until($this)->offsetTAI());
+    }
+
+    public function toGPSTime() : DateTime
+    {
+        return $this->add(LeapSeconds::load()
+            ->since(TimeEpoch::GPS()->date())
+            ->until($this)->count());
+    }
+
     public function format(string $format) : string
     {
         return $this->toDateTimeImmutable()->format($format);
@@ -150,6 +166,9 @@ final class DateTime
         return $this->timeOffset;
     }
 
+    /**
+     * @psalm-pure
+     */
     public function toTimeZone(TimeZone $dateTimeZone) : self
     {
         return self::fromDateTime($this->toDateTimeImmutable()->setTimezone($dateTimeZone->toDateTimeZone()));
@@ -170,19 +189,41 @@ final class DateTime
         return !$this->isDaylight();
     }
 
-    public function secondsSinceUnixEpoch() : int
+    public function timestamp(TimeEpoch $timeEpoch) : TimeUnit
     {
-        return (int) $this->toDateTimeImmutable()->format('U');
+        if ($this->isBefore($timeEpoch->date())) {
+            throw new Exception("Given epoch started at " . $timeEpoch->date()->toISO8601() . " which was after " . $this->toISO8601());
+        }
+
+        switch ($timeEpoch->type()) {
+            case TimeEpoch::UTC:
+                return $this->timestampUNIX()
+                    ->sub(TimeEpoch::UNIX()->distanceTo($timeEpoch))
+                    ->add(LeapSeconds::load()->offsetTAI());
+            case TimeEpoch::GPS:
+                return $this->timestampUNIX()
+                    ->sub(TimeEpoch::UNIX()->distanceTo($timeEpoch))
+                    ->add(
+                        LeapSeconds::load()->offsetTAI()
+                            ->sub(LeapSeconds::load()->until($timeEpoch->date())->offsetTAI())
+                    );
+            case TimeEpoch::TAI:
+                return $timeEpoch->date()->until($this)->distance()
+                    ->add($timeEpoch->date()->until($this)->leapSeconds()->offsetTAI());
+            default:
+                return $this->timestampUNIX();
+        }
     }
 
-    public function secondsSinceUnixEpochPrecise() : float
+    /**
+     * Number of seconds elapsed since Unix epoch started at 1970-01-01 (1970-01-01T00:00:00Z)
+     * Not including leap seconds.
+     */
+    public function timestampUNIX() : TimeUnit
     {
-        return (float) \sprintf("%d.%s", $this->secondsSinceUnixEpoch(), \str_pad((string) $this->time()->microsecond(), 6, "0", STR_PAD_LEFT));
-    }
-
-    public function timestamp() : int
-    {
-        return $this->secondsSinceUnixEpoch();
+        return (int) $this->toDateTimeImmutable()->format('U') >= 0
+            ? TimeUnit::positive((int) $this->toDateTimeImmutable()->format('U'), $this->time->microsecond())
+            : TimeUnit::negative(\abs((int) $this->toDateTimeImmutable()->format('U')), $this->time->microsecond());
     }
 
     public function modify(string $modify) : self
@@ -370,30 +411,30 @@ final class DateTime
         return $this->toDateTimeImmutable() < $dateTime->toDateTimeImmutable();
     }
 
-    public function to(DateTime $dateTime) : TimePeriod
+    public function until(DateTime $dateTime) : TimePeriod
     {
         return new TimePeriod($this, $dateTime);
     }
 
-    public function from(DateTime $dateTime) : TimePeriod
+    public function since(DateTime $dateTime) : TimePeriod
     {
         return new TimePeriod($dateTime, $this);
     }
 
-    public function distanceTo(DateTime $dateTime) : TimeUnit
+    public function distanceSince(DateTime $dateTime) : TimeUnit
     {
-        return $this->to($dateTime)->distance();
+        return $this->until($dateTime)->distance();
     }
 
-    public function distanceFrom(DateTime $dateTime) : TimeUnit
+    public function distanceUntil(DateTime $dateTime) : TimeUnit
     {
-        return $this->from($dateTime)->distance();
+        return $this->since($dateTime)->distance();
     }
 
-    public function until(DateTime $pointInTime, TimeUnit $by) : TimePeriods
+    public function iterate(DateTime $pointInTime, TimeUnit $by) : TimePeriods
     {
         return $pointInTime->isBefore($this)
-            ? $this->from($pointInTime)->iterateBackward($by)
-            : $this->to($pointInTime)->iterate($by);
+            ? $this->since($pointInTime)->iterateBackward($by)
+            : $this->until($pointInTime)->iterate($by);
     }
 }

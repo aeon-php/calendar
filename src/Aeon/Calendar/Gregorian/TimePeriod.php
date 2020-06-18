@@ -31,14 +31,43 @@ final class TimePeriod
         return $this->end;
     }
 
+    /**
+     * Calculate distance between 2 points in time without leap seconds
+     */
     public function distance() : TimeUnit
     {
-        return TimeUnit::precise($this->end->secondsSinceUnixEpochPrecise() - $this->start->secondsSinceUnixEpochPrecise());
+        $result = TimeUnit::seconds(0);
+
+        if ($this->start->timestampUNIX()->isPositive() && $this->end->timestampUNIX()->isPositive()) {
+            $result = $this->end->timestampUNIX()
+                ->sub($this->start->timestampUNIX())
+                ->absolute();
+        }
+
+        if ($this->start->timestampUNIX()->isNegative() && $this->end->timestampUNIX()->isNegative()) {
+            $result = $this->end->timestampUNIX()
+                ->add($this->start->timestampUNIX()->invert())
+                ->absolute();
+        }
+
+        if ($this->start->timestampUNIX()->isNegative() && $this->end->timestampUNIX()->isPositive()) {
+            $result = $this->end->timestampUNIX()
+                ->add($this->start->timestampUNIX()->invert())
+                ->absolute();
+        }
+
+        if ($this->start->timestampUNIX()->isPositive() && $this->end->timestampUNIX()->isNegative()) {
+            $result = $this->end->timestampUNIX()->invert()
+                ->add($this->start->timestampUNIX())
+                ->absolute();
+        }
+
+        return $this->start->isAfter($this->end) ? $result->invert() : $result;
     }
 
-    public function distanceBackward() : TimeUnit
+    public function leapSeconds() : LeapSeconds
     {
-        return TimeUnit::precise($this->start->secondsSinceUnixEpochPrecise() - $this->end->secondsSinceUnixEpochPrecise());
+        return LeapSeconds::load()->findAllBetween($this);
     }
 
     public function iterate(TimeUnit $timeUnit) : TimePeriods

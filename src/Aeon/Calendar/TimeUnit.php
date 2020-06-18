@@ -154,6 +154,18 @@ final class TimeUnit
         return new self($seconds < 0, \abs($seconds), 0);
     }
 
+    /** @psalm-pure */
+    public static function negative(int $seconds, int $microsecond) : self
+    {
+        return new self(true, $seconds, $microsecond);
+    }
+
+    /** @psalm-pure */
+    public static function positive(int $seconds, int $microsecond) : self
+    {
+        return new self(false, $seconds, $microsecond);
+    }
+
     public function toDateInterval() : \DateInterval
     {
         $interval = new \DateInterval(\sprintf("PT%dS", $this->seconds));
@@ -335,5 +347,10 @@ final class TimeUnit
     public function invert() : self
     {
         return new self(!$this->negative, $this->seconds, $this->microsecond);
+    }
+
+    public function absolute() : self
+    {
+        return $this->isNegative() ? $this->invert() : $this;
     }
 }

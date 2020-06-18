@@ -92,7 +92,8 @@ final class GregorianCalendarTest extends TestCase
     {
         $timePeriods = ($calendar = GregorianCalendar::UTC())
             ->yesterday()
-            ->to($calendar->tomorrow())
+            ->midnight()
+            ->until($calendar->tomorrow()->midnight())
             ->iterate(TimeUnit::hour())
             ->map(function (TimePeriod $timePeriod) use (&$iterations) {
                 return $timePeriod->start()->toDateTimeImmutable()->format('Y-m-d H:i:s');
@@ -115,7 +116,8 @@ final class GregorianCalendarTest extends TestCase
     {
         $timePeriods = ($calendar = GregorianCalendar::UTC())
             ->yesterday()
-            ->to($calendar->tomorrow())
+            ->midnight()
+            ->until($calendar->tomorrow()->midnight())
             ->iterate(TimeUnit::hour())
             ->filter(function (TimePeriod $timePeriod) use (&$iterations) : bool {
                 return $timePeriod->start()->time()->hour() % 2 === 0;
@@ -128,7 +130,8 @@ final class GregorianCalendarTest extends TestCase
     {
         $timePeriods = ($calendar = GregorianCalendar::UTC())
             ->yesterday()
-            ->to($calendar->tomorrow())
+            ->midnight()
+            ->until($calendar->tomorrow()->midnight())
             ->iterateBackward(TimeUnit::hour())
             ->map(function (TimePeriod $interval) {
                 return $interval->start()->toDateTimeImmutable()->format('Y-m-d H:i:s');

@@ -32,16 +32,6 @@ final class TimePeriodTest extends TestCase
         $this->assertSame("2.508825", $period->distance()->inSecondsPreciseString());
     }
 
-    public function test_precise_distance_in_time_unit_from_start_to_end_backward() : void
-    {
-        $period = new TimePeriod(
-            DateTime::fromString('2020-01-01 12:25:30.079635'),
-            DateTime::fromString('2020-01-01 12:25:32.588460')
-        );
-
-        $this->assertSame("-2.508825", $period->distanceBackward()->inSecondsPreciseString());
-    }
-
     public function test_distance_in_time_unit_from_start_to_end_date_between_years() : void
     {
         $period = new TimePeriod(
@@ -52,18 +42,6 @@ final class TimePeriodTest extends TestCase
         $this->assertSame(DateTime::fromString('2020-01-01 00:00:00.0000')->year()->numberOfDays(), $period->distance()->inDays());
         $this->assertFalse($period->distance()->isNegative());
         $this->assertTrue(DateTime::fromString('2020-01-01 00:00:00.0000')->year()->isLeap());
-    }
-
-    public function test_distance_in_time_unit_from_end_to_start_date() : void
-    {
-        $period = new TimePeriod(
-            DateTime::fromString('2020-01-01 00:00:00.0000'),
-            DateTime::fromString('2020-01-02 00:00:00.0000')
-        );
-
-        $this->assertSame(-86400, $period->distanceBackward()->inSeconds());
-        $this->assertSame(86400, $period->distanceBackward()->inSecondsAbs());
-        $this->assertTrue($period->distanceBackward()->isNegative());
     }
 
     public function test_iterating_through_day_by_hour() : void
