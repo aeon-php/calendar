@@ -873,11 +873,14 @@ final class TimeZone
 
     public function __construct(string $name)
     {
-        Assert::inArray(
-            $name,
-            \array_merge(
-                (array) \DateTimeZone::listIdentifiers(),
-                [self::AMERICA_GODTHAB, self::PACIFIC_JOHNSTON]
+        Assert::true(
+            \in_array(
+                $name,
+                \array_merge(
+                    (array) \DateTimeZone::listIdentifiers(),
+                    [self::AMERICA_GODTHAB, self::PACIFIC_JOHNSTON]
+                ),
+                true,
             ),
             "\"$name\" is not a valid timezone."
         );

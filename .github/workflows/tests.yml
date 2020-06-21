@@ -58,5 +58,5 @@ jobs:
         if: ${{ matrix.dependencies == 'locked' }}
         run: "composer install --no-interaction --no-progress --no-suggest"
 
-      - name: "Test Compatibility"
+      - name: "Tests"
         run: "composer test"
