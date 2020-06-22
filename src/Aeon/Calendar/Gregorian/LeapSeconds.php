@@ -121,9 +121,11 @@ final class LeapSeconds
             function (int $totalSeconds, LeapSecond $nextLeapSecond) : int {
 
                 /** Leap second in theory might also be negative but so far it never happened  */
+                // @codeCoverageIgnoreStart
                 $totalSeconds += $nextLeapSecond->offsetTAI()->isPositive()
                     ? 1
                     : -1;
+                // @codeCoverageIgnoreEnd
 
                 return $totalSeconds;
             },
