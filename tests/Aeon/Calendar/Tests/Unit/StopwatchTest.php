@@ -178,5 +178,8 @@ final class StopwatchTest extends TestCase
             $stopwatch->totalElapsedTime()->inSecondsPreciseString(),
             $stopwatch->firstLapElapsedTime()->add($stopwatch->lastLapElapsedTime())->inSecondsPreciseString()
         );
+        $this->assertSame(2, $stopwatch->laps());
+        $this->assertTrue($stopwatch->isStarted());
+        $this->assertTrue($stopwatch->isStopped());
     }
 }
