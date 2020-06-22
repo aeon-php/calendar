@@ -53,10 +53,5 @@
             "php-cs-fixer fix --dry-run"
         ],
         "cs:php:fix": "php-cs-fixer fix"
-    },
-    "extra": {
-        "branch-alias": {
-            "dev-latest": "1.0-dev"
-        }
     }
 }
