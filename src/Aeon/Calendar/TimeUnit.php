@@ -13,11 +13,11 @@ use Webmozart\Assert\Assert;
  */
 final class TimeUnit
 {
-    private const MICROSECONDS_IN_SECOND = 1000000;
+    private const MICROSECONDS_IN_SECOND = 1_000_000;
 
-    private const MICROSECONDS_IN_MILLISECOND = 1000;
+    private const MICROSECONDS_IN_MILLISECOND = 1_000;
 
-    private const MILLISECONDS_IN_SECOND = 1000;
+    private const MILLISECONDS_IN_SECOND = 1_000;
 
     private const SECONDS_IN_MINUTE = 60;
 
@@ -49,7 +49,7 @@ final class TimeUnit
      */
     public static function precise(float $seconds) : self
     {
-        $secondsString = \number_format($seconds, 6, '.', '');
+        $secondsString = \number_format(\round($seconds, 6, PHP_ROUND_HALF_UP), 6, '.', '');
 
         $secondsStringParts = \explode('.', $secondsString);
 

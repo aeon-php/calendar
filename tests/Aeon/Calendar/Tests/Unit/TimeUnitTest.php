@@ -382,4 +382,28 @@ final class TimeUnitTest extends TestCase
 
         Timeunit::fromDateInterval(\DateInterval::createFromDateString('4 months'));
     }
+
+    /**
+     * @dataProvider half_round_up_to_microsecond_data_provider
+     */
+    public function test_half_round_up_to_microsecond(string $stringFloat, float $float) : void
+    {
+        $this->assertSame(
+            $stringFloat,
+            TimeUnit::precise($float)->inSecondsPreciseString()
+        );
+    }
+
+    /**
+     * @return \Generator<int, array{string, float}, mixed, void>
+     */
+    public function half_round_up_to_microsecond_data_provider() : \Generator
+    {
+        yield ["0.000000", 0.000_000_1];
+        yield ["0.000000", -0.000_000_1];
+        yield ["0.000001", 0.000_000_5];
+        yield ["-0.000001", -0.000_000_5];
+        yield ["-0.000001", -0.000_000_94];
+        yield ["0.000001", 0.000_000_99];
+    }
 }
