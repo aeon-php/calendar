@@ -33,6 +33,27 @@ final class Stopwatch
         $this->end = null;
     }
 
+    public function isStarted() : bool
+    {
+        return $this->start !== null;
+    }
+
+    public function isStopped() : bool
+    {
+        return $this->end !== null;
+    }
+
+    /**
+     * Stopwatch::lap() used once will generate two laps, first between start and lap[0] and
+     * second between lap[0] and end.
+     */
+    public function laps() : int
+    {
+        return \count($this->laps) > 0
+            ? \count($this->laps) + 1
+            : 0;
+    }
+
     public function start() : void
     {
         $this->start = \hrtime(false);
