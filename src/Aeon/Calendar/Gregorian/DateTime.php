@@ -423,12 +423,12 @@ final class DateTime
 
     public function distanceSince(DateTime $dateTime) : TimeUnit
     {
-        return $this->until($dateTime)->distance();
+        return $this->since($dateTime)->distance();
     }
 
     public function distanceUntil(DateTime $dateTime) : TimeUnit
     {
-        return $this->since($dateTime)->distance();
+        return $this->until($dateTime)->distance();
     }
 
     public function iterate(DateTime $pointInTime, TimeUnit $by) : TimePeriods
