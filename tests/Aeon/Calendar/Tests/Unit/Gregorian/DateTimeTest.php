@@ -463,22 +463,22 @@ final class DateTimeTest extends TestCase
         );
     }
 
-    public function test_distance_to() : void
+    public function test_distance_until() : void
     {
         $this->assertSame(
             1,
             DateTime::fromString('2020-01-01 00:00:00+00')
-                ->distanceSince(DateTime::fromString('2020-01-01 01:00:00+00'))
+                ->distanceUntil(DateTime::fromString('2020-01-01 01:00:00+00'))
                 ->inHours()
         );
     }
 
-    public function test_distance_from() : void
+    public function test_distance_since() : void
     {
         $this->assertSame(
             1,
             DateTime::fromString('2020-01-01 01:00:00+00')
-                ->distanceUntil(DateTime::fromString('2020-01-01 00:00:00+00'))
+                ->distanceSince(DateTime::fromString('2020-01-01 00:00:00+00'))
                 ->inHours()
         );
     }
