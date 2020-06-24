@@ -3,5 +3,7 @@ parameters:
     paths:
         - src
 
+    tmpDir: var/phpstan/cache
+
 includes:
     - vendor/phpstan/phpstan-webmozart-assert/extension.neon

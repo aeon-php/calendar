@@ -72,10 +72,28 @@ final class DateTimeTest extends TestCase
         );
     }
 
+    public function test_create_date_just_after_daylight_saving_time_change() : void
+    {
+        $this->assertSame(
+            '+02:00',
+            DateTime::fromString('2020-10-25 01:00:00 Europe/Warsaw')->timeOffset()->toString()
+        );
+    }
+
+    public function test_converting_timezone_just_after_daylight_saving_time() : void
+    {
+        $this->assertSame(
+            '+02:00',
+            DateTime::fromString('2020-10-25 00:30:00 Europe/Prague')
+                ->toTimeZone(TimeZone::europePrague())
+                ->timeOffset()->toString()
+        );
+    }
+
     public function test_from_timestamp() : void
     {
         $this->assertTrue(
-            DateTime::fromString('2020-01-01 00:00:00')->isEqual(DateTime::fromTimestamp(1577836800))
+            DateTime::fromString('2020-01-01 00:00:00')->isEqual(DateTime::fromTimestampUnix(1577836800))
         );
     }
 

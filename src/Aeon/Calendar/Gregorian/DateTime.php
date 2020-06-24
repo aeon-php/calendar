@@ -31,13 +31,17 @@ final class DateTime
     {
         if ($timeZone !== null && $timeOffset !== null) {
             Assert::same(
-                $timeZone->toDateTimeZone()->getOffset($day->toDateTimeImmutable()->setTime($time->hour(), $time->minute(), $time->second())),
+                $timeZone->toDateTimeZone()->getOffset(
+                    $day->toDateTimeImmutable()
+                        ->setTimeZone($timeZone->toDateTimeZone())
+                        ->setTime($time->hour(), $time->minute(), $time->second())
+                ),
                 $timeOffset->toTimeUnit()->inSeconds(),
                 \sprintf(
                     "TimeOffset %s does not match TimeZone %s at %s",
                     $timeOffset->toString(),
                     $timeZone->name(),
-                    $day->toDateTimeImmutable()->setTime($time->hour(), $time->minute(), $time->second())->format('Y-m-d H:i:s')
+                    $day->toDateTimeImmutable()->setTimeZone($timeZone->toDateTimeZone())->setTime($time->hour(), $time->minute(), $time->second())->format('Y-m-d H:i:s')
                 )
             );
         }
@@ -92,7 +96,7 @@ final class DateTime
         return self::fromDateTime(new \DateTimeImmutable($date));
     }
 
-    public static function fromTimestamp(int $timestamp) : self
+    public static function fromTimestampUnix(int $timestamp) : self
     {
         return self::fromDateTime((new \DateTimeImmutable)->setTimestamp($timestamp));
     }
