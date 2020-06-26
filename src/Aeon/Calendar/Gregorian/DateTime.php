@@ -131,11 +131,13 @@ final class DateTime
 
     public function toDateTimeImmutable() : \DateTimeImmutable
     {
+        $tz = $this->timeZone();
+
         return (
             new \DateTimeImmutable(
                 $this->day->toDateTimeImmutable()->format('Y-m-d'),
-                $this->timeZone() !== null
-                    ? $this->timeZone()->toDateTimeZone()
+                $tz !== null
+                    ? $tz->toDateTimeZone()
                     : $this->timeOffset()->toDateTimeZone()
             ))
             ->setTime(
