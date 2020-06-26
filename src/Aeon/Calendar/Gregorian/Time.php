@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Aeon\Calendar\Gregorian;
 
+use Aeon\Calendar\TimeUnit;
 use Webmozart\Assert\Assert;
 
 /**
@@ -61,6 +62,21 @@ final class Time
             (int) $dateTime->format('s'),
             (int) $dateTime->format('u'),
         );
+    }
+
+    public function toTimeUnit() : TimeUnit
+    {
+        return TimeUnit::positive($this->second(), $this->microsecond())
+            ->add(TimeUnit::minutes($this->minute()))
+            ->add(TimeUnit::hours($this->hour()));
+    }
+
+    public function toString() : string
+    {
+        return str_pad((string) $this->hour, 2, "0", STR_PAD_LEFT) . ':'
+            . str_pad((string) $this->minute, 2, "0", STR_PAD_LEFT) . ':'
+            . str_pad((string) $this->second, 2, "0", STR_PAD_LEFT) . '.'
+            . str_pad((string) $this->microsecond, 6, "0", STR_PAD_LEFT);
     }
 
     public static function fromString(string $date) : self
