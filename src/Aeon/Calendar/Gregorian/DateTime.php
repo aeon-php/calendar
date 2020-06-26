@@ -55,6 +55,10 @@ final class DateTime
         $this->timeOffset = $timeOffset !== null
             ? $timeOffset
             : ($timeZone !== null ? $timeZone->timeOffset($this) : TimeOffset::UTC());
+
+        if ($this->time->toString() !== $this->toDateTimeImmutable()->format('H:i:s.u')) {
+            $this->time = Time::fromDateTime($this->toDateTimeImmutable());
+        }
     }
 
     public static function create(int $year, int $month, int $day, int $hour, int $minute, int $second, int $microsecond = 0, string $timezone = 'UTC') : self
@@ -83,8 +87,7 @@ final class DateTime
             Time::fromDateTime($dateTime),
             TimeZone::isValid($dateTime->getTimezone()->getName())
                 ? TimeZone::fromDateTimeZone($dateTime->getTimezone())
-                : null,
-            TimeOffset::fromString($dateTime->format('P'))
+                : null
         );
     }
 
@@ -183,14 +186,14 @@ final class DateTime
         return $this->toDateTimeImmutable()->format(\DateTimeInterface::ISO8601);
     }
 
-    public function isDaylight() : bool
+    public function isDaylightSaving() : bool
     {
         return (bool) $this->toDateTimeImmutable()->format('I');
     }
 
-    public function isSavingTime() : bool
+    public function isDaylight() : bool
     {
-        return !$this->isDaylight();
+        return !$this->isDaylightSaving();
     }
 
     public function timestamp(TimeEpoch $timeEpoch) : TimeUnit
@@ -440,5 +443,34 @@ final class DateTime
         return $pointInTime->isBefore($this)
             ? $this->since($pointInTime)->iterateBackward($by)
             : $this->until($pointInTime)->iterate($by);
+    }
+
+    public function isAmbiguous() : bool
+    {
+        $tz = $this->timeZone();
+
+        if ($tz === null || $tz->timeOffset($this)->isUTC()) {
+            return false;
+        }
+
+        /**
+         * @var array<int, array{ts: int, time: string, offset: int, isdst: bool, abbr: string}> $transitions
+         */
+        $transitions = $tz->toDateTimeZone()->getTransitions(
+            $this->timestampUNIX()->sub(TimeUnit::hours(1)->add(TimeUnit::seconds(1)))->inSeconds(),
+            $this->timestampUNIX()->add(TimeUnit::hours(1)->add(TimeUnit::seconds(1)))->inSeconds(),
+        );
+
+        if (\count($transitions) === 1) {
+            return false;
+        }
+
+        if ($transitions[1]['offset'] - $transitions[0]['offset'] > 0) {
+            return false;
+        }
+
+        $diff = $this->timestampUNIX()->sub(self::fromString($transitions[1]['time'])->timestampUNIX());
+
+        return $diff->isGreaterThanEq(TimeUnit::seconds(0)) && $diff->isLessThanEq(TimeUnit::hour());
     }
 }

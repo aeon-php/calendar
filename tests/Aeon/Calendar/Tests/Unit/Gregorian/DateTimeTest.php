@@ -154,8 +154,8 @@ final class DateTimeTest extends TestCase
             ->toTimeZone(new TimeZone('Europe/Warsaw'));
         ;
 
-        $this->assertFalse($dateTime->isDaylight());
-        $this->assertTrue($dateTime->isSavingTime());
+        $this->assertFalse($dateTime->isDaylightSaving());
+        $this->assertTrue($dateTime->isDaylight());
     }
 
     public function test_saving_time() : void
@@ -163,8 +163,8 @@ final class DateTimeTest extends TestCase
         $dateTime = DateTime::fromString('2020-08-01 00:00:00')
             ->toTimeZone(new TimeZone('Europe/Warsaw'));
 
-        $this->assertTrue($dateTime->isDaylight());
-        $this->assertFalse($dateTime->isSavingTime());
+        $this->assertTrue($dateTime->isDaylightSaving());
+        $this->assertFalse($dateTime->isDaylight());
     }
 
     public function test_unix_timestamp() : void
@@ -498,6 +498,52 @@ final class DateTimeTest extends TestCase
             DateTime::fromString('2020-01-01 01:00:00+00')
                 ->distanceSince(DateTime::fromString('2020-01-01 00:00:00+00'))
                 ->inHours()
+        );
+    }
+
+    /**
+     * @dataProvider checking_ambiguous_time_data_provider
+     */
+    public function test_checking_is_ambiguous(DateTime $dateTime, bool $ambiguous) : void
+    {
+        $this->assertSame($ambiguous, $dateTime->isAmbiguous());
+    }
+
+    /**
+     * @return  \Generator<int, array{DateTime, bool}, mixed, void>
+     */
+    public function checking_ambiguous_time_data_provider() : \Generator
+    {
+        yield [DateTime::fromString('2020-10-25 01:59:59 Europe/Warsaw'), false];
+        yield [DateTime::fromString('2020-10-25 02:00:00 Europe/Warsaw'), true];
+        yield [DateTime::fromString('2020-10-25 02:59:59 Europe/Warsaw'), true];
+        yield [DateTime::fromString('2020-10-25 03:00:00 Europe/Warsaw'), true];
+        yield [DateTime::fromString('2020-10-25 03:01:00 Europe/Warsaw'), false];
+
+        yield [DateTime::fromString('2020-03-29 01:59:59 Europe/Warsaw'), false];
+        yield [DateTime::fromString('2020-03-29 02:00:00 Europe/Warsaw'), false];
+        yield [DateTime::fromString('2020-03-29 02:59:59 Europe/Warsaw'), false];
+        yield [DateTime::fromString('2020-03-29 03:00:00 Europe/Warsaw'), false];
+        yield [DateTime::fromString('2020-03-29 03:01:00 Europe/Warsaw'), false];
+    }
+
+    public function test_using_create_constructor_during_dst_gap() : void
+    {
+        $this->assertSame(
+            "03:30:00.000000",
+            DateTime::create(2020, 03, 29, 02, 30, 00, 0, 'Europe/Warsaw')->time()->toString()
+        );
+    }
+
+    public function test_using_constructor_during_dst_gap() : void
+    {
+        $this->assertSame(
+            "03:30:00.000000",
+            (new DateTime(
+                new Day(new Month(new Year(2020), 03), 29),
+                new Time(02, 30, 00, 0),
+                TimeZone::europeWarsaw()
+            ))->time()->toString()
         );
     }
 }
