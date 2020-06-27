@@ -27,6 +27,9 @@ final class DateTimeTest extends TestCase
         $this->assertSame($dateTimeString, $dateTime->format($format));
     }
 
+    /**
+     * @return  \Generator<int, array{string, DateTime, string}, mixed, void>
+     */
     public function creating_datetime_data_provider() : \Generator
     {
         yield ['2020-01-01 00:00:00+00:00', DateTime::fromString('2020-01-01 00:00:00+00:00'), 'Y-m-d H:i:sP'];
