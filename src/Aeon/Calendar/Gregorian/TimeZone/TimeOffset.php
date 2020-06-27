@@ -84,4 +84,11 @@ final class TimeOffset
     {
         return $this->hours === 0 && $this->minutes === 0;
     }
+
+    public function isEqual(self $timeOffset) : bool
+    {
+        return $this->negative === $timeOffset->negative
+            && $this->hours === $timeOffset->hours
+            && $this->minutes === $timeOffset->minutes;
+    }
 }

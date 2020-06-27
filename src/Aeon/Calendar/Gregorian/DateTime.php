@@ -87,7 +87,8 @@ final class DateTime
             Time::fromDateTime($dateTime),
             TimeZone::isValid($dateTime->getTimezone()->getName())
                 ? TimeZone::fromDateTimeZone($dateTime->getTimezone())
-                : null
+                : null,
+            TimeOffset::fromTimeUnit(TimeUnit::seconds($dateTime->getOffset()))
         );
     }
 

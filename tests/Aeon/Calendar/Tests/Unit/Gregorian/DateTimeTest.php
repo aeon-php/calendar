@@ -19,6 +19,36 @@ use PHPUnit\Framework\TestCase;
 
 final class DateTimeTest extends TestCase
 {
+    /**
+     * @dataProvider creating_datetime_data_provider
+     */
+    public function test_creating_datetime(string $dateTimeString, DateTime $dateTime, string $format) : void
+    {
+        $this->assertSame($dateTimeString, $dateTime->format($format));
+    }
+
+    /**
+     * @return  \Generator<int, array{string, DateTime, string}, mixed, void>
+     */
+    public function creating_datetime_data_provider() : \Generator
+    {
+        yield ['2020-01-01 00:00:00+00:00', DateTime::fromString('2020-01-01 00:00:00+00:00'), 'Y-m-d H:i:sP'];
+        yield ['2020-01-01 00:00:00+00:00', DateTime::create(2020, 01, 01, 00, 00, 00), 'Y-m-d H:i:sP'];
+        yield ['2020-01-01 00:00:00+00:00', DateTime::fromDateTime(new \DateTimeImmutable('2020-01-01 00:00:00+00:00')), 'Y-m-d H:i:sP'];
+        yield ['2020-01-01 00:00:00+00:00', new DateTime(new Day(new Month(new Year(2020), 01), 01), new Time(0, 0, 0)), 'Y-m-d H:i:sP'];
+
+        yield ['2020-01-01 00:00:00+01:00', DateTime::fromString('2020-01-01 00:00:00+01:00'), 'Y-m-d H:i:sP'];
+        yield ['2020-01-01 00:00:00+01:00', DateTime::create(2020, 01, 01, 00, 00, 00, 0, 'Europe/Warsaw'), 'Y-m-d H:i:sP'];
+        yield ['2020-01-01 00:00:00+01:00', DateTime::fromDateTime(new \DateTimeImmutable('2020-01-01 00:00:00+01:00')), 'Y-m-d H:i:sP'];
+        yield ['2020-01-01 00:00:00+01:00', new DateTime(new Day(new Month(new Year(2020), 01), 01), new Time(0, 0, 0), TimeZone::europeWarsaw()), 'Y-m-d H:i:sP'];
+
+        // DTS switch +1 hour
+        yield ['2020-03-29 03:30:00+02:00', DateTime::fromString('2020-03-29 02:30:00 Europe/Warsaw'), 'Y-m-d H:i:sP'];
+        // DTS switch -1 hour
+        yield ['2020-10-25 02:30:00+01:00', DateTime::fromString('2020-10-25 02:30:00 Europe/Warsaw'), 'Y-m-d H:i:sP'];
+        yield ['2020-10-25 01:30:00+02:00', DateTime::fromString('2020-10-25 01:30:00 Europe/Warsaw'), 'Y-m-d H:i:sP'];
+    }
+
     public function test_create_without_timezone_and_time_offset() : void
     {
         $this->assertSame(
@@ -545,5 +575,28 @@ final class DateTimeTest extends TestCase
                 TimeZone::europeWarsaw()
             ))->time()->toString()
         );
+    }
+
+    public function test_timezone_when_not_explicitly_provided() : void
+    {
+        $timeZone = DateTime::fromString('2020-03-29 00:00:00')->timeZone();
+
+        $this->assertInstanceOf(TimeZone::class, $timeZone);
+        $this->assertSame('UTC', $timeZone->name());
+    }
+
+    public function test_time_offset_when_not_explicitly_provided() : void
+    {
+        $this->assertSame('+00:00', DateTime::fromString('2020-03-29 00:00:00')->timeOffset()->toString());
+    }
+
+    public function test_time_offset_when_only_timezone_explicitly_provided() : void
+    {
+        $this->assertSame('+01:00', DateTime::fromString('2020-03-29 00:00:00 Europe/Warsaw')->timeOffset()->toString());
+    }
+
+    public function test_time_zone_when_only_timestamp_explicitly_provided() : void
+    {
+        $this->assertSame(null, DateTime::fromString('2020-01-01 01:00:00+0100')->timeZone());
     }
 }
