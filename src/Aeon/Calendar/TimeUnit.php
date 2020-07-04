@@ -198,6 +198,16 @@ final class TimeUnit
         return self::precise($this->inSecondsPrecise() - $timeUnit->inSecondsPrecise());
     }
 
+    public function multiply(float $multiplier) : self
+    {
+        return self::precise($this->inSecondsPrecise() * $multiplier);
+    }
+
+    public function divide(float $divider) : self
+    {
+        return self::precise($this->inSecondsPrecise() / $divider);
+    }
+
     public function isGreaterThan(TimeUnit $timeUnit) : bool
     {
         return $this->inSeconds() === $timeUnit->inSeconds()

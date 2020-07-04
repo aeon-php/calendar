@@ -406,4 +406,40 @@ final class TimeUnitTest extends TestCase
         yield ["-0.000001", -0.000_000_94];
         yield ["0.000001", 0.000_000_99];
     }
+
+    /**
+     * @dataProvider multiplication_data_provider
+     */
+    public function test_multiplication(TimeUnit $timeUnit, float $multiplier, TimeUnit $expectedResult) : void
+    {
+        $this->assertSame($expectedResult->inSecondsPrecise(), $timeUnit->multiply($multiplier)->inSecondsPrecise());
+    }
+
+    /**
+     * @return \Generator<int, array{TimeUnit, float, TimeUnit}, mixed, void>
+     */
+    public function multiplication_data_provider() : \Generator
+    {
+        yield [TimeUnit::precise(1.00), 2.00, TimeUnit::precise(2.00)];
+        yield [TimeUnit::precise(1.00), 0.50, TimeUnit::precise(0.50)];
+        yield [TimeUnit::seconds(1), 0.50, TimeUnit::milliseconds(500)];
+    }
+
+    /**
+     * @dataProvider division_data_provider
+     */
+    public function test_division(TimeUnit $timeUnit, float $multiplier, TimeUnit $expectedResult) : void
+    {
+        $this->assertSame($expectedResult->inSecondsPrecise(), $timeUnit->divide($multiplier)->inSecondsPrecise());
+    }
+
+    /**
+     * @return \Generator<int, array{TimeUnit, float, TimeUnit}, mixed, void>
+     */
+    public function division_data_provider() : \Generator
+    {
+        yield [TimeUnit::precise(1.00), 2.00, TimeUnit::milliseconds(500)];
+        yield [TimeUnit::precise(10.00), 10.00, TimeUnit::seconds(1)];
+        yield [TimeUnit::hours(1), 60.00, TimeUnit::minutes(1)];
+    }
 }
