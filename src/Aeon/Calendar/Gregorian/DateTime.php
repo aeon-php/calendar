@@ -363,17 +363,38 @@ final class DateTime
 
     public function midnight() : self
     {
-        return $this->day()->midnight();
+        $midnight = $this->day()->midnight();
+
+        return new self(
+            $midnight->day(),
+            $midnight->time(),
+            $this->timeZone(),
+            $this->timeOffset()
+        );
     }
 
     public function noon() : self
     {
-        return $this->day()->noon();
+        $noon = $this->day()->noon();
+
+        return new self(
+            $noon->day(),
+            $noon->time(),
+            $this->timeZone(),
+            $this->timeOffset()
+        );
     }
 
     public function endOfDay() : self
     {
-        return $this->day()->endOfDay();
+        $eod = $this->day()->endOfDay();
+
+        return new self(
+            $eod->day(),
+            $eod->time(),
+            $this->timeZone(),
+            $this->timeOffset()
+        );
     }
 
     public function add(TimeUnit $timeUnit) : self

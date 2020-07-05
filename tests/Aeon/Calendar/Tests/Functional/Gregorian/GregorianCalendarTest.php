@@ -72,11 +72,27 @@ final class GregorianCalendarTest extends TestCase
         );
     }
 
+    public function test_today_midnight_with_custom_tz() : void
+    {
+        $this->assertSame(
+            (new \DateTimeImmutable('midnight', new \DateTimeZone('Europe/Warsaw')))->format('c'),
+            (new GregorianCalendar(TimeZone::europeWarsaw()))->now()->midnight()->format('c')
+        );
+    }
+
     public function test_today_noon() : void
     {
         $this->assertSame(
-            (new \DateTimeImmutable('midnight'))->format('Y-m-d 12:00:00'),
+            (new \DateTimeImmutable('noon'))->format('Y-m-d 12:00:00'),
             (GregorianCalendar::UTC())->now()->noon()->format('Y-m-d H:i:s')
+        );
+    }
+
+    public function test_today_noon_with_custom_tz() : void
+    {
+        $this->assertSame(
+            (new \DateTimeImmutable('noon', new \DateTimeZone('Europe/Warsaw')))->format('c'),
+            (new GregorianCalendar(TimeZone::europeWarsaw()))->now()->noon()->format('c')
         );
     }
 
@@ -85,6 +101,14 @@ final class GregorianCalendarTest extends TestCase
         $this->assertSame(
             (new \DateTimeImmutable('midnight'))->format('Y-m-d 23:59:59'),
             (GregorianCalendar::UTC())->now()->endOfDay()->format('Y-m-d H:i:s')
+        );
+    }
+
+    public function test_today_end_of_day_with_custom_tz() : void
+    {
+        $this->assertSame(
+            (new \DateTimeImmutable('tomorrow midnight', new \DateTimeZone('Europe/Warsaw')))->sub(new \DateInterval('PT1S'))->format('c'),
+            (new GregorianCalendar(TimeZone::europeWarsaw()))->now()->endOfDay()->format('c')
         );
     }
 
