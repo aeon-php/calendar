@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Aeon\Calendar\Gregorian;
 
-use Webmozart\Assert\Assert;
+use Aeon\Calendar\Exception\InvalidArgumentException;
 
 /**
  * @psalm-immutable
@@ -19,8 +19,9 @@ final class Month
 
     public function __construct(Year $year, int $number)
     {
-        Assert::greaterThan($number, 0);
-        Assert::lessThanEq($number, 12);
+        if ($number <= 0 || $number > 12) {
+            throw new InvalidArgumentException("Month number must be greater or equal 1 and less or equal than 12");
+        }
 
         $this->year = $year;
         $this->number = $number;

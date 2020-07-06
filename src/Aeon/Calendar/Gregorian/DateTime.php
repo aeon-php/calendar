@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Aeon\Calendar\Gregorian;
 
 use Aeon\Calendar\Exception\Exception;
+use Aeon\Calendar\Exception\InvalidArgumentException;
 use Aeon\Calendar\Gregorian\TimeZone\TimeOffset;
 use Aeon\Calendar\TimeUnit;
-use Webmozart\Assert\Assert;
 
 /**
  * @psalm-immutable
@@ -30,20 +30,18 @@ final class DateTime
     public function __construct(Day $day, Time $time, ?TimeZone $timeZone = null, ?TimeOffset $timeOffset = null)
     {
         if ($timeZone !== null && $timeOffset !== null) {
-            Assert::same(
-                $timeZone->toDateTimeZone()->getOffset(
-                    $day->toDateTimeImmutable()
+            if ($timeZone->toDateTimeZone()->getOffset(
+                $day->toDateTimeImmutable()
                         ->setTimeZone($timeZone->toDateTimeZone())
                         ->setTime($time->hour(), $time->minute(), $time->second())
-                ),
-                $timeOffset->toTimeUnit()->inSeconds(),
-                \sprintf(
+            ) !== $timeOffset->toTimeUnit()->inSeconds()) {
+                throw new InvalidArgumentException(\sprintf(
                     "TimeOffset %s does not match TimeZone %s at %s",
                     $timeOffset->toString(),
                     $timeZone->name(),
                     $day->toDateTimeImmutable()->setTimeZone($timeZone->toDateTimeZone())->setTime($time->hour(), $time->minute(), $time->second())->format('Y-m-d H:i:s')
-                )
-            );
+                ));
+            }
         }
 
         $this->day = $day;

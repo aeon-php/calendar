@@ -6,7 +6,6 @@ namespace Aeon\Calendar;
 
 use Aeon\Calendar\Exception\Exception;
 use Aeon\Calendar\Exception\InvalidArgumentException;
-use Webmozart\Assert\Assert;
 
 /**
  * @psalm-immutable
@@ -31,15 +30,18 @@ final class TimeUnit
 
     private bool $negative;
 
-    private function __construct(bool $negative, int $seconds, int $microseconds)
+    private function __construct(bool $negative, int $seconds, int $microsecond)
     {
-        Assert::greaterThanEq($seconds, 0);
-        Assert::greaterThanEq($microseconds, 0);
-        Assert::lessThan($microseconds, self::MICROSECONDS_IN_SECOND);
+        if ($seconds < 0) {
+            throw new InvalidArgumentException("Seconds must be greater or equal 0, got " . $seconds);
+        }
+        if ($microsecond < 0 || $microsecond >= self::MICROSECONDS_IN_SECOND) {
+            throw new InvalidArgumentException("Microsecond must be greater or equal 0 and less than 1000000, got " . $seconds);
+        }
 
         $this->negative = $negative;
         $this->seconds = $seconds;
-        $this->microsecond = $microseconds;
+        $this->microsecond = $microsecond;
     }
 
     /**

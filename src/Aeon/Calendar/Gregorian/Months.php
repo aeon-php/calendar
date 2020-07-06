@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Aeon\Calendar\Gregorian;
 
-use Webmozart\Assert\Assert;
-
 /**
  * @psalm-immutable
  */
@@ -25,9 +23,6 @@ final class Months implements \Countable
 
     public function byNumber(int $number) : Month
     {
-        Assert::greaterThan($number, 0);
-        Assert::lessThanEq($number, 12);
-
         return new Month($this->year, $number);
     }
 

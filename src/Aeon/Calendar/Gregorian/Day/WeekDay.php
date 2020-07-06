@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Aeon\Calendar\Gregorian\Day;
 
-use Webmozart\Assert\Assert;
+use Aeon\Calendar\Exception\InvalidArgumentException;
 
 /**
  * @psalm-immutable
@@ -35,8 +35,9 @@ final class WeekDay
 
     public function __construct(int $number)
     {
-        Assert::greaterThanEq($number, 1);
-        Assert::lessThanEq($number, 7);
+        if ($number <= 0 || $number > 7) {
+            throw new InvalidArgumentException("Day number must be greater or equal 1 and less or equal than 7");
+        }
 
         $this->number = $number;
     }

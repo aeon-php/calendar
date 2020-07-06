@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Aeon\Calendar\Gregorian;
 
+use Aeon\Calendar\Exception\InvalidArgumentException;
 use Aeon\Calendar\Gregorian\TimeZone\TimeOffset;
 use Aeon\Calendar\TimeUnit;
-use Webmozart\Assert\Assert;
 
 /**
  * @psalm-immutable
@@ -873,17 +873,16 @@ final class TimeZone
 
     public function __construct(string $name)
     {
-        Assert::true(
-            \in_array(
-                $name,
-                \array_merge(
-                    (array) \DateTimeZone::listIdentifiers(),
-                    [self::AMERICA_GODTHAB, self::PACIFIC_JOHNSTON]
-                ),
-                true,
+        if (!\in_array(
+            $name,
+            \array_merge(
+                (array) \DateTimeZone::listIdentifiers(),
+                [self::AMERICA_GODTHAB, self::PACIFIC_JOHNSTON]
             ),
-            "\"$name\" is not a valid timezone."
-        );
+            true,
+        )) {
+            throw new InvalidArgumentException("\"$name\" is not a valid timezone.");
+        }
 
         $this->name = $name;
     }

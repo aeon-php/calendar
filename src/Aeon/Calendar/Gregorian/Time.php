@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Aeon\Calendar\Gregorian;
 
+use Aeon\Calendar\Exception\InvalidArgumentException;
 use Aeon\Calendar\TimeUnit;
-use Webmozart\Assert\Assert;
 
 /**
  * @psalm-immutable
@@ -22,14 +22,21 @@ final class Time
 
     public function __construct(int $hour, int $minute, int $second, int $microsecond = 0)
     {
-        Assert::greaterThanEq($hour, 0);
-        Assert::lessThanEq($hour, 23);
-        Assert::greaterThanEq($minute, 0);
-        Assert::lessThanEq($minute, 60);
-        Assert::greaterThanEq($second, 0);
-        Assert::lessThanEq($second, 60);
-        Assert::greaterThanEq($microsecond, 0);
-        Assert::lessThan($microsecond, 1000000);
+        if ($hour < 0 || $hour > 23) {
+            throw new InvalidArgumentException("Hour must be greater or equal 0 and less or equal than 23");
+        }
+
+        if ($minute < 0 || $minute >= 60) {
+            throw new InvalidArgumentException("Minut must be greater or equal 0 and less than 60");
+        }
+
+        if ($second < 0 || $second >= 60) {
+            throw new InvalidArgumentException("Second must be greater or equal 0 and less than 60");
+        }
+
+        if ($microsecond < 0 || $microsecond >= 1000000) {
+            throw new InvalidArgumentException("Microsecond must be greater or equal 0 and less than 1000000");
+        }
 
         $this->hour = $hour;
         $this->minute = $minute;

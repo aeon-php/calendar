@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Aeon\Calendar\Gregorian;
 
+use Aeon\Calendar\Exception\InvalidArgumentException;
 use Aeon\Calendar\Gregorian\Day\WeekDay;
-use Webmozart\Assert\Assert;
 
 /**
  * @psalm-immutable
@@ -18,8 +18,9 @@ final class Day
 
     public function __construct(Month $month, int $number)
     {
-        Assert::greaterThan($number, 0);
-        Assert::lessThanEq($number, $month->numberOfDays());
+        if ($number <= 0 || $number > $month->numberOfDays()) {
+            throw new InvalidArgumentException("Day number must be greater or equal 1 and less or equal than " . $month->numberOfDays());
+        }
 
         $this->number = $number;
         $this->month = $month;
