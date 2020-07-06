@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Aeon\Calendar\Gregorian;
 
+use Aeon\Calendar\Exception\InvalidArgumentException;
 use Aeon\Calendar\TimeUnit;
-use Webmozart\Assert\Assert;
 
 /**
  * @psalm-immutable
@@ -24,7 +24,10 @@ final class LeapSecond
 
     public function __construct(DateTime $dateTime, TimeUnit $offsetTAI)
     {
-        Assert::greaterThanEq($offsetTAI->inSeconds(), 10);
+        if ($offsetTAI->inSeconds() < 10) {
+            throw new InvalidArgumentException("Leap second TAI offset must be greater or equal 10");
+        }
+
         $this->dateTime = $dateTime;
         $this->offsetTAI = $offsetTAI;
     }

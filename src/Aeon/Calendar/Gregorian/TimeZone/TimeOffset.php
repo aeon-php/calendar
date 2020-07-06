@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Aeon\Calendar\Gregorian\TimeZone;
 
+use Aeon\Calendar\Exception\InvalidArgumentException;
 use Aeon\Calendar\TimeUnit;
-use Webmozart\Assert\Assert;
 
 /**
  * @psalm-immutable
@@ -22,8 +22,9 @@ final class TimeOffset
 
     private function __construct(bool $negative, int $hours, int $minutes)
     {
-        Assert::greaterThanEq($minutes, 0);
-        Assert::lessThanEq($minutes, 60);
+        if ($minutes < 0 || $minutes >= 60) {
+            throw new InvalidArgumentException("Minutes must be greater or equal 0 and less than 60");
+        }
 
         $this->negative = $negative;
         $this->hours = $hours;
@@ -39,9 +40,9 @@ final class TimeOffset
     /** @psalm-pure */
     public static function fromString(string $offset) : self
     {
-        Assert::regex($offset, self::OFFSET_REGEXP, "\"$offset\" is not a valid UTC Offset.");
-
-        \preg_match(self::OFFSET_REGEXP, $offset, $matches);
+        if (!\preg_match(self::OFFSET_REGEXP, $offset, $matches)) {
+            throw new InvalidArgumentException("\"$offset\" is not a valid UTC Offset.");
+        }
 
         return new self($matches[1] === '-', (int) $matches[2], (int) $matches[3]);
     }
