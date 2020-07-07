@@ -23,38 +23,25 @@ final class Time
     public function __construct(int $hour, int $minute, int $second, int $microsecond = 0)
     {
         if ($hour < 0 || $hour > 23) {
-            throw new InvalidArgumentException("Hour must be greater or equal 0 and less or equal than 23");
+            throw new InvalidArgumentException('Hour must be greater or equal 0 and less or equal than 23');
         }
 
         if ($minute < 0 || $minute >= 60) {
-            throw new InvalidArgumentException("Minut must be greater or equal 0 and less than 60");
+            throw new InvalidArgumentException('Minut must be greater or equal 0 and less than 60');
         }
 
         if ($second < 0 || $second >= 60) {
-            throw new InvalidArgumentException("Second must be greater or equal 0 and less than 60");
+            throw new InvalidArgumentException('Second must be greater or equal 0 and less than 60');
         }
 
         if ($microsecond < 0 || $microsecond >= 1000000) {
-            throw new InvalidArgumentException("Microsecond must be greater or equal 0 and less than 1000000");
+            throw new InvalidArgumentException('Microsecond must be greater or equal 0 and less than 1000000');
         }
 
         $this->hour = $hour;
         $this->minute = $minute;
         $this->second = $second;
         $this->microsecond = $microsecond;
-    }
-
-    /**
-     * @return array{hour: int, minute: int, second: int, microsecond: int}
-     */
-    public function __debugInfo() : array
-    {
-        return [
-            'hour' => $this->hour,
-            'minute' => $this->minute,
-            'second' => $this->second,
-            'microsecond' => $this->microsecond,
-        ];
     }
 
     /**
@@ -71,6 +58,24 @@ final class Time
         );
     }
 
+    public static function fromString(string $date) : self
+    {
+        return self::fromDateTime(new \DateTimeImmutable($date));
+    }
+
+    /**
+     * @return array{hour: int, minute: int, second: int, microsecond: int}
+     */
+    public function __debugInfo() : array
+    {
+        return [
+            'hour' => $this->hour,
+            'minute' => $this->minute,
+            'second' => $this->second,
+            'microsecond' => $this->microsecond,
+        ];
+    }
+
     public function toTimeUnit() : TimeUnit
     {
         return TimeUnit::positive($this->second(), $this->microsecond())
@@ -80,15 +85,10 @@ final class Time
 
     public function toString() : string
     {
-        return str_pad((string) $this->hour, 2, "0", STR_PAD_LEFT) . ':'
-            . str_pad((string) $this->minute, 2, "0", STR_PAD_LEFT) . ':'
-            . str_pad((string) $this->second, 2, "0", STR_PAD_LEFT) . '.'
-            . str_pad((string) $this->microsecond, 6, "0", STR_PAD_LEFT);
-    }
-
-    public static function fromString(string $date) : self
-    {
-        return self::fromDateTime(new \DateTimeImmutable($date));
+        return \str_pad((string) $this->hour, 2, '0', STR_PAD_LEFT) . ':'
+            . \str_pad((string) $this->minute, 2, '0', STR_PAD_LEFT) . ':'
+            . \str_pad((string) $this->second, 2, '0', STR_PAD_LEFT) . '.'
+            . \str_pad((string) $this->microsecond, 6, '0', STR_PAD_LEFT);
     }
 
     public function hour() : int
@@ -113,7 +113,7 @@ final class Time
 
     public function millisecond() : int
     {
-        return \intval($this->microsecond() / 1000);
+        return (int) ($this->microsecond() / 1000);
     }
 
     public function isAM() : bool

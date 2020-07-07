@@ -9,7 +9,7 @@ namespace Aeon\Calendar\Gregorian;
  * @implements \IteratorAggregate<int,TimePeriod>
  * @implements \ArrayAccess<int,TimePeriod>
  */
-final class TimePeriods implements \Countable, \IteratorAggregate, \ArrayAccess
+final class TimePeriods implements \ArrayAccess, \Countable, \IteratorAggregate
 {
     /**
      * @var array<int, TimePeriod>
@@ -33,12 +33,12 @@ final class TimePeriods implements \Countable, \IteratorAggregate, \ArrayAccess
 
     public function offsetSet($offset, $value) : void
     {
-        throw new \RuntimeException(__CLASS__ . " is immutable.");
+        throw new \RuntimeException(__CLASS__ . ' is immutable.');
     }
 
     public function offsetUnset($offset) : void
     {
-        throw new \RuntimeException(__CLASS__ . " is immutable.");
+        throw new \RuntimeException(__CLASS__ . ' is immutable.');
     }
 
     /**
@@ -62,6 +62,7 @@ final class TimePeriods implements \Countable, \IteratorAggregate, \ArrayAccess
 
     /**
      * @param callable(TimePeriod $timePeriod) : mixed $iterator
+     *
      * @return array<mixed>
      */
     public function map(callable $iterator) : array

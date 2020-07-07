@@ -28,7 +28,7 @@ final class DateTimeTest extends TestCase
     }
 
     /**
-     * @return  \Generator<int, array{string, DateTime, string}, mixed, void>
+     * @return \Generator<int, array{string, DateTime, string}, mixed, void>
      */
     public function creating_datetime_data_provider() : \Generator
     {
@@ -182,7 +182,6 @@ final class DateTimeTest extends TestCase
     {
         $dateTime = DateTime::fromString('2020-01-01 00:00:00')
             ->toTimeZone(new TimeZone('Europe/Warsaw'));
-        ;
 
         $this->assertFalse($dateTime->isDaylightSaving());
         $this->assertTrue($dateTime->isDaylight());
@@ -220,14 +219,14 @@ final class DateTimeTest extends TestCase
     {
         $now = DateTime::fromString('2020-06-17 20:57:07 UTC');
 
-        $this->assertSame("2020-06-17T20:57:44+0000", $now->toAtomicTime()->toISO8601());
+        $this->assertSame('2020-06-17T20:57:44+0000', $now->toAtomicTime()->toISO8601());
     }
 
     public function test_to_gps_time() : void
     {
         $now = DateTime::fromString('2020-06-17 20:57:07 UTC');
 
-        $this->assertSame("2020-06-17T20:57:25+0000", $now->toGPSTime()->toISO8601());
+        $this->assertSame('2020-06-17T20:57:25+0000', $now->toGPSTime()->toISO8601());
     }
 
     public function test_timestamp_before_epoch_start() : void
@@ -540,7 +539,7 @@ final class DateTimeTest extends TestCase
     }
 
     /**
-     * @return  \Generator<int, array{DateTime, bool}, mixed, void>
+     * @return \Generator<int, array{DateTime, bool}, mixed, void>
      */
     public function checking_ambiguous_time_data_provider() : \Generator
     {
@@ -560,7 +559,7 @@ final class DateTimeTest extends TestCase
     public function test_using_create_constructor_during_dst_gap() : void
     {
         $this->assertSame(
-            "03:30:00.000000",
+            '03:30:00.000000',
             DateTime::create(2020, 03, 29, 02, 30, 00, 0, 'Europe/Warsaw')->time()->toString()
         );
     }
@@ -568,7 +567,7 @@ final class DateTimeTest extends TestCase
     public function test_using_constructor_during_dst_gap() : void
     {
         $this->assertSame(
-            "03:30:00.000000",
+            '03:30:00.000000',
             (new DateTime(
                 new Day(new Month(new Year(2020), 03), 29),
                 new Time(02, 30, 00, 0),

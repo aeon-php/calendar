@@ -20,16 +20,6 @@ final class Year
     }
 
     /**
-     * @return array{year:int}
-     */
-    public function __debugInfo() : array
-    {
-        return [
-            'year' => $this->year,
-        ];
-    }
-
-    /**
      * @psalm-pure
      * @psalm-suppress ImpureMethodCall
      */
@@ -41,6 +31,16 @@ final class Year
     public static function fromString(string $date) : self
     {
         return self::fromDateTime(new \DateTimeImmutable($date));
+    }
+
+    /**
+     * @return array{year:int}
+     */
+    public function __debugInfo() : array
+    {
+        return [
+            'year' => $this->year,
+        ];
     }
 
     public function january() : Month
@@ -135,6 +135,7 @@ final class Year
 
     /**
      * @param callable(Day $day) : void $iterator
+     *
      * @return array<mixed>
      */
     public function mapDays(callable $iterator) : array
@@ -152,6 +153,7 @@ final class Year
 
     /**
      * @param callable(Day $day) : bool $iterator
+     *
      * @return array<Day>
      */
     public function filterDays(callable $iterator) : array

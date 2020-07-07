@@ -20,23 +20,12 @@ final class Month
     public function __construct(Year $year, int $number)
     {
         if ($number <= 0 || $number > 12) {
-            throw new InvalidArgumentException("Month number must be greater or equal 1 and less or equal than 12");
+            throw new InvalidArgumentException('Month number must be greater or equal 1 and less or equal than 12');
         }
 
         $this->year = $year;
         $this->number = $number;
         $this->days = new Days($this);
-    }
-
-    /**
-     * @return array{year: int, month: int}
-     */
-    public function __debugInfo() : array
-    {
-        return [
-            'year' => $this->year->number(),
-            'month' => $this->number,
-        ];
     }
 
     /**
@@ -54,6 +43,17 @@ final class Month
     public static function fromString(string $date) : self
     {
         return self::fromDateTime(new \DateTimeImmutable($date));
+    }
+
+    /**
+     * @return array{year: int, month: int}
+     */
+    public function __debugInfo() : array
+    {
+        return [
+            'year' => $this->year->number(),
+            'month' => $this->number,
+        ];
     }
 
     public function previous() : self

@@ -11,8 +11,6 @@ use Aeon\Calendar\Exception\InvalidArgumentException;
  */
 final class WeekDay
 {
-    private int $number;
-
     private const NAMES = [
         1 => 'Monday',
         2 => 'Tuesday',
@@ -33,10 +31,12 @@ final class WeekDay
         7 => 'Sun',
     ];
 
+    private int $number;
+
     public function __construct(int $number)
     {
         if ($number <= 0 || $number > 7) {
-            throw new InvalidArgumentException("Day number must be greater or equal 1 and less or equal than 7");
+            throw new InvalidArgumentException('Day number must be greater or equal 1 and less or equal than 7');
         }
 
         $this->number = $number;

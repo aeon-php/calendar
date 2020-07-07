@@ -44,6 +44,7 @@ final class Days implements \Countable
 
     /**
      * @param callable(Day $day) : void $iterator
+     *
      * @return array<mixed>
      */
     public function map(callable $iterator) : array
@@ -56,6 +57,7 @@ final class Days implements \Countable
 
     /**
      * @param callable(Day $day) : bool $iterator
+     *
      * @return array<Day>
      */
     public function filter(callable $iterator) : array

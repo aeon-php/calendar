@@ -30,7 +30,7 @@ final class LeapSeconds
     }
 
     /**
-     * List taken from https://www.ietf.org/timezones/data/leap-seconds.list
+     * List taken from https://www.ietf.org/timezones/data/leap-seconds.list.
      *
      * Leap seconds are announced by https://www.iers.org/ (The International Earth Rotation and Reference Systems Service)
      * in their Bulletin C, list of all available releases https://www.iers.org/IERS/EN/Publications/Bulletins/bulletins.html

@@ -19,23 +19,11 @@ final class Day
     public function __construct(Month $month, int $number)
     {
         if ($number <= 0 || $number > $month->numberOfDays()) {
-            throw new InvalidArgumentException("Day number must be greater or equal 1 and less or equal than " . $month->numberOfDays());
+            throw new InvalidArgumentException('Day number must be greater or equal 1 and less or equal than ' . $month->numberOfDays());
         }
 
         $this->number = $number;
         $this->month = $month;
-    }
-
-    /**
-     * @return array{year: int, month:int, day: int}
-     */
-    public function __debugInfo() : array
-    {
-        return [
-            'year' => $this->month->year()->number(),
-            'month' => $this->month->number(),
-            'day' => $this->number,
-        ];
     }
 
     /**
@@ -60,6 +48,18 @@ final class Day
     public static function fromString(string $date) : self
     {
         return self::fromDateTime(new \DateTimeImmutable($date));
+    }
+
+    /**
+     * @return array{year: int, month:int, day: int}
+     */
+    public function __debugInfo() : array
+    {
+        return [
+            'year' => $this->month->year()->number(),
+            'month' => $this->month->number(),
+            'day' => $this->number,
+        ];
     }
 
     public function previous() : self
@@ -108,7 +108,7 @@ final class Day
     }
 
     /**
-     * Week of year starting from 1
+     * Week of year starting from 1.
      */
     public function weekOfYear() : int
     {
@@ -116,7 +116,7 @@ final class Day
     }
 
     /**
-     * Week of year starting from 1
+     * Week of year starting from 1.
      */
     public function weekOfMonth() : int
     {
@@ -124,7 +124,7 @@ final class Day
     }
 
     /**
-     * Day of year starting from 1
+     * Day of year starting from 1.
      */
     public function dayOfYear() : int
     {
@@ -152,7 +152,7 @@ final class Day
         return $this->toDateTimeImmutable()->format($format);
     }
 
-    public function equals(Day $day) : bool
+    public function equals(self $day) : bool
     {
         return $this->year()->number() === $day->year()->number()
             && $this->month()->number() === $day->month()->number()
