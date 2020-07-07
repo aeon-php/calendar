@@ -32,7 +32,7 @@ final class TimePeriod
     }
 
     /**
-     * Calculate distance between 2 points in time without leap seconds
+     * Calculate distance between 2 points in time without leap seconds.
      */
     public function distance() : TimeUnit
     {
@@ -74,8 +74,8 @@ final class TimePeriod
     {
         return new TimePeriods(
             ...\array_map(
-                function (\DateTimeImmutable $dateTimeImmutable) use ($timeUnit) : TimePeriod {
-                    return new TimePeriod(
+                function (\DateTimeImmutable $dateTimeImmutable) use ($timeUnit) : self {
+                    return new self(
                         DateTime::fromDateTime($dateTimeImmutable),
                         DateTime::fromDateTime($dateTimeImmutable)->add($timeUnit)
                     );
@@ -95,8 +95,8 @@ final class TimePeriod
     {
         return new TimePeriods(
             ...\array_map(
-                function (\DateTimeImmutable $dateTimeImmutable) use ($timeUnit) : TimePeriod {
-                    return new TimePeriod(
+                function (\DateTimeImmutable $dateTimeImmutable) use ($timeUnit) : self {
+                    return new self(
                         DateTime::fromDateTime($dateTimeImmutable)->add($timeUnit),
                         DateTime::fromDateTime($dateTimeImmutable)
                     );

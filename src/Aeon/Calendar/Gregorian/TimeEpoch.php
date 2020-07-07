@@ -27,7 +27,7 @@ final class TimeEpoch
     private function __construct(int $type, DateTime $dateTime)
     {
         if (!$dateTime->timeOffset()->isUTC()) {
-            throw new InvalidArgumentException("DateTime must have UTC time offset, got " . $dateTime->timeOffset()->toString());
+            throw new InvalidArgumentException('DateTime must have UTC time offset, got ' . $dateTime->timeOffset()->toString());
         }
 
         $this->type = $type;
@@ -35,7 +35,7 @@ final class TimeEpoch
     }
 
     /**
-     * Unix Epoch, started at 1970-01-01 00:00:00 UTC, not including leap seconds
+     * Unix Epoch, started at 1970-01-01 00:00:00 UTC, not including leap seconds.
      *
      * @psalm-pure
      */
@@ -45,7 +45,7 @@ final class TimeEpoch
     }
 
     /**
-     * Other name for UNIX epoch
+     * Other name for UNIX epoch.
      *
      * @psalm-pure
      */
@@ -55,7 +55,7 @@ final class TimeEpoch
     }
 
     /**
-     * UTC Epoch, started at 1972-01-01 00:00:00 UTC, including leap seconds
+     * UTC Epoch, started at 1972-01-01 00:00:00 UTC, including leap seconds.
      *
      * @psalm-pure
      */
@@ -66,7 +66,7 @@ final class TimeEpoch
 
     /**
      * GPS Epoch, started at 1980-01-06 00:00:00 UTC, including leap seconds
-     * except first 9 there were added before epoch
+     * except first 9 there were added before epoch.
      *
      * @psalm-pure
      */
@@ -76,7 +76,7 @@ final class TimeEpoch
     }
 
     /**
-     * TAI Epoch, started at 1958-01-01 00:00:00 UTC, including leap seconds
+     * TAI Epoch, started at 1958-01-01 00:00:00 UTC, including leap seconds.
      *
      * @psalm-pure
      */
@@ -96,9 +96,9 @@ final class TimeEpoch
     }
 
     /**
-     * Returns difference in seconds between epoches without leap seconds
+     * Returns difference in seconds between epoches without leap seconds.
      */
-    public function distanceTo(TimeEpoch $timeEpoch) : TimeUnit
+    public function distanceTo(self $timeEpoch) : TimeUnit
     {
         switch ($this->type) {
             case self::UTC:
@@ -109,6 +109,7 @@ final class TimeEpoch
                         return TimeUnit::seconds(63072000)->invert();  // 1972-01-01 00:00:00 UTC - 1970-01-01 00:00:00 UTC
                     case self::TAI:
                         return TimeUnit::seconds(441763200)->invert(); // 1972-01-01 00:00:00 UTC - 1958-01-01 00:00:00 UTC
+
                     default:
                         return TimeUnit::seconds(0);
                 }
@@ -121,6 +122,7 @@ final class TimeEpoch
                         return TimeUnit::seconds(315964800)->invert(); // 1980-01-06 00:00:00 UTC - 1970-01-01 00:00:00 UTC
                     case self::TAI:
                         return TimeUnit::seconds(694656000)->invert(); // 1980-01-06 00:00:00 UTC - 1958-01-01 00:00:00 UTC
+
                     default:
                         return TimeUnit::seconds(0);
                 }
@@ -133,6 +135,7 @@ final class TimeEpoch
                         return TimeUnit::seconds(378691200); // 1958-01-01 00:00:00 UTC - 1970-01-00 00:00:00 UTC
                     case self::GPS:
                         return TimeUnit::seconds(694656000); // 1958-01-01 00:00:00 UTC - 1980-01-06 00:00:00 UTC
+
                     default:
                         return TimeUnit::seconds(0);
                 }
@@ -145,6 +148,7 @@ final class TimeEpoch
                         return TimeUnit::seconds(315964800); // 1970-01-01 00:00:00 UTC - 1980-01-06 00:00:00 UTC
                     case self::TAI:
                         return TimeUnit::seconds(378691200)->invert(); // 1970-01-01 00:00:00 UTC - 1958-01-01 00:00:00 UTC
+
                     default:
                         return TimeUnit::seconds(0);
                 }

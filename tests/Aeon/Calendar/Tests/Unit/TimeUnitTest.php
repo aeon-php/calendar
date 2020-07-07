@@ -26,7 +26,7 @@ final class TimeUnitTest extends TestCase
         $this->assertSame(7200, $unit->inMinutes());
         $this->assertSame(432000, $unit->inSeconds());
         $this->assertSame(432000.0, $unit->inSecondsPrecise());
-        $this->assertSame("432000.000000", $unit->inSecondsPreciseString());
+        $this->assertSame('432000.000000', $unit->inSecondsPreciseString());
         $this->assertSame(432000000, $unit->inMilliseconds());
         $this->assertSame(432000, $unit->toDateInterval()->s);
     }
@@ -43,7 +43,7 @@ final class TimeUnitTest extends TestCase
         $this->assertSame(7200, $unit->inMinutesAbs());
         $this->assertSame(-432000, $unit->inSeconds());
         $this->assertSame(432000, $unit->inSecondsAbs());
-        $this->assertSame("-432000.000000", $unit->inSecondsPreciseString());
+        $this->assertSame('-432000.000000', $unit->inSecondsPreciseString());
         $this->assertSame(-432000000, $unit->inMilliseconds());
         $this->assertSame(432000000, $unit->inMillisecondsAbs());
         $this->assertSame(432000, $unit->toDateInterval()->s);
@@ -117,7 +117,7 @@ final class TimeUnitTest extends TestCase
         $this->assertSame(500, TimeUnit::precise(0.5)->inMilliseconds());
         $this->assertFalse(TimeUnit::precise(0.5)->isNegative());
         $this->assertSame(0.500000, TimeUnit::precise(0.5)->inSecondsPrecise());
-        $this->assertSame("0.500000", TimeUnit::precise(0.5)->inSecondsPreciseString());
+        $this->assertSame('0.500000', TimeUnit::precise(0.5)->inSecondsPreciseString());
     }
 
     public function test_creating_negative_precise_timeunit() : void
@@ -127,7 +127,7 @@ final class TimeUnitTest extends TestCase
         $this->assertSame(-500, TimeUnit::precise(-0.5)->inMilliseconds());
         $this->assertTrue(TimeUnit::precise(-0.5)->isNegative());
         $this->assertSame(-0.500000, TimeUnit::precise(-0.5)->inSecondsPrecise());
-        $this->assertSame("-0.500000", TimeUnit::precise(-0.5)->inSecondsPreciseString());
+        $this->assertSame('-0.500000', TimeUnit::precise(-0.5)->inSecondsPreciseString());
     }
 
     /**
@@ -301,12 +301,12 @@ final class TimeUnitTest extends TestCase
      */
     public function adding_precise_time_test_data_provider() : \Generator
     {
-        yield [0, 0, "0.000000", 0.0, 0.0];
-        yield [0, 500001, "0.500001", 0.0, 0.500001];
-        yield [0, 10001, "0.010001", 0.0, 0.010001];
-        yield [0, 0, "0.000000", -0.500000, 0.500000];
-        yield [0, 0, "0.000000", -0.500000, 0.5000001]; // 7+ decimal points are ignored
-        yield [-1, 300000, "-1.300000", -1.500000, 0.200000];
+        yield [0, 0, '0.000000', 0.0, 0.0];
+        yield [0, 500001, '0.500001', 0.0, 0.500001];
+        yield [0, 10001, '0.010001', 0.0, 0.010001];
+        yield [0, 0, '0.000000', -0.500000, 0.500000];
+        yield [0, 0, '0.000000', -0.500000, 0.5000001]; // 7+ decimal points are ignored
+        yield [-1, 300000, '-1.300000', -1.500000, 0.200000];
     }
 
     /**
@@ -333,10 +333,10 @@ final class TimeUnitTest extends TestCase
      */
     public function subtracting_precise_time_test_data_provider() : \Generator
     {
-        yield [0, 0, "0.000000", 0.0, 0.0];
-        yield [0, 500000, "-0.500000", 0.0, 0.500000];
-        yield [0, 50000, "-0.050000", 0.0, 0.050000];
-        yield [2, 508825, "2.508825", 2.588460, 0.079635];
+        yield [0, 0, '0.000000', 0.0, 0.0];
+        yield [0, 500000, '-0.500000', 0.0, 0.500000];
+        yield [0, 50000, '-0.050000', 0.0, 0.050000];
+        yield [2, 508825, '2.508825', 2.588460, 0.079635];
     }
 
     /**
@@ -399,12 +399,12 @@ final class TimeUnitTest extends TestCase
      */
     public function half_round_up_to_microsecond_data_provider() : \Generator
     {
-        yield ["0.000000", 0.000_000_1];
-        yield ["0.000000", -0.000_000_1];
-        yield ["0.000001", 0.000_000_5];
-        yield ["-0.000001", -0.000_000_5];
-        yield ["-0.000001", -0.000_000_94];
-        yield ["0.000001", 0.000_000_99];
+        yield ['0.000000', 0.000_000_1];
+        yield ['0.000000', -0.000_000_1];
+        yield ['0.000001', 0.000_000_5];
+        yield ['-0.000001', -0.000_000_5];
+        yield ['-0.000001', -0.000_000_94];
+        yield ['0.000001', 0.000_000_99];
     }
 
     /**

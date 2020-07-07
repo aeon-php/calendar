@@ -33,10 +33,11 @@ final class TimeUnit
     private function __construct(bool $negative, int $seconds, int $microsecond)
     {
         if ($seconds < 0) {
-            throw new InvalidArgumentException("Seconds must be greater or equal 0, got " . $seconds);
+            throw new InvalidArgumentException('Seconds must be greater or equal 0, got ' . $seconds);
         }
+
         if ($microsecond < 0 || $microsecond >= self::MICROSECONDS_IN_SECOND) {
-            throw new InvalidArgumentException("Microsecond must be greater or equal 0 and less than 1000000, got " . $seconds);
+            throw new InvalidArgumentException('Microsecond must be greater or equal 0 and less than 1000000, got ' . $seconds);
         }
 
         $this->negative = $negative;
@@ -57,7 +58,7 @@ final class TimeUnit
 
         if (\count($secondsStringParts) !== 2) {
             // @codeCoverageIgnoreStart
-            throw new InvalidArgumentException(\sprintf("Malformed representation of seconds as float, expected number with 6 decimals, got %s", $secondsString));
+            throw new InvalidArgumentException(\sprintf('Malformed representation of seconds as float, expected number with 6 decimals, got %s', $secondsString));
             // @codeCoverageIgnoreEnd
         }
 
@@ -103,7 +104,7 @@ final class TimeUnit
     {
         return new self(
             $milliseconds < 0,
-            \abs(\intval($milliseconds / self::MILLISECONDS_IN_SECOND)),
+            \abs((int) ($milliseconds / self::MILLISECONDS_IN_SECOND)),
             \abs(($milliseconds * self::MICROSECONDS_IN_MILLISECOND) % self::MICROSECONDS_IN_SECOND)
         );
     }
@@ -170,7 +171,7 @@ final class TimeUnit
 
     public function toDateInterval() : \DateInterval
     {
-        $interval = new \DateInterval(\sprintf("PT%dS", $this->seconds));
+        $interval = new \DateInterval(\sprintf('PT%dS', $this->seconds));
 
         if ($this->negative) {
             /** @psalm-suppress ImpurePropertyAssignment */
@@ -190,12 +191,12 @@ final class TimeUnit
         return !$this->isNegative();
     }
 
-    public function add(TimeUnit $timeUnit) : self
+    public function add(self $timeUnit) : self
     {
         return self::precise($this->inSecondsPrecise() + $timeUnit->inSecondsPrecise());
     }
 
-    public function sub(TimeUnit $timeUnit) : self
+    public function sub(self $timeUnit) : self
     {
         return self::precise($this->inSecondsPrecise() - $timeUnit->inSecondsPrecise());
     }
@@ -210,35 +211,35 @@ final class TimeUnit
         return self::precise($this->inSecondsPrecise() / $divider);
     }
 
-    public function isGreaterThan(TimeUnit $timeUnit) : bool
+    public function isGreaterThan(self $timeUnit) : bool
     {
         return $this->inSeconds() === $timeUnit->inSeconds()
             ? $this->inSecondsPrecise() > $timeUnit->inSecondsPrecise()
             : $this->inSeconds() > $timeUnit->inSeconds();
     }
 
-    public function isGreaterThanEq(TimeUnit $timeUnit) : bool
+    public function isGreaterThanEq(self $timeUnit) : bool
     {
         return $this->inSeconds() === $timeUnit->inSeconds()
             ? $this->inSecondsPrecise() >= $timeUnit->inSecondsPrecise()
             : $this->inSeconds() >= $timeUnit->inSeconds();
     }
 
-    public function isLessThan(TimeUnit $timeUnit) : bool
+    public function isLessThan(self $timeUnit) : bool
     {
         return $this->inSeconds() === $timeUnit->inSeconds()
             ? $this->inSecondsPrecise() < $timeUnit->inSecondsPrecise()
             : $this->inSeconds() < $timeUnit->inSeconds();
     }
 
-    public function isLessThanEq(TimeUnit $timeUnit) : bool
+    public function isLessThanEq(self $timeUnit) : bool
     {
         return $this->inSeconds() === $timeUnit->inSeconds()
             ? $this->inSecondsPrecise() <= $timeUnit->inSecondsPrecise()
             : $this->inSeconds() <= $timeUnit->inSeconds();
     }
 
-    public function isEqual(TimeUnit $timeUnit) : bool
+    public function isEqual(self $timeUnit) : bool
     {
         return $this->inSeconds() === $timeUnit->inSeconds()
             ? $this->inSecondsPrecise() === $timeUnit->inSecondsPrecise()
@@ -253,7 +254,7 @@ final class TimeUnit
     public function inSecondsPrecise() : float
     {
         return (float) \sprintf(
-            "%s%d.%s",
+            '%s%d.%s',
             $this->negative ? '-' : '+',
             $this->seconds,
             $this->microsecondString()
@@ -264,7 +265,7 @@ final class TimeUnit
     {
         return \number_format(
             (float) \sprintf(
-                "%s%d.%s",
+                '%s%d.%s',
                 $this->negative ? '-' : '',
                 $this->seconds,
                 $this->microsecondString()
@@ -300,7 +301,7 @@ final class TimeUnit
     public function inMinutes() : int
     {
         return $this->negative
-            ? - (int) ($this->seconds / self::SECONDS_IN_MINUTE)
+            ? -(int) ($this->seconds / self::SECONDS_IN_MINUTE)
             : (int) ($this->seconds / self::SECONDS_IN_MINUTE);
     }
 
@@ -328,7 +329,7 @@ final class TimeUnit
 
     /**
      * Number of microseconds from last full second to the next full second.
-     * Do not use this method to combine float seconds because for 50000 it returns 50000 not "050000"
+     * Do not use this method to combine float seconds because for 50000 it returns 50000 not "050000".
      */
     public function microsecond() : int
     {
@@ -337,18 +338,18 @@ final class TimeUnit
 
     /**
      * Number of microseconds from last full second to the next full second.
-     * Use this method to combine float seconds because for 50000 it returns "050000" not 50000
+     * Use this method to combine float seconds because for 50000 it returns "050000" not 50000.
      */
     public function microsecondString() : string
     {
-        return \str_pad((string) $this->microsecond, 6, "0", STR_PAD_LEFT);
+        return \str_pad((string) $this->microsecond, 6, '0', STR_PAD_LEFT);
     }
 
     public function inMilliseconds() : int
     {
         return $this->isNegative()
-            ? -($this->seconds * 1000 + \intval($this->microsecond / self::MICROSECONDS_IN_MILLISECOND))
-            : ($this->seconds * 1000 + \intval($this->microsecond / self::MICROSECONDS_IN_MILLISECOND));
+            ? -($this->seconds * 1000 + (int) ($this->microsecond / self::MICROSECONDS_IN_MILLISECOND))
+            : ($this->seconds * 1000 + (int) ($this->microsecond / self::MICROSECONDS_IN_MILLISECOND));
     }
 
     public function inMillisecondsAbs() : int

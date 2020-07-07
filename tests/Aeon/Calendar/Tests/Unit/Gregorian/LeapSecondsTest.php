@@ -16,7 +16,7 @@ final class LeapSecondsTest extends TestCase
      * This test will start failing 5 days before expiration date of the current leap seconds list
      * Once it does please visit https://www.ietf.org/timezones/data/leap-seconds.list
      * and if there is a new leap second announced add it to the list or extend expiration
-     * date according to the document
+     * date according to the document.
      */
     public function test_expiration_of_current_leap_seconds_list() : void
     {

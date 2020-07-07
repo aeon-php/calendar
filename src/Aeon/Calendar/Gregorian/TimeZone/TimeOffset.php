@@ -23,7 +23,7 @@ final class TimeOffset
     private function __construct(bool $negative, int $hours, int $minutes)
     {
         if ($minutes < 0 || $minutes >= 60) {
-            throw new InvalidArgumentException("Minutes must be greater or equal 0 and less than 60");
+            throw new InvalidArgumentException('Minutes must be greater or equal 0 and less than 60');
         }
 
         $this->negative = $negative;
@@ -41,7 +41,7 @@ final class TimeOffset
     public static function fromString(string $offset) : self
     {
         if (!\preg_match(self::OFFSET_REGEXP, $offset, $matches)) {
-            throw new InvalidArgumentException("\"$offset\" is not a valid UTC Offset.");
+            throw new InvalidArgumentException("\"{$offset}\" is not a valid UTC Offset.");
         }
 
         return new self($matches[1] === '-', (int) $matches[2], (int) $matches[3]);
@@ -56,7 +56,7 @@ final class TimeOffset
     public static function fromTimeUnit(TimeUnit $timeUnit) : self
     {
         return self::fromString(
-            ($timeUnit->isNegative() ? "-" : "+")
+            ($timeUnit->isNegative() ? '-' : '+')
                 . \str_pad((string) $timeUnit->inHoursAbs(), 2, '0', STR_PAD_LEFT)
                 . ':'
                 . \str_pad((string) $timeUnit->inTimeMinutes(), 2, '0', STR_PAD_LEFT)

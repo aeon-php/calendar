@@ -36,7 +36,7 @@ final class DateTime
                         ->setTime($time->hour(), $time->minute(), $time->second())
             ) !== $timeOffset->toTimeUnit()->inSeconds()) {
                 throw new InvalidArgumentException(\sprintf(
-                    "TimeOffset %s does not match TimeZone %s at %s",
+                    'TimeOffset %s does not match TimeZone %s at %s',
                     $timeOffset->toString(),
                     $timeZone->name(),
                     $day->toDateTimeImmutable()->setTimeZone($timeZone->toDateTimeZone())->setTime($time->hour(), $time->minute(), $time->second())->format('Y-m-d H:i:s')
@@ -147,12 +147,12 @@ final class DateTime
             );
     }
 
-    public function toAtomicTime() : DateTime
+    public function toAtomicTime() : self
     {
         return $this->add(LeapSeconds::load()->until($this)->offsetTAI());
     }
 
-    public function toGPSTime() : DateTime
+    public function toGPSTime() : self
     {
         return $this->add(LeapSeconds::load()
             ->since(TimeEpoch::GPS()->date())
@@ -200,7 +200,7 @@ final class DateTime
     public function timestamp(TimeEpoch $timeEpoch) : TimeUnit
     {
         if ($this->isBefore($timeEpoch->date())) {
-            throw new Exception("Given epoch started at " . $timeEpoch->date()->toISO8601() . " which was after " . $this->toISO8601());
+            throw new Exception('Given epoch started at ' . $timeEpoch->date()->toISO8601() . ' which was after ' . $this->toISO8601());
         }
 
         switch ($timeEpoch->type()) {
@@ -218,6 +218,7 @@ final class DateTime
             case TimeEpoch::TAI:
                 return $timeEpoch->date()->until($this)->distance()
                     ->add($timeEpoch->date()->until($this)->leapSeconds()->offsetTAI());
+
             default:
                 return $this->timestampUNIX();
         }
@@ -415,52 +416,52 @@ final class DateTime
         ));
     }
 
-    public function isEqual(DateTime $dateTime) : bool
+    public function isEqual(self $dateTime) : bool
     {
         return $this->toDateTimeImmutable() == $dateTime->toDateTimeImmutable();
     }
 
-    public function isAfter(DateTime $dateTime) : bool
+    public function isAfter(self $dateTime) : bool
     {
         return $this->toDateTimeImmutable() > $dateTime->toDateTimeImmutable();
     }
 
-    public function isAfterOrEqual(DateTime $dateTime) : bool
+    public function isAfterOrEqual(self $dateTime) : bool
     {
         return $this->toDateTimeImmutable() >= $dateTime->toDateTimeImmutable();
     }
 
-    public function isBeforeOrEqual(DateTime $dateTime) : bool
+    public function isBeforeOrEqual(self $dateTime) : bool
     {
         return $this->toDateTimeImmutable() <= $dateTime->toDateTimeImmutable();
     }
 
-    public function isBefore(DateTime $dateTime) : bool
+    public function isBefore(self $dateTime) : bool
     {
         return $this->toDateTimeImmutable() < $dateTime->toDateTimeImmutable();
     }
 
-    public function until(DateTime $dateTime) : TimePeriod
+    public function until(self $dateTime) : TimePeriod
     {
         return new TimePeriod($this, $dateTime);
     }
 
-    public function since(DateTime $dateTime) : TimePeriod
+    public function since(self $dateTime) : TimePeriod
     {
         return new TimePeriod($dateTime, $this);
     }
 
-    public function distanceSince(DateTime $dateTime) : TimeUnit
+    public function distanceSince(self $dateTime) : TimeUnit
     {
         return $this->since($dateTime)->distance();
     }
 
-    public function distanceUntil(DateTime $dateTime) : TimeUnit
+    public function distanceUntil(self $dateTime) : TimeUnit
     {
         return $this->until($dateTime)->distance();
     }
 
-    public function iterate(DateTime $pointInTime, TimeUnit $by) : TimePeriods
+    public function iterate(self $pointInTime, TimeUnit $by) : TimePeriods
     {
         return $pointInTime->isBefore($this)
             ? $this->since($pointInTime)->iterateBackward($by)

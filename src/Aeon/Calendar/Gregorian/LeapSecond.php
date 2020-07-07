@@ -25,7 +25,7 @@ final class LeapSecond
     public function __construct(DateTime $dateTime, TimeUnit $offsetTAI)
     {
         if ($offsetTAI->inSeconds() < 10) {
-            throw new InvalidArgumentException("Leap second TAI offset must be greater or equal 10");
+            throw new InvalidArgumentException('Leap second TAI offset must be greater or equal 10');
         }
 
         $this->dateTime = $dateTime;

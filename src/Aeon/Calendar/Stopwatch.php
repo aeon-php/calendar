@@ -62,7 +62,7 @@ final class Stopwatch
     public function lap() : void
     {
         if ($this->start === null) {
-            throw new Exception("Stopwatch not started");
+            throw new Exception('Stopwatch not started');
         }
 
         $this->laps[] = \hrtime(false);
@@ -71,11 +71,11 @@ final class Stopwatch
     public function stop() : void
     {
         if ($this->start === null) {
-            throw new Exception("Stopwatch not started");
+            throw new Exception('Stopwatch not started');
         }
 
         if ($this->end !== null) {
-            throw new Exception("Stopwatch already stopped");
+            throw new Exception('Stopwatch already stopped');
         }
 
         $this->end = \hrtime(false);
@@ -84,11 +84,11 @@ final class Stopwatch
     public function elapsedTime(int $lap) : TimeUnit
     {
         if ($this->start === null) {
-            throw new Exception("Stopwatch not started");
+            throw new Exception('Stopwatch not started');
         }
 
         if (\count($this->laps) === 0) {
-            throw new Exception("Stopwatch does not have any laps.");
+            throw new Exception('Stopwatch does not have any laps.');
         }
 
         if ($lap === 1) {
@@ -100,7 +100,7 @@ final class Stopwatch
         }
 
         if (!isset($this->laps[$lap - 1])) {
-            throw new Exception(\sprintf("Lap %d not exists", $lap));
+            throw new Exception(\sprintf('Lap %d not exists', $lap));
         }
 
         return TimeUnit::precise($this->timeToFloat($this->laps[$lap - 1]))
@@ -110,11 +110,11 @@ final class Stopwatch
     public function firstLapElapsedTime() : TimeUnit
     {
         if ($this->start === null) {
-            throw new Exception("Stopwatch not started");
+            throw new Exception('Stopwatch not started');
         }
 
         if (\count($this->laps) === 0) {
-            throw new Exception("Stopwatch does not have any laps.");
+            throw new Exception('Stopwatch does not have any laps.');
         }
 
         return TimeUnit::precise($this->timeToFloat($this->laps[0]))
@@ -124,15 +124,15 @@ final class Stopwatch
     public function lastLapElapsedTime() : TimeUnit
     {
         if ($this->start === null) {
-            throw new Exception("Stopwatch not started");
+            throw new Exception('Stopwatch not started');
         }
 
         if ($this->end === null) {
-            throw new Exception("Stopwatch not stopped");
+            throw new Exception('Stopwatch not stopped');
         }
 
         if (\count($this->laps) === 0) {
-            throw new Exception("Stopwatch does not have any laps.");
+            throw new Exception('Stopwatch does not have any laps.');
         }
 
         return TimeUnit::precise($this->timeToFloat($this->end))
@@ -142,11 +142,11 @@ final class Stopwatch
     public function totalElapsedTime() : TimeUnit
     {
         if ($this->start === null) {
-            throw new Exception("Stopwatch not started");
+            throw new Exception('Stopwatch not started');
         }
 
         if ($this->end === null) {
-            throw new Exception("Stopwatch not stopped");
+            throw new Exception('Stopwatch not stopped');
         }
 
         return TimeUnit::precise($this->timeToFloat($this->end))
@@ -159,9 +159,9 @@ final class Stopwatch
     private function timeToFloat(array $time) : float
     {
         return (float) \sprintf(
-            "%d.%s",
+            '%d.%s',
             $time[0],
-            \substr(\str_pad((string) $time[1], 9, "0", STR_PAD_LEFT), 0, 6)
+            \substr(\str_pad((string) $time[1], 9, '0', STR_PAD_LEFT), 0, 6)
         );
     }
 }

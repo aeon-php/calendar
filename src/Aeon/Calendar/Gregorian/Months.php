@@ -39,6 +39,7 @@ final class Months implements \Countable
 
     /**
      * @param callable(Month $day) : void $iterator
+     *
      * @return array<mixed>
      */
     public function map(callable $iterator) : array
@@ -51,6 +52,7 @@ final class Months implements \Countable
 
     /**
      * @param callable(Month $day) : bool $iterator
+     *
      * @return array<Month>
      */
     public function filter(callable $iterator) : array
