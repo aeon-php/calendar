@@ -172,7 +172,7 @@ return PhpCsFixer\Config::create()
             'order' => 'alpha',
         ],
         'phpdoc_add_missing_param_annotation' => false,
-        'phpdoc_align' => true,
+        'phpdoc_align' => ['align' => 'left'],
         'phpdoc_annotation_without_dot' => true,
         'phpdoc_indent' => true,
         'phpdoc_no_access' => true,
