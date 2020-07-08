@@ -362,11 +362,9 @@ final class DateTime
 
     public function midnight() : self
     {
-        $midnight = $this->day()->midnight();
-
         return new self(
-            $midnight->day(),
-            $midnight->time(),
+            $this->day(),
+            new Time(0, 0, 0, 0),
             $this->timeZone(),
             $this->timeOffset()
         );
@@ -374,11 +372,9 @@ final class DateTime
 
     public function noon() : self
     {
-        $noon = $this->day()->noon();
-
         return new self(
-            $noon->day(),
-            $noon->time(),
+            $this->day(),
+            new Time(12, 0, 0, 0),
             $this->timeZone(),
             $this->timeOffset()
         );
@@ -386,14 +382,22 @@ final class DateTime
 
     public function endOfDay() : self
     {
-        $eod = $this->day()->endOfDay();
-
         return new self(
-            $eod->day(),
-            $eod->time(),
+            $this->day(),
+            new Time(23, 59, 59, 999999),
             $this->timeZone(),
             $this->timeOffset()
         );
+    }
+
+    public function yesterday() : self
+    {
+        return $this->sub(TimeUnit::day())->midnight();
+    }
+
+    public function tomorrow() : self
+    {
+        return $this->add(TimeUnit::day())->midnight();
     }
 
     public function add(TimeUnit $timeUnit) : self

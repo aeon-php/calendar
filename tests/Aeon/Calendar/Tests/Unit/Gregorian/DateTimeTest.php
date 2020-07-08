@@ -598,4 +598,24 @@ final class DateTimeTest extends TestCase
     {
         $this->assertSame(null, DateTime::fromString('2020-01-01 01:00:00+0100')->timeZone());
     }
+
+    public function test_yesterday() : void
+    {
+        $this->assertSame('2019-12-31T00:00:00+0000', DateTime::fromString('2020-01-01 01:00:00')->yesterday()->toISO8601());
+    }
+
+    public function test_yesterday_with_tz() : void
+    {
+        $this->assertSame('2019-12-31T00:00:00+0100', DateTime::fromString('2020-01-01 01:00:00 Europe/Warsaw')->yesterday()->toISO8601());
+    }
+
+    public function test_tomorrow() : void
+    {
+        $this->assertSame('2020-01-02T00:00:00+0000', DateTime::fromString('2020-01-01 01:00:00')->tomorrow()->toISO8601());
+    }
+
+    public function test_tomorrow_with_tz() : void
+    {
+        $this->assertSame('2020-01-02T00:00:00+0100', DateTime::fromString('2020-01-01 01:00:00 Europe/Warsaw')->tomorrow()->toISO8601());
+    }
 }

@@ -15,9 +15,9 @@ interface Calendar
 
     public function currentDay() : Day;
 
-    public function yesterday() : Day;
+    public function yesterday() : DateTime;
 
-    public function tomorrow() : Day;
+    public function tomorrow() : DateTime;
 
     public function now() : DateTime;
 }
