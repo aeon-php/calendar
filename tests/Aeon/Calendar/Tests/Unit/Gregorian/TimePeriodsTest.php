@@ -6,6 +6,7 @@ namespace Aeon\Calendar\Tests\Unit\Gregorian;
 
 use Aeon\Calendar\Gregorian\DateTime;
 use Aeon\Calendar\Gregorian\TimePeriod;
+use Aeon\Calendar\Gregorian\TimePeriods;
 use Aeon\Calendar\TimeUnit;
 use PHPUnit\Framework\TestCase;
 
@@ -66,5 +67,36 @@ final class TimePeriodsTest extends TestCase
             ->iterate(TimeUnit::minute());
 
         $this->assertSame($timePeriods->all(), (array) $timePeriods->getIterator());
+    }
+
+    public function test_gap_for_empty_periods() : void
+    {
+        $this->assertCount(0, (new TimePeriods())->gaps());
+    }
+
+    public function test_gap_for_periods_with_one_period() : void
+    {
+        $this->assertCount(
+            0,
+            (new TimePeriods(
+                new TimePeriod(DateTime::fromString('2020-01-01 01:00:00.000000'), DateTime::fromString('2020-01-02 01:00:00.000000'))
+            ))->gaps()
+        );
+    }
+
+    public function test_gap_periods() : void
+    {
+        $this->assertEquals(
+            (new TimePeriods(
+                new TimePeriod(DateTime::fromString('2020-01-02 00:00:00.000000'), DateTime::fromString('2020-01-03 00:00:00.000000')),
+                new TimePeriod(DateTime::fromString('2020-01-07 00:00:00.000000'), DateTime::fromString('2020-01-08 00:00:00.000000')),
+            )),
+            (new TimePeriods(
+                new TimePeriod(DateTime::fromString('2020-01-10 00:00:00.000000'), DateTime::fromString('2020-01-08 00:00:00.000000')),
+                new TimePeriod(DateTime::fromString('2020-01-01 00:00:00.000000'), DateTime::fromString('2020-01-02 00:00:00.000000')),
+                new TimePeriod(DateTime::fromString('2020-01-03 00:00:00.000000'), DateTime::fromString('2020-01-06 00:00:00.000000')),
+                new TimePeriod(DateTime::fromString('2020-01-05 00:00:00.000000'), DateTime::fromString('2020-01-07 00:00:00.000000')),
+            ))->gaps()
+        );
     }
 }

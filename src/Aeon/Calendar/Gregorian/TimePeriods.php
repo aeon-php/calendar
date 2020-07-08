@@ -87,4 +87,52 @@ final class TimePeriods implements \ArrayAccess, \Countable, \IteratorAggregate
     {
         return new \ArrayIterator($this->all());
     }
+
+    /**
+     * Find all gaps between time periods.
+     */
+    public function gaps() : self
+    {
+        if ($this->count() <= 1) {
+            return new self();
+        }
+
+        $periods = \array_map(
+            function (TimePeriod $timePeriod) : TimePeriod {
+                return $timePeriod->isBackward() ? $timePeriod->revert() : $timePeriod;
+            },
+            $this->all()
+        );
+
+        \uasort(
+            $periods,
+            function (TimePeriod $timePeriodA, TimePeriod $timePeriodB) : int {
+                $timePeriodAForward = $timePeriodA->isForward() ? $timePeriodA : $timePeriodA->revert();
+                $timePeriodBForward = $timePeriodB->isForward() ? $timePeriodB : $timePeriodB->revert();
+
+                if ($timePeriodAForward->start()->isBefore($timePeriodBForward->start())) {
+                    return -1;
+                }
+
+                if ($timePeriodAForward->start()->isEqual($timePeriodBForward->start())) {
+                    return 0;
+                }
+
+                return 1;
+            }
+        );
+
+        $gaps = [];
+        $previousPeriod = \current($periods);
+
+        while ($period = \next($periods)) {
+            if ($period->start()->isAfter($previousPeriod->end())) {
+                $gaps[] = new TimePeriod($previousPeriod->end(), $period->start());
+            }
+
+            $previousPeriod = $period;
+        }
+
+        return new self(...$gaps);
+    }
 }

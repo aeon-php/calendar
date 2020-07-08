@@ -119,4 +119,170 @@ final class TimePeriodTest extends TestCase
 
         $this->assertCount(1, $timePeriods);
     }
+
+    /**
+     * @dataProvider overlapping_time_periods_data_provider
+     */
+    public function test_overlapping_time_periods(bool $overlap, TimePeriod $firstPeriod, TimePeriod $secondPeriod) : void
+    {
+        $this->assertSame($overlap, $firstPeriod->overlaps($secondPeriod));
+    }
+
+    /**
+     * @return \Generator<int, array{bool, TimePeriod, TimePeriod}, mixed, void>
+     */
+    public function overlapping_time_periods_data_provider() : \Generator
+    {
+        yield [
+            false,
+            new TimePeriod(DateTime::fromString('2020-01-01 00:00:00.0000'), DateTime::fromString('2020-01-02 00:00:00.0000')),
+            new TimePeriod(DateTime::fromString('2020-01-02 00:00:00.0000'), DateTime::fromString('2020-01-03 00:00:00.0000')),
+        ];
+
+        yield [
+            false,
+            new TimePeriod(DateTime::fromString('2020-01-02 00:00:00.0000'), DateTime::fromString('2020-01-01 00:00:00.0000')),
+            new TimePeriod(DateTime::fromString('2020-01-03 00:00:00.0000'), DateTime::fromString('2020-01-02 00:00:00.0000')),
+        ];
+
+        yield [
+            true,
+            new TimePeriod(DateTime::fromString('2020-01-01 00:00:00.0000'), DateTime::fromString('2020-01-03 00:00:00.0000')),
+            new TimePeriod(DateTime::fromString('2020-01-02 00:00:00.0000'), DateTime::fromString('2020-01-04 00:00:00.0000')),
+        ];
+
+        yield [
+            true,
+            new TimePeriod(DateTime::fromString('2020-01-03 00:00:00.0000'), DateTime::fromString('2020-01-01 00:00:00.0000')),
+            new TimePeriod(DateTime::fromString('2020-01-04 00:00:00.0000'), DateTime::fromString('2020-01-02 00:00:00.0000')),
+        ];
+
+        yield [
+            true,
+            new TimePeriod(DateTime::fromString('2020-01-03 00:00:00.0000'), DateTime::fromString('2020-01-04 00:00:00.0000')),
+            new TimePeriod(DateTime::fromString('2020-01-02 00:00:00.0000'), DateTime::fromString('2020-01-05 00:00:00.0000')),
+        ];
+
+        yield [
+            true,
+            new TimePeriod(DateTime::fromString('2020-01-04 00:00:00.0000'), DateTime::fromString('2020-01-03 00:00:00.0000')),
+            new TimePeriod(DateTime::fromString('2020-01-05 00:00:00.0000'), DateTime::fromString('2020-01-02 00:00:00.0000')),
+        ];
+
+        yield [
+            true,
+            new TimePeriod(DateTime::fromString('2020-01-03 00:00:00.0000'), DateTime::fromString('2020-01-10 00:00:00.0000')),
+            new TimePeriod(DateTime::fromString('2020-01-02 00:00:00.0000'), DateTime::fromString('2020-01-05 00:00:00.0000')),
+        ];
+
+        yield [
+            true,
+            new TimePeriod(DateTime::fromString('2020-01-10 00:00:00.0000'), DateTime::fromString('2020-01-03 00:00:00.0000')),
+            new TimePeriod(DateTime::fromString('2020-01-05 00:00:00.0000'), DateTime::fromString('2020-01-02 00:00:00.0000')),
+        ];
+
+        yield [
+            false,
+            new TimePeriod(DateTime::fromString('2020-01-07 00:00:00.0000'), DateTime::fromString('2020-01-10 00:00:00.0000')),
+            new TimePeriod(DateTime::fromString('2020-01-02 00:00:00.0000'), DateTime::fromString('2020-01-05 00:00:00.0000')),
+        ];
+
+        yield [
+            false,
+            new TimePeriod(DateTime::fromString('2020-01-10 00:00:00.0000'), DateTime::fromString('2020-01-07 00:00:00.0000')),
+            new TimePeriod(DateTime::fromString('2020-01-05 00:00:00.0000'), DateTime::fromString('2020-01-02 00:00:00.0000')),
+        ];
+
+        yield [
+            true,
+            new TimePeriod(DateTime::fromString('2020-01-01 00:00:00.0000'), DateTime::fromString('2020-01-10 00:00:00.0000')),
+            new TimePeriod(DateTime::fromString('2020-01-02 00:00:00.0000'), DateTime::fromString('2020-01-05 00:00:00.0000')),
+        ];
+
+        yield [
+            true,
+            new TimePeriod(DateTime::fromString('2020-01-10 00:00:00.0000'), DateTime::fromString('2020-01-01 00:00:00.0000')),
+            new TimePeriod(DateTime::fromString('2020-01-05 00:00:00.0000'), DateTime::fromString('2020-01-02 00:00:00.0000')),
+        ];
+
+        yield [
+            true,
+            new TimePeriod(DateTime::fromString('2020-01-01 00:00:00.0000'), DateTime::fromString('2020-01-02 00:00:00.0000')),
+            new TimePeriod(DateTime::fromString('2020-01-01 00:00:00.0000'), DateTime::fromString('2020-01-02 00:00:00.0000')),
+        ];
+
+        yield [
+            false,
+            new TimePeriod(DateTime::fromString('2020-01-01 00:00:00.0000'), DateTime::fromString('2020-01-02 00:00:00.0000')),
+            new TimePeriod(DateTime::fromString('2020-01-02 00:00:00.0000'), DateTime::fromString('2020-01-03 00:00:00.0000')),
+        ];
+    }
+
+    public function test_period_is_forward() : void
+    {
+        $this->assertTrue(
+            (new TimePeriod(DateTime::fromString('2020-01-01 00:00:00.0000'), DateTime::fromString('2020-01-02 00:00:00.0000')))
+                ->isForward()
+        );
+        $this->assertFalse(
+            (new TimePeriod(DateTime::fromString('2020-01-01 00:00:00.0000'), DateTime::fromString('2020-01-02 00:00:00.0000')))
+                ->isBackward()
+        );
+    }
+
+    public function test_period_is_backward() : void
+    {
+        $this->assertTrue(
+            (new TimePeriod(DateTime::fromString('2020-01-02 00:00:00.0000'), DateTime::fromString('2020-01-01 00:00:00.0000')))
+                ->isBackward()
+        );
+        $this->assertFalse(
+            (new TimePeriod(DateTime::fromString('2020-01-02 00:00:00.0000'), DateTime::fromString('2020-01-01 00:00:00.0000')))
+                ->isForward()
+        );
+    }
+
+    /**
+     * @dataProvider period_abuts_other_period_data_provider
+     */
+    public function test_period_abuts_other_period(bool $abuts, TimePeriod $firstPeriod, TimePeriod $secondPeriod) : void
+    {
+        $this->assertSame($abuts, $firstPeriod->abuts($secondPeriod));
+    }
+
+    /**
+     * @return \Generator<int, array{bool, TimePeriod, TimePeriod}, mixed, void>
+     */
+    public function period_abuts_other_period_data_provider() : \Generator
+    {
+        yield [
+            true,
+            new TimePeriod(DateTime::fromString('2020-01-01 00:00:00.0000'), DateTime::fromString('2020-01-02 00:00:00.0000')),
+            new TimePeriod(DateTime::fromString('2020-01-02 00:00:00.0000'), DateTime::fromString('2020-01-03 00:00:00.0000')),
+        ];
+
+        yield [
+            true,
+            new TimePeriod(DateTime::fromString('2020-01-04 00:00:00.0000'), DateTime::fromString('2020-01-05 00:00:00.0000')),
+            new TimePeriod(DateTime::fromString('2020-01-03 00:00:00.0000'), DateTime::fromString('2020-01-04 00:00:00.0000')),
+        ];
+
+        yield [
+            true,
+            new TimePeriod(DateTime::fromString('2020-01-05 00:00:00.0000'), DateTime::fromString('2020-01-04 00:00:00.0000')),
+            new TimePeriod(DateTime::fromString('2020-01-04 00:00:00.0000'), DateTime::fromString('2020-01-03 00:00:00.0000')),
+        ];
+
+        yield [
+            false,
+            new TimePeriod(DateTime::fromString('2020-01-04 00:00:00.0000'), DateTime::fromString('2020-01-05 00:00:00.0000')),
+            new TimePeriod(DateTime::fromString('2020-01-02 00:00:00.0000'), DateTime::fromString('2020-01-03 00:00:00.0000')),
+        ];
+
+        yield [
+            false,
+            new TimePeriod(DateTime::fromString('2020-01-02 00:00:00.0000'), DateTime::fromString('2020-01-03 00:00:00.0000')),
+            new TimePeriod(DateTime::fromString('2020-01-04 00:00:00.0000'), DateTime::fromString('2020-01-05 00:00:00.0000')),
+        ];
+    }
 }

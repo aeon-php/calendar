@@ -31,6 +31,16 @@ final class TimePeriod
         return $this->end;
     }
 
+    public function isForward() : bool
+    {
+        return $this->distance()->isPositive();
+    }
+
+    public function isBackward() : bool
+    {
+        return $this->distance()->isNegative();
+    }
+
     /**
      * Calculate distance between 2 points in time without leap seconds.
      */
@@ -112,5 +122,92 @@ final class TimePeriod
                 )
             )
         );
+    }
+
+    public function overlaps(self $timePeriod) : bool
+    {
+        $thisPeriodForward = $this->isBackward()
+            ? $this->revert()
+            : $this;
+
+        $otherPeriodForward = $timePeriod->isBackward()
+            ? $timePeriod->revert()
+            : $timePeriod;
+
+        if ($thisPeriodForward->start()->isBefore($otherPeriodForward->start()) &&
+            $thisPeriodForward->start()->isBefore($otherPeriodForward->end()) &&
+            $thisPeriodForward->end()->isBefore($otherPeriodForward->start()) &&
+            $thisPeriodForward->end()->isBefore($otherPeriodForward->end())
+        ) {
+            return false;
+        }
+
+        if ($thisPeriodForward->start()->isBefore($otherPeriodForward->start()) &&
+            $thisPeriodForward->start()->isBefore($otherPeriodForward->end()) &&
+            $thisPeriodForward->end()->isAfter($otherPeriodForward->start()) &&
+            $thisPeriodForward->end()->isBefore($otherPeriodForward->end())
+        ) {
+            return true;
+        }
+
+        if ($thisPeriodForward->start()->isAfter($otherPeriodForward->start()) &&
+            $thisPeriodForward->start()->isBefore($otherPeriodForward->end()) &&
+            $thisPeriodForward->end()->isAfter($otherPeriodForward->start()) &&
+            $thisPeriodForward->end()->isBefore($otherPeriodForward->end())
+        ) {
+            return true;
+        }
+
+        if ($thisPeriodForward->start()->isAfter($otherPeriodForward->start()) &&
+            $thisPeriodForward->start()->isBefore($otherPeriodForward->end()) &&
+            $thisPeriodForward->end()->isAfter($otherPeriodForward->start()) &&
+            $thisPeriodForward->end()->isAfter($otherPeriodForward->end())
+        ) {
+            return true;
+        }
+
+        if ($thisPeriodForward->start()->isAfter($otherPeriodForward->start()) &&
+            $thisPeriodForward->start()->isAfter($otherPeriodForward->end()) &&
+            $thisPeriodForward->end()->isAfter($otherPeriodForward->start()) &&
+            $thisPeriodForward->end()->isAfter($otherPeriodForward->end())
+        ) {
+            return false;
+        }
+
+        if ($thisPeriodForward->abuts($otherPeriodForward)) {
+            return false;
+        }
+
+        if ($otherPeriodForward->abuts($thisPeriodForward)) {
+            return false;
+        }
+
+        return true;
+    }
+
+    public function revert() : self
+    {
+        return new self($this->end(), $this->start());
+    }
+
+    public function abuts(self $timePeriod) : bool
+    {
+        $thisPeriodForward = $this->isBackward()
+            ? $this->revert()
+            : $this;
+
+        $otherPeriodForward = $timePeriod->isBackward()
+            ? $timePeriod->revert()
+            : $timePeriod;
+
+        if ($thisPeriodForward->end()->isEqual($otherPeriodForward->start())) {
+            return true;
+        }
+
+        if ($thisPeriodForward->start()->isEqual($otherPeriodForward->end())) {
+            return true;
+        }
+
+        return false;
     }
 }
