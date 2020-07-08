@@ -17,6 +17,13 @@ final class GregorianCalendarStub implements Calendar
         $this->currentDate = $currentDate;
     }
 
+    public function timeZone() : TimeZone
+    {
+        $tz = $this->now()->timeZone();
+
+        return $tz ? $tz : TimeZone::UTC();
+    }
+
     public function currentYear() : Year
     {
         return Year::fromDateTime($this->now()->toDateTimeImmutable());
@@ -41,14 +48,14 @@ final class GregorianCalendarStub implements Calendar
         );
     }
 
-    public function yesterday() : Day
+    public function yesterday() : DateTime
     {
-        return $this->currentDay()->previous();
+        return $this->now()->yesterday();
     }
 
-    public function tomorrow() : Day
+    public function tomorrow() : DateTime
     {
-        return $this->currentDay()->next();
+        return $this->now()->tomorrow();
     }
 
     /**

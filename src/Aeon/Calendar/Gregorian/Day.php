@@ -72,19 +72,19 @@ final class Day
         return self::fromDateTime($this->toDateTimeImmutable()->modify('+1 day'));
     }
 
-    public function midnight() : DateTime
+    public function midnight(TimeZone $timeZone) : DateTime
     {
-        return new DateTime($this, new Time(0, 0, 0, 0));
+        return new DateTime($this, new Time(0, 0, 0, 0), $timeZone);
     }
 
-    public function noon() : DateTime
+    public function noon(TimeZone $timeZone) : DateTime
     {
-        return new DateTime($this, new Time(12, 0, 0, 0));
+        return new DateTime($this, new Time(12, 0, 0, 0), $timeZone);
     }
 
-    public function endOfDay() : DateTime
+    public function endOfDay(TimeZone $timeZone) : DateTime
     {
-        return new DateTime($this, new Time(23, 59, 59, 999999));
+        return new DateTime($this, new Time(23, 59, 59, 999999), $timeZone);
     }
 
     public function month() : Month

@@ -6,6 +6,7 @@ namespace Aeon\Calendar\Tests\Unit\Gregorian;
 
 use Aeon\Calendar\Gregorian\Day;
 use Aeon\Calendar\Gregorian\Month;
+use Aeon\Calendar\Gregorian\TimeZone;
 use Aeon\Calendar\Gregorian\Year;
 use PHPUnit\Framework\TestCase;
 
@@ -15,21 +16,21 @@ final class DayTest extends TestCase
     {
         $day = Day::fromString('2020-01-01');
 
-        $this->assertSame('2020-01-01T00:00:00+0000', $day->midnight()->toISO8601());
+        $this->assertSame('2020-01-01T00:00:00+0000', $day->midnight(TimeZone::UTC())->toISO8601());
     }
 
     public function test_noon() : void
     {
         $day = Day::fromString('2020-01-01');
 
-        $this->assertSame('2020-01-01T12:00:00+0000', $day->noon()->toISO8601());
+        $this->assertSame('2020-01-01T12:00:00+0000', $day->noon(TimeZone::UTC())->toISO8601());
     }
 
     public function test_end_of_day() : void
     {
         $day = Day::fromString('2020-01-01');
 
-        $this->assertSame('2020-01-01 23:59:59.999999+0000', $day->endOfDay()->format('Y-m-d H:i:s.uO'));
+        $this->assertSame('2020-01-01 23:59:59.999999+0000', $day->endOfDay(TimeZone::UTC())->format('Y-m-d H:i:s.uO'));
     }
 
     public function test_week_of_year() : void
