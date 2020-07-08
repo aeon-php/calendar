@@ -29,6 +29,11 @@ final class GregorianCalendar implements Calendar
         return new self(new TimeZone(\date_default_timezone_get()));
     }
 
+    public function timeZone() : TimeZone
+    {
+        return $this->timeZone;
+    }
+
     public function currentYear() : Year
     {
         return Year::fromDateTime($this->now()->toDateTimeImmutable());

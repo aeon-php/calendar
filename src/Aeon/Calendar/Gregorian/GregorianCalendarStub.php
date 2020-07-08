@@ -17,6 +17,13 @@ final class GregorianCalendarStub implements Calendar
         $this->currentDate = $currentDate;
     }
 
+    public function timeZone() : TimeZone
+    {
+        $tz = $this->now()->timeZone();
+
+        return $tz ? $tz : TimeZone::UTC();
+    }
+
     public function currentYear() : Year
     {
         return Year::fromDateTime($this->now()->toDateTimeImmutable());

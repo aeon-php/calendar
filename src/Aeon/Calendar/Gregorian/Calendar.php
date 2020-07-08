@@ -9,6 +9,8 @@ namespace Aeon\Calendar\Gregorian;
  */
 interface Calendar
 {
+    public function timeZone() : TimeZone;
+
     public function currentYear() : Year;
 
     public function currentMonth() : Month;
