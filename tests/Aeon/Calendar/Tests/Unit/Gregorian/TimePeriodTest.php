@@ -29,7 +29,7 @@ final class TimePeriodTest extends TestCase
             DateTime::fromString('2020-01-01 12:25:32.588460')
         );
 
-        $this->assertSame('2.508825', $period->distance()->inSecondsPreciseString());
+        $this->assertSame('2.508825', $period->distance()->inSecondsPrecise());
     }
 
     public function test_distance_in_time_unit_from_start_to_end_date_between_years() : void

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Aeon\Calendar;
 
+use Aeon\Calculator\PreciseCalculator;
 use Aeon\Calendar\Exception\Exception;
 use Aeon\Calendar\Exception\InvalidArgumentException;
 
@@ -12,6 +13,8 @@ use Aeon\Calendar\Exception\InvalidArgumentException;
  */
 final class TimeUnit
 {
+    private const PRECISION = 6;
+
     private const MICROSECONDS_IN_SECOND = 1_000_000;
 
     private const MICROSECONDS_IN_MILLISECOND = 1_000;
@@ -52,7 +55,7 @@ final class TimeUnit
      */
     public static function precise(float $seconds) : self
     {
-        $secondsString = \number_format(\round($seconds, 6, PHP_ROUND_HALF_UP), 6, '.', '');
+        $secondsString = \number_format(\round($seconds, self::PRECISION, PHP_ROUND_HALF_UP), self::PRECISION, '.', '');
 
         $secondsStringParts = \explode('.', $secondsString);
 
@@ -63,7 +66,7 @@ final class TimeUnit
         }
 
         return new self(
-            $seconds < 0,
+            (float) $secondsString < 0,
             \abs((int) $secondsStringParts[0]),
             \abs((int) $secondsStringParts[1]),
         );
@@ -193,57 +196,47 @@ final class TimeUnit
 
     public function add(self $timeUnit) : self
     {
-        return self::precise($this->inSecondsPrecise() + $timeUnit->inSecondsPrecise());
+        return self::precise((float) (PreciseCalculator::initialize()->add($this->inSecondsPrecise(), $timeUnit->inSecondsPrecise())));
     }
 
     public function sub(self $timeUnit) : self
     {
-        return self::precise($this->inSecondsPrecise() - $timeUnit->inSecondsPrecise());
+        return self::precise((float) (PreciseCalculator::initialize()->sub($this->inSecondsPrecise(), $timeUnit->inSecondsPrecise())));
     }
 
     public function multiply(float $multiplier) : self
     {
-        return self::precise($this->inSecondsPrecise() * $multiplier);
+        return self::precise((float) (PreciseCalculator::initialize()->multiply($this->inSecondsPrecise(), (string) $multiplier)));
     }
 
     public function divide(float $divider) : self
     {
-        return self::precise($this->inSecondsPrecise() / $divider);
+        return self::precise((float) (PreciseCalculator::initialize()->divide($this->inSecondsPrecise(), (string) $divider)));
     }
 
     public function isGreaterThan(self $timeUnit) : bool
     {
-        return $this->inSeconds() === $timeUnit->inSeconds()
-            ? $this->inSecondsPrecise() > $timeUnit->inSecondsPrecise()
-            : $this->inSeconds() > $timeUnit->inSeconds();
+        return PreciseCalculator::initialize()->isGreaterThan($this->inSecondsPrecise(), $timeUnit->inSecondsPrecise());
     }
 
     public function isGreaterThanEq(self $timeUnit) : bool
     {
-        return $this->inSeconds() === $timeUnit->inSeconds()
-            ? $this->inSecondsPrecise() >= $timeUnit->inSecondsPrecise()
-            : $this->inSeconds() >= $timeUnit->inSeconds();
+        return PreciseCalculator::initialize()->isGreaterThanEq($this->inSecondsPrecise(), $timeUnit->inSecondsPrecise());
     }
 
     public function isLessThan(self $timeUnit) : bool
     {
-        return $this->inSeconds() === $timeUnit->inSeconds()
-            ? $this->inSecondsPrecise() < $timeUnit->inSecondsPrecise()
-            : $this->inSeconds() < $timeUnit->inSeconds();
+        return PreciseCalculator::initialize()->isLessThan($this->inSecondsPrecise(), $timeUnit->inSecondsPrecise());
     }
 
     public function isLessThanEq(self $timeUnit) : bool
     {
-        return $this->inSeconds() === $timeUnit->inSeconds()
-            ? $this->inSecondsPrecise() <= $timeUnit->inSecondsPrecise()
-            : $this->inSeconds() <= $timeUnit->inSeconds();
+        return PreciseCalculator::initialize()->isLessThanEq($this->inSecondsPrecise(), $timeUnit->inSecondsPrecise());
     }
 
     public function isEqual(self $timeUnit) : bool
     {
-        return $this->inSeconds() === $timeUnit->inSeconds()
-            ? $this->inSecondsPrecise() === $timeUnit->inSecondsPrecise()
-            : $this->inSeconds() === $timeUnit->inSeconds();
+        return PreciseCalculator::initialize()->isEqual($this->inSecondsPrecise(), $timeUnit->inSecondsPrecise());
     }
 
     public function inSeconds() : int
@@ -251,28 +244,13 @@ final class TimeUnit
         return $this->negative ? -$this->seconds : $this->seconds;
     }
 
-    public function inSecondsPrecise() : float
+    public function inSecondsPrecise() : string
     {
-        return (float) \sprintf(
+        return \sprintf(
             '%s%d.%s',
-            $this->negative ? '-' : '+',
+            $this->negative === true ? '-' : '',
             $this->seconds,
             $this->microsecondString()
-        );
-    }
-
-    public function inSecondsPreciseString() : string
-    {
-        return \number_format(
-            (float) \sprintf(
-                '%s%d.%s',
-                $this->negative ? '-' : '',
-                $this->seconds,
-                $this->microsecondString()
-            ),
-            6,
-            '.',
-            ''
         );
     }
 
@@ -342,7 +320,7 @@ final class TimeUnit
      */
     public function microsecondString() : string
     {
-        return \str_pad((string) $this->microsecond, 6, '0', STR_PAD_LEFT);
+        return \str_pad((string) $this->microsecond, self::PRECISION, '0', STR_PAD_LEFT);
     }
 
     public function inMilliseconds() : int

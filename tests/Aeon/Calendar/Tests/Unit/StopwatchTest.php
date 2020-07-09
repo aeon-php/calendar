@@ -137,12 +137,12 @@ final class StopwatchTest extends TestCase
         $stopwatch->stop(); // lap #2
 
         $this->assertSame(
-            $stopwatch->lastLapElapsedTime()->inSecondsPreciseString(),
-            $stopwatch->elapsedTime(2)->inSecondsPreciseString()
+            $stopwatch->lastLapElapsedTime()->inSecondsPrecise(),
+            $stopwatch->elapsedTime(2)->inSecondsPrecise()
         );
         $this->assertSame(
-            $stopwatch->firstLapElapsedTime()->inSecondsPreciseString(),
-            $stopwatch->elapsedTime(1)->inSecondsPreciseString()
+            $stopwatch->firstLapElapsedTime()->inSecondsPrecise(),
+            $stopwatch->elapsedTime(1)->inSecondsPrecise()
         );
     }
 
@@ -158,11 +158,11 @@ final class StopwatchTest extends TestCase
         $stopwatch->stop();
 
         $this->assertSame(
-            $stopwatch->totalElapsedTime()->inSecondsPreciseString(),
+            $stopwatch->totalElapsedTime()->inSecondsPrecise(),
             $stopwatch->firstLapElapsedTime()
                 ->add($stopwatch->elapsedTime(2))
                 ->add($stopwatch->lastLapElapsedTime())
-                ->inSecondsPreciseString()
+                ->inSecondsPrecise()
         );
     }
 
@@ -175,8 +175,8 @@ final class StopwatchTest extends TestCase
         $stopwatch->stop();
 
         $this->assertSame(
-            $stopwatch->totalElapsedTime()->inSecondsPreciseString(),
-            $stopwatch->firstLapElapsedTime()->add($stopwatch->lastLapElapsedTime())->inSecondsPreciseString()
+            $stopwatch->totalElapsedTime()->inSecondsPrecise(),
+            $stopwatch->firstLapElapsedTime()->add($stopwatch->lastLapElapsedTime())->inSecondsPrecise()
         );
         $this->assertSame(2, $stopwatch->laps());
         $this->assertTrue($stopwatch->isStarted());
