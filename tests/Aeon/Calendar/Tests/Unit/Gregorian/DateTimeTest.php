@@ -94,6 +94,12 @@ final class DateTimeTest extends TestCase
         $this->assertSame($dateTime->toISO8601(), $dateTime->__toString());
     }
 
+    public function test_to_iso8601_basic_format() : void
+    {
+        $dateTime = DateTime::fromString('2020-01-01 00:00:00+00');
+        $this->assertSame('20200101T000000+0000', $dateTime->toISO8601($extended = false));
+    }
+
     public function test_create() : void
     {
         $this->assertTrue(
@@ -219,20 +225,20 @@ final class DateTimeTest extends TestCase
     {
         $now = DateTime::fromString('2020-06-17 20:57:07 UTC');
 
-        $this->assertSame('2020-06-17T20:57:44+0000', $now->toAtomicTime()->toISO8601());
+        $this->assertSame('2020-06-17T20:57:44+00:00', $now->toAtomicTime()->toISO8601());
     }
 
     public function test_to_gps_time() : void
     {
         $now = DateTime::fromString('2020-06-17 20:57:07 UTC');
 
-        $this->assertSame('2020-06-17T20:57:25+0000', $now->toGPSTime()->toISO8601());
+        $this->assertSame('2020-06-17T20:57:25+00:00', $now->toGPSTime()->toISO8601());
     }
 
     public function test_timestamp_before_epoch_start() : void
     {
         $this->expectException(Exception::class);
-        $this->expectExceptionMessage('Given epoch started at 1970-01-01T00:00:00+0000 which was after 1969-01-01T00:00:00+0000');
+        $this->expectExceptionMessage('Given epoch started at 1970-01-01T00:00:00+00:00 which was after 1969-01-01T00:00:00+00:00');
 
         $dateTime = DateTime::fromString('1969-01-01 00:00:00 UTC');
 
@@ -601,21 +607,21 @@ final class DateTimeTest extends TestCase
 
     public function test_yesterday() : void
     {
-        $this->assertSame('2019-12-31T00:00:00+0000', DateTime::fromString('2020-01-01 01:00:00')->yesterday()->toISO8601());
+        $this->assertSame('2019-12-31T00:00:00+00:00', DateTime::fromString('2020-01-01 01:00:00')->yesterday()->toISO8601());
     }
 
     public function test_yesterday_with_tz() : void
     {
-        $this->assertSame('2019-12-31T00:00:00+0100', DateTime::fromString('2020-01-01 01:00:00 Europe/Warsaw')->yesterday()->toISO8601());
+        $this->assertSame('2019-12-31T00:00:00+01:00', DateTime::fromString('2020-01-01 01:00:00 Europe/Warsaw')->yesterday()->toISO8601());
     }
 
     public function test_tomorrow() : void
     {
-        $this->assertSame('2020-01-02T00:00:00+0000', DateTime::fromString('2020-01-01 01:00:00')->tomorrow()->toISO8601());
+        $this->assertSame('2020-01-02T00:00:00+00:00', DateTime::fromString('2020-01-01 01:00:00')->tomorrow()->toISO8601());
     }
 
     public function test_tomorrow_with_tz() : void
     {
-        $this->assertSame('2020-01-02T00:00:00+0100', DateTime::fromString('2020-01-01 01:00:00 Europe/Warsaw')->tomorrow()->toISO8601());
+        $this->assertSame('2020-01-02T00:00:00+01:00', DateTime::fromString('2020-01-01 01:00:00 Europe/Warsaw')->tomorrow()->toISO8601());
     }
 }
