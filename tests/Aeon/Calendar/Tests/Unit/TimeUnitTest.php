@@ -25,8 +25,7 @@ final class TimeUnitTest extends TestCase
         $this->assertSame(120, $unit->inHours());
         $this->assertSame(7200, $unit->inMinutes());
         $this->assertSame(432000, $unit->inSeconds());
-        $this->assertSame(432000.0, $unit->inSecondsPrecise());
-        $this->assertSame('432000.000000', $unit->inSecondsPreciseString());
+        $this->assertSame('432000.000000', $unit->inSecondsPrecise());
         $this->assertSame(432000000, $unit->inMilliseconds());
         $this->assertSame(432000, $unit->toDateInterval()->s);
     }
@@ -43,7 +42,7 @@ final class TimeUnitTest extends TestCase
         $this->assertSame(7200, $unit->inMinutesAbs());
         $this->assertSame(-432000, $unit->inSeconds());
         $this->assertSame(432000, $unit->inSecondsAbs());
-        $this->assertSame('-432000.000000', $unit->inSecondsPreciseString());
+        $this->assertSame('-432000.000000', $unit->inSecondsPrecise());
         $this->assertSame(-432000000, $unit->inMilliseconds());
         $this->assertSame(432000000, $unit->inMillisecondsAbs());
         $this->assertSame(432000, $unit->toDateInterval()->s);
@@ -116,8 +115,7 @@ final class TimeUnitTest extends TestCase
         $this->assertSame(0, TimeUnit::precise(0.5)->inSeconds());
         $this->assertSame(500, TimeUnit::precise(0.5)->inMilliseconds());
         $this->assertFalse(TimeUnit::precise(0.5)->isNegative());
-        $this->assertSame(0.500000, TimeUnit::precise(0.5)->inSecondsPrecise());
-        $this->assertSame('0.500000', TimeUnit::precise(0.5)->inSecondsPreciseString());
+        $this->assertSame('0.500000', TimeUnit::precise(0.5)->inSecondsPrecise());
     }
 
     public function test_creating_negative_precise_timeunit() : void
@@ -126,8 +124,7 @@ final class TimeUnitTest extends TestCase
         $this->assertSame(0, TimeUnit::precise(-0.5)->inSeconds());
         $this->assertSame(-500, TimeUnit::precise(-0.5)->inMilliseconds());
         $this->assertTrue(TimeUnit::precise(-0.5)->isNegative());
-        $this->assertSame(-0.500000, TimeUnit::precise(-0.5)->inSecondsPrecise());
-        $this->assertSame('-0.500000', TimeUnit::precise(-0.5)->inSecondsPreciseString());
+        $this->assertSame('-0.500000', TimeUnit::precise(-0.5)->inSecondsPrecise());
     }
 
     /**
@@ -292,7 +289,7 @@ final class TimeUnitTest extends TestCase
         );
         $this->assertSame(
             $expectedPreciseString,
-            TimeUnit::precise($seconds)->add(TimeUnit::precise($addedSeconds))->inSecondsPreciseString()
+            TimeUnit::precise($seconds)->add(TimeUnit::precise($addedSeconds))->inSecondsPrecise()
         );
     }
 
@@ -324,7 +321,7 @@ final class TimeUnitTest extends TestCase
         );
         $this->assertSame(
             $expectedPreciseString,
-            TimeUnit::precise($seconds)->sub(TimeUnit::precise($addedSeconds))->inSecondsPreciseString()
+            TimeUnit::precise($seconds)->sub(TimeUnit::precise($addedSeconds))->inSecondsPrecise()
         );
     }
 
@@ -390,7 +387,8 @@ final class TimeUnitTest extends TestCase
     {
         $this->assertSame(
             $stringFloat,
-            TimeUnit::precise($float)->inSecondsPreciseString()
+            TimeUnit::precise($float)->inSecondsPrecise(),
+            $stringFloat . ' is not equal ' . $float
         );
     }
 
