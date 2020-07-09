@@ -26,6 +26,11 @@ final class BCMathCalculator implements Calculator
         return \extension_loaded('bcmath');
     }
 
+    public function precision() : int
+    {
+        return $this->precision;
+    }
+
     public function divide(string $value, string $divisor) : string
     {
         if (!\is_numeric($value) || !\is_numeric($divisor)) {

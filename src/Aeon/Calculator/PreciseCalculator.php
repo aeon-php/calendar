@@ -6,27 +6,25 @@ namespace Aeon\Calculator;
 
 final class PreciseCalculator
 {
-    private const PRECISION = 6;
-
     private static ?Calculator $instance = null;
 
     /**
      * @psalm-pure
      * @psalm-suppress ImpureStaticProperty
      */
-    public static function initialize() : Calculator
+    public static function initialize(int $precision) : Calculator
     {
-        if (self::$instance instanceof Calculator) {
+        if (self::$instance instanceof Calculator && self::$instance->precision() === $precision) {
             return self::$instance;
         }
 
         if (BCMathCalculator::supported()) {
-            self::$instance = new BCMathCalculator(self::PRECISION);
+            self::$instance = new BCMathCalculator($precision);
 
             return self::$instance;
         }
 
-        self::$instance = new PHPCalculator(self::PRECISION);
+        self::$instance = new PHPCalculator($precision);
 
         return self::$instance;
     }

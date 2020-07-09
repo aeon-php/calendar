@@ -16,6 +16,11 @@ final class PHPCalculator implements Calculator
         $this->precision = $precision;
     }
 
+    public function precision() : int
+    {
+        return $this->precision;
+    }
+
     public function divide(string $value, string $divisor) : string
     {
         return \number_format((float) $value / (float) $divisor, $this->precision, '.', '');
