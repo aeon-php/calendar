@@ -182,9 +182,11 @@ final class DateTime
         return self::fromDateTime($this->toDateTimeImmutable()->setTimezone($dateTimeZone->toDateTimeZone()));
     }
 
-    public function toISO8601() : string
+    public function toISO8601(bool $extended = true) : string
     {
-        return $this->toDateTimeImmutable()->format(\DateTimeInterface::ISO8601);
+        return $extended
+            ? $this->toDateTimeImmutable()->format('Y-m-d\TH:i:sP')
+            : $this->toDateTimeImmutable()->format('Ymd\THisO');
     }
 
     public function isDaylightSaving() : bool

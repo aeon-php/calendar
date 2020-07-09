@@ -16,14 +16,14 @@ final class DayTest extends TestCase
     {
         $day = Day::fromString('2020-01-01');
 
-        $this->assertSame('2020-01-01T00:00:00+0000', $day->midnight(TimeZone::UTC())->toISO8601());
+        $this->assertSame('2020-01-01T00:00:00+00:00', $day->midnight(TimeZone::UTC())->toISO8601());
     }
 
     public function test_noon() : void
     {
         $day = Day::fromString('2020-01-01');
 
-        $this->assertSame('2020-01-01T12:00:00+0000', $day->noon(TimeZone::UTC())->toISO8601());
+        $this->assertSame('2020-01-01T12:00:00+00:00', $day->noon(TimeZone::UTC())->toISO8601());
     }
 
     public function test_end_of_day() : void
