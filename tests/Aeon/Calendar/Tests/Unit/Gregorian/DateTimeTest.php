@@ -94,6 +94,12 @@ final class DateTimeTest extends TestCase
         $this->assertSame($dateTime->toISO8601(), $dateTime->__toString());
     }
 
+    public function test_to_iso8601_extended_format() : void
+    {
+        $dateTime = DateTime::fromString('2020-01-01 00:00:00+00');
+        $this->assertSame('2020-01-01T00:00:00+00:00', $dateTime->toISO8601());
+    }
+
     public function test_to_iso8601_basic_format() : void
     {
         $dateTime = DateTime::fromString('2020-01-01 00:00:00+00');
