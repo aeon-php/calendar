@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Aeon\Calendar\Gregorian;
 
+use Aeon\Calendar\Exception\InvalidArgumentException;
+
 /**
  * @psalm-immutable
  */
@@ -11,12 +13,12 @@ final class Year
 {
     private int $year;
 
-    private Months $months;
+    private YearMonths $months;
 
     public function __construct(int $year)
     {
         $this->year = $year;
-        $this->months = new Months($this);
+        $this->months = new YearMonths($this);
     }
 
     /**
@@ -103,7 +105,7 @@ final class Year
         return $this->months->byNumber(12);
     }
 
-    public function months() : Months
+    public function months() : YearMonths
     {
         return $this->months;
     }
@@ -111,6 +113,16 @@ final class Year
     public function number() : int
     {
         return $this->year;
+    }
+
+    public function plus(int $years) : self
+    {
+        return self::fromDateTime($this->toDateTimeImmutable()->modify(\sprintf('+%d year', $years)));
+    }
+
+    public function minus(int $years) : self
+    {
+        return self::fromDateTime($this->toDateTimeImmutable()->modify(\sprintf('-%d year', $years)));
     }
 
     public function next() : self
@@ -154,11 +166,11 @@ final class Year
     /**
      * @param callable(Day $day) : bool $iterator
      *
-     * @return array<Day>
+     * @return Days
      */
-    public function filterDays(callable $iterator) : array
+    public function filterDays(callable $iterator) : Days
     {
-        return \array_filter(
+        return new Days(...\array_filter(
             \array_merge(
                 ...\array_map(
                     fn (int $month) : array => $this->months->byNumber($month)->days()->all(),
@@ -166,7 +178,7 @@ final class Year
                 )
             ),
             $iterator
-        );
+        ));
     }
 
     public function isLeap() : bool
@@ -179,5 +191,99 @@ final class Year
         return (new \DateTimeImmutable('now', new \DateTimeZone('UTC')))
             ->setDate($this->number(), 1, 1)
             ->setTime(0, 0, 0, 0);
+    }
+
+    public function isEqual(self $year) : bool
+    {
+        return $this->number() === $year->number();
+    }
+
+    public function isBefore(self $year) : bool
+    {
+        return $this->toDateTimeImmutable() < $year->toDateTimeImmutable();
+    }
+
+    public function isBeforeOrEqual(self $year) : bool
+    {
+        return $this->toDateTimeImmutable() <= $year->toDateTimeImmutable();
+    }
+
+    public function isAfter(self $year) : bool
+    {
+        return $this->toDateTimeImmutable() > $year->toDateTimeImmutable();
+    }
+
+    public function isAfterOrEqual(self $year) : bool
+    {
+        return $this->toDateTimeImmutable() >= $year->toDateTimeImmutable();
+    }
+
+    public function iterate(self $destination) : Years
+    {
+        return $this->isAfter($destination)
+            ? $this->since($destination)
+            : $this->until($destination);
+    }
+
+    public function until(self $month) : Years
+    {
+        if ($this->isAfter($month)) {
+            throw new InvalidArgumentException(
+                \sprintf(
+                    '%d is after %d',
+                    $this->number(),
+                    $month->number(),
+                )
+            );
+        }
+
+        return new Years(
+            ...\array_map(
+                function (\DateTimeImmutable $dateTimeImmutable) : self {
+                    return self::fromDateTime($dateTimeImmutable);
+                },
+                \iterator_to_array(
+                    new \DatePeriod(
+                        $this->toDateTimeImmutable(),
+                        new \DateInterval('P1Y'),
+                        $month->toDateTimeImmutable()
+                    )
+                )
+            )
+        );
+    }
+
+    public function since(self $month) : Years
+    {
+        if ($this->isBefore($month)) {
+            throw new InvalidArgumentException(
+                \sprintf(
+                    '%d is before %d',
+                    $this->number(),
+                    $month->number(),
+                )
+            );
+        }
+
+        $interval = new \DateInterval('P1Y');
+        /** @psalm-suppress ImpurePropertyAssignment */
+        $interval->invert = 1;
+
+        return new Years(
+            ...\array_map(
+                function (\DateTimeImmutable $dateTimeImmutable) : self {
+                    return self::fromDateTime($dateTimeImmutable);
+                },
+                \array_reverse(
+                    \iterator_to_array(
+                        new \DatePeriod(
+                            $month->toDateTimeImmutable(),
+                            $interval,
+                            $this->toDateTimeImmutable()
+                        )
+                    )
+                )
+            )
+        );
     }
 }

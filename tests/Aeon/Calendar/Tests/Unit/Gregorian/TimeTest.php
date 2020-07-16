@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Aeon\Calendar\Tests\Unit\Gregorian;
 
+use Aeon\Calendar\Exception\InvalidArgumentException;
 use Aeon\Calendar\Gregorian\Time;
 use PHPUnit\Framework\TestCase;
 
@@ -54,5 +55,34 @@ final class TimeTest extends TestCase
         $this->assertTrue((new Time(10, 0, 0, 0))->isLessThanEq(new Time(10, 0, 0, 0)));
         $this->assertFalse((new Time(10, 0, 0, 0))->isLessThanEq(new Time(0, 0, 0, 0)));
         $this->assertTrue((new Time(10, 0, 0, 0))->isLessThanEq(new Time(15, 0, 0, 0)));
+    }
+
+    public function test_to_time_unit() : void
+    {
+        $this->assertSame('36000.000000', ((new Time(10, 0, 0, 0))->toTimeUnit()->inSecondsPrecise()));
+    }
+
+    public function test_creating_using_invalid_hour() : void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        new Time(25, 0, 0, 0);
+    }
+
+    public function test_creating_using_invalid_minute() : void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        new Time(0, 65, 0, 0);
+    }
+
+    public function test_creating_using_invalid_second() : void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        new Time(0, 0, 65, 0);
+    }
+
+    public function test_creating_using_invalid_microsecond() : void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        new Time(0, 0, 0, 1_000_000);
     }
 }

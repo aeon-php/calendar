@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace Aeon\Calendar\Tests\Unit\Gregorian;
 
+use Aeon\Calendar\Exception\InvalidArgumentException;
 use Aeon\Calendar\Gregorian\DateTime;
 use Aeon\Calendar\Gregorian\GregorianCalendar;
+use Aeon\Calendar\Gregorian\LeapSecond;
 use Aeon\Calendar\Gregorian\LeapSeconds;
 use Aeon\Calendar\TimeUnit;
 use PHPUnit\Framework\TestCase;
@@ -63,5 +65,13 @@ final class LeapSecondsTest extends TestCase
             )->count()
                 ->inSeconds()
         );
+    }
+
+    public function test_creating_leap_second_with_invalid_offset() : void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Leap second TAI offset must be greater or equal 10');
+
+        new LeapSecond(DateTime::fromString('1970-01-01 00:00:00 UTC'), TimeUnit::seconds(5));
     }
 }

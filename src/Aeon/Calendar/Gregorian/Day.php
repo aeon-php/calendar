@@ -62,6 +62,46 @@ final class Day
         ];
     }
 
+    public function plus(int $years, int $months, int $days) : self
+    {
+        return self::fromDateTime($this->toDateTimeImmutable()->modify(\sprintf('+%d days +%d months +%d years', $days, $months, $years)));
+    }
+
+    public function minus(int $years, int $months, int $days) : self
+    {
+        return self::fromDateTime($this->toDateTimeImmutable()->modify(\sprintf('-%d days -%d months -%d years', $days, $months, $years)));
+    }
+
+    public function plusDays(int $days) : self
+    {
+        return self::fromDateTime($this->toDateTimeImmutable()->modify(\sprintf('+%d days', $days)));
+    }
+
+    public function minusDays(int $days) : self
+    {
+        return self::fromDateTime($this->toDateTimeImmutable()->modify(\sprintf('-%d days', $days)));
+    }
+
+    public function plusMonths(int $months) : self
+    {
+        return self::fromDateTime($this->toDateTimeImmutable()->modify(\sprintf('+%d months', $months)));
+    }
+
+    public function minusMonths(int $months) : self
+    {
+        return self::fromDateTime($this->toDateTimeImmutable()->modify(\sprintf('-%d months', $months)));
+    }
+
+    public function plusYears(int $years) : self
+    {
+        return self::fromDateTime($this->toDateTimeImmutable()->modify(\sprintf('+%d years', $years)));
+    }
+
+    public function minusYears(int $years) : self
+    {
+        return self::fromDateTime($this->toDateTimeImmutable()->modify(\sprintf('-%d years', $years)));
+    }
+
     public function previous() : self
     {
         return self::fromDateTime($this->toDateTimeImmutable()->modify('-1 day'));
@@ -152,10 +192,105 @@ final class Day
         return $this->toDateTimeImmutable()->format($format);
     }
 
-    public function equals(self $day) : bool
+    public function isEqual(self $day) : bool
     {
-        return $this->year()->number() === $day->year()->number()
-            && $this->month()->number() === $day->month()->number()
-            && $this->number() === $day->number();
+        return $this->number() === $day->number();
+    }
+
+    public function isBefore(self $day) : bool
+    {
+        return $this->toDateTimeImmutable() < $day->toDateTimeImmutable();
+    }
+
+    public function isBeforeOrEqual(self $day) : bool
+    {
+        return $this->toDateTimeImmutable() <= $day->toDateTimeImmutable();
+    }
+
+    public function isAfter(self $day) : bool
+    {
+        return $this->toDateTimeImmutable() > $day->toDateTimeImmutable();
+    }
+
+    public function isAfterOrEqual(self $day) : bool
+    {
+        return $this->toDateTimeImmutable() >= $day->toDateTimeImmutable();
+    }
+
+    public function iterate(self $destination) : Days
+    {
+        return $this->isAfter($destination)
+            ? $this->since($destination)
+            : $this->until($destination);
+    }
+
+    public function until(self $day) : Days
+    {
+        if ($this->isAfter($day)) {
+            throw new InvalidArgumentException(
+                \sprintf(
+                    '%d %s %d is after %d %s %d',
+                    $this->number(),
+                    $this->month()->name(),
+                    $this->month()->year()->number(),
+                    $day->number(),
+                    $day->month()->name(),
+                    $day->month()->year()->number(),
+                )
+            );
+        }
+
+        return new Days(
+            ...\array_map(
+                function (\DateTimeImmutable $dateTimeImmutable) : self {
+                    return self::fromDateTime($dateTimeImmutable);
+                },
+                \iterator_to_array(
+                    new \DatePeriod(
+                        $this->toDateTimeImmutable(),
+                        new \DateInterval('P1D'),
+                        $day->toDateTimeImmutable()
+                    )
+                )
+            )
+        );
+    }
+
+    public function since(self $day) : Days
+    {
+        if ($this->isBefore($day)) {
+            throw new InvalidArgumentException(
+                \sprintf(
+                    '%d %s %d is before %d %s %d',
+                    $this->number(),
+                    $this->month()->name(),
+                    $this->month()->year()->number(),
+                    $day->number(),
+                    $day->month()->name(),
+                    $day->month()->year()->number(),
+                )
+            );
+        }
+
+        $interval = new \DateInterval('P1D');
+        /** @psalm-suppress ImpurePropertyAssignment */
+        $interval->invert = 1;
+
+        return new Days(
+            ...\array_map(
+                function (\DateTimeImmutable $dateTimeImmutable) : self {
+                    return self::fromDateTime($dateTimeImmutable);
+                },
+                \array_reverse(
+                    \iterator_to_array(
+                        new \DatePeriod(
+                            $day->toDateTimeImmutable(),
+                            $interval,
+                            $this->toDateTimeImmutable()
+                        )
+                    )
+                )
+            )
+        );
     }
 }

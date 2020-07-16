@@ -27,7 +27,9 @@ final class TimeEpoch
     private function __construct(int $type, DateTime $dateTime)
     {
         if (!$dateTime->timeOffset()->isUTC()) {
+            // @codeCoverageIgnoreStart
             throw new InvalidArgumentException('DateTime must have UTC time offset, got ' . $dateTime->timeOffset()->toString());
+            // @codeCoverageIgnoreEnd
         }
 
         $this->type = $type;

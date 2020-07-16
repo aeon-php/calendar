@@ -36,11 +36,15 @@ final class TimeUnit
     private function __construct(bool $negative, int $seconds, int $microsecond)
     {
         if ($seconds < 0) {
+            // @codeCoverageIgnoreStart
             throw new InvalidArgumentException('Seconds must be greater or equal 0, got ' . $seconds);
+            // @codeCoverageIgnoreEnd
         }
 
         if ($microsecond < 0 || $microsecond >= self::MICROSECONDS_IN_SECOND) {
+            // @codeCoverageIgnoreStart
             throw new InvalidArgumentException('Microsecond must be greater or equal 0 and less than 1000000, got ' . $seconds);
+            // @codeCoverageIgnoreEnd
         }
 
         $this->negative = $negative;

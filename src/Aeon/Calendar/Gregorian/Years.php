@@ -6,19 +6,19 @@ namespace Aeon\Calendar\Gregorian;
 
 /**
  * @psalm-immutable
- * @implements \IteratorAggregate<int, Day>
- * @implements \ArrayAccess<int, Day>
+ * @implements \IteratorAggregate<int, Year>
+ * @implements \ArrayAccess<int, Year>
  */
-final class Days implements \ArrayAccess, \Countable, \IteratorAggregate
+final class Years implements \ArrayAccess, \Countable, \IteratorAggregate
 {
     /**
-     * @var array<int, Day>
+     * @var array<int, Year>
      */
-    private array $days;
+    private array $years;
 
-    public function __construct(Day ...$days)
+    public function __construct(Year ...$years)
     {
-        $this->days = $days;
+        $this->years = $years;
     }
 
     public function offsetExists($offset) : bool
@@ -26,7 +26,7 @@ final class Days implements \ArrayAccess, \Countable, \IteratorAggregate
         return isset($this->all()[(int) $offset]);
     }
 
-    public function offsetGet($offset) : ?Day
+    public function offsetGet($offset) : ?Year
     {
         return isset($this->all()[(int) $offset]) ? $this->all()[(int) $offset] : null;
     }
@@ -44,15 +44,15 @@ final class Days implements \ArrayAccess, \Countable, \IteratorAggregate
     }
 
     /**
-     * @return array<int, Day>
+     * @return array<int, Year>
      */
     public function all() : array
     {
-        return $this->days;
+        return $this->years;
     }
 
     /**
-     * @param callable(Day $day) : mixed $iterator
+     * @param callable(Year $year) : mixed $iterator
      *
      * @return array<mixed>
      */
@@ -62,7 +62,7 @@ final class Days implements \ArrayAccess, \Countable, \IteratorAggregate
     }
 
     /**
-     * @param callable(Day $day) : bool $iterator
+     * @param callable(Year $year) : bool $iterator
      */
     public function filter(callable $iterator) : self
     {

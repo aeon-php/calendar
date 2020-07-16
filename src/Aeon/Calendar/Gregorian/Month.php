@@ -13,7 +13,7 @@ final class Month
 {
     private Year $year;
 
-    private Days $days;
+    private MonthDays $days;
 
     private int $number;
 
@@ -25,7 +25,7 @@ final class Month
 
         $this->year = $year;
         $this->number = $number;
-        $this->days = new Days($this);
+        $this->days = new MonthDays($this);
     }
 
     /**
@@ -66,6 +66,36 @@ final class Month
         return self::fromDateTime($this->toDateTimeImmutable()->modify('+1 month'));
     }
 
+    public function plus(int $years, int $months) : self
+    {
+        return self::fromDateTime($this->toDateTimeImmutable()->modify(\sprintf('+%d months +%d years', $months, $years)));
+    }
+
+    public function minus(int $years, int $months) : self
+    {
+        return self::fromDateTime($this->toDateTimeImmutable()->modify(\sprintf('-%d months -%d years', $months, $years)));
+    }
+
+    public function plusMonths(int $months) : self
+    {
+        return self::fromDateTime($this->toDateTimeImmutable()->modify(\sprintf('+%d month', $months)));
+    }
+
+    public function minusMonths(int $months) : self
+    {
+        return self::fromDateTime($this->toDateTimeImmutable()->modify(\sprintf('-%d month', $months)));
+    }
+
+    public function plusYears(int $years) : self
+    {
+        return self::fromDateTime($this->toDateTimeImmutable()->modify(\sprintf('+%d years', $years)));
+    }
+
+    public function minusYears(int $years) : self
+    {
+        return self::fromDateTime($this->toDateTimeImmutable()->modify(\sprintf('-%d years', $years)));
+    }
+
     public function firstDay() : Day
     {
         return $this->days()->first();
@@ -86,7 +116,7 @@ final class Month
         return $this->year;
     }
 
-    public function days() : Days
+    public function days() : MonthDays
     {
         return $this->days;
     }
@@ -111,5 +141,103 @@ final class Month
         return (new \DateTimeImmutable('now', new \DateTimeZone('UTC')))
             ->setDate($this->year()->number(), $this->number(), 1)
             ->setTime(0, 0, 0, 0);
+    }
+
+    public function iterate(self $destination) : Months
+    {
+        return $this->isAfter($destination)
+            ? $this->since($destination)
+            : $this->until($destination);
+    }
+
+    public function until(self $month) : Months
+    {
+        if ($this->isAfter($month)) {
+            throw new InvalidArgumentException(
+                \sprintf(
+                    '%s %d is after %s %d',
+                    $this->name(),
+                    $this->year->number(),
+                    $month->name(),
+                    $month->year->number(),
+                )
+            );
+        }
+
+        return new Months(
+            ...\array_map(
+                function (\DateTimeImmutable $dateTimeImmutable) : self {
+                    return self::fromDateTime($dateTimeImmutable);
+                },
+                \iterator_to_array(
+                    new \DatePeriod(
+                        $this->toDateTimeImmutable(),
+                        new \DateInterval('P1M'),
+                        $month->toDateTimeImmutable()
+                    )
+                )
+            )
+        );
+    }
+
+    public function since(self $month) : Months
+    {
+        if ($this->isBefore($month)) {
+            throw new InvalidArgumentException(
+                \sprintf(
+                    '%s %d is before %s %d',
+                    $this->name(),
+                    $this->year->number(),
+                    $month->name(),
+                    $month->year->number(),
+                )
+            );
+        }
+
+        $interval = new \DateInterval('P1M');
+        /** @psalm-suppress ImpurePropertyAssignment */
+        $interval->invert = 1;
+
+        return new Months(
+            ...\array_map(
+                function (\DateTimeImmutable $dateTimeImmutable) : self {
+                    return self::fromDateTime($dateTimeImmutable);
+                },
+                \array_reverse(
+                    \iterator_to_array(
+                        new \DatePeriod(
+                            $month->toDateTimeImmutable(),
+                            $interval,
+                            $this->toDateTimeImmutable()
+                        )
+                    )
+                )
+            )
+        );
+    }
+
+    public function isEqual(self $month) : bool
+    {
+        return $this->toDateTimeImmutable() == $month->toDateTimeImmutable();
+    }
+
+    public function isBefore(self $month) : bool
+    {
+        return $this->toDateTimeImmutable() < $month->toDateTimeImmutable();
+    }
+
+    public function isBeforeOrEqual(self $month) : bool
+    {
+        return $this->toDateTimeImmutable() <= $month->toDateTimeImmutable();
+    }
+
+    public function isAfter(self $month) : bool
+    {
+        return $this->toDateTimeImmutable() > $month->toDateTimeImmutable();
+    }
+
+    public function isAfterOrEqual(self $month) : bool
+    {
+        return $this->toDateTimeImmutable() >= $month->toDateTimeImmutable();
     }
 }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Aeon\Calendar\Tests\Unit\Gregorian;
 
+use Aeon\Calendar\Exception\InvalidArgumentException;
 use Aeon\Calendar\Gregorian\Month;
 use Aeon\Calendar\Gregorian\Year;
 use PHPUnit\Framework\TestCase;
@@ -53,5 +54,93 @@ final class MonthTest extends TestCase
         $dateTimeImmutable2 = $month->toDateTimeImmutable();
 
         $this->assertTrue($dateTimeImmutable1 == $dateTimeImmutable2);
+    }
+
+    public function test_is_equal() : void
+    {
+        $this->assertTrue(Month::fromString('2020-01-01')->isEqual(Month::fromString('2020-01-01')));
+        $this->assertFalse(Month::fromString('2020-01-02')->isEqual(Month::fromString('2020-02-01')));
+    }
+
+    public function test_is_before() : void
+    {
+        $this->assertTrue(Month::fromString('2019-01-01')->isBefore(Month::fromString('2020-01-01')));
+        $this->assertTrue(Month::fromString('2020-01-01')->isBeforeOrEqual(Month::fromString('2020-01-01')));
+
+        $this->assertFalse(Month::fromString('2021-01-01')->isBefore(Month::fromString('2020-01-01')));
+        $this->assertFalse(Month::fromString('2021-01-01')->isBeforeOrEqual(Month::fromString('2020-01-01')));
+    }
+
+    public function test_is_after() : void
+    {
+        $this->assertTrue(Month::fromString('2022-01-01')->isAfter(Month::fromString('2020-02-01')));
+        $this->assertTrue(Month::fromString('2020-01-01')->isAfterOrEqual(Month::fromString('2020-01-01')));
+
+        $this->assertFalse(Month::fromString('2019-01-01')->isAfter(Month::fromString('2020-02-01')));
+        $this->assertFalse(Month::fromString('2019-01-01')->isAfterOrEqual(Month::fromString('2020-02-01')));
+    }
+
+    public function test_until_with_wrong_destination_month() : void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('January 2020 is after January 2019');
+        Month::fromString('2020-01-01')->until(Month::fromString('2019-01-01'));
+    }
+
+    public function test_since_with_wrong_destination_month() : void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('January 2019 is before January 2020');
+        Month::fromString('2019-01-01')->since(Month::fromString('2020-01-01'));
+    }
+
+    public function test_until() : void
+    {
+        $this->assertCount(12, $months = Month::fromString('2020-01-01')->until(Month::fromString('2021-01-01')));
+        $this->assertInstanceOf(Month::class, $months[0]);
+        $this->assertInstanceOf(Month::class, $months[11]);
+        $this->assertSame('January', $months[0]->name());
+        $this->assertSame('December', $months[11]->name());
+    }
+
+    public function test_since() : void
+    {
+        $this->assertCount(12, $months = Month::fromString('2022-01-01')->since(Month::fromString('2021-01-01')));
+        $this->assertInstanceOf(Month::class, $months[0]);
+        $this->assertInstanceOf(Month::class, $months[11]);
+        $this->assertSame('January', $months[11]->name());
+        $this->assertSame('December', $months[0]->name());
+    }
+
+    public function test_iterate_until() : void
+    {
+        $this->assertCount(12, $months = Month::fromString('2020-01-01')->iterate(Month::fromString('2021-01-01')));
+        $this->assertInstanceOf(Month::class, $months[0]);
+        $this->assertInstanceOf(Month::class, $months[11]);
+        $this->assertSame('January', $months[0]->name());
+        $this->assertSame('December', $months[11]->name());
+    }
+
+    public function test_iterate_since() : void
+    {
+        $this->assertCount(12, $months = Month::fromString('2022-01-01')->since(Month::fromString('2021-01-01')));
+        $this->assertInstanceOf(Month::class, $months[0]);
+        $this->assertInstanceOf(Month::class, $months[11]);
+        $this->assertSame('January', $months[11]->name());
+        $this->assertSame('December', $months[0]->name());
+    }
+
+    public function test_modify_months() : void
+    {
+        $this->assertSame('2020-01-01', Month::fromString('2020-06-01')->minusMonths(5)->toDateTimeImmutable()->format('Y-m-d'));
+        $this->assertSame('2020-05-01', Month::fromString('2020-06-01')->minusMonths(1)->toDateTimeImmutable()->format('Y-m-d'));
+        $this->assertSame('2020-12-01', Month::fromString('2020-06-01')->plusMonths(6)->toDateTimeImmutable()->format('Y-m-d'));
+
+        $this->assertSame('2015-06-01', Month::fromString('2020-06-01')->minusYears(5)->toDateTimeImmutable()->format('Y-m-d'));
+        $this->assertSame('2019-06-01', Month::fromString('2020-06-01')->minusYears(1)->toDateTimeImmutable()->format('Y-m-d'));
+        $this->assertSame('2026-06-01', Month::fromString('2020-06-01')->plusYears(6)->toDateTimeImmutable()->format('Y-m-d'));
+
+        $this->asserTsame('2021-02-01', Month::fromString('2020-01-01')->plus(1, 1)->toDateTimeImmutable()->format('Y-m-d'));
+        $this->asserTsame('2018-12-01', Month::fromString('2020-01-01')->minus(1, 1)->toDateTimeImmutable()->format('Y-m-d'));
     }
 }
