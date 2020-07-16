@@ -218,11 +218,11 @@ final class Year
         return $this->toDateTimeImmutable() >= $year->toDateTimeImmutable();
     }
 
-    public function iterate(self $month) : Years
+    public function iterate(self $destination) : Years
     {
-        return $this->isAfter($month)
-            ? $this->since($month)
-            : $this->until($month);
+        return $this->isAfter($destination)
+            ? $this->since($destination)
+            : $this->until($destination);
     }
 
     public function until(self $month) : Years

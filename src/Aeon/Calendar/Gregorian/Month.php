@@ -143,11 +143,11 @@ final class Month
             ->setTime(0, 0, 0, 0);
     }
 
-    public function iterate(self $month) : Months
+    public function iterate(self $destination) : Months
     {
-        return $this->isAfter($month)
-            ? $this->since($month)
-            : $this->until($month);
+        return $this->isAfter($destination)
+            ? $this->since($destination)
+            : $this->until($destination);
     }
 
     public function until(self $month) : Months

@@ -217,11 +217,11 @@ final class Day
         return $this->toDateTimeImmutable() >= $day->toDateTimeImmutable();
     }
 
-    public function iterate(self $day) : Days
+    public function iterate(self $destination) : Days
     {
-        return $this->isAfter($day)
-            ? $this->since($day)
-            : $this->until($day);
+        return $this->isAfter($destination)
+            ? $this->since($destination)
+            : $this->until($destination);
     }
 
     public function until(self $day) : Days
