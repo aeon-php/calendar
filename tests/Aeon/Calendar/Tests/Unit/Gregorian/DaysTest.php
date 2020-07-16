@@ -5,54 +5,53 @@ declare(strict_types=1);
 namespace Aeon\Calendar\Tests\Unit\Gregorian;
 
 use Aeon\Calendar\Gregorian\Day;
-use Aeon\Calendar\Gregorian\Month;
-use Aeon\Calendar\Gregorian\Year;
+use Aeon\Calendar\Gregorian\Days;
 use PHPUnit\Framework\TestCase;
 
 final class DaysTest extends TestCase
 {
-    public function test_count() : void
+    public function test_array_access() : void
     {
+        $days = new Days(
+            Day::fromString('2002-01-01'),
+            Day::fromString('2002-01-02'),
+            Day::fromString('2002-01-03'),
+        );
+
+        $this->assertTrue(isset($days[0]));
+        $this->assertInstanceOf(Day::class, $days[0]);
+        $this->assertSame(3, \iterator_count($days->getIterator()));
+    }
+
+    public function test_map() : void
+    {
+        $days = new Days(
+            Day::fromString('2002-01-01'),
+            Day::fromString('2002-01-02'),
+            Day::fromString('2002-01-03'),
+        );
+
         $this->assertSame(
-            31,
-            (new Month(new Year(2020), 01))->days()->count()
+            [1, 2, 3],
+            $days->map(function (Day $day) {
+                return $day->number();
+            })
         );
     }
 
-    public function test_first_day() : void
+    public function test_filter() : void
     {
-        $this->assertSame(
-            1,
-            (new Month(new Year(2020), 01))->days()->first()->number()
+        $days = new Days(
+            Day::fromString('2002-01-01'),
+            Day::fromString('2002-01-02'),
+            Day::fromString('2002-01-03'),
         );
-    }
 
-    public function test_last_day() : void
-    {
-        $this->assertSame(
-            31,
-            (new Month(new Year(2020), 01))->days()->last()->number()
-        );
-    }
-
-    public function test_map_days() : void
-    {
-        $this->assertSame(
-            \range(1, 31),
-            (new Month(new Year(2020), 01))->days()->map(fn (Day $day) => $day->number())
-        );
-    }
-
-    public function test_filter_days() : void
-    {
-        $this->assertSame(
-            [2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30],
-            \array_map(
-                function (Day $day) : int {
-                    return $day->number();
-                },
-                \array_values((new Month(new Year(2020), 01))->days()->filter(fn (Day $day) => $day->number() % 2 === 0))
-            )
+        $this->assertEquals(
+            new Days(Day::fromString('2002-01-01')),
+            $days->filter(function (Day $day) {
+                return $day->number() === 1;
+            })
         );
     }
 }

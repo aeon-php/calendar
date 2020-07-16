@@ -6,24 +6,41 @@ namespace Aeon\Calendar\Gregorian;
 
 /**
  * @psalm-immutable
+ * @implements \IteratorAggregate<int, Month>
+ * @implements \ArrayAccess<int, Month>
  */
-final class Months implements \Countable
+final class Months implements \ArrayAccess, \Countable, \IteratorAggregate
 {
-    private Year $year;
+    /**
+     * @var array<int, Month>
+     */
+    private array $months;
 
-    public function __construct(Year $year)
+    public function __construct(Month ...$months)
     {
-        $this->year = $year;
+        $this->months = $months;
     }
 
-    public function count() : int
+    public function offsetExists($offset) : bool
     {
-        return $this->year->numberOfMonths();
+        return isset($this->all()[(int) $offset]);
     }
 
-    public function byNumber(int $number) : Month
+    public function offsetGet($offset) : ?Month
     {
-        return new Month($this->year, $number);
+        return isset($this->all()[(int) $offset]) ? $this->all()[(int) $offset] : null;
+    }
+
+    /** @codeCoverageIgnore */
+    public function offsetSet($offset, $value) : void
+    {
+        throw new \RuntimeException(__CLASS__ . ' is immutable.');
+    }
+
+    /** @codeCoverageIgnore */
+    public function offsetUnset($offset) : void
+    {
+        throw new \RuntimeException(__CLASS__ . ' is immutable.');
     }
 
     /**
@@ -31,35 +48,34 @@ final class Months implements \Countable
      */
     public function all() : array
     {
-        return \array_map(
-            fn (int $monthNumber) : Month => new Month($this->year, $monthNumber),
-            \range(1, $this->year->numberOfMonths())
-        );
+        return $this->months;
     }
 
     /**
-     * @param callable(Month $day) : void $iterator
+     * @param callable(Month $month) : mixed $iterator
      *
      * @return array<mixed>
      */
     public function map(callable $iterator) : array
     {
-        return \array_map(
-            $iterator,
-            $this->all()
-        );
+        return \array_map($iterator, $this->all());
     }
 
     /**
-     * @param callable(Month $day) : bool $iterator
-     *
-     * @return array<Month>
+     * @param callable(Month $month) : bool $iterator
      */
-    public function filter(callable $iterator) : array
+    public function filter(callable $iterator) : self
     {
-        return \array_filter(
-            $this->all(),
-            $iterator
-        );
+        return new self(...\array_filter($this->all(), $iterator));
+    }
+
+    public function count() : int
+    {
+        return \count($this->all());
+    }
+
+    public function getIterator() : \Traversable
+    {
+        return new \ArrayIterator($this->all());
     }
 }

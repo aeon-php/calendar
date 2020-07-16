@@ -32,6 +32,14 @@ final class GregorianCalendarTest extends TestCase
         );
     }
 
+    public function test_timezone() : void
+    {
+        $this->assertEquals(
+            TimeZone::UTC(),
+            (GregorianCalendar::UTC())->timeZone()
+        );
+    }
+
     public function test_current_year() : void
     {
         $this->assertSame(

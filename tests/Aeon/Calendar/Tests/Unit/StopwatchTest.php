@@ -129,6 +129,17 @@ final class StopwatchTest extends TestCase
         $stopwatch->elapsedTime(10);
     }
 
+    public function test_elapsed_time_from_not_ended_measure() : void
+    {
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage('Stopwatch not stopped');
+
+        $stopwatch = new Stopwatch();
+        $stopwatch->start();
+        $stopwatch->lap();
+        $stopwatch->lastLapElapsedTime();
+    }
+
     public function test_getting_elapsed_time_from_two_laps() : void
     {
         $stopwatch = new Stopwatch();

@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Aeon\Calendar\Tests\Unit\Gregorian;
 
+use Aeon\Calendar\Exception\InvalidArgumentException;
 use Aeon\Calendar\Gregorian\Day;
+use Aeon\Calendar\Gregorian\Month;
 use Aeon\Calendar\Gregorian\Year;
 use PHPUnit\Framework\TestCase;
 
@@ -98,5 +100,86 @@ final class YearTest extends TestCase
         $dateTimeImmutable2 = $year->toDateTimeImmutable();
 
         $this->assertTrue($dateTimeImmutable1 == $dateTimeImmutable2);
+    }
+
+    public function test_is_equal() : void
+    {
+        $this->assertTrue(Year::fromString('2020-01-01')->isEqual(Year::fromString('2020-01-01')));
+        $this->assertFalse(Year::fromString('2021-01-02')->isEqual(Year::fromString('2020-01-01')));
+    }
+
+    public function test_is_before() : void
+    {
+        $this->assertTrue(Year::fromString('2019-01-01')->isBefore(Year::fromString('2020-01-01')));
+        $this->assertTrue(Year::fromString('2020-01-01')->isBeforeOrEqual(Year::fromString('2020-01-01')));
+
+        $this->assertFalse(Year::fromString('2021-01-01')->isBefore(Year::fromString('2020-01-01')));
+        $this->assertFalse(Year::fromString('2021-01-01')->isBeforeOrEqual(Year::fromString('2020-01-01')));
+    }
+
+    public function test_is_after() : void
+    {
+        $this->assertTrue(Year::fromString('2022-01-01')->isAfter(Year::fromString('2020-02-01')));
+        $this->assertTrue(Year::fromString('2020-01-01')->isAfterOrEqual(Year::fromString('2020-01-01')));
+
+        $this->assertFalse(Year::fromString('2019-01-01')->isAfter(Year::fromString('2020-02-01')));
+        $this->assertFalse(Year::fromString('2019-01-01')->isAfterOrEqual(Year::fromString('2020-02-01')));
+    }
+
+    public function test_until_with_wrong_destination_month() : void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('2020 is after 2019');
+        Year::fromString('2020-01-01')->until(Year::fromString('2019-01-01'));
+    }
+
+    public function test_since_with_wrong_destination_month() : void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('2019 is before 2020');
+        Year::fromString('2019-01-01')->since(Year::fromString('2020-01-01'));
+    }
+
+    public function test_modify_months() : void
+    {
+        $this->assertSame('2015-01-01', Year::fromString('2020-01-01')->minus(5)->toDateTimeImmutable()->format('Y-m-d'));
+        $this->assertSame('2019-01-01', Year::fromString('2020-01-01')->minus(1)->toDateTimeImmutable()->format('Y-m-d'));
+        $this->assertSame('2026-01-01', Year::fromString('2020-01-01')->plus(6)->toDateTimeImmutable()->format('Y-m-d'));
+    }
+
+    public function test_until() : void
+    {
+        $this->assertCount(5, $years = Year::fromString('2020-01-01')->until(Year::fromString('2025-01-01')));
+        $this->assertInstanceOf(Year::class, $years[0]);
+        $this->assertInstanceOf(Year::class, $years[4]);
+        $this->assertSame(2020, $years[0]->number());
+        $this->assertSame(2024, $years[4]->number());
+    }
+
+    public function test_since() : void
+    {
+        $this->assertCount(5, $years = Year::fromString('2025-01-01')->since(Year::fromString('2020-01-01')));
+        $this->assertInstanceOf(Year::class, $years[0]);
+        $this->assertInstanceOf(Year::class, $years[4]);
+        $this->assertSame(2020, $years[4]->number());
+        $this->assertSame(2024, $years[0]->number());
+    }
+
+    public function test_iterate_until() : void
+    {
+        $this->assertCount(5, $years = Year::fromString('2020-01-01')->iterate(Year::fromString('2025-01-01')));
+        $this->assertInstanceOf(Year::class, $years[0]);
+        $this->assertInstanceOf(Year::class, $years[4]);
+        $this->assertSame(2020, $years[0]->number());
+        $this->assertSame(2024, $years[4]->number());
+    }
+
+    public function test_iterate_since() : void
+    {
+        $this->assertCount(5, $years = Year::fromString('2025-01-01')->iterate(Year::fromString('2020-01-01')));
+        $this->assertInstanceOf(Year::class, $years[0]);
+        $this->assertInstanceOf(Year::class, $years[4]);
+        $this->assertSame(2020, $years[4]->number());
+        $this->assertSame(2024, $years[0]->number());
     }
 }

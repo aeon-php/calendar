@@ -5,32 +5,53 @@ declare(strict_types=1);
 namespace Aeon\Calendar\Tests\Unit\Gregorian;
 
 use Aeon\Calendar\Gregorian\Month;
-use Aeon\Calendar\Gregorian\Year;
+use Aeon\Calendar\Gregorian\Months;
 use PHPUnit\Framework\TestCase;
 
 final class MonthsTest extends TestCase
 {
-    public function test_count() : void
+    public function test_array_access() : void
     {
-        $this->assertSame(12, (new Year(2020))->months()->count());
+        $months = new Months(
+            Month::fromString('2002-01-01'),
+            Month::fromString('2002-02-02'),
+            Month::fromString('2002-03-03'),
+        );
+
+        $this->assertTrue(isset($months[0]));
+        $this->assertInstanceOf(Month::class, $months[0]);
+        $this->assertSame(3, \iterator_count($months->getIterator()));
     }
 
-    public function test_map_months() : void
+    public function test_map() : void
     {
+        $days = new Months(
+            Month::fromString('2002-01-01'),
+            Month::fromString('2002-02-02'),
+            Month::fromString('2002-03-03'),
+        );
+
         $this->assertSame(
-            \range(1, 12),
-            (new Year(2020))->months()->map(fn (Month $month) => $month->number())
+            [1, 2, 3],
+            $days->map(function (Month $day) {
+                return $day->number();
+            })
         );
     }
 
-    public function test_filter_months() : void
+    public function test_filter() : void
     {
-        $this->assertSame(
-            [2, 4, 6, 8, 10, 12],
-            \array_map(
-                fn (Month $month) : int => $month->number(),
-                \array_values((new Year(2020))->months()->filter(fn (Month $month) => $month->number() % 2 === 0))
-            )
+        $days = new Months(
+            Month::fromString('2002-01-01'),
+            Month::fromString('2002-02-02'),
+            Month::fromString('2002-03-03'),
+        );
+
+        $this->assertEquals(
+            new Months(Month::fromString('2002-01-01')),
+            $days->filter(function (Month $day) {
+                return $day->number() === 1;
+            })
         );
     }
 }
