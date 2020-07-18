@@ -207,4 +207,12 @@ final class DayTest extends TestCase
         $this->assertSame(5, $months[0]->number());
         $this->assertSame(1, $months[4]->number());
     }
+    
+    public function test_days_between() : void
+    {
+        $day1 = Day::fromString('2020-01-02');
+        $day2 = Day::fromString('2020-01-01');
+        $this->assertSame(1, Day::daysBetween($day1, $day2));
+        $this->assertSame(-1, Day::daysBetween($day2, $day1));
+    }
 }

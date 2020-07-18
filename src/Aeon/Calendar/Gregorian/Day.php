@@ -50,6 +50,11 @@ final class Day
         return self::fromDateTime(new \DateTimeImmutable($date));
     }
 
+    public static function daysBetween(self $from, self $to) : int
+    {
+        return $from->midnight(TimeZone::UTC())->distanceSince($to->midnight(TimeZone::UTC()))->inDays();
+    }
+
     /**
      * @return array{year: int, month:int, day: int}
      */
