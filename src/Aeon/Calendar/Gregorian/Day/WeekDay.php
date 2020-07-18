@@ -99,7 +99,7 @@ final class WeekDay
         return self::NAMES_SHORT[$this->number];
     }
 
-    public function equals(self $weekDay) : bool
+    public function isEqual(self $weekDay) : bool
     {
         return $this->number() === $weekDay->number();
     }
