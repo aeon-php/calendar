@@ -9,6 +9,7 @@ use Aeon\Calendar\Gregorian\Day;
 use Aeon\Calendar\Gregorian\Month;
 use Aeon\Calendar\Gregorian\TimeZone;
 use Aeon\Calendar\Gregorian\Year;
+use Aeon\Calendar\TimeUnit;
 use PHPUnit\Framework\TestCase;
 
 final class DayTest extends TestCase
@@ -206,5 +207,14 @@ final class DayTest extends TestCase
         $this->assertInstanceOf(Day::class, $months[4]);
         $this->assertSame(5, $months[0]->number());
         $this->assertSame(1, $months[4]->number());
+    }
+
+    public function test_days_between() : void
+    {
+        $day1 = Day::fromString('2020-01-02');
+        $day2 = Day::fromString('2020-01-01');
+        $this->assertInstanceOf(TimeUnit::class, $day1->timeBetween($day2));
+        $this->assertSame(1, $day1->timeBetween($day2)->inDays());
+        $this->assertSame(1, $day2->timeBetween($day1)->inDays());
     }
 }
