@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 ### Added
-- [#40](https://github.com/aeon-php/calendar/pull/40) - **created difference betweenDays static method issue #34** - [@eamirgh](https://github.com/eamirgh)
+- [#40](https://github.com/aeon-php/calendar/pull/40) - **created timeBetween method for better experience issue #34** - [@eamirgh](https://github.com/eamirgh)
 
 ### Changed
 - [#39](https://github.com/aeon-php/calendar/pull/39) - **Renamed equals to isEqual method fix issue #38** - [@eamirgh](https://github.com/eamirgh)
