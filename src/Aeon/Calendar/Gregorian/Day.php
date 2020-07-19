@@ -6,6 +6,7 @@ namespace Aeon\Calendar\Gregorian;
 
 use Aeon\Calendar\Exception\InvalidArgumentException;
 use Aeon\Calendar\Gregorian\Day\WeekDay;
+use Aeon\Calendar\TimeUnit;
 
 /**
  * @psalm-immutable
@@ -50,11 +51,6 @@ final class Day
         return self::fromDateTime(new \DateTimeImmutable($date));
     }
 
-    public static function daysBetween(self $from, self $to) : int
-    {
-        return $from->midnight(TimeZone::UTC())->distanceSince($to->midnight(TimeZone::UTC()))->inDays();
-    }
-
     /**
      * @return array{year: int, month:int, day: int}
      */
@@ -65,6 +61,11 @@ final class Day
             'month' => $this->month->number(),
             'day' => $this->number,
         ];
+    }
+
+    public function timeBetween(self $day) : TimeUnit
+    {
+        return $this->midnight(TimeZone::UTC())->distanceSince($day->midnight(TimeZone::UTC()))->absolute();
     }
 
     public function plus(int $years, int $months, int $days) : self
