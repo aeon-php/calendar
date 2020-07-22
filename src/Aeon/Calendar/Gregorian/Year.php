@@ -188,9 +188,7 @@ final class Year
 
     public function toDateTimeImmutable() : \DateTimeImmutable
     {
-        return (new \DateTimeImmutable('now', new \DateTimeZone('UTC')))
-            ->setDate($this->number(), 1, 1)
-            ->setTime(0, 0, 0, 0);
+        return new \DateTimeImmutable(\sprintf('%d-01-01 00:00:00.000000 UTC', $this->number()));
     }
 
     public function isEqual(self $year) : bool
