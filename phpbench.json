@@ -1,0 +1,12 @@
+{
+  "bootstrap":       "vendor/autoload.php",
+  "path":            "benchmark",
+  "retry_threshold": 5,
+  "progress": "dots",
+  "reports": {
+    "aeon": {
+      "generator": "table",
+      "cols": ["benchmark", "subject", "revs", "its", "mean"]
+    }
+  }
+}
