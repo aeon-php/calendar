@@ -18,13 +18,10 @@ jobs:
       matrix:
         dependencies:
           - "locked"
-          - "lowest"
-          - "highest"
         php-version:
           - "7.4"
         operating-system:
           - "ubuntu-latest"
-          - "windows-latest"
 
     steps:
       - name: "Checkout"
