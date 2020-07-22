@@ -138,9 +138,7 @@ final class Month
 
     public function toDateTimeImmutable() : \DateTimeImmutable
     {
-        return (new \DateTimeImmutable('now', new \DateTimeZone('UTC')))
-            ->setDate($this->year()->number(), $this->number(), 1)
-            ->setTime(0, 0, 0, 0);
+        return new \DateTimeImmutable(\sprintf('%d-%d-01 00:00:00.000000 UTC', $this->year()->number(), $this->number()));
     }
 
     public function iterate(self $destination) : Months
