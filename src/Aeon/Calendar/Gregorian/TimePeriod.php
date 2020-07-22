@@ -48,27 +48,30 @@ final class TimePeriod
     {
         $result = TimeUnit::seconds(0);
 
-        if ($this->start->timestampUNIX()->isPositive() && $this->end->timestampUNIX()->isPositive()) {
-            $result = $this->end->timestampUNIX()
-                ->sub($this->start->timestampUNIX())
+        $startUnixTimestamp = $this->start->timestampUNIX();
+        $endUnixTimestamp = $this->end->timestampUNIX();
+
+        if ($startUnixTimestamp->isPositive() && $endUnixTimestamp->isPositive()) {
+            $result = $endUnixTimestamp
+                ->sub($startUnixTimestamp)
                 ->absolute();
         }
 
-        if ($this->start->timestampUNIX()->isNegative() && $this->end->timestampUNIX()->isNegative()) {
-            $result = $this->end->timestampUNIX()
-                ->add($this->start->timestampUNIX()->invert())
+        if ($startUnixTimestamp->isNegative() && $endUnixTimestamp->isNegative()) {
+            $result = $endUnixTimestamp
+                ->add($startUnixTimestamp->invert())
                 ->absolute();
         }
 
-        if ($this->start->timestampUNIX()->isNegative() && $this->end->timestampUNIX()->isPositive()) {
-            $result = $this->end->timestampUNIX()
-                ->add($this->start->timestampUNIX()->invert())
+        if ($startUnixTimestamp->isNegative() && $endUnixTimestamp->isPositive()) {
+            $result = $endUnixTimestamp
+                ->add($startUnixTimestamp->invert())
                 ->absolute();
         }
 
-        if ($this->start->timestampUNIX()->isPositive() && $this->end->timestampUNIX()->isNegative()) {
-            $result = $this->end->timestampUNIX()->invert()
-                ->add($this->start->timestampUNIX())
+        if ($startUnixTimestamp->isPositive() && $endUnixTimestamp->isNegative()) {
+            $result = $endUnixTimestamp->invert()
+                ->add($startUnixTimestamp)
                 ->absolute();
         }
 

@@ -65,7 +65,7 @@ final class Day
 
     public function timeBetween(self $day) : TimeUnit
     {
-        return $this->midnight(TimeZone::UTC())->distanceSince($day->midnight(TimeZone::UTC()))->absolute();
+        return TimeUnit::seconds(\abs((int) $this->toDateTimeImmutable()->format('U') - (int) $day->toDateTimeImmutable()->format('U')));
     }
 
     public function plus(int $years, int $months, int $days) : self
@@ -184,13 +184,7 @@ final class Day
 
     public function toDateTimeImmutable() : \DateTimeImmutable
     {
-        return (new \DateTimeImmutable('now', new \DateTimeZone('UTC')))
-            ->setDate(
-                $this->month()->year()->number(),
-                $this->month()->number(),
-                $this->number()
-            )
-            ->setTime(0, 0, 0, 0);
+        return new \DateTimeImmutable(\sprintf('%d-%d-%d 00:00:00.000000 UTC', $this->month()->year()->number(), $this->month()->number(), $this->number()));
     }
 
     public function format(string $format) : string

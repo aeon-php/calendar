@@ -52,7 +52,11 @@ final class DateTime
 
         $this->timeOffset = $timeOffset !== null
             ? $timeOffset
-            : ($timeZone !== null ? $timeZone->timeOffset($this) : TimeOffset::UTC());
+            : (
+                $timeZone !== null
+                ? ($timeZone->name() === 'UTC' ? TimeOffset::UTC() : $timeZone->timeOffset($this))
+                : TimeOffset::UTC()
+            );
 
         if ($this->time->toString() !== $this->toDateTimeImmutable()->format('H:i:s.u')) {
             $this->time = Time::fromDateTime($this->toDateTimeImmutable());
@@ -132,19 +136,21 @@ final class DateTime
     {
         $tz = $this->timeZone();
 
-        return (
-            new \DateTimeImmutable(
-                $this->day->toDateTimeImmutable()->format('Y-m-d'),
-                $tz !== null
-                    ? $tz->toDateTimeZone()
-                    : $this->timeOffset()->toDateTimeZone()
-            ))
-            ->setTime(
+        return new \DateTimeImmutable(
+            \sprintf(
+                '%d-%d-%d %d:%d:%d.%06d',
+                $this->day->year()->number(),
+                $this->day->month()->number(),
+                $this->day->number(),
                 $this->time->hour(),
                 $this->time->minute(),
                 $this->time->second(),
                 $this->time->microsecond()
-            );
+            ),
+            $tz !== null
+                ? $tz->toDateTimeZone()
+                : $this->timeOffset()->toDateTimeZone()
+        );
     }
 
     public function toAtomicTime() : self
@@ -232,9 +238,11 @@ final class DateTime
      */
     public function timestampUNIX() : TimeUnit
     {
-        return (int) $this->toDateTimeImmutable()->format('U') >= 0
-            ? TimeUnit::positive((int) $this->toDateTimeImmutable()->format('U'), $this->time->microsecond())
-            : TimeUnit::negative(\abs((int) $this->toDateTimeImmutable()->format('U')), $this->time->microsecond());
+        $unixTimestamp = (int) $this->toDateTimeImmutable()->format('U');
+
+        return $unixTimestamp >= 0
+            ? TimeUnit::positive($unixTimestamp, $this->time->microsecond())
+            : TimeUnit::negative(\abs($unixTimestamp), $this->time->microsecond());
     }
 
     public function modify(string $modify) : self
