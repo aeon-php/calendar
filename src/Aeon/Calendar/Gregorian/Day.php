@@ -27,6 +27,17 @@ final class Day
         $this->month = $month;
     }
 
+    public static function create(int $year, int $month, int $day) : self
+    {
+        return new self(
+            new Month(
+                new Year($year),
+                $month
+            ),
+            $day
+        );
+    }
+
     /**
      * @psalm-pure
      * @psalm-suppress ImpureMethodCall
