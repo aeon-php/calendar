@@ -18,15 +18,12 @@ final class DayIterationBench
     public function bench_iteration_over_last_half_of_the_year_multiple_times() : void
     {
         $end = GregorianCalendar::UTC()->currentDay();
-        $middle = $end->minusMonths(3);
         $start = $end->minusMonths(6);
 
         for ($index = 0; $index < 20; $index++) {
             foreach ($start->until($end)->all() as $nextDay) {
-                if ($nextDay->isAfter($middle)) {
-                    (new TimePeriod($nextDay->midnight($tz = TimeZone::UTC()), $nextDay->next()->midnight($tz)))
-                        ->overlaps(new TimePeriod($nextDay->midnight($tz), $nextDay->previous()->midnight($tz)));
-                }
+                (new TimePeriod($nextDay->midnight($tz = TimeZone::UTC()), $nextDay->next()->midnight($tz)))
+                    ->overlaps(new TimePeriod($nextDay->midnight($tz), $nextDay->previous()->midnight($tz)));
             }
         }
     }

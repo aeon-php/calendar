@@ -13,13 +13,20 @@ use Aeon\Calendar\Gregorian\DateTime;
  */
 final class DateTimeBench
 {
+    private DateTime $dateTime;
+
+    public function __construct()
+    {
+        $this->dateTime = DateTime::fromString('2020-01-01');
+    }
+
     public function bench_unix_timestamp() : void
     {
-        DateTime::fromString('2020-01-01')->timestampUNIX();
+        $this->dateTime->timestampUNIX();
     }
 
     public function bench_to_datetime_immutable() : void
     {
-        DateTime::fromString('2020-01-01')->toDateTimeImmutable();
+        $this->dateTime->toDateTimeImmutable();
     }
 }
