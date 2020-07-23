@@ -217,4 +217,11 @@ final class DayTest extends TestCase
         $this->assertSame(1, $day1->timeBetween($day2)->inDays());
         $this->assertSame(1, $day2->timeBetween($day1)->inDays());
     }
+
+    public function test_day_static_create() : void
+    {
+        $day = Day::create(2020, 12, 24);
+        $this->assertInstanceOf(Day::class, $day);
+        $this->assertTrue(Day::fromString('2020-12-24')->isEqual($day));
+    }
 }
