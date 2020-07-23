@@ -216,26 +216,59 @@ final class Month
 
     public function isEqual(self $month) : bool
     {
-        return $this->toDateTimeImmutable() == $month->toDateTimeImmutable();
+        return $this->number() == $month->number()
+            && $this->year()->isEqual($month->year());
     }
 
     public function isBefore(self $month) : bool
     {
-        return $this->toDateTimeImmutable() < $month->toDateTimeImmutable();
+        if ($this->year()->isBefore($month->year())) {
+            return true;
+        }
+
+        if ($this->year()->isAfter($month->year())) {
+            return false;
+        }
+
+        return $this->number() < $month->number();
     }
 
     public function isBeforeOrEqual(self $month) : bool
     {
-        return $this->toDateTimeImmutable() <= $month->toDateTimeImmutable();
+        if ($this->year()->isBefore($month->year())) {
+            return true;
+        }
+
+        if ($this->year()->isAfter($month->year())) {
+            return false;
+        }
+
+        return $this->number() <= $month->number();
     }
 
     public function isAfter(self $month) : bool
     {
-        return $this->toDateTimeImmutable() > $month->toDateTimeImmutable();
+        if ($this->year()->isAfter($month->year())) {
+            return true;
+        }
+
+        if ($this->year()->isBefore($month->year())) {
+            return false;
+        }
+
+        return $this->number() > $month->number();
     }
 
     public function isAfterOrEqual(self $month) : bool
     {
-        return $this->toDateTimeImmutable() >= $month->toDateTimeImmutable();
+        if ($this->year()->isAfter($month->year())) {
+            return true;
+        }
+
+        if ($this->year()->isBefore($month->year())) {
+            return false;
+        }
+
+        return $this->number() >= $month->number();
     }
 }

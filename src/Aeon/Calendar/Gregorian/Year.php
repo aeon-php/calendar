@@ -198,22 +198,22 @@ final class Year
 
     public function isBefore(self $year) : bool
     {
-        return $this->toDateTimeImmutable() < $year->toDateTimeImmutable();
+        return $this->number() < $year->number();
     }
 
     public function isBeforeOrEqual(self $year) : bool
     {
-        return $this->toDateTimeImmutable() <= $year->toDateTimeImmutable();
+        return $this->number() <= $year->number();
     }
 
     public function isAfter(self $year) : bool
     {
-        return $this->toDateTimeImmutable() > $year->toDateTimeImmutable();
+        return $this->number() > $year->number();
     }
 
     public function isAfterOrEqual(self $year) : bool
     {
-        return $this->toDateTimeImmutable() >= $year->toDateTimeImmutable();
+        return $this->number() >= $year->number();
     }
 
     public function iterate(self $destination) : Years

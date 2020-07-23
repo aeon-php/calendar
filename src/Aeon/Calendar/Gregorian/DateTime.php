@@ -22,6 +22,8 @@ final class DateTime
 
     private TimeOffset $timeOffset;
 
+    private int $unixTimestamp;
+
     /**
      * TimeZone is optional, if not provided it will be set to UTC.
      * DateTime always has TimeOffset but when not provided it's calculated from offset and when
@@ -58,7 +60,11 @@ final class DateTime
                 : TimeOffset::UTC()
             );
 
-        if ($this->time->toString() !== $this->toDateTimeImmutable()->format('H:i:s.u')) {
+        $dateTimeImmutable = $this->toDateTimeImmutable();
+
+        $this->unixTimestamp = $dateTimeImmutable->getTimestamp();
+
+        if ($this->time->toString() !== $dateTimeImmutable->format('H:i:s.u')) {
             $this->time = Time::fromDateTime($this->toDateTimeImmutable());
         }
     }
@@ -238,7 +244,7 @@ final class DateTime
      */
     public function timestampUNIX() : TimeUnit
     {
-        $unixTimestamp = (int) $this->toDateTimeImmutable()->format('U');
+        $unixTimestamp = $this->unixTimestamp;
 
         return $unixTimestamp >= 0
             ? TimeUnit::positive($unixTimestamp, $this->time->microsecond())
