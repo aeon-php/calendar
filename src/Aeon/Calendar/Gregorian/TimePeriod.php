@@ -137,42 +137,47 @@ final class TimePeriod
             ? $timePeriod->revert()
             : $timePeriod;
 
-        if ($thisPeriodForward->start()->isBefore($otherPeriodForward->start()) &&
-            $thisPeriodForward->start()->isBefore($otherPeriodForward->end()) &&
-            $thisPeriodForward->end()->isBefore($otherPeriodForward->start()) &&
-            $thisPeriodForward->end()->isBefore($otherPeriodForward->end())
+        $thisPeriodStart = $thisPeriodForward->start()->toDateTimeImmutable();
+        $thisPeriodEnd = $thisPeriodForward->end()->toDateTimeImmutable();
+        $otherPeriodStart = $otherPeriodForward->start()->toDateTimeImmutable();
+        $otherPeriodEnd = $otherPeriodForward->end()->toDateTimeImmutable();
+
+        if ($thisPeriodStart < $otherPeriodStart &&
+            $thisPeriodStart < $otherPeriodEnd &&
+            $thisPeriodEnd < $otherPeriodStart &&
+            $thisPeriodEnd < $otherPeriodEnd
         ) {
             return false;
         }
 
-        if ($thisPeriodForward->start()->isBefore($otherPeriodForward->start()) &&
-            $thisPeriodForward->start()->isBefore($otherPeriodForward->end()) &&
-            $thisPeriodForward->end()->isAfter($otherPeriodForward->start()) &&
-            $thisPeriodForward->end()->isBefore($otherPeriodForward->end())
+        if ($thisPeriodStart < $otherPeriodStart &&
+            $thisPeriodStart < $otherPeriodEnd &&
+            $thisPeriodEnd > $otherPeriodStart &&
+            $thisPeriodEnd < $otherPeriodEnd
         ) {
             return true;
         }
 
-        if ($thisPeriodForward->start()->isAfter($otherPeriodForward->start()) &&
-            $thisPeriodForward->start()->isBefore($otherPeriodForward->end()) &&
-            $thisPeriodForward->end()->isAfter($otherPeriodForward->start()) &&
-            $thisPeriodForward->end()->isBefore($otherPeriodForward->end())
+        if ($thisPeriodStart > $otherPeriodStart &&
+            $thisPeriodStart < $otherPeriodEnd &&
+            $thisPeriodEnd > $otherPeriodStart &&
+            $thisPeriodEnd < $otherPeriodEnd
         ) {
             return true;
         }
 
-        if ($thisPeriodForward->start()->isAfter($otherPeriodForward->start()) &&
-            $thisPeriodForward->start()->isBefore($otherPeriodForward->end()) &&
-            $thisPeriodForward->end()->isAfter($otherPeriodForward->start()) &&
-            $thisPeriodForward->end()->isAfter($otherPeriodForward->end())
+        if ($thisPeriodStart > $otherPeriodStart &&
+            $thisPeriodStart < $otherPeriodEnd &&
+            $thisPeriodEnd > $otherPeriodStart &&
+            $thisPeriodEnd > $otherPeriodEnd
         ) {
             return true;
         }
 
-        if ($thisPeriodForward->start()->isAfter($otherPeriodForward->start()) &&
-            $thisPeriodForward->start()->isAfter($otherPeriodForward->end()) &&
-            $thisPeriodForward->end()->isAfter($otherPeriodForward->start()) &&
-            $thisPeriodForward->end()->isAfter($otherPeriodForward->end())
+        if ($thisPeriodStart > $otherPeriodStart &&
+            $thisPeriodStart > $otherPeriodEnd &&
+            $thisPeriodEnd > $otherPeriodStart &&
+            $thisPeriodEnd > $otherPeriodEnd
         ) {
             return false;
         }

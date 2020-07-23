@@ -65,7 +65,7 @@ final class Day
 
     public function timeBetween(self $day) : TimeUnit
     {
-        return TimeUnit::seconds(\abs((int) $this->toDateTimeImmutable()->format('U') - (int) $day->toDateTimeImmutable()->format('U')));
+        return TimeUnit::seconds(\abs(($this->toDateTimeImmutable()->getTimestamp() - $day->toDateTimeImmutable()->getTimestamp())));
     }
 
     public function plus(int $years, int $months, int $days) : self
@@ -194,27 +194,60 @@ final class Day
 
     public function isEqual(self $day) : bool
     {
-        return $this->number() === $day->number();
+        return $this->number() === $day->number()
+            && $this->month()->isEqual($day->month());
     }
 
     public function isBefore(self $day) : bool
     {
-        return $this->toDateTimeImmutable() < $day->toDateTimeImmutable();
+        if ($this->month()->isBefore($day->month())) {
+            return true;
+        }
+
+        if ($this->month()->isAfter($day->month())) {
+            return false;
+        }
+
+        return $this->number() < $day->number();
     }
 
     public function isBeforeOrEqual(self $day) : bool
     {
-        return $this->toDateTimeImmutable() <= $day->toDateTimeImmutable();
+        if ($this->month()->isBefore($day->month())) {
+            return true;
+        }
+
+        if ($this->month()->isAfter($day->month())) {
+            return false;
+        }
+
+        return $this->number() <= $day->number();
     }
 
     public function isAfter(self $day) : bool
     {
-        return $this->toDateTimeImmutable() > $day->toDateTimeImmutable();
+        if ($this->month()->isAfter($day->month())) {
+            return true;
+        }
+
+        if ($this->month()->isBefore($day->month())) {
+            return false;
+        }
+
+        return $this->number() > $day->number();
     }
 
     public function isAfterOrEqual(self $day) : bool
     {
-        return $this->toDateTimeImmutable() >= $day->toDateTimeImmutable();
+        if ($this->month()->isAfter($day->month())) {
+            return true;
+        }
+
+        if ($this->month()->isBefore($day->month())) {
+            return false;
+        }
+
+        return $this->number() >= $day->number();
     }
 
     public function iterate(self $destination) : Days
