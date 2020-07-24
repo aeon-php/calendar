@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 ### Added
+- [#45](https://github.com/aeon-php/calendar/pull/45) - **new static create  method for Day and Month classes #41** - [@eamirgh](https://github.com/eamirgh)
 - [#40](https://github.com/aeon-php/calendar/pull/40) - **created timeBetween method for better experience issue #34** - [@eamirgh](https://github.com/eamirgh)
 
 ### Changed

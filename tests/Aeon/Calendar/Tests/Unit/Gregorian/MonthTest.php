@@ -143,4 +143,10 @@ final class MonthTest extends TestCase
         $this->asserTsame('2021-02-01', Month::fromString('2020-01-01')->plus(1, 1)->toDateTimeImmutable()->format('Y-m-d'));
         $this->asserTsame('2018-12-01', Month::fromString('2020-01-01')->minus(1, 1)->toDateTimeImmutable()->format('Y-m-d'));
     }
+
+    public function test_day_static_create() : void
+    {
+        $month = Month::create(2020, 12);
+        $this->assertTrue(Month::fromString('2020-12-24')->isEqual($month));
+    }
 }
