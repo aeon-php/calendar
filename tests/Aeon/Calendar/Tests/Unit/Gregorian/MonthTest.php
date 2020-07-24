@@ -147,7 +147,6 @@ final class MonthTest extends TestCase
     public function test_day_static_create() : void
     {
         $month = Month::create(2020, 12);
-        $this->assertInstanceOf(Month::class, $month);
         $this->assertTrue(Month::fromString('2020-12-24')->isEqual($month));
     }
 }
