@@ -6,7 +6,9 @@
   "reports": {
     "aeon": {
       "generator": "table",
-      "cols": ["benchmark", "subject", "revs", "its", "mean", "mem_peak", "diff"]
+      "cols": ["benchmark", "subject", "revs", "its", "mean", "mem_peak", "diff"],
+      "break": ["benchmark"],
+      "sort": {"mean": "asc"}
     }
   }
 }
