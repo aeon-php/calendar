@@ -54,7 +54,6 @@ final class Day
     }
 
     /**
-     * @throws \Exception
      * @psalm-pure
      */
     public static function fromString(string $date) : self

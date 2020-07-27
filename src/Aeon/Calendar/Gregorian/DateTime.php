@@ -90,12 +90,16 @@ final class DateTime
      */
     public static function fromDateTime(\DateTimeInterface $dateTime) : self
     {
+        try {
+            $tz = TimeZone::fromDateTimeZone($dateTime->getTimezone());
+        } catch (InvalidArgumentException $e) {
+            $tz = null;
+        }
+
         return new self(
             Day::fromDateTime($dateTime),
             Time::fromDateTime($dateTime),
-            TimeZone::isValid($dateTime->getTimezone()->getName())
-                ? TimeZone::fromDateTimeZone($dateTime->getTimezone())
-                : null,
+            $tz,
             TimeOffset::fromTimeUnit(TimeUnit::seconds($dateTime->getOffset()))
         );
     }
@@ -108,6 +112,9 @@ final class DateTime
         return self::fromDateTime(new \DateTimeImmutable($date));
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function fromTimestampUnix(int $timestamp) : self
     {
         return self::fromDateTime((new \DateTimeImmutable)->setTimestamp($timestamp));
