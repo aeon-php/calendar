@@ -7,7 +7,6 @@ namespace Aeon\Calendar\Benchmark\Gregorian;
 use Aeon\Calendar\Gregorian\DateTime;
 
 /**
- * @iterations(5)
  * @revs(5)
  * @outputTimeUnit("milliseconds")
  */
