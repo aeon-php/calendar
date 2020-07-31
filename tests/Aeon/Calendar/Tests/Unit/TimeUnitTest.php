@@ -5,11 +5,36 @@ declare(strict_types=1);
 namespace Aeon\Calendar\Tests\Unit;
 
 use Aeon\Calendar\Exception\Exception;
+use Aeon\Calendar\Exception\InvalidArgumentException;
 use Aeon\Calendar\TimeUnit;
 use PHPUnit\Framework\TestCase;
 
 final class TimeUnitTest extends TestCase
 {
+    public function test_creating_with_negative_seconds() : void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Seconds must be greater or equal 0, got -1');
+
+        TimeUnit::negative(-1, 0);
+    }
+
+    public function test_creating_with_negative_microsecond() : void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Microsecond must be greater or equal 0 and less than 1000000, got -5');
+
+        TimeUnit::negative(0, -5);
+    }
+
+    public function test_creating_with_invalid_microsecond() : void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Microsecond must be greater or equal 0 and less than 1000000, got 1000000');
+
+        TimeUnit::negative(0, 1_000_000);
+    }
+
     public function test_time_unit_create_from_day() : void
     {
         $unit = TimeUnit::day();
@@ -49,6 +74,24 @@ final class TimeUnitTest extends TestCase
         $this->assertSame(1, $unit->toDateInterval()->invert);
     }
 
+    public function test_time_unit_create_with_value_1() : void
+    {
+        $this->assertSame(1000, TimeUnit::millisecond()->microsecond());
+        $this->assertSame(0, TimeUnit::second()->microsecond());
+        $this->assertSame(0, TimeUnit::minute()->microsecond());
+        $this->assertSame(0, TimeUnit::hour()->microsecond());
+        $this->assertSame(0, TimeUnit::day()->microsecond());
+    }
+
+    public function test_time_unit_create_with_0_value() : void
+    {
+        $this->assertTrue(TimeUnit::milliseconds(0)->isPositive());
+        $this->assertTrue(TimeUnit::seconds(0)->isPositive());
+        $this->assertTrue(TimeUnit::minutes(0)->isPositive());
+        $this->assertTrue(TimeUnit::hours(0)->isPositive());
+        $this->assertTrue(TimeUnit::days(0)->isPositive());
+    }
+
     public function test_time_unit_create_from_hours() : void
     {
         $unit = TimeUnit::hours(2);
@@ -64,6 +107,13 @@ final class TimeUnitTest extends TestCase
         $unit = TimeUnit::minute();
 
         $this->assertSame(1, $unit->inMinutes());
+    }
+
+    public function test_time_unit_create_from_0_minutes() : void
+    {
+        $unit = TimeUnit::minutes(0);
+
+        $this->assertTrue($unit->isPositive());
     }
 
     public function test_time_unit_create_from_minutes() : void

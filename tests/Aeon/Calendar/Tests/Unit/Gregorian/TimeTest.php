@@ -10,6 +10,31 @@ use PHPUnit\Framework\TestCase;
 
 final class TimeTest extends TestCase
 {
+    public function test_debug_info() : void
+    {
+        $this->assertSame(
+            [
+                'hour' => 0,
+                'minute' => 0,
+                'second' => 0,
+                'microsecond' => 0,
+            ],
+            (new Time(0, 0, 0, 0))->__debugInfo()
+        );
+    }
+
+    public function test_time_millisecond() : void
+    {
+        $this->assertSame(101, (new Time(0, 0, 0, 101999))->millisecond());
+        $this->assertSame(0, (new Time(0, 0, 0, 0))->microsecond());
+    }
+
+    public function test_to_string() : void
+    {
+        $this->assertSame('23:59:59.599999', (new Time(23, 59, 59, 599999))->toString());
+        $this->assertSame('00:00:00.000000', (new Time(0, 0, 0, 0))->toString());
+    }
+
     public function test_is_am() : void
     {
         $this->assertTrue((new Time(0, 0, 0, 0))->isAM());
@@ -65,19 +90,19 @@ final class TimeTest extends TestCase
     public function test_creating_using_invalid_hour() : void
     {
         $this->expectException(InvalidArgumentException::class);
-        new Time(25, 0, 0, 0);
+        new Time(24, 0, 0, 0);
     }
 
     public function test_creating_using_invalid_minute() : void
     {
         $this->expectException(InvalidArgumentException::class);
-        new Time(0, 65, 0, 0);
+        new Time(0, 60, 0, 0);
     }
 
     public function test_creating_using_invalid_second() : void
     {
         $this->expectException(InvalidArgumentException::class);
-        new Time(0, 0, 65, 0);
+        new Time(0, 0, 60, 0);
     }
 
     public function test_creating_using_invalid_microsecond() : void

@@ -31,19 +31,24 @@ final class BCMathCalculator implements Calculator
         return $this->precision;
     }
 
+    /**
+     * @psalm-suppress InvalidNullableReturnType
+     * @psalm-suppress NullableReturnStatement
+     */
     public function divide(string $value, string $divisor) : string
     {
         if (!\is_numeric($value) || !\is_numeric($divisor)) {
             throw new InvalidTypeException('Expected values to be numeric string');
         }
 
-        $result = \bcdiv($value, $divisor, $this->precision);
-
-        if ($result !== null) {
-            return $result;
+        if (\floatval($divisor) === \floatval('0')) {
+            throw new \LogicException("Divisor can't be 0");
         }
 
-        throw new \LogicException("Divisor can't be 0");
+        /**
+         * @phpstan-ignore-next-line
+         */
+        return \bcdiv($value, $divisor, $this->precision);
     }
 
     public function multiply(string $value, string $multiplier) : string

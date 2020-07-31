@@ -116,21 +116,7 @@ final class LeapSeconds
 
     public function offsetTAI() : TimeUnit
     {
-        return TimeUnit::seconds(\array_reduce(
-            $this->leapSeconds,
-            function (int $totalSeconds, LeapSecond $nextLeapSecond) : int {
-
-                /** Leap second in theory might also be negative but so far it never happened  */
-                // @codeCoverageIgnoreStart
-                $totalSeconds += $nextLeapSecond->offsetTAI()->isPositive()
-                    ? 1
-                    : -1;
-                // @codeCoverageIgnoreEnd
-
-                return $totalSeconds;
-            },
-            9
-        ));
+        return $this->leapSeconds[\count($this->leapSeconds) - 1]->offsetTAI();
     }
 
     /**
@@ -152,7 +138,7 @@ final class LeapSeconds
     /**
      * @return array<int, LeapSecond>
      */
-    private function all() : array
+    public function all() : array
     {
         return $this->leapSeconds;
     }

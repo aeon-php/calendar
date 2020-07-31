@@ -876,11 +876,7 @@ final class TimeZone
      */
     public function __construct(string $name)
     {
-        try {
-            if (!\in_array($name, [self::AMERICA_GODTHAB, self::PACIFIC_JOHNSTON], true)) {
-                new \DateTimeZone($name);
-            }
-        } catch (\Exception $e) {
+        if (!self::isValid($name)) {
             throw new InvalidArgumentException("\"{$name}\" is not a valid timezone.");
         }
 
@@ -896,7 +892,13 @@ final class TimeZone
      */
     public static function isValid(string $name) : bool
     {
-        return \in_array($name, (array) \DateTimeZone::listIdentifiers(), true);
+        try {
+            new \DateTimeZone($name);
+
+            return true;
+        } catch (\Exception $e) {
+            return false;
+        }
     }
 
     /**

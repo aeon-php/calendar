@@ -12,20 +12,21 @@ final class YearsTest extends TestCase
 {
     public function test_array_access() : void
     {
-        $months = new Years(
+        $years = new Years(
             Year::fromString('2000-01-01'),
             Year::fromString('2001-02-02'),
             Year::fromString('2002-03-03'),
         );
 
-        $this->assertTrue(isset($months[0]));
-        $this->assertInstanceOf(Year::class, $months[0]);
-        $this->assertSame(3, \iterator_count($months->getIterator()));
+        $this->assertTrue(isset($years[0]));
+        $this->assertInstanceOf(Year::class, $years[0]);
+        $this->assertSame(3, \iterator_count($years->getIterator()));
+        $this->assertCount(3, $years->all());
     }
 
     public function test_map() : void
     {
-        $days = new Years(
+        $yeras = new Years(
             Year::fromString('2000-01-01'),
             Year::fromString('2001-02-02'),
             Year::fromString('2002-03-03'),
@@ -33,7 +34,7 @@ final class YearsTest extends TestCase
 
         $this->assertSame(
             [2000, 2001, 2002],
-            $days->map(function (Year $day) {
+            $yeras->map(function (Year $day) {
                 return $day->number();
             })
         );
@@ -41,7 +42,7 @@ final class YearsTest extends TestCase
 
     public function test_filter() : void
     {
-        $days = new Years(
+        $years = new Years(
             Year::fromString('2000-01-01'),
             Year::fromString('2001-02-02'),
             Year::fromString('2002-03-03'),
@@ -49,7 +50,7 @@ final class YearsTest extends TestCase
 
         $this->assertEquals(
             new Years(Year::fromString('2000-01-01')),
-            $days->filter(function (Year $day) {
+            $years->filter(function (Year $day) {
                 return $day->number() === 2000;
             })
         );

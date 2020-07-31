@@ -23,12 +23,12 @@ final class TimePeriods implements \ArrayAccess, \Countable, \IteratorAggregate
 
     public function offsetExists($offset) : bool
     {
-        return isset($this->all()[(int) $offset]);
+        return isset($this->all()[\intval($offset)]);
     }
 
     public function offsetGet($offset) : ?TimePeriod
     {
-        return isset($this->all()[(int) $offset]) ? $this->all()[(int) $offset] : null;
+        return isset($this->all()[\intval($offset)]) ? $this->all()[\intval($offset)] : null;
     }
 
     public function offsetSet($offset, $value) : void
@@ -93,10 +93,6 @@ final class TimePeriods implements \ArrayAccess, \Countable, \IteratorAggregate
      */
     public function gaps() : self
     {
-        if ($this->count() <= 1) {
-            return new self();
-        }
-
         $periods = \array_map(
             function (TimePeriod $timePeriod) : TimePeriod {
                 return $timePeriod->isBackward() ? $timePeriod->revert() : $timePeriod;
@@ -110,15 +106,7 @@ final class TimePeriods implements \ArrayAccess, \Countable, \IteratorAggregate
                 $timePeriodAForward = $timePeriodA->isForward() ? $timePeriodA : $timePeriodA->revert();
                 $timePeriodBForward = $timePeriodB->isForward() ? $timePeriodB : $timePeriodB->revert();
 
-                if ($timePeriodAForward->start()->isBefore($timePeriodBForward->start())) {
-                    return -1;
-                }
-
-                if ($timePeriodAForward->start()->isEqual($timePeriodBForward->start())) {
-                    return 0;
-                }
-
-                return 1;
+                return $timePeriodAForward->start()->toDateTimeImmutable() <=> $timePeriodBForward->start()->toDateTimeImmutable();
             }
         );
 

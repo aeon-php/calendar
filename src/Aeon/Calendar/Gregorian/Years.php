@@ -23,12 +23,12 @@ final class Years implements \ArrayAccess, \Countable, \IteratorAggregate
 
     public function offsetExists($offset) : bool
     {
-        return isset($this->all()[(int) $offset]);
+        return isset($this->all()[\intval($offset)]);
     }
 
     public function offsetGet($offset) : ?Year
     {
-        return isset($this->all()[(int) $offset]) ? $this->all()[(int) $offset] : null;
+        return isset($this->all()[\intval($offset)]) ? $this->all()[\intval($offset)] : null;
     }
 
     /** @codeCoverageIgnore */

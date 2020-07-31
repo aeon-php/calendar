@@ -184,7 +184,7 @@ final class Day
      */
     public function dayOfYear() : int
     {
-        return ((int) $this->toDateTimeImmutable()->format('z')) + 1;
+        return \intval($this->toDateTimeImmutable()->format('z')) + 1;
     }
 
     public function isWeekend() : bool
@@ -315,10 +315,6 @@ final class Day
             );
         }
 
-        $interval = new \DateInterval('P1D');
-        /** @psalm-suppress ImpurePropertyAssignment */
-        $interval->invert = 1;
-
         return new Days(
             ...\array_map(
                 function (\DateTimeImmutable $dateTimeImmutable) : self {
@@ -328,7 +324,7 @@ final class Day
                     \iterator_to_array(
                         new \DatePeriod(
                             $day->toDateTimeImmutable(),
-                            $interval,
+                            new \DateInterval('P1D'),
                             $this->toDateTimeImmutable()
                         )
                     )

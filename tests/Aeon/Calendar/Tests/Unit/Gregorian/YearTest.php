@@ -28,6 +28,11 @@ final class YearTest extends TestCase
         $this->assertSame(12, Year::fromString('2020-01-01')->december()->number());
     }
 
+    public function test_from_date_time_immutable() : void
+    {
+        $this->assertSame(2020, Year::fromDateTime(new \DateTimeImmutable('2020-05-01'))->number());
+    }
+
     /**
      * @dataProvider month_number_of_days_data_provider
      */
@@ -57,9 +62,22 @@ final class YearTest extends TestCase
         yield [2021, 2, 28];
     }
 
+    public function test_debug_info() : void
+    {
+        $this->assertSame(
+            [
+                'year' => 2020,
+            ],
+            Year::fromString('2020-01-01')->__debugInfo()
+        );
+    }
+
     public function test_map_days() : void
     {
-        $this->assertCount(366, (new Year(2020))->mapDays(fn (Day $day) : int => $day->number()));
+        $days = (new Year(2020))->mapDays(fn (Day $day) : int => $day->number());
+        $this->assertCount(366, $days);
+        $this->assertSame($days[0], 1);
+        $this->assertSame($days[365], 31);
     }
 
     public function test_filter_days() : void
@@ -86,6 +104,9 @@ final class YearTest extends TestCase
                 $this->assertTrue(
                     $year->number() % 4 === 0 && ($year->number() % 100 !== 0 || $year->number() % 400 === 0)
                 );
+                $this->assertSame(366, $year->numberOfDays());
+            } else {
+                $this->assertSame(365, $year->numberOfDays());
             }
             $year = $year->next();
         }

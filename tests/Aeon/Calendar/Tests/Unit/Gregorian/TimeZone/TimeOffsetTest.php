@@ -4,18 +4,35 @@ declare(strict_types=1);
 
 namespace Aeon\Calendar\Tests\Unit\Gregorian\TimeZone;
 
+use Aeon\Calendar\Exception\InvalidArgumentException;
 use Aeon\Calendar\Gregorian\TimeZone\TimeOffset;
 use Aeon\Calendar\TimeUnit;
 use PHPUnit\Framework\TestCase;
 
 final class TimeOffsetTest extends TestCase
 {
+    public function test_create_from_invalid_string() : void
+    {
+        $this->expectException(InvalidArgumentException::class);
+
+        TimeOffset::fromString('invalid_string');
+    }
+
     public function test_create_from_time_unit_zero() : void
     {
         $this->assertSame(
             '+00:00',
             TimeOffset::fromTimeUnit(TimeUnit::seconds(0))->toString()
         );
+    }
+
+    public function test_create_UTC() : void
+    {
+        $this->assertSame(
+            '+00:00',
+            TimeOffset::UTC()->toString()
+        );
+        $this->assertTrue(TimeOffset::UTC()->isUTC());
     }
 
     public function test_create_from_time_unit_zero_positive() : void

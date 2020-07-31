@@ -36,15 +36,11 @@ final class TimeUnit
     private function __construct(bool $negative, int $seconds, int $microsecond)
     {
         if ($seconds < 0) {
-            // @codeCoverageIgnoreStart
             throw new InvalidArgumentException('Seconds must be greater or equal 0, got ' . $seconds);
-            // @codeCoverageIgnoreEnd
         }
 
         if ($microsecond < 0 || $microsecond >= self::MICROSECONDS_IN_SECOND) {
-            // @codeCoverageIgnoreStart
-            throw new InvalidArgumentException('Microsecond must be greater or equal 0 and less than 1000000, got ' . $seconds);
-            // @codeCoverageIgnoreEnd
+            throw new InvalidArgumentException('Microsecond must be greater or equal 0 and less than 1000000, got ' . $microsecond);
         }
 
         $this->negative = $negative;
@@ -63,16 +59,10 @@ final class TimeUnit
 
         $secondsStringParts = \explode('.', $secondsString);
 
-        if (\count($secondsStringParts) !== 2) {
-            // @codeCoverageIgnoreStart
-            throw new InvalidArgumentException(\sprintf('Malformed representation of seconds as float, expected number with 6 decimals, got %s', $secondsString));
-            // @codeCoverageIgnoreEnd
-        }
-
         return new self(
-            (float) $secondsString < 0,
-            \abs((int) $secondsStringParts[0]),
-            \abs((int) $secondsStringParts[1]),
+            \floatval($secondsString) < 0,
+            \abs(\intval($secondsStringParts[0])),
+            \abs(\intval($secondsStringParts[1])),
         );
     }
 
@@ -91,7 +81,7 @@ final class TimeUnit
             throw new Exception('Can\'t convert ' . $dateInterval->format('P%yY%mM%dDT%hH%iM%sS') . ' precisely to time unit because month can\'t be directly converted to number of seconds.');
         }
 
-        $timeUnit = self::days($dateInterval->days ? (int) $dateInterval->days : $dateInterval->d)
+        $timeUnit = self::days($dateInterval->days ? \intval($dateInterval->days) : $dateInterval->d)
             ->add(self::hours($dateInterval->h))
             ->add(self::minutes($dateInterval->i))
             ->add(self::seconds($dateInterval->s))
@@ -111,7 +101,7 @@ final class TimeUnit
     {
         return new self(
             $milliseconds < 0,
-            \abs((int) ($milliseconds / self::MILLISECONDS_IN_SECOND)),
+            \abs(\intval($milliseconds / self::MILLISECONDS_IN_SECOND)),
             \abs(($milliseconds * self::MICROSECONDS_IN_MILLISECOND) % self::MICROSECONDS_IN_SECOND)
         );
     }
@@ -271,8 +261,8 @@ final class TimeUnit
     public function inHours() : int
     {
         return $this->negative
-            ? -(int) (($this->seconds / self::SECONDS_IN_MINUTE) / self::MINUTES_IN_HOUR)
-            : (int) (($this->seconds / self::SECONDS_IN_MINUTE) / self::MINUTES_IN_HOUR);
+            ? -\intval(($this->seconds / self::SECONDS_IN_MINUTE) / self::MINUTES_IN_HOUR)
+            : \intval(($this->seconds / self::SECONDS_IN_MINUTE) / self::MINUTES_IN_HOUR);
     }
 
     public function inHoursAbs() : int
@@ -283,8 +273,8 @@ final class TimeUnit
     public function inMinutes() : int
     {
         return $this->negative
-            ? -(int) ($this->seconds / self::SECONDS_IN_MINUTE)
-            : (int) ($this->seconds / self::SECONDS_IN_MINUTE);
+            ? -\intval($this->seconds / self::SECONDS_IN_MINUTE)
+            : \intval($this->seconds / self::SECONDS_IN_MINUTE);
     }
 
     public function inMinutesAbs() : int
@@ -300,8 +290,8 @@ final class TimeUnit
     public function inDays() : int
     {
         return $this->negative
-            ? -(int) ((($this->seconds / self::SECONDS_IN_MINUTE) / self::MINUTES_IN_HOUR) / self::HOURS_IN_DAY)
-            : (int) ((($this->seconds / self::SECONDS_IN_MINUTE) / self::MINUTES_IN_HOUR) / self::HOURS_IN_DAY);
+            ? -\intval((($this->seconds / self::SECONDS_IN_MINUTE) / self::MINUTES_IN_HOUR) / self::HOURS_IN_DAY)
+            : \intval((($this->seconds / self::SECONDS_IN_MINUTE) / self::MINUTES_IN_HOUR) / self::HOURS_IN_DAY);
     }
 
     public function inDaysAbs() : int
@@ -330,8 +320,8 @@ final class TimeUnit
     public function inMilliseconds() : int
     {
         return $this->isNegative()
-            ? -($this->seconds * 1000 + (int) ($this->microsecond / self::MICROSECONDS_IN_MILLISECOND))
-            : ($this->seconds * 1000 + (int) ($this->microsecond / self::MICROSECONDS_IN_MILLISECOND));
+            ? -($this->seconds * 1000 + \intval($this->microsecond / self::MICROSECONDS_IN_MILLISECOND))
+            : ($this->seconds * 1000 + \intval($this->microsecond / self::MICROSECONDS_IN_MILLISECOND));
     }
 
     public function inMillisecondsAbs() : int

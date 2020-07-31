@@ -13,6 +13,7 @@ final class YearMonthsTest extends TestCase
     public function test_count() : void
     {
         $this->assertSame(12, (new Year(2020))->months()->count());
+        $this->assertCount(12, (new Year(2020))->months()->all());
     }
 
     public function test_map_months() : void
