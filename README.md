@@ -5,6 +5,7 @@
 [![Latest Unstable Version](https://poser.pugx.org/aeon-php/calendar/v/unstable)](//packagist.org/packages/aeon-php/calendar)
 [![License](https://poser.pugx.org/aeon-php/calendar/license)](//packagist.org/packages/aeon-php/calendar)
 ![Tests](https://github.com/aeon-php/calendar/workflows/Tests/badge.svg?branch=1.x)
+[![Mutation testing badge](https://img.shields.io/endpoint?style=flat&url=https%3A%2F%2Fbadge-api.stryker-mutator.io%2Fgithub.com%2Faeon-php%2Fcalendar%2F1.x)](https://dashboard.stryker-mutator.io/reports/github.com/aeon-php/calendar/1.x)
 
 Time Management Framework for PHP
 
