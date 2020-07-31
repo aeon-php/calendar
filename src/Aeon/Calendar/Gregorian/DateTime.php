@@ -507,20 +507,18 @@ final class DateTime
          * @var array<int, array{ts: int, time: string, offset: int, isdst: bool, abbr: string}> $transitions
          */
         $transitions = $tz->toDateTimeZone()->getTransitions(
-            $this->timestampUNIX()->sub(TimeUnit::hours(1)->add(TimeUnit::seconds(1)))->inSeconds(),
-            $this->timestampUNIX()->add(TimeUnit::hours(1)->add(TimeUnit::seconds(1)))->inSeconds(),
+            $this->timestampUNIX()->sub(TimeUnit::hours(1)->add(TimeUnit::minute()))->inSeconds(),
+            $this->timestampUNIX()->add(TimeUnit::hours(1))->inSeconds(),
         );
 
         if (\count($transitions) === 1) {
             return false;
         }
 
-        if ($transitions[1]['offset'] - $transitions[0]['offset'] > 0) {
+        if ($transitions[1]['offset'] - $transitions[0]['offset'] === 3600) {
             return false;
         }
 
-        $diff = $this->timestampUNIX()->sub(self::fromString($transitions[1]['time'])->timestampUNIX());
-
-        return $diff->isGreaterThanEq(TimeUnit::seconds(0)) && $diff->isLessThanEq(TimeUnit::hour());
+        return true;
     }
 }

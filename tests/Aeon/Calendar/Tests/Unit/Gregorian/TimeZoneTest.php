@@ -31,4 +31,12 @@ final class TimeZoneTest extends TestCase
     {
         $this->assertSame('PL', TimeZone::europeWarsaw()->toCountryCode());
     }
+
+    public function test_is_valid() : void
+    {
+        $this->assertFalse(TimeZone::isValid('invalid_time_zone'));
+        $this->assertTrue(TimeZone::isValid('Europe/Warsaw'));
+        $this->assertTrue(TimeZone::isValid(TimeZone::AMERICA_GODTHAB));
+        $this->assertTrue(TimeZone::isValid(TimeZone::PACIFIC_JOHNSTON));
+    }
 }

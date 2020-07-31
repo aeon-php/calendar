@@ -11,11 +11,43 @@ use PHPUnit\Framework\TestCase;
 
 final class MonthTest extends TestCase
 {
+    public function test_create_with_month_number_lower_than_0() : void
+    {
+        $this->expectException(InvalidArgumentException::class);
+
+        new Month(new Year(2020), 0);
+    }
+
+    public function test_create_with_month_number_greater_than_12() : void
+    {
+        $this->expectException(InvalidArgumentException::class);
+
+        new Month(new Year(2020), 13);
+    }
+
     public function test_first_day_of_month() : void
     {
         $month = Month::fromString('2020-01-01');
 
         $this->assertSame(1, $month->firstDay()->number());
+    }
+
+    public function test_create_from_datetime_() : void
+    {
+        $month = Month::fromDateTime(new \DateTimeImmutable('2020-02-01'));
+
+        $this->assertSame(2, $month->number());
+    }
+
+    public function test_debug_info() : void
+    {
+        $this->assertSame(
+            [
+                'year' => 2020,
+                'month' => 1,
+            ],
+            Month::fromString('2020-01-01')->__debugInfo()
+        );
     }
 
     public function test_last_day_of_month() : void
@@ -69,6 +101,9 @@ final class MonthTest extends TestCase
 
         $this->assertFalse(Month::fromString('2021-01-01')->isBefore(Month::fromString('2020-01-01')));
         $this->assertFalse(Month::fromString('2021-01-01')->isBeforeOrEqual(Month::fromString('2020-01-01')));
+
+        $this->assertTrue(Month::fromString('2019-01-01')->isBeforeOrEqual(Month::fromString('2020-01-01')));
+        $this->assertTrue(Month::fromString('2021-01-01')->isAfterOrEqual(Month::fromString('2020-01-01')));
     }
 
     public function test_is_after() : void
@@ -123,7 +158,7 @@ final class MonthTest extends TestCase
 
     public function test_iterate_since() : void
     {
-        $this->assertCount(12, $months = Month::fromString('2022-01-01')->since(Month::fromString('2021-01-01')));
+        $this->assertCount(12, $months = Month::fromString('2022-01-01')->iterate(Month::fromString('2021-01-01')));
         $this->assertInstanceOf(Month::class, $months[0]);
         $this->assertInstanceOf(Month::class, $months[11]);
         $this->assertSame('January', $months[11]->name());

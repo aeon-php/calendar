@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Aeon\Calendar;
 
 use Aeon\Calendar\Exception\Exception;
+use Aeon\Calendar\TimeUnit\HRTime;
 
 /**
  * @psalm-pure
@@ -103,8 +104,8 @@ final class Stopwatch
             throw new Exception(\sprintf('Lap %d not exists', $lap));
         }
 
-        return TimeUnit::precise($this->timeToFloat($this->laps[$lap - 1]))
-            ->sub(TimeUnit::precise($this->timeToFloat($this->laps[$lap - 2])));
+        return HRTime::convert($this->laps[$lap - 1][0], $this->laps[$lap - 1][1])
+            ->sub(HRTime::convert($this->laps[$lap - 2][0], $this->laps[$lap - 2][1]));
     }
 
     public function firstLapElapsedTime() : TimeUnit
@@ -117,8 +118,8 @@ final class Stopwatch
             throw new Exception('Stopwatch does not have any laps.');
         }
 
-        return TimeUnit::precise($this->timeToFloat($this->laps[0]))
-            ->sub(TimeUnit::precise($this->timeToFloat($this->start)));
+        return HRTime::convert($this->laps[0][0], $this->laps[0][1])
+            ->sub(HRTime::convert($this->start[0], $this->start[1]));
     }
 
     public function lastLapElapsedTime() : TimeUnit
@@ -135,8 +136,8 @@ final class Stopwatch
             throw new Exception('Stopwatch does not have any laps.');
         }
 
-        return TimeUnit::precise($this->timeToFloat($this->end))
-            ->sub(TimeUnit::precise($this->timeToFloat(\end($this->laps))));
+        return HRTime::convert($this->end[0], $this->end[1])
+            ->sub(HRTime::convert(\end($this->laps)[0], \end($this->laps)[1]));
     }
 
     public function totalElapsedTime() : TimeUnit
@@ -149,19 +150,7 @@ final class Stopwatch
             throw new Exception('Stopwatch not stopped');
         }
 
-        return TimeUnit::precise($this->timeToFloat($this->end))
-            ->sub(TimeUnit::precise($this->timeToFloat($this->start)));
-    }
-
-    /**
-     * @param array{int, int} $time
-     */
-    private function timeToFloat(array $time) : float
-    {
-        return (float) \sprintf(
-            '%d.%s',
-            $time[0],
-            \substr(\str_pad((string) $time[1], 9, '0', STR_PAD_LEFT), 0, 6)
-        );
+        return HRTime::convert($this->end[0], $this->end[1])
+            ->sub(HRTime::convert($this->start[0], $this->start[1]));
     }
 }

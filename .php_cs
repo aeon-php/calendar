@@ -87,7 +87,7 @@ return PhpCsFixer\Config::create()
         'magic_constant_casing' => true,
         'magic_method_casing' => true,
         'method_argument_space' => ['ensure_fully_multiline' => true],
-        'modernize_types_casting' => true,
+        'modernize_types_casting' => false,
         'multiline_comment_opening_closing' => true,
         'multiline_whitespace_before_semicolons' => true,
         'native_constant_invocation' => false,

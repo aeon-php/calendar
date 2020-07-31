@@ -21,6 +21,7 @@ final class MonthsTest extends TestCase
         $this->assertTrue(isset($months[0]));
         $this->assertInstanceOf(Month::class, $months[0]);
         $this->assertSame(3, \iterator_count($months->getIterator()));
+        $this->assertCount(3, $months->all());
     }
 
     public function test_map() : void
@@ -41,7 +42,7 @@ final class MonthsTest extends TestCase
 
     public function test_filter() : void
     {
-        $days = new Months(
+        $months = new Months(
             Month::fromString('2002-01-01'),
             Month::fromString('2002-02-02'),
             Month::fromString('2002-03-03'),
@@ -49,7 +50,7 @@ final class MonthsTest extends TestCase
 
         $this->assertEquals(
             new Months(Month::fromString('2002-01-01')),
-            $days->filter(function (Month $day) {
+            $months->filter(function (Month $day) {
                 return $day->number() === 1;
             })
         );

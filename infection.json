@@ -1,22 +1,42 @@
 {
-  "timeout": 5,
   "source": {
     "directories": [
       "src\/Aeon"
     ],
     "excludes": [
-      "/\\.phpt/"
+      "/.*\\.phpt/"
     ]
   },
   "logs": {
-    "text": "var/logs/infection.log",
-    "summary": "var/logs/infection_summary.log",
-    "debug": "var/logs/infection_summary.log"
+    "text": "./var/infection/infection.log",
+    "summary": "./var/infection/infection_summary.log",
+    "debug": "./var/infection/infection_summary.log"
   },
   "mutators": {
     "@default": true,
-    "PublicVisibility": false
+    "PublicVisibility": {
+      "ignore": [
+        "Aeon\\Calendar\\Gregorian\\TimeZone::*"
+      ]
+    },
+    "ArrayItemRemoval": {
+      "ignore": [
+        "Aeon\\Calendar\\Gregorian\\TimeZone::toCountryCode"
+      ]
+    },
+    "IncrementInteger": {
+      "ignore": [
+        "Aeon\\Calendar\\Stopwatch::elapsedTime"
+      ]
+    },
+    "DecrementInteger": {
+      "ignore": [
+        "Aeon\\Calendar\\Stopwatch::elapsedTime"
+      ]
+    }
   },
   "testFramework": "phpunit",
-  "bootstrap": "./vendor/autoload.php"
+  "bootstrap": "./vendor/autoload.php",
+  "minMsi": 100,
+  "minCoveredMsi": 100
 }

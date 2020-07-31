@@ -20,6 +20,16 @@ final class StopwatchTest extends TestCase
         $stopwatch->stop();
     }
 
+    public function test_elapsed_time_on_not_stopped_stopwatch() : void
+    {
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage('Stopwatch does not have any laps.');
+
+        $stopwatch = new Stopwatch();
+        $stopwatch->start();
+        $stopwatch->elapsedTime(0);
+    }
+
     public function test_stopping_already_stopped_stopwatch() : void
     {
         $this->expectException(Exception::class);
@@ -120,13 +130,22 @@ final class StopwatchTest extends TestCase
     public function test_elapsed_time_from_not_existing_measure() : void
     {
         $this->expectException(Exception::class);
-        $this->expectExceptionMessage('Lap 10 not exists');
+        $this->expectExceptionMessage('Lap 3 not exists');
 
         $stopwatch = new Stopwatch();
         $stopwatch->start();
         $stopwatch->lap();
         $stopwatch->stop();
-        $stopwatch->elapsedTime(10);
+        $this->assertSame(2, $stopwatch->laps());
+        $stopwatch->elapsedTime(3);
+    }
+
+    public function test_laps_count_without_laps() : void
+    {
+        $stopwatch = new Stopwatch();
+        $stopwatch->start();
+        $stopwatch->stop();
+        $this->assertSame(0, $stopwatch->laps());
     }
 
     public function test_elapsed_time_from_not_ended_measure() : void
@@ -147,6 +166,7 @@ final class StopwatchTest extends TestCase
         $stopwatch->lap(); // lap #1
         $stopwatch->stop(); // lap #2
 
+        $this->assertSame(2, $stopwatch->laps());
         $this->assertSame(
             $stopwatch->lastLapElapsedTime()->inSecondsPrecise(),
             $stopwatch->elapsedTime(2)->inSecondsPrecise()

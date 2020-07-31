@@ -51,10 +51,10 @@ final class Time
     public static function fromDateTime(\DateTimeInterface $dateTime) : self
     {
         return new self(
-            (int) $dateTime->format('H'),
-            (int) $dateTime->format('i'),
-            (int) $dateTime->format('s'),
-            (int) $dateTime->format('u'),
+            \intval($dateTime->format('H')),
+            \intval($dateTime->format('i')),
+            \intval($dateTime->format('s')),
+            \intval($dateTime->format('u')),
         );
     }
 
@@ -113,7 +113,7 @@ final class Time
 
     public function millisecond() : int
     {
-        return (int) ($this->microsecond() / 1000);
+        return \intval($this->microsecond() / 1000);
     }
 
     public function isAM() : bool

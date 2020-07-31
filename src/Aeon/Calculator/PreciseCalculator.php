@@ -24,8 +24,10 @@ final class PreciseCalculator
             return self::$instance;
         }
 
+        // @codeCoverageIgnoreStart
         self::$instance = new PHPCalculator($precision);
 
         return self::$instance;
+        // @codeCoverageIgnoreEnd
     }
 }

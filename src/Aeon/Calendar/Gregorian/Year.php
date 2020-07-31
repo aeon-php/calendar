@@ -263,10 +263,6 @@ final class Year
             );
         }
 
-        $interval = new \DateInterval('P1Y');
-        /** @psalm-suppress ImpurePropertyAssignment */
-        $interval->invert = 1;
-
         return new Years(
             ...\array_map(
                 function (\DateTimeImmutable $dateTimeImmutable) : self {
@@ -276,7 +272,7 @@ final class Year
                     \iterator_to_array(
                         new \DatePeriod(
                             $month->toDateTimeImmutable(),
-                            $interval,
+                            new \DateInterval('P1Y'),
                             $this->toDateTimeImmutable()
                         )
                     )

@@ -65,6 +65,14 @@ final class DateTimeTest extends TestCase
         );
     }
 
+    public function test_create_with_timezone_utc() : void
+    {
+        $this->assertSame(
+            '-03:00',
+            (new DateTime(new Day(new Month(new Year(2020), 1), 1), new Time(0, 0, 0), TimeZone::americaFortaleza()))->timeOffset()->toString()
+        );
+    }
+
     public function test_create_with_timezone_and_time_offset() : void
     {
         $this->assertSame(
@@ -114,6 +122,14 @@ final class DateTimeTest extends TestCase
         );
     }
 
+    public function test_create_with_default_values() : void
+    {
+        $this->assertTrue(
+            DateTime::create(2020, 01, 01, 00, 00, 00)
+                ->isEqual(DateTime::fromString('2020-01-01 00:00:00.000000 UTC'))
+        );
+    }
+
     public function test_create_date_just_after_daylight_saving_time_change() : void
     {
         $this->assertSame(
@@ -158,6 +174,34 @@ final class DateTimeTest extends TestCase
         $dateTime = DateTime::fromString('2020-01-01 00:00:00');
 
         $this->assertSame(1, $dateTime->day()->number());
+    }
+
+    public function test_midnight() : void
+    {
+        $dateTime = DateTime::fromString('2020-01-01 00:00:00 UTC');
+
+        $this->assertSame('2020-01-01 00:00:00.000000+00:00', $dateTime->midnight()->format('Y-m-d H:i:s.uP'));
+    }
+
+    public function test_noon() : void
+    {
+        $dateTime = DateTime::fromString('2020-01-01 00:00:00 UTC');
+
+        $this->assertSame('2020-01-01 12:00:00.000000+00:00', $dateTime->noon()->format('Y-m-d H:i:s.uP'));
+    }
+
+    public function test_end_of_day() : void
+    {
+        $dateTime = DateTime::fromString('2020-01-01 00:00:00 UTC');
+
+        $this->assertSame('2020-01-01 23:59:59.999999+00:00', $dateTime->endOfDay()->format('Y-m-d H:i:s.uP'));
+    }
+
+    public function test_modify() : void
+    {
+        $dateTime = DateTime::fromString('2020-01-01 00:00:00 UTC');
+
+        $this->assertSame('2020-01-01 01:00:00.000000+00:00', $dateTime->modify('+1 hour')->format('Y-m-d H:i:s.uP'));
     }
 
     public function test_time() : void
@@ -213,6 +257,14 @@ final class DateTimeTest extends TestCase
         $dateTime = DateTime::fromString('2020-01-01 00:00:00');
 
         $this->assertSame(1577836800, $dateTime->timestampUNIX()->inSeconds());
+    }
+
+    public function test_unix_zero_timestamp() : void
+    {
+        $dateTime = DateTime::fromString('1970-01-01 00:00:00');
+
+        $this->assertSame(0, $dateTime->timestampUNIX()->inSeconds());
+        $this->assertTrue($dateTime->timestampUNIX()->isPositive());
     }
 
     public function test_timestamp() : void
@@ -504,6 +556,10 @@ final class DateTimeTest extends TestCase
             DateTime::fromString('2020-01-01 00:00:00+00')
                 ->isBefore(DateTime::fromString('2020-01-01 01:00:00+00'))
         );
+        $this->assertFalse(
+            DateTime::fromString('2020-01-01 00:00:00+00')
+                ->isBefore(DateTime::fromString('2020-01-01 00:00:00+00'))
+        );
     }
 
     public function test_is_after_or_equal() : void
@@ -522,12 +578,34 @@ final class DateTimeTest extends TestCase
         );
     }
 
+    public function test_until() : void
+    {
+        $this->assertSame(
+            1,
+            DateTime::fromString('2020-01-01 00:00:00+00')
+                ->Until(DateTime::fromString('2020-01-01 01:00:00+00'))
+                ->distance()
+                ->inHours()
+        );
+    }
+
     public function test_distance_until() : void
     {
         $this->assertSame(
             1,
             DateTime::fromString('2020-01-01 00:00:00+00')
                 ->distanceUntil(DateTime::fromString('2020-01-01 01:00:00+00'))
+                ->inHours()
+        );
+    }
+
+    public function test_since() : void
+    {
+        $this->assertSame(
+            1,
+            DateTime::fromString('2020-01-01 01:00:00+00')
+                ->since(DateTime::fromString('2020-01-01 00:00:00+00'))
+                ->distance()
                 ->inHours()
         );
     }
@@ -555,17 +633,25 @@ final class DateTimeTest extends TestCase
      */
     public function checking_ambiguous_time_data_provider() : \Generator
     {
+        yield [new DateTime(Day::fromString('2020-01-01'), Time::fromString('00:00:00'), null, TimeOffset::fromString('01:00')), false];
+        yield [DateTime::fromString('2020-10-25 01:59:59 UTC'), false];
+        yield [DateTime::fromString('2020-10-25 00:00:00 Europe/Warsaw'), false];
+        yield [DateTime::fromString('2020-10-25 01:00:00 Europe/Warsaw'), false];
         yield [DateTime::fromString('2020-10-25 01:59:59 Europe/Warsaw'), false];
         yield [DateTime::fromString('2020-10-25 02:00:00 Europe/Warsaw'), true];
+        yield [DateTime::fromString('2020-10-25 02:30:30 Europe/Warsaw'), true];
         yield [DateTime::fromString('2020-10-25 02:59:59 Europe/Warsaw'), true];
         yield [DateTime::fromString('2020-10-25 03:00:00 Europe/Warsaw'), true];
         yield [DateTime::fromString('2020-10-25 03:01:00 Europe/Warsaw'), false];
 
+        yield [DateTime::fromString('2020-03-29 01:59:58 Europe/Warsaw'), false];
         yield [DateTime::fromString('2020-03-29 01:59:59 Europe/Warsaw'), false];
         yield [DateTime::fromString('2020-03-29 02:00:00 Europe/Warsaw'), false];
         yield [DateTime::fromString('2020-03-29 02:59:59 Europe/Warsaw'), false];
         yield [DateTime::fromString('2020-03-29 03:00:00 Europe/Warsaw'), false];
         yield [DateTime::fromString('2020-03-29 03:01:00 Europe/Warsaw'), false];
+        yield [DateTime::fromString('2020-03-29 04:00:00 Europe/Warsaw'), false];
+        yield [DateTime::fromString('2020-03-29 05:00:00 Europe/Warsaw'), false];
     }
 
     public function test_using_create_constructor_during_dst_gap() : void

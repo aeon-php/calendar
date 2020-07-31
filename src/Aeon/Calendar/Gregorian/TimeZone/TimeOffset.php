@@ -22,10 +22,6 @@ final class TimeOffset
 
     private function __construct(bool $negative, int $hours, int $minutes)
     {
-        if ($minutes < 0 || $minutes >= 60) {
-            throw new InvalidArgumentException('Minutes must be greater or equal 0 and less than 60');
-        }
-
         $this->negative = $negative;
         $this->hours = $hours;
         $this->minutes = $minutes;

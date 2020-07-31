@@ -14,19 +14,44 @@ use PHPUnit\Framework\TestCase;
 
 final class DayTest extends TestCase
 {
-    public function test_create_day_with_invalid_number() : void
+    /**
+     * @dataProvider create_day_with_invalid_number_provider
+     */
+    public function test_create_day_with_invalid_number(int $number) : void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Day number must be greater or equal 1 and less or equal than 31');
 
-        new Day(new Month(new Year(2020), 01), 45);
+        new Day(new Month(new Year(2020), 01), $number);
+    }
+
+    /**
+     * @return \Generator<int, array{int}, mixed, void>
+     */
+    public function create_day_with_invalid_number_provider() : \Generator
+    {
+        yield [0];
+        yield [32];
+        yield [40];
+    }
+
+    public function test_debug_info() : void
+    {
+        $this->assertSame(
+            [
+                'year' => 2020,
+                'month' => 1,
+                'day' => 1,
+            ],
+            Day::fromString('2020-01-01')->__debugInfo()
+        );
     }
 
     public function test_midnight() : void
     {
         $day = Day::fromString('2020-01-01');
 
-        $this->assertSame('2020-01-01T00:00:00+00:00', $day->midnight(TimeZone::UTC())->toISO8601());
+        $this->assertSame('2020-01-01 00:00:00.000000+00:00', $day->midnight(TimeZone::UTC())->format('Y-m-d H:i:s.uP'));
         $this->assertSame(2020, $day->year()->number());
     }
 
@@ -34,7 +59,7 @@ final class DayTest extends TestCase
     {
         $day = Day::fromString('2020-01-01');
 
-        $this->assertSame('2020-01-01T12:00:00+00:00', $day->noon(TimeZone::UTC())->toISO8601());
+        $this->assertSame('2020-01-01 12:00:00.000000+00:00', $day->noon(TimeZone::UTC())->format('Y-m-d H:i:s.uP'));
     }
 
     public function test_end_of_day() : void
@@ -115,15 +140,19 @@ final class DayTest extends TestCase
     public function test_is_before() : void
     {
         $this->assertTrue(Day::fromString('2019-01-01')->isBefore(Day::fromString('2020-01-01')));
+        $this->assertFalse(Day::fromString('2019-01-01')->isBefore(Day::fromString('2019-01-01')));
         $this->assertTrue(Day::fromString('2020-01-01')->isBeforeOrEqual(Day::fromString('2020-01-01')));
 
         $this->assertFalse(Day::fromString('2021-01-01')->isBefore(Day::fromString('2020-01-01')));
         $this->assertFalse(Day::fromString('2021-01-01')->isBeforeOrEqual(Day::fromString('2020-01-01')));
+        $this->assertTrue(Day::fromString('2020-01-01')->isBeforeOrEqual(Day::fromString('2020-05-01')));
+        $this->assertTrue(Day::fromString('2020-05-01')->isAfterOrEqual(Day::fromString('2020-01-01')));
     }
 
     public function test_is_after() : void
     {
         $this->assertTrue(Day::fromString('2022-01-01')->isAfter(Day::fromString('2020-02-01')));
+        $this->assertFalse(Day::fromString('2020-01-01')->isAfter(Day::fromString('2020-01-01')));
         $this->assertTrue(Day::fromString('2020-01-01')->isAfterOrEqual(Day::fromString('2020-01-01')));
 
         $this->assertFalse(Day::fromString('2019-01-01')->isAfter(Day::fromString('2020-02-01')));
@@ -202,11 +231,11 @@ final class DayTest extends TestCase
 
     public function test_iterate_since() : void
     {
-        $this->assertCount(5, $months = Day::fromString('2020-01-06')->iterate(Day::fromString('2020-01-01')));
-        $this->assertInstanceOf(Day::class, $months[0]);
-        $this->assertInstanceOf(Day::class, $months[4]);
-        $this->assertSame(5, $months[0]->number());
-        $this->assertSame(1, $months[4]->number());
+        $this->assertCount(5, $days = Day::fromString('2020-01-06')->iterate(Day::fromString('2020-01-01')));
+        $this->assertInstanceOf(Day::class, $days[0]);
+        $this->assertInstanceOf(Day::class, $days[4]);
+        $this->assertSame(5, $days[0]->number());
+        $this->assertSame(1, $days[4]->number());
     }
 
     public function test_days_between() : void

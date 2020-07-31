@@ -200,10 +200,6 @@ final class Month
             );
         }
 
-        $interval = new \DateInterval('P1M');
-        /** @psalm-suppress ImpurePropertyAssignment */
-        $interval->invert = 1;
-
         return new Months(
             ...\array_map(
                 function (\DateTimeImmutable $dateTimeImmutable) : self {
@@ -213,7 +209,7 @@ final class Month
                     \iterator_to_array(
                         new \DatePeriod(
                             $month->toDateTimeImmutable(),
-                            $interval,
+                            new \DateInterval('P1M'),
                             $this->toDateTimeImmutable()
                         )
                     )

@@ -22,6 +22,50 @@ final class TimePeriodTest extends TestCase
         $this->assertFalse($period->distance()->isNegative());
     }
 
+    public function test_distance_in_time_unit_before_and_after_unix_epoch() : void
+    {
+        $period = new TimePeriod(
+            DateTime::fromString('1969-01-01 00:00:00.0000'),
+            DateTime::fromString('2020-01-01 00:00:00.0000')
+        );
+
+        $this->assertSame(1609372800, $period->distance()->inSeconds());
+        $this->assertFalse($period->distance()->isNegative());
+    }
+
+    public function test_distance_in_time_unit_before_and_after_unix_epoch_inverse() : void
+    {
+        $period = new TimePeriod(
+            DateTime::fromString('2020-01-01 00:00:00.0000'),
+            DateTime::fromString('1969-01-01 00:00:00.0000')
+        );
+
+        $this->assertSame(-1609372800, $period->distance()->inSeconds());
+        $this->assertTrue($period->distance()->isNegative());
+    }
+
+    public function test_distance_in_time_unit_before_and_before_unix_epoch() : void
+    {
+        $period = new TimePeriod(
+            DateTime::fromString('1969-01-01 00:00:00.0000'),
+            DateTime::fromString('1969-01-01 01:00:00.0000')
+        );
+
+        $this->assertSame(3600, $period->distance()->inSeconds());
+        $this->assertFalse($period->distance()->isNegative());
+    }
+
+    public function test_distance_in_time_unit_before_and_before_unix_epoch_inverse() : void
+    {
+        $period = new TimePeriod(
+            DateTime::fromString('1969-01-01 01:00:00.0000'),
+            DateTime::fromString('1969-01-01 00:00:00.0000'),
+        );
+
+        $this->assertSame(-3600, $period->distance()->inSeconds());
+        $this->assertTrue($period->distance()->isNegative());
+    }
+
     public function test_precise_distance_in_time_unit_from_start_to_end() : void
     {
         $period = new TimePeriod(
@@ -136,6 +180,12 @@ final class TimePeriodTest extends TestCase
         yield [
             false,
             new TimePeriod(DateTime::fromString('2020-01-01 00:00:00.0000'), DateTime::fromString('2020-01-02 00:00:00.0000')),
+            new TimePeriod(DateTime::fromString('2020-05-02 00:00:00.0000'), DateTime::fromString('2020-05-03 00:00:00.0000')),
+        ];
+
+        yield [
+            false,
+            new TimePeriod(DateTime::fromString('2020-01-01 00:00:00.0000'), DateTime::fromString('2020-01-02 00:00:00.0000')),
             new TimePeriod(DateTime::fromString('2020-01-02 00:00:00.0000'), DateTime::fromString('2020-01-03 00:00:00.0000')),
         ];
 
@@ -216,6 +266,27 @@ final class TimePeriodTest extends TestCase
             new TimePeriod(DateTime::fromString('2020-01-01 00:00:00.0000'), DateTime::fromString('2020-01-02 00:00:00.0000')),
             new TimePeriod(DateTime::fromString('2020-01-02 00:00:00.0000'), DateTime::fromString('2020-01-03 00:00:00.0000')),
         ];
+
+        yield [
+            false,
+            new TimePeriod(DateTime::fromString('2020-01-03 00:00:00.0000'), DateTime::fromString('2020-01-05 00:00:00.0000')),
+            new TimePeriod(DateTime::fromString('2020-01-05 00:00:00.0000'), DateTime::fromString('2020-01-08 00:00:00.0000')),
+        ];
+
+        yield [
+            true,
+            new TimePeriod(DateTime::fromString('2020-01-03 00:00:00.0000'), DateTime::fromString('2020-01-05 00:00:00.0000')),
+            new TimePeriod(DateTime::fromString('2020-01-03 00:00:00.0000'), DateTime::fromString('2020-01-08 00:00:00.0000')),
+        ];
+
+        yield [
+            true,
+            new TimePeriod(DateTime::fromString('2020-01-04 00:00:00.0000'), DateTime::fromString('2020-01-13 00:00:00.0000')),
+            new TimePeriod(DateTime::fromString('2020-01-03 00:00:00.0000'), DateTime::fromString('2020-01-08 00:00:00.0000')),
+        ];
+#                start           end
+#        this :  2020-01-04      2020-01-05
+#        other:  2020-01-03      2020-01-08
     }
 
     public function test_period_is_forward() : void

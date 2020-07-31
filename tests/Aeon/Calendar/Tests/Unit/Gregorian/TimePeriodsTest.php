@@ -84,6 +84,17 @@ final class TimePeriodsTest extends TestCase
         );
     }
 
+    public function test_gap_for_periods_with_equal_time_periods() : void
+    {
+        $this->assertCount(
+            0,
+            (new TimePeriods(
+                new TimePeriod(DateTime::fromString('2020-01-01 01:00:00.000000'), DateTime::fromString('2020-01-02 01:00:00.000000')),
+                new TimePeriod(DateTime::fromString('2020-01-01 01:00:00.000000'), DateTime::fromString('2020-01-02 01:00:00.000000'))
+            ))->gaps()
+        );
+    }
+
     public function test_gap_periods() : void
     {
         $this->assertEquals(
@@ -94,9 +105,41 @@ final class TimePeriodsTest extends TestCase
             (new TimePeriods(
                 new TimePeriod(DateTime::fromString('2020-01-10 00:00:00.000000'), DateTime::fromString('2020-01-08 00:00:00.000000')),
                 new TimePeriod(DateTime::fromString('2020-01-01 00:00:00.000000'), DateTime::fromString('2020-01-02 00:00:00.000000')),
-                new TimePeriod(DateTime::fromString('2020-01-03 00:00:00.000000'), DateTime::fromString('2020-01-06 00:00:00.000000')),
                 new TimePeriod(DateTime::fromString('2020-01-05 00:00:00.000000'), DateTime::fromString('2020-01-07 00:00:00.000000')),
+                new TimePeriod(DateTime::fromString('2020-01-03 00:00:00.000000'), DateTime::fromString('2020-01-06 00:00:00.000000')),
             ))->gaps()
         );
+    }
+
+    public function test_map_periods() : void
+    {
+        $timePeriods = new TimePeriods(
+            new TimePeriod(DateTime::fromString('2020-01-10 00:00:00.000000'), DateTime::fromString('2020-01-08 00:00:00.000000')),
+            new TimePeriod(DateTime::fromString('2020-01-01 00:00:00.000000'), DateTime::fromString('2020-01-02 00:00:00.000000')),
+            new TimePeriod(DateTime::fromString('2020-01-05 00:00:00.000000'), DateTime::fromString('2020-01-07 00:00:00.000000')),
+            new TimePeriod(DateTime::fromString('2020-01-03 00:00:00.000000'), DateTime::fromString('2020-01-06 00:00:00.000000')),
+        );
+
+        $this->assertCount(
+            4,
+            $distances = $timePeriods->map(fn (TimePeriod $timePeriod) => $timePeriod->distance())
+        );
+        $this->assertInstanceOf(TimeUnit::class, $distances[0]);
+    }
+
+    public function test_filter_periods() : void
+    {
+        $timePeriods = new TimePeriods(
+            new TimePeriod(DateTime::fromString('2020-01-10 00:00:00.000000'), DateTime::fromString('2020-01-08 00:00:00.000000')),
+            new TimePeriod(DateTime::fromString('2020-01-01 00:00:00.000000'), DateTime::fromString('2020-01-02 00:00:00.000000')),
+            new TimePeriod(DateTime::fromString('2020-01-05 00:00:00.000000'), DateTime::fromString('2020-01-07 00:00:00.000000')),
+            new TimePeriod(DateTime::fromString('2020-01-03 00:00:00.000000'), DateTime::fromString('2020-01-06 00:00:00.000000')),
+        );
+
+        $this->assertCount(
+            1,
+            $distances = $timePeriods->filter(fn (TimePeriod $timePeriod) => $timePeriod->start()->isEqual(DateTime::fromString('2020-01-03 00:00:00.000000')))
+        );
+        $this->assertInstanceOf(TimePeriod::class, $distances[0]);
     }
 }

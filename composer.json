@@ -50,7 +50,7 @@
             "phpunit"
         ],
         "test:mutation": [
-            "infection -vvv --test-framework-options='--testsuite=unit' --only-covered --log-verbosity=default --min-covered-msi=70 --threads=2"
+            "infection -j2"
         ],
         "static:analyze": [
             "psalm --output-format=compact",
