@@ -7,12 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 ### Added
-- [#44](https://github.com/aeon-php/calendar/pull/46) - **Optimize datetime static constructor**  - [@norberttech](https://github.com/norberttech)
+- [#46](https://github.com/aeon-php/calendar/pull/46) - **Optimize datetime static constructor**  - [@norberttech](https://github.com/norberttech)
 - [#43](https://github.com/aeon-php/calendar/pull/43) - **Added more benchmarks** - [@norberttech](https://github.com/norberttech)
 - [#45](https://github.com/aeon-php/calendar/pull/45) - **new static create  method for Day and Month classes - [@eamirgh](https://github.com/eamirgh)
 - [#40](https://github.com/aeon-php/calendar/pull/40) - **created timeBetween method for better experience issue - [@eamirgh](https://github.com/eamirgh)
 
 ### Changed
+- [#47](https://github.com/aeon-php/calendar/pull/47) - **Increased required infection MSI % to 100%** - [@norberttech](https://github.com/norberttech)
 - [#44](https://github.com/aeon-php/calendar/pull/44) - **TimePeriod::overlaps performance improvements** - [@norberttech](https://github.com/norberttech)
 - [#42](https://github.com/aeon-php/calendar/pull/42) - **Reduced complexity of toDateTimeImmutable conversion** - [@norberttech](https://github.com/norberttech)
 - [#39](https://github.com/aeon-php/calendar/pull/39) - **Renamed equals to isEqual method fix issue - [@eamirgh](https://github.com/eamirgh)
