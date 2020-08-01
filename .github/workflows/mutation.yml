@@ -9,7 +9,7 @@ on:
     - cron:  '* 8 * * *'
 
 jobs:
-  compatibility:
+  mutation:
     name: "Mutation Tests"
 
     runs-on: ${{ matrix.operating-system }}

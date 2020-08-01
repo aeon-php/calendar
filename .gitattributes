@@ -4,6 +4,9 @@
 /.github/ export-ignore
 /docs export-ignore
 /tests export-ignore
+/tools export-ignore
+/tools/* binary
+/.phive export-ignore
 /benchmark export-ignore
 /.gitattributes export-ignore
 /.gitignore export-ignore

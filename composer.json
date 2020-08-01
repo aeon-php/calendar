@@ -2,21 +2,14 @@
     "name": "aeon-php/calendar",
     "type": "library",
     "description": "PHP type safe, immutable calendar library",
-    "keywords": ["calendar", "immutable", "holidays", "sleep"],
+    "keywords": ["calendar", "immutable", "date", "time", "datetime"],
     "prefer-stable": true,
     "require": {
         "php": ">=7.4.2"
     },
     "require-dev": {
         "ext-bcmath": "*",
-        "friendsofphp/php-cs-fixer": "^2.16.3",
-        "infection/infection": "^0.16.3",
-        "phpbench/phpbench": "^0.17.1",
-        "phpstan/phpstan": "^0.12.26",
-        "phpstan/phpstan-phpunit": "^0.12.8",
-        "phpunit/phpunit": "^9.1",
-        "psalm/plugin-phpunit": "^0.10.1",
-        "vimeo/psalm": "^3.11"
+        "phpunit/phpunit": "^9.1"
     },
     "suggest": {
         "ext-bcmath": "Compare time units with high precision"
@@ -50,13 +43,13 @@
             "phpunit"
         ],
         "test:mutation": [
-            "infection -j2"
+            "tools/infection -j2"
         ],
         "static:analyze": [
-            "psalm --output-format=compact",
-            "phpstan analyze -c phpstan.neon",
-            "php-cs-fixer fix --dry-run"
+            "tools/psalm --output-format=compact",
+            "tools/phpstan analyze -c phpstan.neon",
+            "tools/php-cs-fixer fix --dry-run"
         ],
-        "cs:php:fix": "php-cs-fixer fix"
+        "cs:php:fix": "tools/php-cs-fixer fix"
     }
 }
