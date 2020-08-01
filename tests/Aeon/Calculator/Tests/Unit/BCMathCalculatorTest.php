@@ -6,7 +6,7 @@ namespace Aeon\Calculator\Tests\Unit;
 
 use Aeon\Calculator\BCMathCalculator;
 use Aeon\Calculator\Exception\InvalidTypeException;
-use PHPStan\Testing\TestCase;
+use PHPUnit\Framework\TestCase;
 
 final class BCMathCalculatorTest extends TestCase
 {

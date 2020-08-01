@@ -1,6 +1,6 @@
 {
-  "bootstrap":       "vendor/autoload.php",
-  "path":            "benchmark",
+  "bootstrap": "./vendor/autoload.php",
+  "path": "benchmark",
   "retry_threshold": 5,
   "progress": "dots",
   "reports": {
