@@ -9,7 +9,7 @@ on:
     - cron:  '* 8 * * *'
 
 jobs:
-  compatibility:
+  static-analyze:
     name: "Static Analyze"
 
     runs-on: ${{ matrix.operating-system }}

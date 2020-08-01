@@ -56,4 +56,4 @@ jobs:
         run: "composer install --no-interaction --no-progress --no-suggest"
 
       - name: "Benchmarks"
-        run: "./vendor/bin/phpbench run --report=aeon"
+        run: "./tools/phpbench run --report=aeon"

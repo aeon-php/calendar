@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Aeon\Calculator\Tests\Unit;
 
 use Aeon\Calculator\PHPCalculator;
-use PHPStan\Testing\TestCase;
+use PHPUnit\Framework\TestCase;
 
 final class PHPCalculatorTest extends TestCase
 {
