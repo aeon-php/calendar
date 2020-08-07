@@ -9,7 +9,7 @@
     },
     "require-dev": {
         "ext-bcmath": "*",
-        "phpunit/phpunit": "^9.1"
+        "phpunit/phpunit": "^9.3"
     },
     "suggest": {
         "ext-bcmath": "Compare time units with high precision"
