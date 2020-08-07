@@ -58,5 +58,6 @@ jobs:
       - name: "Mutation Tests"
         run: "composer test:mutation"
         env:
+          COMPOSER_PROCESS_TIMEOUT: 1000
           INFECTION_BADGE_API_KEY: ${{ secrets.INFECTION_BADGE_API_KEY }}
           STRYKER_DASHBOARD_API_KEY: ${{ secrets.STRYKER_DASHBOARD_API_KEY }}
