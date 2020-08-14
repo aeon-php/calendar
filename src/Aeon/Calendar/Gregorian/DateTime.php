@@ -145,6 +145,26 @@ final class DateTime
         return $this->time;
     }
 
+    public function setTime(Time $time) : self
+    {
+        return new self(
+            $this->day(),
+            $time,
+            $this->timeZone(),
+            $this->timeOffset()
+        );
+    }
+
+    public function setDay(Day $day) : self
+    {
+        return new self(
+            $day,
+            $this->time(),
+            $this->timeZone(),
+            $this->timeOffset()
+        );
+    }
+
     public function toDateTimeImmutable() : \DateTimeImmutable
     {
         $tz = $this->timeZone();
