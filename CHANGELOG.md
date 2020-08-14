@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.3.0] - 2020-08-01
 ### Added
+- [#51](https://github.com/aeon-php/calendar/pull/51) - **Added DateTime setTime and setDay methods #51** - [@norberttech](https://github.com/norberttech)
 - [#49](https://github.com/aeon-php/calendar/pull/49) - **Updated phpunit to version ^9.3** - [@norberttech](https://github.com/norberttech)
 - [#48](https://github.com/aeon-php/calendar/pull/48) - **Moved tools to phive**  - [@norberttech](https://github.com/norberttech)
 - [#46](https://github.com/aeon-php/calendar/pull/46) - **Optimize datetime static constructor**  - [@norberttech](https://github.com/norberttech)
