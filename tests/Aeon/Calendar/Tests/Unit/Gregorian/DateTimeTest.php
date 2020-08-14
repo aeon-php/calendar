@@ -716,4 +716,26 @@ final class DateTimeTest extends TestCase
     {
         $this->assertSame('2020-01-02T00:00:00+01:00', DateTime::fromString('2020-01-01 01:00:00 Europe/Warsaw')->tomorrow()->toISO8601());
     }
+
+    public function test_set_time() : void
+    {
+        $dateTime = DateTime::fromString('2020-01-01 00:00:00.00000')->toTimeZone(TimeZone::europeWarsaw());
+        $newDateTime = $dateTime->setTime(new Time(1, 1, 1, 1));
+
+        $this->assertSame(
+            '2020-01-01 01:01:01.000001+01:00',
+            $newDateTime->format('Y-m-d H:i:s.uP')
+        );
+    }
+
+    public function test_set_day() : void
+    {
+        $dateTime = DateTime::fromString('2020-01-01 00:00:00.00000')->toTimeZone(TimeZone::europeWarsaw());
+        $newDateTime = $dateTime->setDay(Day::fromString('2020-01-05'));
+
+        $this->assertSame(
+            '2020-01-05 01:00:00.000000+01:00',
+            $newDateTime->format('Y-m-d H:i:s.uP')
+        );
+    }
 }
