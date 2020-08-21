@@ -58,6 +58,9 @@ final class Time
         );
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function fromString(string $date) : self
     {
         return self::fromDateTime(new \DateTimeImmutable($date));

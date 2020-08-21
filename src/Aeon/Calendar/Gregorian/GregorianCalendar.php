@@ -19,11 +19,17 @@ final class GregorianCalendar implements Calendar
         $this->timeZone = $timeZone;
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function UTC() : self
     {
         return new self(TimeZone::UTC());
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function systemDefault() : self
     {
         return new self(new TimeZone(\date_default_timezone_get()));

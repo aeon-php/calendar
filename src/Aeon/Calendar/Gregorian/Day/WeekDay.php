@@ -42,43 +42,64 @@ final class WeekDay
         $this->number = $number;
     }
 
-    /** @codeCoverageIgnore */
+    /**
+     * @codeCoverageIgnore
+     * @psalm-pure
+     */
     public static function monday() : self
     {
         return new self(1);
     }
 
-    /** @codeCoverageIgnore */
+    /**
+     * @codeCoverageIgnore
+     * @psalm-pure
+     */
     public static function tuesday() : self
     {
         return new self(2);
     }
 
-    /** @codeCoverageIgnore */
+    /**
+     * @codeCoverageIgnore
+     * @psalm-pure
+     */
     public static function wednesday() : self
     {
         return new self(3);
     }
 
-    /** @codeCoverageIgnore */
+    /**
+     * @codeCoverageIgnore
+     * @psalm-pure
+     */
     public static function thursday() : self
     {
         return new self(4);
     }
 
-    /** @codeCoverageIgnore */
+    /**
+     * @codeCoverageIgnore
+     * @psalm-pure
+     */
     public static function friday() : self
     {
         return new self(5);
     }
 
-    /** @codeCoverageIgnore */
+    /**
+     * @codeCoverageIgnore
+     * @psalm-pure
+     */
     public static function saturday() : self
     {
         return new self(6);
     }
 
-    /** @codeCoverageIgnore */
+    /**
+     * @codeCoverageIgnore
+     * @psalm-pure
+     */
     public static function sunday() : self
     {
         return new self(7);

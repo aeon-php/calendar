@@ -12,6 +12,9 @@ use Aeon\Calendar\TimeUnit;
  */
 final class HRTime
 {
+    /**
+     * @psalm-pure
+     */
     public static function convert(int $seconds, int $nanosecond) : TimeUnit
     {
         if ($nanosecond < 0) {

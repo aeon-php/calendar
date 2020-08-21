@@ -13,9 +13,6 @@ final class LeapSeconds
 {
     private static ?self $instance = null;
 
-    /**
-     * @var DateTime
-     */
     private DateTime $listExpirationDate;
 
     /**
