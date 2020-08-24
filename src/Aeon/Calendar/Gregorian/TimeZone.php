@@ -911,2137 +911,3418 @@ final class TimeZone
         return new self($dateTimeZone->getName());
     }
 
-    // @codeCoverageIgnoreStart
+    /**
+     * @codeCoverageIgnoreStart
+     * @psalm-pure
+     */
     public static function africaAbidjan() : self
     {
         return new self(self::AFRICA_ABIDJAN);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function africaAccra() : self
     {
         return new self(self::AFRICA_ACCRA);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function africaAddisAbaba() : self
     {
         return new self(self::AFRICA_ADDIS_ABABA);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function africaAlgiers() : self
     {
         return new self(self::AFRICA_ALGIERS);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function africaAsmara() : self
     {
         return new self(self::AFRICA_ASMARA);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function africaBamako() : self
     {
         return new self(self::AFRICA_BAMAKO);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function africaBangui() : self
     {
         return new self(self::AFRICA_BANGUI);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function africaBanjul() : self
     {
         return new self(self::AFRICA_BANJUL);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function africaBissau() : self
     {
         return new self(self::AFRICA_BISSAU);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function africaBlantyre() : self
     {
         return new self(self::AFRICA_BLANTYRE);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function africaBrazzaville() : self
     {
         return new self(self::AFRICA_BRAZZAVILLE);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function africaBujumbura() : self
     {
         return new self(self::AFRICA_BUJUMBURA);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function africaCairo() : self
     {
         return new self(self::AFRICA_CAIRO);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function africaCasablanca() : self
     {
         return new self(self::AFRICA_CASABLANCA);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function africaCeuta() : self
     {
         return new self(self::AFRICA_CEUTA);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function africaConakry() : self
     {
         return new self(self::AFRICA_CONAKRY);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function africaDakar() : self
     {
         return new self(self::AFRICA_DAKAR);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function africaDarEsSalaam() : self
     {
         return new self(self::AFRICA_DAR_ES_SALAAM);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function africaDjibouti() : self
     {
         return new self(self::AFRICA_DJIBOUTI);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function africaDouala() : self
     {
         return new self(self::AFRICA_DOUALA);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function africaElAaiun() : self
     {
         return new self(self::AFRICA_EL_AAIUN);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function africaFreetown() : self
     {
         return new self(self::AFRICA_FREETOWN);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function africaGaborone() : self
     {
         return new self(self::AFRICA_GABORONE);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function africaHarare() : self
     {
         return new self(self::AFRICA_HARARE);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function africaJohannesburg() : self
     {
         return new self(self::AFRICA_JOHANNESBURG);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function africaJuba() : self
     {
         return new self(self::AFRICA_JUBA);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function africaKampala() : self
     {
         return new self(self::AFRICA_KAMPALA);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function africaKhartoum() : self
     {
         return new self(self::AFRICA_KHARTOUM);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function africaKigali() : self
     {
         return new self(self::AFRICA_KIGALI);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function africaKinshasa() : self
     {
         return new self(self::AFRICA_KINSHASA);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function africaLagos() : self
     {
         return new self(self::AFRICA_LAGOS);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function africaLibreville() : self
     {
         return new self(self::AFRICA_LIBREVILLE);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function africaLome() : self
     {
         return new self(self::AFRICA_LOME);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function africaLuanda() : self
     {
         return new self(self::AFRICA_LUANDA);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function africaLubumbashi() : self
     {
         return new self(self::AFRICA_LUBUMBASHI);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function africaLusaka() : self
     {
         return new self(self::AFRICA_LUSAKA);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function africaMalabo() : self
     {
         return new self(self::AFRICA_MALABO);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function africaMaputo() : self
     {
         return new self(self::AFRICA_MAPUTO);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function africaMaseru() : self
     {
         return new self(self::AFRICA_MASERU);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function africaMbabane() : self
     {
         return new self(self::AFRICA_MBABANE);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function africaMogadishu() : self
     {
         return new self(self::AFRICA_MOGADISHU);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function africaMonrovia() : self
     {
         return new self(self::AFRICA_MONROVIA);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function africaNairobi() : self
     {
         return new self(self::AFRICA_NAIROBI);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function africaNdjamena() : self
     {
         return new self(self::AFRICA_NDJAMENA);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function africaNiamey() : self
     {
         return new self(self::AFRICA_NIAMEY);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function africaNouakchott() : self
     {
         return new self(self::AFRICA_NOUAKCHOTT);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function africaOuagadougou() : self
     {
         return new self(self::AFRICA_OUAGADOUGOU);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function africaPortoNovo() : self
     {
         return new self(self::AFRICA_PORTO_NOVO);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function africaSaoTome() : self
     {
         return new self(self::AFRICA_SAO_TOME);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function africaTripoli() : self
     {
         return new self(self::AFRICA_TRIPOLI);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function africaTunis() : self
     {
         return new self(self::AFRICA_TUNIS);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function africaWindhoek() : self
     {
         return new self(self::AFRICA_WINDHOEK);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaAdak() : self
     {
         return new self(self::AMERICA_ADAK);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaAnchorage() : self
     {
         return new self(self::AMERICA_ANCHORAGE);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaAnguilla() : self
     {
         return new self(self::AMERICA_ANGUILLA);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaAntigua() : self
     {
         return new self(self::AMERICA_ANTIGUA);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaAraguaina() : self
     {
         return new self(self::AMERICA_ARAGUAINA);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaArgentinaBuenosAires() : self
     {
         return new self(self::AMERICA_ARGENTINA_BUENOS_AIRES);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaArgentinaCatamarca() : self
     {
         return new self(self::AMERICA_ARGENTINA_CATAMARCA);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaArgentinaCordoba() : self
     {
         return new self(self::AMERICA_ARGENTINA_CORDOBA);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaArgentinaJujuy() : self
     {
         return new self(self::AMERICA_ARGENTINA_JUJUY);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaArgentinaLaRioja() : self
     {
         return new self(self::AMERICA_ARGENTINA_LA_RIOJA);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaArgentinaMendoza() : self
     {
         return new self(self::AMERICA_ARGENTINA_MENDOZA);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaArgentinaRioGallegos() : self
     {
         return new self(self::AMERICA_ARGENTINA_RIO_GALLEGOS);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaArgentinaSalta() : self
     {
         return new self(self::AMERICA_ARGENTINA_SALTA);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaArgentinaSanJuan() : self
     {
         return new self(self::AMERICA_ARGENTINA_SAN_JUAN);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaArgentinaSanLuis() : self
     {
         return new self(self::AMERICA_ARGENTINA_SAN_LUIS);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaArgentinaTucuman() : self
     {
         return new self(self::AMERICA_ARGENTINA_TUCUMAN);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaArgentinaUshuaia() : self
     {
         return new self(self::AMERICA_ARGENTINA_USHUAIA);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaAruba() : self
     {
         return new self(self::AMERICA_ARUBA);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaAsuncion() : self
     {
         return new self(self::AMERICA_ASUNCION);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaAtikokan() : self
     {
         return new self(self::AMERICA_ATIKOKAN);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaBahia() : self
     {
         return new self(self::AMERICA_BAHIA);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaBahiaBanderas() : self
     {
         return new self(self::AMERICA_BAHIA_BANDERAS);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaBarbados() : self
     {
         return new self(self::AMERICA_BARBADOS);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaBelem() : self
     {
         return new self(self::AMERICA_BELEM);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaBelize() : self
     {
         return new self(self::AMERICA_BELIZE);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaBlancSablon() : self
     {
         return new self(self::AMERICA_BLANC_SABLON);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaBoaVista() : self
     {
         return new self(self::AMERICA_BOA_VISTA);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaBogota() : self
     {
         return new self(self::AMERICA_BOGOTA);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaBoise() : self
     {
         return new self(self::AMERICA_BOISE);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaCambridgeBay() : self
     {
         return new self(self::AMERICA_CAMBRIDGE_BAY);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaCampoGrande() : self
     {
         return new self(self::AMERICA_CAMPO_GRANDE);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaCancun() : self
     {
         return new self(self::AMERICA_CANCUN);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaCaracas() : self
     {
         return new self(self::AMERICA_CARACAS);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaCayenne() : self
     {
         return new self(self::AMERICA_CAYENNE);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaCayman() : self
     {
         return new self(self::AMERICA_CAYMAN);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaChicago() : self
     {
         return new self(self::AMERICA_CHICAGO);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaChihuahua() : self
     {
         return new self(self::AMERICA_CHIHUAHUA);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaCostaRica() : self
     {
         return new self(self::AMERICA_COSTA_RICA);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaCreston() : self
     {
         return new self(self::AMERICA_CRESTON);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaCuiaba() : self
     {
         return new self(self::AMERICA_CUIABA);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaCuracao() : self
     {
         return new self(self::AMERICA_CURACAO);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaDanmarkshavn() : self
     {
         return new self(self::AMERICA_DANMARKSHAVN);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaDawson() : self
     {
         return new self(self::AMERICA_DAWSON);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaDawsonCreek() : self
     {
         return new self(self::AMERICA_DAWSON_CREEK);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaDenver() : self
     {
         return new self(self::AMERICA_DENVER);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaDetroit() : self
     {
         return new self(self::AMERICA_DETROIT);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaDominica() : self
     {
         return new self(self::AMERICA_DOMINICA);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaEdmonton() : self
     {
         return new self(self::AMERICA_EDMONTON);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaEirunepe() : self
     {
         return new self(self::AMERICA_EIRUNEPE);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaElSalvador() : self
     {
         return new self(self::AMERICA_EL_SALVADOR);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaFortNelson() : self
     {
         return new self(self::AMERICA_FORT_NELSON);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaFortaleza() : self
     {
         return new self(self::AMERICA_FORTALEZA);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaGlaceBay() : self
     {
         return new self(self::AMERICA_GLACE_BAY);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaGooseBay() : self
     {
         return new self(self::AMERICA_GOOSE_BAY);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaGodthab() : self
     {
         return new self(self::AMERICA_GODTHAB);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaGrandTurk() : self
     {
         return new self(self::AMERICA_GRAND_TURK);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaGrenada() : self
     {
         return new self(self::AMERICA_GRENADA);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaGuadeloupe() : self
     {
         return new self(self::AMERICA_GUADELOUPE);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaGuatemala() : self
     {
         return new self(self::AMERICA_GUATEMALA);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaGuayaquil() : self
     {
         return new self(self::AMERICA_GUAYAQUIL);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaGuyana() : self
     {
         return new self(self::AMERICA_GUYANA);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaHalifax() : self
     {
         return new self(self::AMERICA_HALIFAX);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaHavana() : self
     {
         return new self(self::AMERICA_HAVANA);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaHermosillo() : self
     {
         return new self(self::AMERICA_HERMOSILLO);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaIndianaIndianapolis() : self
     {
         return new self(self::AMERICA_INDIANA_INDIANAPOLIS);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaIndianaKnox() : self
     {
         return new self(self::AMERICA_INDIANA_KNOX);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaIndianaMarengo() : self
     {
         return new self(self::AMERICA_INDIANA_MARENGO);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaIndianaPetersburg() : self
     {
         return new self(self::AMERICA_INDIANA_PETERSBURG);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaIndianaTellCity() : self
     {
         return new self(self::AMERICA_INDIANA_TELL_CITY);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaIndianaVevay() : self
     {
         return new self(self::AMERICA_INDIANA_VEVAY);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaIndianaVincennes() : self
     {
         return new self(self::AMERICA_INDIANA_VINCENNES);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaIndianaWinamac() : self
     {
         return new self(self::AMERICA_INDIANA_WINAMAC);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaInuvik() : self
     {
         return new self(self::AMERICA_INUVIK);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaIqaluit() : self
     {
         return new self(self::AMERICA_IQALUIT);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaJamaica() : self
     {
         return new self(self::AMERICA_JAMAICA);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaJuneau() : self
     {
         return new self(self::AMERICA_JUNEAU);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaKentuckyLouisville() : self
     {
         return new self(self::AMERICA_KENTUCKY_LOUISVILLE);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaKentuckyMonticello() : self
     {
         return new self(self::AMERICA_KENTUCKY_MONTICELLO);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaKralendijk() : self
     {
         return new self(self::AMERICA_KRALENDIJK);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaLaPaz() : self
     {
         return new self(self::AMERICA_LA_PAZ);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaLima() : self
     {
         return new self(self::AMERICA_LIMA);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaLosAngeles() : self
     {
         return new self(self::AMERICA_LOS_ANGELES);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaLowerPrinces() : self
     {
         return new self(self::AMERICA_LOWER_PRINCES);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaMaceio() : self
     {
         return new self(self::AMERICA_MACEIO);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaManagua() : self
     {
         return new self(self::AMERICA_MANAGUA);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaManaus() : self
     {
         return new self(self::AMERICA_MANAUS);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaMarigot() : self
     {
         return new self(self::AMERICA_MARIGOT);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaMartinique() : self
     {
         return new self(self::AMERICA_MARTINIQUE);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaMatamoros() : self
     {
         return new self(self::AMERICA_MATAMOROS);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaMazatlan() : self
     {
         return new self(self::AMERICA_MAZATLAN);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaMenominee() : self
     {
         return new self(self::AMERICA_MENOMINEE);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaMerida() : self
     {
         return new self(self::AMERICA_MERIDA);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaMetlakatla() : self
     {
         return new self(self::AMERICA_METLAKATLA);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaMexicoCity() : self
     {
         return new self(self::AMERICA_MEXICO_CITY);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaMiquelon() : self
     {
         return new self(self::AMERICA_MIQUELON);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaMoncton() : self
     {
         return new self(self::AMERICA_MONCTON);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaMonterrey() : self
     {
         return new self(self::AMERICA_MONTERREY);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaMontevideo() : self
     {
         return new self(self::AMERICA_MONTEVIDEO);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaMontserrat() : self
     {
         return new self(self::AMERICA_MONTSERRAT);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaNassau() : self
     {
         return new self(self::AMERICA_NASSAU);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaNewYork() : self
     {
         return new self(self::AMERICA_NEW_YORK);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaNipigon() : self
     {
         return new self(self::AMERICA_NIPIGON);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaNome() : self
     {
         return new self(self::AMERICA_NOME);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaNoronha() : self
     {
         return new self(self::AMERICA_NORONHA);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaNorthDakotaBeulah() : self
     {
         return new self(self::AMERICA_NORTH_DAKOTA_BEULAH);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaNorthDakotaCenter() : self
     {
         return new self(self::AMERICA_NORTH_DAKOTA_CENTER);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaNorthDakotaNewSalem() : self
     {
         return new self(self::AMERICA_NORTH_DAKOTA_NEW_SALEM);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaNuuk() : self
     {
         return new self(self::AMERICA_NUUK);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaOjinaga() : self
     {
         return new self(self::AMERICA_OJINAGA);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaPanama() : self
     {
         return new self(self::AMERICA_PANAMA);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaPangnirtung() : self
     {
         return new self(self::AMERICA_PANGNIRTUNG);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaParamaribo() : self
     {
         return new self(self::AMERICA_PARAMARIBO);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaPhoenix() : self
     {
         return new self(self::AMERICA_PHOENIX);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaPortAuPrince() : self
     {
         return new self(self::AMERICA_PORT_AU_PRINCE);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaPortOfSpain() : self
     {
         return new self(self::AMERICA_PORT_OF_SPAIN);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaPortoVelho() : self
     {
         return new self(self::AMERICA_PORTO_VELHO);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaPuertoRico() : self
     {
         return new self(self::AMERICA_PUERTO_RICO);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaPuntaArenas() : self
     {
         return new self(self::AMERICA_PUNTA_ARENAS);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaRainyRiver() : self
     {
         return new self(self::AMERICA_RAINY_RIVER);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaRankinInlet() : self
     {
         return new self(self::AMERICA_RANKIN_INLET);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaRecife() : self
     {
         return new self(self::AMERICA_RECIFE);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaRegina() : self
     {
         return new self(self::AMERICA_REGINA);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaResolute() : self
     {
         return new self(self::AMERICA_RESOLUTE);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaRioBranco() : self
     {
         return new self(self::AMERICA_RIO_BRANCO);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaSantarem() : self
     {
         return new self(self::AMERICA_SANTAREM);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaSantiago() : self
     {
         return new self(self::AMERICA_SANTIAGO);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaSantoDomingo() : self
     {
         return new self(self::AMERICA_SANTO_DOMINGO);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaSaoPaulo() : self
     {
         return new self(self::AMERICA_SAO_PAULO);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaScoresbysund() : self
     {
         return new self(self::AMERICA_SCORESBYSUND);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaSitka() : self
     {
         return new self(self::AMERICA_SITKA);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaStBarthelemy() : self
     {
         return new self(self::AMERICA_ST_BARTHELEMY);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaStJohns() : self
     {
         return new self(self::AMERICA_ST_JOHNS);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaStKitts() : self
     {
         return new self(self::AMERICA_ST_KITTS);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaStLucia() : self
     {
         return new self(self::AMERICA_ST_LUCIA);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaStThomas() : self
     {
         return new self(self::AMERICA_ST_THOMAS);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaStVincent() : self
     {
         return new self(self::AMERICA_ST_VINCENT);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaSwiftCurrent() : self
     {
         return new self(self::AMERICA_SWIFT_CURRENT);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaTegucigalpa() : self
     {
         return new self(self::AMERICA_TEGUCIGALPA);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaThule() : self
     {
         return new self(self::AMERICA_THULE);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaThunderBay() : self
     {
         return new self(self::AMERICA_THUNDER_BAY);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaTijuana() : self
     {
         return new self(self::AMERICA_TIJUANA);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaToronto() : self
     {
         return new self(self::AMERICA_TORONTO);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaTortola() : self
     {
         return new self(self::AMERICA_TORTOLA);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaVancouver() : self
     {
         return new self(self::AMERICA_VANCOUVER);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaWhitehorse() : self
     {
         return new self(self::AMERICA_WHITEHORSE);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaWinnipeg() : self
     {
         return new self(self::AMERICA_WINNIPEG);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaYakutat() : self
     {
         return new self(self::AMERICA_YAKUTAT);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function americaYellowknife() : self
     {
         return new self(self::AMERICA_YELLOWKNIFE);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function antarcticaCasey() : self
     {
         return new self(self::ANTARCTICA_CASEY);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function antarcticaDavis() : self
     {
         return new self(self::ANTARCTICA_DAVIS);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function antarcticaDumontDUrville() : self
     {
         return new self(self::ANTARCTICA_DUMONTDURVILLE);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function antarcticaMacquarie() : self
     {
         return new self(self::ANTARCTICA_MACQUARIE);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function antarcticaMawson() : self
     {
         return new self(self::ANTARCTICA_MAWSON);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function antarcticaMcMurdo() : self
     {
         return new self(self::ANTARCTICA_MCMURDO);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function antarcticaPalmer() : self
     {
         return new self(self::ANTARCTICA_PALMER);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function antarcticaRothera() : self
     {
         return new self(self::ANTARCTICA_ROTHERA);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function antarcticaSyowa() : self
     {
         return new self(self::ANTARCTICA_SYOWA);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function antarcticaTroll() : self
     {
         return new self(self::ANTARCTICA_TROLL);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function antarcticaVostok() : self
     {
         return new self(self::ANTARCTICA_VOSTOK);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function arcticLongyearbyen() : self
     {
         return new self(self::ARCTIC_LONGYEARBYEN);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function asiaAden() : self
     {
         return new self(self::ASIA_ADEN);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function asiaAlmaty() : self
     {
         return new self(self::ASIA_ALMATY);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function asiaAmman() : self
     {
         return new self(self::ASIA_AMMAN);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function asiaAnadyr() : self
     {
         return new self(self::ASIA_ANADYR);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function asiaAqtau() : self
     {
         return new self(self::ASIA_AQTAU);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function asiaAqtobe() : self
     {
         return new self(self::ASIA_AQTOBE);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function asiaAshgabat() : self
     {
         return new self(self::ASIA_ASHGABAT);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function asiaAtyrau() : self
     {
         return new self(self::ASIA_ATYRAU);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function asiaBaghdad() : self
     {
         return new self(self::ASIA_BAGHDAD);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function asiaBahrain() : self
     {
         return new self(self::ASIA_BAHRAIN);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function asiaBaku() : self
     {
         return new self(self::ASIA_BAKU);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function asiaBangkok() : self
     {
         return new self(self::ASIA_BANGKOK);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function asiaBarnaul() : self
     {
         return new self(self::ASIA_BARNAUL);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function asiaBeirut() : self
     {
         return new self(self::ASIA_BEIRUT);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function asiaBishkek() : self
     {
         return new self(self::ASIA_BISHKEK);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function asiaBrunei() : self
     {
         return new self(self::ASIA_BRUNEI);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function asiaChita() : self
     {
         return new self(self::ASIA_CHITA);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function asiaChoibalsan() : self
     {
         return new self(self::ASIA_CHOIBALSAN);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function asiaColombo() : self
     {
         return new self(self::ASIA_COLOMBO);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function asiaDamascus() : self
     {
         return new self(self::ASIA_DAMASCUS);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function asiaDhaka() : self
     {
         return new self(self::ASIA_DHAKA);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function asiaDili() : self
     {
         return new self(self::ASIA_DILI);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function asiaDubai() : self
     {
         return new self(self::ASIA_DUBAI);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function asiaDushanbe() : self
     {
         return new self(self::ASIA_DUSHANBE);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function asiaFamagusta() : self
     {
         return new self(self::ASIA_FAMAGUSTA);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function asiaGaza() : self
     {
         return new self(self::ASIA_GAZA);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function asiaHebron() : self
     {
         return new self(self::ASIA_HEBRON);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function asiaHoChiMinh() : self
     {
         return new self(self::ASIA_HO_CHI_MINH);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function asiaHongKong() : self
     {
         return new self(self::ASIA_HONG_KONG);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function asiaHovd() : self
     {
         return new self(self::ASIA_HOVD);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function asiaIrkutsk() : self
     {
         return new self(self::ASIA_IRKUTSK);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function asiaJakarta() : self
     {
         return new self(self::ASIA_JAKARTA);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function asiaJayapura() : self
     {
         return new self(self::ASIA_JAYAPURA);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function asiaJerusalem() : self
     {
         return new self(self::ASIA_JERUSALEM);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function asiaKabul() : self
     {
         return new self(self::ASIA_KABUL);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function asiaKamchatka() : self
     {
         return new self(self::ASIA_KAMCHATKA);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function asiaKarachi() : self
     {
         return new self(self::ASIA_KARACHI);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function asiaKathmandu() : self
     {
         return new self(self::ASIA_KATHMANDU);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function asiaKhandyga() : self
     {
         return new self(self::ASIA_KHANDYGA);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function asiaKolkata() : self
     {
         return new self(self::ASIA_KOLKATA);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function asiaKrasnoyarsk() : self
     {
         return new self(self::ASIA_KRASNOYARSK);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function asiaKualaLumpur() : self
     {
         return new self(self::ASIA_KUALA_LUMPUR);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function asiaKuching() : self
     {
         return new self(self::ASIA_KUCHING);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function asiaKuwait() : self
     {
         return new self(self::ASIA_KUWAIT);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function asiaMacau() : self
     {
         return new self(self::ASIA_MACAU);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function asiaMagadan() : self
     {
         return new self(self::ASIA_MAGADAN);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function asiaMakassar() : self
     {
         return new self(self::ASIA_MAKASSAR);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function asiaManila() : self
     {
         return new self(self::ASIA_MANILA);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function asiaMuscat() : self
     {
         return new self(self::ASIA_MUSCAT);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function asiaNicosia() : self
     {
         return new self(self::ASIA_NICOSIA);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function asiaNovokuznetsk() : self
     {
         return new self(self::ASIA_NOVOKUZNETSK);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function asiaNovosibirsk() : self
     {
         return new self(self::ASIA_NOVOSIBIRSK);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function asiaOmsk() : self
     {
         return new self(self::ASIA_OMSK);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function asiaOral() : self
     {
         return new self(self::ASIA_ORAL);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function asiaPhnomPenh() : self
     {
         return new self(self::ASIA_PHNOM_PENH);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function asiaPontianak() : self
     {
         return new self(self::ASIA_PONTIANAK);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function asiaPyongyang() : self
     {
         return new self(self::ASIA_PYONGYANG);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function asiaQatar() : self
     {
         return new self(self::ASIA_QATAR);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function asiaQostanay() : self
     {
         return new self(self::ASIA_QOSTANAY);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function asiaQyzylorda() : self
     {
         return new self(self::ASIA_QYZYLORDA);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function asiaRiyadh() : self
     {
         return new self(self::ASIA_RIYADH);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function asiaSakhalin() : self
     {
         return new self(self::ASIA_SAKHALIN);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function asiaSamarkand() : self
     {
         return new self(self::ASIA_SAMARKAND);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function asiaSeoul() : self
     {
         return new self(self::ASIA_SEOUL);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function asiaShanghai() : self
     {
         return new self(self::ASIA_SHANGHAI);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function asiaSingapore() : self
     {
         return new self(self::ASIA_SINGAPORE);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function asiaSrednekolymsk() : self
     {
         return new self(self::ASIA_SREDNEKOLYMSK);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function asiaTaipei() : self
     {
         return new self(self::ASIA_TAIPEI);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function asiaTashkent() : self
     {
         return new self(self::ASIA_TASHKENT);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function asiaTbilisi() : self
     {
         return new self(self::ASIA_TBILISI);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function asiaTehran() : self
     {
         return new self(self::ASIA_TEHRAN);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function asiaThimphu() : self
     {
         return new self(self::ASIA_THIMPHU);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function asiaTokyo() : self
     {
         return new self(self::ASIA_TOKYO);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function asiaTomsk() : self
     {
         return new self(self::ASIA_TOMSK);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function asiaUlaanbaatar() : self
     {
         return new self(self::ASIA_ULAANBAATAR);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function asiaUrumqi() : self
     {
         return new self(self::ASIA_URUMQI);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function asiaUstNera() : self
     {
         return new self(self::ASIA_UST_NERA);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function asiaVientiane() : self
     {
         return new self(self::ASIA_VIENTIANE);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function asiaVladivostok() : self
     {
         return new self(self::ASIA_VLADIVOSTOK);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function asiaYakutsk() : self
     {
         return new self(self::ASIA_YAKUTSK);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function asiaYangon() : self
     {
         return new self(self::ASIA_YANGON);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function asiaYekaterinburg() : self
     {
         return new self(self::ASIA_YEKATERINBURG);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function asiaYerevan() : self
     {
         return new self(self::ASIA_YEREVAN);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function atlanticAzores() : self
     {
         return new self(self::ATLANTIC_AZORES);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function atlanticBermuda() : self
     {
         return new self(self::ATLANTIC_BERMUDA);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function atlanticCanary() : self
     {
         return new self(self::ATLANTIC_CANARY);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function atlanticCapeVerde() : self
     {
         return new self(self::ATLANTIC_CAPE_VERDE);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function atlanticFaroe() : self
     {
         return new self(self::ATLANTIC_FAROE);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function atlanticMadeira() : self
     {
         return new self(self::ATLANTIC_MADEIRA);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function atlanticReykjavik() : self
     {
         return new self(self::ATLANTIC_REYKJAVIK);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function atlanticSouthGeorgia() : self
     {
         return new self(self::ATLANTIC_SOUTH_GEORGIA);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function atlanticStHelena() : self
     {
         return new self(self::ATLANTIC_ST_HELENA);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function atlanticStanley() : self
     {
         return new self(self::ATLANTIC_STANLEY);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function australiaAdelaide() : self
     {
         return new self(self::AUSTRALIA_ADELAIDE);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function australiaBrisbane() : self
     {
         return new self(self::AUSTRALIA_BRISBANE);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function australiaBrokenHill() : self
     {
         return new self(self::AUSTRALIA_BROKEN_HILL);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function australiaCurrie() : self
     {
         return new self(self::AUSTRALIA_CURRIE);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function australiaDarwin() : self
     {
         return new self(self::AUSTRALIA_DARWIN);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function australiaEucla() : self
     {
         return new self(self::AUSTRALIA_EUCLA);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function australiaHobart() : self
     {
         return new self(self::AUSTRALIA_HOBART);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function australiaLindeman() : self
     {
         return new self(self::AUSTRALIA_LINDEMAN);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function australiaLordHowe() : self
     {
         return new self(self::AUSTRALIA_LORD_HOWE);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function australiaMelbourne() : self
     {
         return new self(self::AUSTRALIA_MELBOURNE);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function australiaPerth() : self
     {
         return new self(self::AUSTRALIA_PERTH);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function australiaSydney() : self
     {
         return new self(self::AUSTRALIA_SYDNEY);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function europeAmsterdam() : self
     {
         return new self(self::EUROPE_AMSTERDAM);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function europeAndorra() : self
     {
         return new self(self::EUROPE_ANDORRA);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function europeAstrakhan() : self
     {
         return new self(self::EUROPE_ASTRAKHAN);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function europeAthens() : self
     {
         return new self(self::EUROPE_ATHENS);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function europeBelgrade() : self
     {
         return new self(self::EUROPE_BELGRADE);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function europeBerlin() : self
     {
         return new self(self::EUROPE_BERLIN);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function europeBratislava() : self
     {
         return new self(self::EUROPE_BRATISLAVA);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function europeBrussels() : self
     {
         return new self(self::EUROPE_BRUSSELS);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function europeBucharest() : self
     {
         return new self(self::EUROPE_BUCHAREST);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function europeBudapest() : self
     {
         return new self(self::EUROPE_BUDAPEST);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function europeBusingen() : self
     {
         return new self(self::EUROPE_BUSINGEN);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function europeChisinau() : self
     {
         return new self(self::EUROPE_CHISINAU);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function europeCopenhagen() : self
     {
         return new self(self::EUROPE_COPENHAGEN);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function europeDublin() : self
     {
         return new self(self::EUROPE_DUBLIN);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function europeGibraltar() : self
     {
         return new self(self::EUROPE_GIBRALTAR);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function europeGuernsey() : self
     {
         return new self(self::EUROPE_GUERNSEY);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function europeHelsinki() : self
     {
         return new self(self::EUROPE_HELSINKI);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function europeIsleOfMan() : self
     {
         return new self(self::EUROPE_ISLE_OF_MAN);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function europeIstanbul() : self
     {
         return new self(self::EUROPE_ISTANBUL);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function europeJersey() : self
     {
         return new self(self::EUROPE_JERSEY);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function europeKaliningrad() : self
     {
         return new self(self::EUROPE_KALININGRAD);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function europeKiev() : self
     {
         return new self(self::EUROPE_KIEV);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function europeKirov() : self
     {
         return new self(self::EUROPE_KIROV);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function europeLisbon() : self
     {
         return new self(self::EUROPE_LISBON);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function europeLjubljana() : self
     {
         return new self(self::EUROPE_LJUBLJANA);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function europeLondon() : self
     {
         return new self(self::EUROPE_LONDON);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function europeLuxembourg() : self
     {
         return new self(self::EUROPE_LUXEMBOURG);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function europeMadrid() : self
     {
         return new self(self::EUROPE_MADRID);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function europeMalta() : self
     {
         return new self(self::EUROPE_MALTA);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function europeMariehamn() : self
     {
         return new self(self::EUROPE_MARIEHAMN);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function europeMinsk() : self
     {
         return new self(self::EUROPE_MINSK);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function europeMonaco() : self
     {
         return new self(self::EUROPE_MONACO);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function europeMoscow() : self
     {
         return new self(self::EUROPE_MOSCOW);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function europeOslo() : self
     {
         return new self(self::EUROPE_OSLO);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function europeParis() : self
     {
         return new self(self::EUROPE_PARIS);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function europePodgorica() : self
     {
         return new self(self::EUROPE_PODGORICA);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function europePrague() : self
     {
         return new self(self::EUROPE_PRAGUE);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function europeRiga() : self
     {
         return new self(self::EUROPE_RIGA);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function europeRome() : self
     {
         return new self(self::EUROPE_ROME);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function europeSamara() : self
     {
         return new self(self::EUROPE_SAMARA);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function europeSanMarino() : self
     {
         return new self(self::EUROPE_SAN_MARINO);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function europeSarajevo() : self
     {
         return new self(self::EUROPE_SARAJEVO);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function europeSaratov() : self
     {
         return new self(self::EUROPE_SARATOV);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function europeSimferopol() : self
     {
         return new self(self::EUROPE_SIMFEROPOL);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function europeSkopje() : self
     {
         return new self(self::EUROPE_SKOPJE);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function europeSofia() : self
     {
         return new self(self::EUROPE_SOFIA);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function europeStockholm() : self
     {
         return new self(self::EUROPE_STOCKHOLM);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function europeTallinn() : self
     {
         return new self(self::EUROPE_TALLINN);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function europeTirane() : self
     {
         return new self(self::EUROPE_TIRANE);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function europeUlyanovsk() : self
     {
         return new self(self::EUROPE_ULYANOVSK);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function europeUzhgorod() : self
     {
         return new self(self::EUROPE_UZHGOROD);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function europeVaduz() : self
     {
         return new self(self::EUROPE_VADUZ);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function europeVatican() : self
     {
         return new self(self::EUROPE_VATICAN);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function europeVienna() : self
     {
         return new self(self::EUROPE_VIENNA);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function europeVilnius() : self
     {
         return new self(self::EUROPE_VILNIUS);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function europeVolgograd() : self
     {
         return new self(self::EUROPE_VOLGOGRAD);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function europeWarsaw() : self
     {
         return new self(self::EUROPE_WARSAW);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function europeZagreb() : self
     {
         return new self(self::EUROPE_ZAGREB);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function europeZaporozhye() : self
     {
         return new self(self::EUROPE_ZAPOROZHYE);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function europeZurich() : self
     {
         return new self(self::EUROPE_ZURICH);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function indianAntananarivo() : self
     {
         return new self(self::INDIAN_ANTANANARIVO);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function indianChagos() : self
     {
         return new self(self::INDIAN_CHAGOS);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function indianChristmas() : self
     {
         return new self(self::INDIAN_CHRISTMAS);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function indianCocos() : self
     {
         return new self(self::INDIAN_COCOS);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function indianComoro() : self
     {
         return new self(self::INDIAN_COMORO);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function indianKerguelen() : self
     {
         return new self(self::INDIAN_KERGUELEN);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function indianMahe() : self
     {
         return new self(self::INDIAN_MAHE);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function indianMaldives() : self
     {
         return new self(self::INDIAN_MALDIVES);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function indianMauritius() : self
     {
         return new self(self::INDIAN_MAURITIUS);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function indianMayotte() : self
     {
         return new self(self::INDIAN_MAYOTTE);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function indianReunion() : self
     {
         return new self(self::INDIAN_REUNION);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function pacificApia() : self
     {
         return new self(self::PACIFIC_APIA);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function pacificAuckland() : self
     {
         return new self(self::PACIFIC_AUCKLAND);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function pacificBougainville() : self
     {
         return new self(self::PACIFIC_BOUGAINVILLE);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function pacificChatham() : self
     {
         return new self(self::PACIFIC_CHATHAM);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function pacificChuuk() : self
     {
         return new self(self::PACIFIC_CHUUK);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function pacificEaster() : self
     {
         return new self(self::PACIFIC_EASTER);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function pacificEfate() : self
     {
         return new self(self::PACIFIC_EFATE);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function pacificEnderbury() : self
     {
         return new self(self::PACIFIC_ENDERBURY);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function pacificFakaofo() : self
     {
         return new self(self::PACIFIC_FAKAOFO);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function pacificFiji() : self
     {
         return new self(self::PACIFIC_FIJI);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function pacificFunafuti() : self
     {
         return new self(self::PACIFIC_FUNAFUTI);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function pacificGalapagos() : self
     {
         return new self(self::PACIFIC_GALAPAGOS);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function pacificGambier() : self
     {
         return new self(self::PACIFIC_GAMBIER);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function pacificGuadalcanal() : self
     {
         return new self(self::PACIFIC_GUADALCANAL);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function pacificGuam() : self
     {
         return new self(self::PACIFIC_GUAM);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function pacificHonolulu() : self
     {
         return new self(self::PACIFIC_HONOLULU);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function pacificKiritimati() : self
     {
         return new self(self::PACIFIC_KIRITIMATI);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function pacificJohnston() : self
     {
         return new self(self::PACIFIC_JOHNSTON);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function pacificKosrae() : self
     {
         return new self(self::PACIFIC_KOSRAE);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function pacificKwajalein() : self
     {
         return new self(self::PACIFIC_KWAJALEIN);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function pacificMajuro() : self
     {
         return new self(self::PACIFIC_MAJURO);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function pacificMarquesas() : self
     {
         return new self(self::PACIFIC_MARQUESAS);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function pacificMidway() : self
     {
         return new self(self::PACIFIC_MIDWAY);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function pacificNauru() : self
     {
         return new self(self::PACIFIC_NAURU);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function pacificNiue() : self
     {
         return new self(self::PACIFIC_NIUE);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function pacificNorfolk() : self
     {
         return new self(self::PACIFIC_NORFOLK);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function pacificNoumea() : self
     {
         return new self(self::PACIFIC_NOUMEA);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function pacificPagoPago() : self
     {
         return new self(self::PACIFIC_PAGO_PAGO);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function pacificPalau() : self
     {
         return new self(self::PACIFIC_PALAU);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function pacificPitcairn() : self
     {
         return new self(self::PACIFIC_PITCAIRN);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function pacificPohnpei() : self
     {
         return new self(self::PACIFIC_POHNPEI);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function pacificPortMoresby() : self
     {
         return new self(self::PACIFIC_PORT_MORESBY);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function pacificRarotonga() : self
     {
         return new self(self::PACIFIC_RAROTONGA);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function pacificSaipan() : self
     {
         return new self(self::PACIFIC_SAIPAN);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function pacificTahiti() : self
     {
         return new self(self::PACIFIC_TAHITI);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function pacificTarawa() : self
     {
         return new self(self::PACIFIC_TARAWA);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function pacificTongatapu() : self
     {
         return new self(self::PACIFIC_TONGATAPU);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function pacificWake() : self
     {
         return new self(self::PACIFIC_WAKE);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function pacificWallis() : self
     {
         return new self(self::PACIFIC_WALLIS);

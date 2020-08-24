@@ -27,6 +27,9 @@ final class Day
         $this->month = $month;
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function create(int $year, int $month, int $day) : self
     {
         return new self(

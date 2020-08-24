@@ -30,6 +30,9 @@ final class Year
         return new self((int) $dateTime->format('Y'));
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function fromString(string $date) : self
     {
         return self::fromDateTime(new \DateTimeImmutable($date));

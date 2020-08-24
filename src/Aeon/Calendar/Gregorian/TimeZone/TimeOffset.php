@@ -43,6 +43,7 @@ final class TimeOffset
         return new self($matches[1] === '-', (int) $matches[2], (int) $matches[3]);
     }
 
+    /** @psalm-pure */
     public static function isValid(string $offset) : bool
     {
         return (bool) \preg_match(self::OFFSET_REGEXP, $offset, $matches);

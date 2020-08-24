@@ -28,6 +28,9 @@ final class Month
         $this->days = new MonthDays($this);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function create(int $year, int $month) : self
     {
         return new self(
@@ -48,6 +51,9 @@ final class Month
         );
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function fromString(string $date) : self
     {
         return self::fromDateTime(new \DateTimeImmutable($date));

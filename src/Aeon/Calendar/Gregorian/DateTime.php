@@ -69,6 +69,9 @@ final class DateTime
         }
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function create(int $year, int $month, int $day, int $hour, int $minute, int $second, int $microsecond = 0, string $timezone = 'UTC') : self
     {
         return new self(
