@@ -728,6 +728,17 @@ final class DateTimeTest extends TestCase
         );
     }
 
+    public function test_set_time_in() : void
+    {
+        $dateTime = DateTime::fromString('2020-01-01 00:00:00.00000 UTC');
+        $newDateTime = $dateTime->setTimeIn(new Time(15, 0, 0, 0), TimeZone::americaNewYork());
+
+        $this->assertSame(
+            '2020-01-01 15:00:00.000000-05:00',
+            $newDateTime->format('Y-m-d H:i:s.uP')
+        );
+    }
+
     public function test_set_day() : void
     {
         $dateTime = DateTime::fromString('2020-01-01 00:00:00.00000')->toTimeZone(TimeZone::europeWarsaw());
