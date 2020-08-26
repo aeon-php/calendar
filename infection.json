@@ -37,6 +37,12 @@
       "ignore": [
         "Aeon\\Calendar\\Stopwatch::elapsedTime"
       ]
+    },
+    "InstanceOf_": {
+      "ignore": [
+        "Aeon\\Calculator\\PreciseCalculator::initialize",
+        "Aeon\\Calendar\\Gregorian\\LeapSeconds::load"
+      ]
     }
   },
   "testFramework": "phpunit",
