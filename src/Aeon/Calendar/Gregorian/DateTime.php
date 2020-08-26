@@ -158,6 +158,17 @@ final class DateTime
         );
     }
 
+    public function setTimeIn(Time $time, TimeZone $timeZone) : self
+    {
+        return (new self(
+            $this->day(),
+            $time,
+            $this->timeZone(),
+            $this->timeOffset()
+        ))->toTimeZone($timeZone)
+            ->setTime($time);
+    }
+
     public function setDay(Day $day) : self
     {
         return new self(
