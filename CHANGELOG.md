@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+### Added 
+- [#53](https://github.com/aeon-php/calendar/pull/53) - **Added DateTime::setTimeIn method** - [@norberttech](https://github.com/norberttech)
+
 ## [0.5.0] - 2020-08-24
 ### Added 
 - [#52](https://github.com/aeon-php/calendar/pull/52) - **Add psalm-pure for static factory methods** - [@tomaszhanc](https://github.com/tomaszhanc)
