@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Aeon\Calendar\Tests\Functional\Gregorian;
 
 use Aeon\Calendar\Gregorian\GregorianCalendar;
+use Aeon\Calendar\Gregorian\Interval;
 use Aeon\Calendar\Gregorian\TimePeriod;
 use Aeon\Calendar\Gregorian\TimeZone;
 use Aeon\Calendar\TimeUnit;
@@ -126,12 +127,12 @@ final class GregorianCalendarTest extends TestCase
             ->yesterday()
             ->midnight()
             ->until($calendar->tomorrow()->midnight())
-            ->iterate(TimeUnit::hour())
+            ->iterate(TimeUnit::hour(), Interval::closed())
             ->map(function (TimePeriod $timePeriod) use (&$iterations) {
                 return $timePeriod->start()->toDateTimeImmutable()->format('Y-m-d H:i:s');
             });
 
-        $this->assertCount(48, $timePeriods);
+        $this->assertCount(49, $timePeriods);
 
         $this->assertSame(
             (new \DateTimeImmutable('yesterday midnight'))->format('Y-m-d H:i:s'),
@@ -139,8 +140,8 @@ final class GregorianCalendarTest extends TestCase
         );
 
         $this->assertSame(
-            (new \DateTimeImmutable('tomorrow midnight'))->modify('-1 hour')->format('Y-m-d H:i:s'),
-            $timePeriods[47]
+            (new \DateTimeImmutable('tomorrow midnight'))->format('Y-m-d H:i:s'),
+            $timePeriods[48]
         );
     }
 
@@ -150,12 +151,12 @@ final class GregorianCalendarTest extends TestCase
             ->yesterday()
             ->midnight()
             ->until($calendar->tomorrow()->midnight())
-            ->iterate(TimeUnit::hour())
+            ->iterate(TimeUnit::hour(), Interval::closed())
             ->filter(function (TimePeriod $timePeriod) use (&$iterations) : bool {
                 return $timePeriod->start()->time()->hour() % 2 === 0;
             });
 
-        $this->assertCount(24, $timePeriods);
+        $this->assertCount(25, $timePeriods);
     }
 
     public function test_iterating_overt_time_backward() : void
@@ -164,7 +165,7 @@ final class GregorianCalendarTest extends TestCase
             ->yesterday()
             ->midnight()
             ->until($calendar->tomorrow()->midnight())
-            ->iterateBackward(TimeUnit::hour())
+            ->iterateBackward(TimeUnit::hour(), Interval::leftOpen())
             ->map(function (TimePeriod $interval) {
                 return $interval->start()->toDateTimeImmutable()->format('Y-m-d H:i:s');
             });

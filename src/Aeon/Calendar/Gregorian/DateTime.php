@@ -525,8 +525,8 @@ final class DateTime
     public function iterate(self $pointInTime, TimeUnit $by) : TimePeriods
     {
         return $pointInTime->isBefore($this)
-            ? $this->since($pointInTime)->iterateBackward($by)
-            : $this->until($pointInTime)->iterate($by);
+            ? $this->since($pointInTime)->iterateBackward($by, Interval::closed())
+            : $this->until($pointInTime)->iterate($by, Interval::closed());
     }
 
     public function isAmbiguous() : bool
