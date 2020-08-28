@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Aeon\Calendar\Tests\Unit\Gregorian;
 
 use Aeon\Calendar\Gregorian\DateTime;
+use Aeon\Calendar\Gregorian\Interval;
 use Aeon\Calendar\Gregorian\TimePeriod;
 use Aeon\Calendar\Gregorian\TimePeriods;
 use Aeon\Calendar\TimeUnit;
@@ -16,7 +17,7 @@ final class TimePeriodsTest extends TestCase
     {
         $timePeriods = DateTime::fromString('2020-01-01 00:00:00.000000')
             ->until(DateTime::fromString('2020-01-01 01:00:00.000000'))
-            ->iterate(TimeUnit::minute());
+            ->iterate(TimeUnit::minute(), Interval::closed());
 
         $this->assertFalse(isset($timePeriods[5000]));
     }
@@ -25,7 +26,7 @@ final class TimePeriodsTest extends TestCase
     {
         $timePeriods = DateTime::fromString('2020-01-01 00:00:00.000000')
             ->until(DateTime::fromString('2020-01-01 01:00:00.000000'))
-            ->iterate(TimeUnit::minute());
+            ->iterate(TimeUnit::minute(), Interval::closed());
 
         $this->expectExceptionMessage('Aeon\Calendar\Gregorian\TimePeriods is immutable.');
 
@@ -39,7 +40,7 @@ final class TimePeriodsTest extends TestCase
     {
         $timePeriods = DateTime::fromString('2020-01-01 00:00:00.000000')
             ->until(DateTime::fromString('2020-01-01 01:00:00.000000'))
-            ->iterate(TimeUnit::minute());
+            ->iterate(TimeUnit::minute(), Interval::closed());
 
         $this->expectExceptionMessage('Aeon\Calendar\Gregorian\TimePeriods is immutable.');
 
@@ -51,7 +52,7 @@ final class TimePeriodsTest extends TestCase
         $counter = 0;
         DateTime::fromString('2020-01-01 00:00:00.000000')
             ->until(DateTime::fromString('2020-01-01 01:00:00.000000'))
-            ->iterate(TimeUnit::minute())
+            ->iterate(TimeUnit::minute(), Interval::rightOpen())
             ->each(function (TimePeriod $timePeriod) use (&$counter) : void {
                 /** @psalm-suppress MixedOperand */
                 $counter += 1;
@@ -64,7 +65,7 @@ final class TimePeriodsTest extends TestCase
     {
         $timePeriods = DateTime::fromString('2020-01-01 00:00:00.000000')
             ->until(DateTime::fromString('2020-01-01 01:00:00.000000'))
-            ->iterate(TimeUnit::minute());
+            ->iterate(TimeUnit::minute(), Interval::closed());
 
         $this->assertSame($timePeriods->all(), (array) $timePeriods->getIterator());
     }

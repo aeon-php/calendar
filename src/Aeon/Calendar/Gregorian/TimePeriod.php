@@ -61,7 +61,7 @@ final class TimePeriod
         return LeapSeconds::load()->findAllBetween($this);
     }
 
-    public function iterate(TimeUnit $timeUnit) : TimePeriods
+    public function iterate(TimeUnit $timeUnit, Interval $interval) : TimePeriods
     {
         return new TimePeriods(
             ...\array_map(
@@ -72,17 +72,13 @@ final class TimePeriod
                     );
                 },
                 \iterator_to_array(
-                    new \DatePeriod(
-                        $this->start->toDateTimeImmutable(),
-                        $timeUnit->toDateInterval(),
-                        $this->end->toDateTimeImmutable()
-                    )
+                    $interval->toDatePeriod($this->start, $timeUnit, $this->end)
                 )
             )
         );
     }
 
-    public function iterateBackward(TimeUnit $timeUnit) : TimePeriods
+    public function iterateBackward(TimeUnit $timeUnit, Interval $interval) : TimePeriods
     {
         return new TimePeriods(
             ...\array_map(
@@ -94,11 +90,7 @@ final class TimePeriod
                 },
                 \array_reverse(
                     \iterator_to_array(
-                        new \DatePeriod(
-                            $this->start->toDateTimeImmutable(),
-                            $timeUnit->toDateInterval(),
-                            $this->end->toDateTimeImmutable()
-                        )
+                        $interval->toDatePeriodBackward($this->start, $timeUnit, $this->end)
                     )
                 )
             )
