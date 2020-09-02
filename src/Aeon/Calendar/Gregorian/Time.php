@@ -169,6 +169,16 @@ final class Time
         return $dateTimeImmutable <= $nextDateTimeImmutable;
     }
 
+    public function add(TimeUnit $timeUnit) : self
+    {
+        return self::fromDateTime($this->toDateTimeImmutable()->add($timeUnit->toDateInterval()));
+    }
+
+    public function sub(TimeUnit $timeUnit) : self
+    {
+        return self::fromDateTime($this->toDateTimeImmutable()->sub($timeUnit->toDateInterval()));
+    }
+
     private function toDateTimeImmutable() : \DateTimeImmutable
     {
         return (new \DateTimeImmutable('now', new \DateTimeZone('UTC')))
