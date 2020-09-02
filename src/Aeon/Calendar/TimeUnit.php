@@ -336,6 +336,24 @@ final class TimeUnit
         return new self(!$this->negative, $this->seconds, $this->microsecond);
     }
 
+    public function toNegative() : self
+    {
+        if ($this->isNegative()) {
+            return $this;
+        }
+
+        return $this->invert();
+    }
+
+    public function toPositive() : self
+    {
+        if (!$this->isNegative()) {
+            return $this;
+        }
+
+        return $this->invert();
+    }
+
     public function absolute() : self
     {
         return $this->isNegative() ? $this->invert() : $this;

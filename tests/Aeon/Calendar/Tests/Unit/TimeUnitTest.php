@@ -490,4 +490,16 @@ final class TimeUnitTest extends TestCase
         yield [TimeUnit::precise(10.00), 10.00, TimeUnit::seconds(1)];
         yield [TimeUnit::hours(1), 60.00, TimeUnit::minutes(1)];
     }
+
+    public function test_to_negative() : void
+    {
+        $this->assertTrue(TimeUnit::negative(10, 0)->toNegative()->isNegative());
+        $this->assertTrue(TimeUnit::positive(10, 0)->toNegative()->isNegative());
+    }
+
+    public function test_to_positive() : void
+    {
+        $this->assertTrue(TimeUnit::positive(10, 0)->toPositive()->isPositive());
+        $this->assertTrue(TimeUnit::negative(10, 0)->toPositive()->isPositive());
+    }
 }
