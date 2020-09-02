@@ -148,6 +148,23 @@ final class Year
         return $this->isLeap() ? 366 : 365;
     }
 
+    public function quarter(int $number) : Quarter
+    {
+        switch ($number) {
+            case 1:
+                return new Quarter($number, $this->months()->slice(0, 3));
+            case 2:
+                return new Quarter($number, $this->months()->slice(3, 3));
+            case 3:
+                return new Quarter($number, $this->months()->slice(6, 3));
+            case 4:
+                return new Quarter($number, $this->months()->slice(9, 3));
+
+            default:
+                throw new InvalidArgumentException('Quarter number must be greater or equal 1 and less or equal than 4');
+        }
+    }
+
     /**
      * @param callable(Day $day) : void $iterator
      *

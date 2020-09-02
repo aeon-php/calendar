@@ -184,4 +184,12 @@ final class MonthTest extends TestCase
         $month = Month::create(2020, 12);
         $this->assertTrue(Month::fromString('2020-12-24')->isEqual($month));
     }
+
+    public function test_quarter() : void
+    {
+        $this->assertSame(1, Month::fromString('2020-01-01')->quarter()->number());
+        $this->assertSame(2, Month::fromString('2020-04-01')->quarter()->number());
+        $this->assertSame(3, Month::fromString('2020-07-01')->quarter()->number());
+        $this->assertSame(4, Month::fromString('2020-10-01')->quarter()->number());
+    }
 }

@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace Aeon\Calendar\Tests\Unit\Gregorian;
 
+use Aeon\Calendar\Exception\InvalidArgumentException;
 use Aeon\Calendar\Gregorian\Month;
 use Aeon\Calendar\Gregorian\Months;
+use Aeon\Calendar\Gregorian\Year;
 use PHPUnit\Framework\TestCase;
 
 final class MonthsTest extends TestCase
@@ -54,5 +56,29 @@ final class MonthsTest extends TestCase
                 return $day->number() === 1;
             })
         );
+    }
+
+    public function test_slice_below_lower_limit() : void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectDeprecationMessage('Slice out of range.');
+
+        (new Year(2020))->months()->slice(-1, 5);
+    }
+
+    public function test_slice_above_upper_limit() : void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectDeprecationMessage('Slice out of range.');
+
+        (new Year(2020))->months()->slice(12, 1);
+    }
+
+    public function test_slice() : void
+    {
+        $this->assertSame(12, (new Year(2020))->months()->slice(11, 1)[0]->number());
+        $this->assertSame(2, (new Year(2020))->months()->slice(1, 1)[0]->number());
+        $this->assertSame(1, (new Year(2020))->months()->slice(0, 1)[0]->number());
+        $this->assertCount(5, (new Year(2020))->months()->slice(0, 5));
     }
 }

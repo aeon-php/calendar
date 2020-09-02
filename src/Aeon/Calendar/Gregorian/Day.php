@@ -335,4 +335,9 @@ final class Day
             )
         );
     }
+
+    public function quarter() : Quarter
+    {
+        return $this->year()->quarter((int) \ceil($this->month()->number() / 3));
+    }
 }

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Aeon\Calendar\Gregorian;
 
+use Aeon\Calendar\Exception\InvalidArgumentException;
+
 /**
  * @psalm-immutable
  */
@@ -61,5 +63,18 @@ final class YearMonths implements \Countable
             $this->all(),
             $iterator
         );
+    }
+
+    public function slice(int $from, int $size) : Months
+    {
+        if ($from < 0) {
+            throw new InvalidArgumentException('Slice out of range.');
+        }
+
+        if ($from + $size > 12) {
+            throw new InvalidArgumentException('Slice out of range.');
+        }
+
+        return new Months(...\array_slice($this->all(), $from, $size));
     }
 }

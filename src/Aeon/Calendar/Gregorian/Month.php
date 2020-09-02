@@ -281,4 +281,9 @@ final class Month
 
         return $this->number() >= $month->number();
     }
+
+    public function quarter() : Quarter
+    {
+        return $this->year->quarter((int) \ceil($this->number / 3));
+    }
 }

@@ -749,4 +749,12 @@ final class DateTimeTest extends TestCase
             $newDateTime->format('Y-m-d H:i:s.uP')
         );
     }
+
+    public function test_quarter() : void
+    {
+        $this->assertSame(1, DateTime::fromString('2020-01-01')->quarter()->number());
+        $this->assertSame(2, DateTime::fromString('2020-04-01')->quarter()->number());
+        $this->assertSame(3, DateTime::fromString('2020-07-01')->quarter()->number());
+        $this->assertSame(4, DateTime::fromString('2020-10-01')->quarter()->number());
+    }
 }
