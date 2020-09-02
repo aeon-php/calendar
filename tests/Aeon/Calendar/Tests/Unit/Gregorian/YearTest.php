@@ -6,7 +6,6 @@ namespace Aeon\Calendar\Tests\Unit\Gregorian;
 
 use Aeon\Calendar\Exception\InvalidArgumentException;
 use Aeon\Calendar\Gregorian\Day;
-use Aeon\Calendar\Gregorian\Month;
 use Aeon\Calendar\Gregorian\Year;
 use PHPUnit\Framework\TestCase;
 
@@ -202,5 +201,46 @@ final class YearTest extends TestCase
         $this->assertInstanceOf(Year::class, $years[4]);
         $this->assertSame(2020, $years[4]->number());
         $this->assertSame(2024, $years[0]->number());
+    }
+
+    public function test_quarter_below_limit() : void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectDeprecationMessage('Quarter number must be greater or equal 1 and less or equal than 4');
+
+        (new Year(2020))->quarter(0);
+    }
+
+    public function test_quarter_above_limit() : void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectDeprecationMessage('Quarter number must be greater or equal 1 and less or equal than 4');
+
+        (new Year(2020))->quarter(5);
+    }
+
+    public function test_quarters() : void
+    {
+        $this->assertSame(1, (new Year(2020))->quarter(1)->number());
+
+        $this->assertCount(3, (new Year(2020))->quarter(1)->months());
+        $this->assertSame(1, (new Year(2020))->quarter(1)->months()[0]->number());
+        $this->assertSame(2, (new Year(2020))->quarter(1)->months()[1]->number());
+        $this->assertSame(3, (new Year(2020))->quarter(1)->months()[2]->number());
+
+        $this->assertCount(3, (new Year(2020))->quarter(2)->months());
+        $this->assertSame(4, (new Year(2020))->quarter(2)->months()[0]->number());
+        $this->assertSame(5, (new Year(2020))->quarter(2)->months()[1]->number());
+        $this->assertSame(6, (new Year(2020))->quarter(2)->months()[2]->number());
+
+        $this->assertCount(3, (new Year(2020))->quarter(3)->months());
+        $this->assertSame(7, (new Year(2020))->quarter(3)->months()[0]->number());
+        $this->assertSame(8, (new Year(2020))->quarter(3)->months()[1]->number());
+        $this->assertSame(9, (new Year(2020))->quarter(3)->months()[2]->number());
+
+        $this->assertCount(3, (new Year(2020))->quarter(4)->months());
+        $this->assertSame(10, (new Year(2020))->quarter(4)->months()[0]->number());
+        $this->assertSame(11, (new Year(2020))->quarter(4)->months()[1]->number());
+        $this->assertSame(12, (new Year(2020))->quarter(4)->months()[2]->number());
     }
 }
