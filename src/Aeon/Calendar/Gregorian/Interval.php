@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Aeon\Calendar\Gregorian;
 
-use Aeon\Calendar\TimeUnit;
+use Aeon\Calendar\Unit;
 
 /**
  * @psalm-immutable
@@ -69,7 +69,7 @@ final class Interval
     /**
      * @phpstan-ignore-next-line
      */
-    public function toDatePeriod(DateTime $left, TimeUnit $timeUnit, DateTime $right) : \DatePeriod
+    public function toDatePeriod(DateTime $left, Unit $timeUnit, DateTime $right) : \DatePeriod
     {
         if ($this->type === self::CLOSED) {
             return new \DatePeriod(
@@ -105,7 +105,7 @@ final class Interval
     /**
      * @phpstan-ignore-next-line
      */
-    public function toDatePeriodBackward(DateTime $left, TimeUnit $timeUnit, DateTime $right) : \DatePeriod
+    public function toDatePeriodBackward(DateTime $left, Unit $timeUnit, DateTime $right) : \DatePeriod
     {
         if ($this->type === self::CLOSED) {
             return new \DatePeriod(

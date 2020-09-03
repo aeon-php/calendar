@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Aeon\Calendar\Gregorian;
 
 use Aeon\Calendar\TimeUnit;
+use Aeon\Calendar\Unit;
 
 /**
  * @psalm-immutable
@@ -61,7 +62,7 @@ final class TimePeriod
         return LeapSeconds::load()->findAllBetween($this);
     }
 
-    public function iterate(TimeUnit $timeUnit, Interval $interval) : TimePeriods
+    public function iterate(Unit $timeUnit, Interval $interval) : TimePeriods
     {
         return new TimePeriods(
             ...\array_map(
@@ -78,7 +79,7 @@ final class TimePeriod
         );
     }
 
-    public function iterateBackward(TimeUnit $timeUnit, Interval $interval) : TimePeriods
+    public function iterateBackward(Unit $timeUnit, Interval $interval) : TimePeriods
     {
         return new TimePeriods(
             ...\array_map(

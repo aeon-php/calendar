@@ -11,7 +11,7 @@ use Aeon\Calendar\Exception\InvalidArgumentException;
 /**
  * @psalm-immutable
  */
-final class TimeUnit
+final class TimeUnit implements Unit
 {
     private const PRECISION_MICROSECOND = 6;
 
@@ -175,6 +175,11 @@ final class TimeUnit
         if ($this->negative) {
             /** @psalm-suppress ImpurePropertyAssignment */
             $interval->invert = 1;
+        }
+
+        if ($this->microsecond) {
+            /** @psalm-suppress ImpurePropertyAssignment */
+            $interval->f = $this->microsecond / self::MICROSECONDS_IN_SECOND;
         }
 
         return $interval;
