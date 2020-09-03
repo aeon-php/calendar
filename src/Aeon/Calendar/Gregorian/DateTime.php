@@ -8,6 +8,7 @@ use Aeon\Calendar\Exception\Exception;
 use Aeon\Calendar\Exception\InvalidArgumentException;
 use Aeon\Calendar\Gregorian\TimeZone\TimeOffset;
 use Aeon\Calendar\TimeUnit;
+use Aeon\Calendar\Unit;
 
 /**
  * @psalm-immutable
@@ -457,24 +458,14 @@ final class DateTime
         return $this->add(TimeUnit::day())->midnight();
     }
 
-    public function add(TimeUnit $timeUnit) : self
+    public function add(Unit $timeUnit) : self
     {
-        return $this->modify(\sprintf(
-            '%s%d seconds %s microsecond',
-            $timeUnit->isPositive() ? '+' : '-',
-            $timeUnit->inSeconds(),
-            $timeUnit->microsecondString()
-        ));
+        return self::fromDateTime($this->toDateTimeImmutable()->add($timeUnit->toDateInterval()));
     }
 
-    public function sub(TimeUnit $timeUnit) : self
+    public function sub(Unit $timeUnit) : self
     {
-        return $this->modify(\sprintf(
-            '%s%d seconds %d microsecond',
-            $timeUnit->isPositive() ? '-' : '+',
-            $timeUnit->inSeconds(),
-            $timeUnit->microsecondString()
-        ));
+        return self::fromDateTime($this->toDateTimeImmutable()->sub($timeUnit->toDateInterval()));
     }
 
     public function isEqual(self $dateTime) : bool

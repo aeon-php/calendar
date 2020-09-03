@@ -7,6 +7,7 @@ namespace Aeon\Calendar\Tests\Unit\Gregorian;
 use Aeon\Calendar\Gregorian\DateTime;
 use Aeon\Calendar\Gregorian\Interval;
 use Aeon\Calendar\Gregorian\TimePeriod;
+use Aeon\Calendar\RelativeTimeUnit;
 use Aeon\Calendar\TimeUnit;
 use PHPUnit\Framework\TestCase;
 
@@ -235,6 +236,76 @@ final class TimePeriodTest extends TestCase
         $this->assertSame('2020-01-04', $timePeriodsBackward[0]->start()->format('Y-m-d'));
         $this->assertSame('2020-01-03', $timePeriodsBackward[1]->start()->format('Y-m-d'));
         $this->assertSame('2020-01-02', $timePeriodsBackward[2]->start()->format('Y-m-d'));
+    }
+
+    public function test_iterating_by_month_interval_closed_both_ways() : void
+    {
+        $period = new TimePeriod(
+            DateTime::fromString('2020-01-01 00:00:00.0000'),
+            DateTime::fromString('2021-01-01 00:00:00.0000')
+        );
+
+        $timePeriods = $period->iterate(RelativeTimeUnit::month(), Interval::closed());
+        $timePeriodsBackward = $period->iterateBackward(RelativeTimeUnit::month(), Interval::closed());
+
+        $this->assertCount(13, $timePeriods);
+        $this->assertCount(13, $timePeriodsBackward);
+
+        $this->assertSame('2020-01-01', $timePeriods[0]->start()->format('Y-m-d'));
+        $this->assertSame('2020-02-01', $timePeriods[1]->start()->format('Y-m-d'));
+        $this->assertSame('2020-03-01', $timePeriods[2]->start()->format('Y-m-d'));
+        $this->assertSame('2020-04-01', $timePeriods[3]->start()->format('Y-m-d'));
+        $this->assertSame('2020-05-01', $timePeriods[4]->start()->format('Y-m-d'));
+        $this->assertSame('2020-06-01', $timePeriods[5]->start()->format('Y-m-d'));
+        $this->assertSame('2020-07-01', $timePeriods[6]->start()->format('Y-m-d'));
+        $this->assertSame('2020-08-01', $timePeriods[7]->start()->format('Y-m-d'));
+        $this->assertSame('2020-09-01', $timePeriods[8]->start()->format('Y-m-d'));
+        $this->assertSame('2020-10-01', $timePeriods[9]->start()->format('Y-m-d'));
+        $this->assertSame('2020-11-01', $timePeriods[10]->start()->format('Y-m-d'));
+        $this->assertSame('2020-12-01', $timePeriods[11]->start()->format('Y-m-d'));
+        $this->assertSame('2021-01-01', $timePeriods[12]->start()->format('Y-m-d'));
+
+        $this->assertSame('2021-01-01', $timePeriodsBackward[0]->start()->format('Y-m-d'));
+        $this->assertSame('2020-12-01', $timePeriodsBackward[1]->start()->format('Y-m-d'));
+        $this->assertSame('2020-11-01', $timePeriodsBackward[2]->start()->format('Y-m-d'));
+        $this->assertSame('2020-10-01', $timePeriodsBackward[3]->start()->format('Y-m-d'));
+        $this->assertSame('2020-09-01', $timePeriodsBackward[4]->start()->format('Y-m-d'));
+        $this->assertSame('2020-08-01', $timePeriodsBackward[5]->start()->format('Y-m-d'));
+        $this->assertSame('2020-07-01', $timePeriodsBackward[6]->start()->format('Y-m-d'));
+        $this->assertSame('2020-06-01', $timePeriodsBackward[7]->start()->format('Y-m-d'));
+        $this->assertSame('2020-05-01', $timePeriodsBackward[8]->start()->format('Y-m-d'));
+        $this->assertSame('2020-04-01', $timePeriodsBackward[9]->start()->format('Y-m-d'));
+        $this->assertSame('2020-03-01', $timePeriodsBackward[10]->start()->format('Y-m-d'));
+        $this->assertSame('2020-02-01', $timePeriodsBackward[11]->start()->format('Y-m-d'));
+        $this->assertSame('2020-01-01', $timePeriodsBackward[12]->start()->format('Y-m-d'));
+    }
+
+    public function test_iterating_by_year_interval_closed_both_ways() : void
+    {
+        $period = new TimePeriod(
+            DateTime::fromString('2020-01-01 00:00:00.0000'),
+            DateTime::fromString('2025-01-01 00:00:00.0000')
+        );
+
+        $timePeriods = $period->iterate(RelativeTimeUnit::year(), Interval::closed());
+        $timePeriodsBackward = $period->iterateBackward(RelativeTimeUnit::year(), Interval::closed());
+
+        $this->assertCount(6, $timePeriods);
+        $this->assertCount(6, $timePeriodsBackward);
+
+        $this->assertSame('2020-01-01', $timePeriods[0]->start()->format('Y-m-d'));
+        $this->assertSame('2021-01-01', $timePeriods[1]->start()->format('Y-m-d'));
+        $this->assertSame('2022-01-01', $timePeriods[2]->start()->format('Y-m-d'));
+        $this->assertSame('2023-01-01', $timePeriods[3]->start()->format('Y-m-d'));
+        $this->assertSame('2024-01-01', $timePeriods[4]->start()->format('Y-m-d'));
+        $this->assertSame('2025-01-01', $timePeriods[5]->start()->format('Y-m-d'));
+
+        $this->assertSame('2025-01-01', $timePeriodsBackward[0]->start()->format('Y-m-d'));
+        $this->assertSame('2024-01-01', $timePeriodsBackward[1]->start()->format('Y-m-d'));
+        $this->assertSame('2023-01-01', $timePeriodsBackward[2]->start()->format('Y-m-d'));
+        $this->assertSame('2022-01-01', $timePeriodsBackward[3]->start()->format('Y-m-d'));
+        $this->assertSame('2021-01-01', $timePeriodsBackward[4]->start()->format('Y-m-d'));
+        $this->assertSame('2020-01-01', $timePeriodsBackward[5]->start()->format('Y-m-d'));
     }
 
     public function test_iterating_through_day_by_2_days() : void

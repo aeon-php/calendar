@@ -502,4 +502,17 @@ final class TimeUnitTest extends TestCase
         $this->assertTrue(TimeUnit::positive(10, 0)->toPositive()->isPositive());
         $this->assertTrue(TimeUnit::negative(10, 0)->toPositive()->isPositive());
     }
+
+    public function test_to_date_interval() : void
+    {
+        $interval = new \DateInterval('PT2S');
+        $interval->f = 0.500000;
+
+        $this->assertEquals($interval, TimeUnit::precise(2.500000)->toDateInterval());
+    }
+
+    public function test_getting_microsecond_string() : void
+    {
+        $this->assertSame('500000', TimeUnit::precise(2.500000)->microsecondString());
+    }
 }

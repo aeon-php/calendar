@@ -537,7 +537,7 @@ final class DateTimeTest extends TestCase
     public function test_sub_precse_timeunit() : void
     {
         $this->assertSame(
-            '2020-01-01 00:59:58.500000+0000',
+            '2020-01-01 00:59:57.500000+0000',
             DateTime::fromString('2020-01-01 01:00:00.000000+00')->sub(TimeUnit::precise(2.500000))->format('Y-m-d H:i:s.uO')
         );
     }
