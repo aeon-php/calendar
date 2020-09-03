@@ -9,9 +9,6 @@ namespace Aeon\Calendar\Gregorian;
  */
 final class GregorianCalendar implements Calendar
 {
-    /**
-     * @var TimeZone
-     */
     private TimeZone $timeZone;
 
     public function __construct(TimeZone $timeZone)

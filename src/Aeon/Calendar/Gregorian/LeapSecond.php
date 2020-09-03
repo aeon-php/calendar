@@ -12,14 +12,8 @@ use Aeon\Calendar\TimeUnit;
  */
 final class LeapSecond
 {
-    /**
-     * @var DateTime
-     */
     private DateTime $dateTime;
 
-    /**
-     * @var TimeUnit
-     */
     private TimeUnit $offsetTAI;
 
     public function __construct(DateTime $dateTime, TimeUnit $offsetTAI)
