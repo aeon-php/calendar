@@ -252,18 +252,31 @@ final class TimePeriodTest extends TestCase
         $this->assertCount(13, $timePeriodsBackward);
 
         $this->assertSame('2020-01-01', $timePeriods[0]->start()->format('Y-m-d'));
+        $this->assertSame(31, $timePeriods[0]->distance()->inDays());
         $this->assertSame('2020-02-01', $timePeriods[1]->start()->format('Y-m-d'));
+        $this->assertSame(29, $timePeriods[1]->distance()->inDays());
         $this->assertSame('2020-03-01', $timePeriods[2]->start()->format('Y-m-d'));
+        $this->assertSame(31, $timePeriods[2]->distance()->inDays());
         $this->assertSame('2020-04-01', $timePeriods[3]->start()->format('Y-m-d'));
+        $this->assertSame(30, $timePeriods[3]->distance()->inDays());
         $this->assertSame('2020-05-01', $timePeriods[4]->start()->format('Y-m-d'));
+        $this->assertSame(31, $timePeriods[4]->distance()->inDays());
         $this->assertSame('2020-06-01', $timePeriods[5]->start()->format('Y-m-d'));
+        $this->assertSame(30, $timePeriods[5]->distance()->inDays());
         $this->assertSame('2020-07-01', $timePeriods[6]->start()->format('Y-m-d'));
+        $this->assertSame(31, $timePeriods[6]->distance()->inDays());
         $this->assertSame('2020-08-01', $timePeriods[7]->start()->format('Y-m-d'));
+        $this->assertSame(31, $timePeriods[7]->distance()->inDays());
         $this->assertSame('2020-09-01', $timePeriods[8]->start()->format('Y-m-d'));
+        $this->assertSame(30, $timePeriods[8]->distance()->inDays());
         $this->assertSame('2020-10-01', $timePeriods[9]->start()->format('Y-m-d'));
+        $this->assertSame(31, $timePeriods[9]->distance()->inDays());
         $this->assertSame('2020-11-01', $timePeriods[10]->start()->format('Y-m-d'));
+        $this->assertSame(30, $timePeriods[10]->distance()->inDays());
         $this->assertSame('2020-12-01', $timePeriods[11]->start()->format('Y-m-d'));
+        $this->assertSame(31, $timePeriods[11]->distance()->inDays());
         $this->assertSame('2021-01-01', $timePeriods[12]->start()->format('Y-m-d'));
+        $this->assertSame(31, $timePeriods[12]->distance()->inDays());
 
         $this->assertSame('2021-01-01', $timePeriodsBackward[0]->start()->format('Y-m-d'));
         $this->assertSame('2020-12-01', $timePeriodsBackward[1]->start()->format('Y-m-d'));
