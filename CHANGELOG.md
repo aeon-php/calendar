@@ -12,6 +12,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [#55](https://github.com/aeon-php/calendar/pull/55) - **Updated phive dependencies** - [@norberttech](https://github.com/norberttech)
 
 ### Added 
+- [#62](https://github.com/aeon-php/calendar/pull/62) - **Added possibility to merge overlapping time periods** - [@norberttech](https://github.com/norberttech)
+- [#61](https://github.com/aeon-php/calendar/pull/61) - **Added possibility to check if one time period contains other** - [@norberttech](https://github.com/norberttech)
 - [#60](https://github.com/aeon-php/calendar/pull/60) - **Added possibility to iterate by relative time units like months/years** - [@norberttech](https://github.com/norberttech)
 - [#59](https://github.com/aeon-php/calendar/pull/59) - **Added add/sub methods to Time** - [@norberttech](https://github.com/norberttech)
 - [#58](https://github.com/aeon-php/calendar/pull/58) - **Added Quarters** - [@norberttech](https://github.com/norberttech)
