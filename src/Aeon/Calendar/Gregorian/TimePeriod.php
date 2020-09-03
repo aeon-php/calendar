@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Aeon\Calendar\Gregorian;
 
+use Aeon\Calendar\Exception\InvalidArgumentException;
 use Aeon\Calendar\TimeUnit;
 use Aeon\Calendar\Unit;
 
@@ -153,6 +154,22 @@ final class TimePeriod
     public function revert() : self
     {
         return new self($this->end(), $this->start());
+    }
+
+    public function merge(self $timePeriod) : self
+    {
+        if (!$this->overlaps($timePeriod)) {
+            throw new InvalidArgumentException("Can't merge not overlapping time periods.");
+        }
+
+        return new self(
+            $this->start->isBeforeOrEqual($timePeriod->start)
+                ? $this->start()
+                : $timePeriod->start,
+            $this->end->isAfterOrEqual($timePeriod->end)
+                ? $this->end()
+                : $timePeriod->end()
+        );
     }
 
     public function abuts(self $timePeriod) : bool

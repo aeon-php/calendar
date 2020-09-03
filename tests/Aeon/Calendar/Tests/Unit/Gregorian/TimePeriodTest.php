@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Aeon\Calendar\Tests\Unit\Gregorian;
 
+use Aeon\Calendar\Exception\InvalidArgumentException;
 use Aeon\Calendar\Gregorian\DateTime;
 use Aeon\Calendar\Gregorian\Interval;
 use Aeon\Calendar\Gregorian\TimePeriod;
@@ -556,6 +557,47 @@ final class TimePeriodTest extends TestCase
         $this->assertFalse(
             (new TimePeriod(DateTime::fromString('2020-01-05'), DateTime::fromString('2020-01-10')))
                 ->contains(new TimePeriod(DateTime::fromString('2020-01-02'), DateTime::fromString('2020-01-07')))
+        );
+    }
+
+    public function test_merge_not_overlapping_time_periods() : void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage("Can't merge not overlapping time periods");
+
+        (new TimePeriod(DateTime::fromString('2020-01-05'), DateTime::fromString('2020-01-10')))
+            ->merge(new TimePeriod(DateTime::fromString('2020-01-20'), DateTime::fromString('2020-01-25')));
+    }
+
+    public function test_merge_left_overlapping_time_periods() : void
+    {
+        $newPeriod = (new TimePeriod(DateTime::fromString('2020-01-05'), DateTime::fromString('2020-01-10')))
+            ->merge(new TimePeriod(DateTime::fromString('2020-01-08'), DateTime::fromString('2020-01-25')));
+
+        $this->assertSame(
+            '2020-01-05',
+            $newPeriod->start()->format('Y-m-d')
+        );
+
+        $this->assertSame(
+            '2020-01-25',
+            $newPeriod->end()->format('Y-m-d')
+        );
+    }
+
+    public function test_merge_right_overlapping_time_periods() : void
+    {
+        $newPeriod = (new TimePeriod(DateTime::fromString('2020-01-10'), DateTime::fromString('2020-02-10')))
+            ->merge(new TimePeriod(DateTime::fromString('2020-01-08'), DateTime::fromString('2020-01-25')));
+
+        $this->assertSame(
+            '2020-01-08',
+            $newPeriod->start()->format('Y-m-d')
+        );
+
+        $this->assertSame(
+            '2020-02-10',
+            $newPeriod->end()->format('Y-m-d')
         );
     }
 }
