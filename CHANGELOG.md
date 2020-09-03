@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [#55](https://github.com/aeon-php/calendar/pull/55) - **Updated phive dependencies** - [@norberttech](https://github.com/norberttech)
 
 ### Added 
+- [#59](https://github.com/aeon-php/calendar/pull/59) - **Added add/sub methods to Time** - [@norberttech](https://github.com/norberttech)
 - [#58](https://github.com/aeon-php/calendar/pull/58) - **Added Quarters** - [@norberttech](https://github.com/norberttech)
 - [#57](https://github.com/aeon-php/calendar/pull/57) - **Added toNegative toPositive method to TimeUnit** - [@norberttech](https://github.com/norberttech)
 - [#53](https://github.com/aeon-php/calendar/pull/53) - **Added DateTime::setTimeIn method** - [@norberttech](https://github.com/norberttech)
