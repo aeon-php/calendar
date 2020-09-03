@@ -465,9 +465,6 @@ final class TimePeriodTest extends TestCase
             new TimePeriod(DateTime::fromString('2020-01-04 00:00:00.0000'), DateTime::fromString('2020-01-13 00:00:00.0000')),
             new TimePeriod(DateTime::fromString('2020-01-03 00:00:00.0000'), DateTime::fromString('2020-01-08 00:00:00.0000')),
         ];
-#                start           end
-#        this :  2020-01-04      2020-01-05
-#        other:  2020-01-03      2020-01-08
     }
 
     public function test_period_is_forward() : void
@@ -536,5 +533,29 @@ final class TimePeriodTest extends TestCase
             new TimePeriod(DateTime::fromString('2020-01-02 00:00:00.0000'), DateTime::fromString('2020-01-03 00:00:00.0000')),
             new TimePeriod(DateTime::fromString('2020-01-04 00:00:00.0000'), DateTime::fromString('2020-01-05 00:00:00.0000')),
         ];
+    }
+
+    public function test_one_period_contains_the_same_period() : void
+    {
+        $this->assertTrue(
+            (new TimePeriod(DateTime::fromString('2020-01-01'), DateTime::fromString('2020-01-02')))
+                ->contains(new TimePeriod(DateTime::fromString('2020-01-01'), DateTime::fromString('2020-01-02')))
+        );
+    }
+
+    public function test_one_period_contains_shorted_period() : void
+    {
+        $this->assertTrue(
+            (new TimePeriod(DateTime::fromString('2020-01-01'), DateTime::fromString('2020-01-05')))
+                ->contains(new TimePeriod(DateTime::fromString('2020-01-02'), DateTime::fromString('2020-01-03')))
+        );
+    }
+
+    public function test_one_period_not_contains_other_overlapping_period() : void
+    {
+        $this->assertFalse(
+            (new TimePeriod(DateTime::fromString('2020-01-05'), DateTime::fromString('2020-01-10')))
+                ->contains(new TimePeriod(DateTime::fromString('2020-01-02'), DateTime::fromString('2020-01-07')))
+        );
     }
 }

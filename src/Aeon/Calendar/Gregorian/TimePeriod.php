@@ -145,6 +145,11 @@ final class TimePeriod
         return true;
     }
 
+    public function contains(self $timePeriod) : bool
+    {
+        return $this->start->isBeforeOrEqual($timePeriod->start()) && $this->end->isAfterOrEqual($timePeriod->end());
+    }
+
     public function revert() : self
     {
         return new self($this->end(), $this->start());
