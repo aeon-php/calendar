@@ -6,6 +6,7 @@ namespace Aeon\Calendar\Tests\Unit\Gregorian;
 
 use Aeon\Calendar\Exception\InvalidArgumentException;
 use Aeon\Calendar\Gregorian\Time;
+use Aeon\Calendar\TimeUnit;
 use PHPUnit\Framework\TestCase;
 
 final class TimeTest extends TestCase
@@ -109,5 +110,19 @@ final class TimeTest extends TestCase
     {
         $this->expectException(InvalidArgumentException::class);
         new Time(0, 0, 0, 1_000_000);
+    }
+
+    public function test_add() : void
+    {
+        $this->assertSame('01:00:00.000000', Time::fromString('00:00')->add(TimeUnit::hour())->toString());
+        $this->assertSame('00:00:00.000000', Time::fromString('00:00')->add(TimeUnit::days(2))->toString());
+        $this->assertSame('03:00:00.000000', Time::fromString('00:00')->add(TimeUnit::hours(27))->toString());
+    }
+
+    public function test_sub() : void
+    {
+        $this->assertSame('04:00:00.000000', Time::fromString('05:00')->sub(TimeUnit::hour())->toString());
+        $this->assertSame('00:00:00.000000', Time::fromString('00:00')->sub(TimeUnit::days(2))->toString());
+        $this->assertSame('21:00:00.000000', Time::fromString('00:00')->sub(TimeUnit::hours(27))->toString());
     }
 }
