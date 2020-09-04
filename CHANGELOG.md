@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+## [0.6.0] - 2020-09-04
 ### Changed
 - [#56](https://github.com/aeon-php/calendar/pull/56) - **Added possibility to define type of the interval when iterating over time periods** - [@norberttech](https://github.com/norberttech)
 - [#55](https://github.com/aeon-php/calendar/pull/55) - **Updated phive dependencies** - [@norberttech](https://github.com/norberttech)
