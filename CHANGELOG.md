@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 ### Added
+- [#64](https://github.com/aeon-php/calendar/pull/64) - **Added possibility to setTime on Day in order to create DateTime** - [@norberttech](https://github.com/norberttech)
 - [#63](https://github.com/aeon-php/calendar/pull/63) - **TimeUnit added modulo and isZero methods** - [@norberttech](https://github.com/norberttech)
 
 ### Changed
