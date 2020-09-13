@@ -458,7 +458,7 @@ final class TimeUnitTest extends TestCase
     /**
      * @dataProvider multiplication_data_provider
      */
-    public function test_multiplication(TimeUnit $timeUnit, float $multiplier, TimeUnit $expectedResult) : void
+    public function test_multiplication(TimeUnit $timeUnit, TimeUnit $multiplier, TimeUnit $expectedResult) : void
     {
         $this->assertSame($expectedResult->inSecondsPrecise(), $timeUnit->multiply($multiplier)->inSecondsPrecise());
     }
@@ -468,15 +468,15 @@ final class TimeUnitTest extends TestCase
      */
     public function multiplication_data_provider() : \Generator
     {
-        yield [TimeUnit::precise(1.00), 2.00, TimeUnit::precise(2.00)];
-        yield [TimeUnit::precise(1.00), 0.50, TimeUnit::precise(0.50)];
-        yield [TimeUnit::seconds(1), 0.50, TimeUnit::milliseconds(500)];
+        yield [TimeUnit::precise(1.00), TimeUnit::precise(2.00), TimeUnit::precise(2.00)];
+        yield [TimeUnit::precise(1.00), TimeUnit::precise(0.50), TimeUnit::precise(0.50)];
+        yield [TimeUnit::seconds(1), TimeUnit::precise(0.50), TimeUnit::milliseconds(500)];
     }
 
     /**
      * @dataProvider division_data_provider
      */
-    public function test_division(TimeUnit $timeUnit, float $multiplier, TimeUnit $expectedResult) : void
+    public function test_division(TimeUnit $timeUnit, TimeUnit $multiplier, TimeUnit $expectedResult) : void
     {
         $this->assertSame($expectedResult->inSecondsPrecise(), $timeUnit->divide($multiplier)->inSecondsPrecise());
     }
@@ -486,9 +486,9 @@ final class TimeUnitTest extends TestCase
      */
     public function division_data_provider() : \Generator
     {
-        yield [TimeUnit::precise(1.00), 2.00, TimeUnit::milliseconds(500)];
-        yield [TimeUnit::precise(10.00), 10.00, TimeUnit::seconds(1)];
-        yield [TimeUnit::hours(1), 60.00, TimeUnit::minutes(1)];
+        yield [TimeUnit::precise(1.00), TimeUnit::precise(2.00), TimeUnit::milliseconds(500)];
+        yield [TimeUnit::precise(10.00), TimeUnit::precise(10.00), TimeUnit::seconds(1)];
+        yield [TimeUnit::hours(1), TimeUnit::precise(60.00), TimeUnit::minutes(1)];
     }
 
     public function test_to_negative() : void

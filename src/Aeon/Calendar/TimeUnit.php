@@ -205,14 +205,14 @@ final class TimeUnit implements Unit
         return self::precise((float) (PreciseCalculator::initialize(self::PRECISION_MICROSECOND)->sub($this->inSecondsPrecise(), $timeUnit->inSecondsPrecise())));
     }
 
-    public function multiply(float $multiplier) : self
+    public function multiply(self $multiplier) : self
     {
-        return self::precise((float) (PreciseCalculator::initialize(self::PRECISION_MICROSECOND)->multiply($this->inSecondsPrecise(), (string) $multiplier)));
+        return self::precise((float) (PreciseCalculator::initialize(self::PRECISION_MICROSECOND)->multiply($this->inSecondsPrecise(), $multiplier->inSecondsPrecise())));
     }
 
-    public function divide(float $divider) : self
+    public function divide(self $divider) : self
     {
-        return self::precise((float) (PreciseCalculator::initialize(self::PRECISION_MICROSECOND)->divide($this->inSecondsPrecise(), (string) $divider)));
+        return self::precise((float) (PreciseCalculator::initialize(self::PRECISION_MICROSECOND)->divide($this->inSecondsPrecise(), $divider->inSecondsPrecise())));
     }
 
     public function isGreaterThan(self $timeUnit) : bool
