@@ -146,6 +146,15 @@ final class Day
         return new DateTime($this, new Time(23, 59, 59, 999999), $timeZone);
     }
 
+    public function setTime(Time $time, TimeZone $timeZone) : DateTime
+    {
+        return new DateTime(
+            $this,
+            $time,
+            $timeZone
+        );
+    }
+
     public function month() : Month
     {
         return $this->month;
