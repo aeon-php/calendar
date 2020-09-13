@@ -32,7 +32,7 @@ final class BCMathCalculatorTest extends TestCase
     }
 
     /**
-     * @dataProvider add_sub_provider
+     * @dataProvider sub_provider
      */
     public function test_sub(string $result, float $value, float $nextValue) : void
     {
@@ -42,7 +42,7 @@ final class BCMathCalculatorTest extends TestCase
     /**
      * @return \Generator<int, array{string, float, float}, mixed, void>
      */
-    public function add_sub_provider() : \Generator
+    public function sub_provider() : \Generator
     {
         yield ['1.000000', 2.0, 1.0];
         yield ['1.000000', 2, 1];
@@ -92,6 +92,29 @@ final class BCMathCalculatorTest extends TestCase
         yield ['1.010000', 0.000_101, 0.000_100];
         yield ['0.000000', 0.000_000, 0.000_000_1];
         yield ['4.900000', 0.000_000_49, 0.000_000_1];
+    }
+
+    /**
+     * @dataProvider modulo_provider
+     */
+    public function test_modulo(string $result, float $value, float $nextValue) : void
+    {
+        $this->assertSame($result, (new BCMathCalculator(6))->modulo(\number_format($value, 9), \number_format($nextValue, 9)));
+    }
+
+    /**
+     * @return \Generator<int, array{string, float, float}, mixed, void>
+     */
+    public function modulo_provider() : \Generator
+    {
+        yield ['0.000000', 1.0, 1.0];
+        yield ['0.000000', 2, 1];
+        yield ['1.000000', 7, 2];
+        yield ['1.999980', 7, 2.50001];
+        yield ['0.000000', 0.000_100, 0.000_100];
+        yield ['0.000001', 0.000_101, 0.000_100];
+        yield ['0.000000', 0.000_000, 0.000_000_1];
+        yield ['0.000000', 0.000_000_49, 0.000_000_1];
     }
 
     /**
@@ -205,6 +228,18 @@ final class BCMathCalculatorTest extends TestCase
         (new BCMathCalculator(6))->divide('10', 'invalid');
     }
 
+    public function test_invalid_value_in_modulo() : void
+    {
+        $this->expectException(InvalidTypeException::class);
+        (new BCMathCalculator(6))->modulo('test', '10');
+    }
+
+    public function test_invalid_division_in_modulo() : void
+    {
+        $this->expectException(InvalidTypeException::class);
+        (new BCMathCalculator(6))->modulo('10', 'invalid');
+    }
+
     public function test_invalid_value_in_multiply() : void
     {
         $this->expectException(InvalidTypeException::class);
@@ -306,5 +341,12 @@ final class BCMathCalculatorTest extends TestCase
         $this->expectException(\LogicException::class);
 
         (new BCMathCalculator(6))->divide('10', '0');
+    }
+
+    public function test_mod_by_zero() : void
+    {
+        $this->expectException(\LogicException::class);
+
+        (new BCMathCalculator(6))->modulo('10', '0');
     }
 }

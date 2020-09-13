@@ -99,6 +99,29 @@ final class PHPCalculatorTest extends TestCase
     }
 
     /**
+     * @dataProvider modulo_provider
+     */
+    public function test_modulo(string $result, float $value, float $nextValue) : void
+    {
+        $this->assertSame($result, (new PHPCalculator(6))->modulo(\number_format($value, 9), \number_format($nextValue, 9)));
+    }
+
+    /**
+     * @return \Generator<int, array{string, float, float}, mixed, void>
+     */
+    public function modulo_provider() : \Generator
+    {
+        yield ['0.000000', 1.0, 1.0];
+        yield ['0.000000', 2, 1];
+        yield ['1.000000', 7, 2];
+        yield ['1.999980', 7, 2.50001];
+        yield ['0.000000', 0.000_100, 0.000_100];
+        yield ['0.000001', 0.000_101, 0.000_100];
+        yield ['0.000000', 0.000_000, 0.000_000_1];
+        yield ['0.000000', 0.000_000_49, 0.000_000_1];
+    }
+
+    /**
      * @dataProvider is_equal_data_provider
      */
     public function test_is_equal(bool $equal, float $value, float $nextValue) : void

@@ -11,6 +11,8 @@ interface Calculator
 {
     public function precision() : int;
 
+    public function modulo(string $value, string $divisor) : string;
+
     public function divide(string $value, string $divisor) : string;
 
     public function multiply(string $value, string $multiplier) : string;

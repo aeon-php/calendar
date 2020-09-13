@@ -26,6 +26,11 @@ final class PHPCalculator implements Calculator
         return \number_format(\floatval($value) / \floatval($divisor), $this->precision, '.', '');
     }
 
+    public function modulo(string $value, string $divisor) : string
+    {
+        return \number_format(\fmod(\floatval($value), \floatval($divisor)), $this->precision, '.', '');
+    }
+
     public function multiply(string $value, string $multiplier) : string
     {
         return \number_format(\floatval($value) * \floatval($multiplier), $this->precision, '.', '');
