@@ -7,6 +7,7 @@ namespace Aeon\Calendar\Tests\Unit\Gregorian;
 use Aeon\Calendar\Exception\InvalidArgumentException;
 use Aeon\Calendar\Gregorian\Day;
 use Aeon\Calendar\Gregorian\Month;
+use Aeon\Calendar\Gregorian\Time;
 use Aeon\Calendar\Gregorian\TimeZone;
 use Aeon\Calendar\Gregorian\Year;
 use Aeon\Calendar\TimeUnit;
@@ -67,6 +68,16 @@ final class DayTest extends TestCase
         $day = Day::fromString('2020-01-01');
 
         $this->assertSame('2020-01-01 23:59:59.999999+0000', $day->endOfDay(TimeZone::UTC())->format('Y-m-d H:i:s.uO'));
+    }
+
+    public function test_set_time() : void
+    {
+        $day = Day::fromString('2020-01-01');
+
+        $this->assertSame(
+            '2020-01-01 11:00:00.000000+0100',
+            $day->setTime(Time::fromString('11:00:00'), TimeZone::europeWarsaw())->format('Y-m-d H:i:s.uO')
+        );
     }
 
     public function test_next() : void
