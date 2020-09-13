@@ -135,6 +135,12 @@ final class TimeUnitTest extends TestCase
         $this->assertSame(15, TimeUnit::minutes(135)->inTimeMinutes());
     }
 
+    public function test_is_zero() : void
+    {
+        $this->assertFalse(TimeUnit::second()->isZero());
+        $this->assertTrue(TimeUnit::seconds(0)->isZero());
+    }
+
     public function test_second() : void
     {
         $timeUnit = TimeUnit::second();
@@ -458,7 +464,7 @@ final class TimeUnitTest extends TestCase
     /**
      * @dataProvider multiplication_data_provider
      */
-    public function test_multiplication(TimeUnit $timeUnit, float $multiplier, TimeUnit $expectedResult) : void
+    public function test_multiplication(TimeUnit $timeUnit, TimeUnit $multiplier, TimeUnit $expectedResult) : void
     {
         $this->assertSame($expectedResult->inSecondsPrecise(), $timeUnit->multiply($multiplier)->inSecondsPrecise());
     }
@@ -468,15 +474,15 @@ final class TimeUnitTest extends TestCase
      */
     public function multiplication_data_provider() : \Generator
     {
-        yield [TimeUnit::precise(1.00), 2.00, TimeUnit::precise(2.00)];
-        yield [TimeUnit::precise(1.00), 0.50, TimeUnit::precise(0.50)];
-        yield [TimeUnit::seconds(1), 0.50, TimeUnit::milliseconds(500)];
+        yield [TimeUnit::precise(1.00), TimeUnit::precise(2.00), TimeUnit::precise(2.00)];
+        yield [TimeUnit::precise(1.00), TimeUnit::precise(0.50), TimeUnit::precise(0.50)];
+        yield [TimeUnit::seconds(1), TimeUnit::precise(0.50), TimeUnit::milliseconds(500)];
     }
 
     /**
      * @dataProvider division_data_provider
      */
-    public function test_division(TimeUnit $timeUnit, float $multiplier, TimeUnit $expectedResult) : void
+    public function test_division(TimeUnit $timeUnit, TimeUnit $multiplier, TimeUnit $expectedResult) : void
     {
         $this->assertSame($expectedResult->inSecondsPrecise(), $timeUnit->divide($multiplier)->inSecondsPrecise());
     }
@@ -486,9 +492,28 @@ final class TimeUnitTest extends TestCase
      */
     public function division_data_provider() : \Generator
     {
-        yield [TimeUnit::precise(1.00), 2.00, TimeUnit::milliseconds(500)];
-        yield [TimeUnit::precise(10.00), 10.00, TimeUnit::seconds(1)];
-        yield [TimeUnit::hours(1), 60.00, TimeUnit::minutes(1)];
+        yield [TimeUnit::precise(1.00), TimeUnit::precise(2.00), TimeUnit::milliseconds(500)];
+        yield [TimeUnit::precise(10.00), TimeUnit::precise(10.00), TimeUnit::seconds(1)];
+        yield [TimeUnit::hours(1), TimeUnit::precise(60.00), TimeUnit::minutes(1)];
+    }
+
+    /**
+     * @dataProvider modulo_data_provider
+     */
+    public function test_modulo(TimeUnit $timeUnit, TimeUnit $multiplier, TimeUnit $expectedResult) : void
+    {
+        $this->assertSame($expectedResult->inSecondsPrecise(), $timeUnit->modulo($multiplier)->inSecondsPrecise());
+    }
+
+    /**
+     * @return \Generator<int, array{TimeUnit, float, TimeUnit}, mixed, void>
+     */
+    public function modulo_data_provider() : \Generator
+    {
+        yield [TimeUnit::precise(1.00), TimeUnit::precise(2.00), TimeUnit::second()];
+        yield [TimeUnit::precise(10.00), TimeUnit::precise(10.00), TimeUnit::seconds(0)];
+        yield [TimeUnit::hours(1), TimeUnit::precise(60.00), TimeUnit::seconds(0)];
+        yield [TimeUnit::hours(1), TimeUnit::minutes(37), TimeUnit::minutes(23)];
     }
 
     public function test_to_negative() : void
