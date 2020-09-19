@@ -1,3 +1,6 @@
 {
-  "image": "mcr.microsoft.com/vscode/devcontainers/php:7.4"
+  "image": "mcr.microsoft.com/vscode/devcontainers/php:7.4",
+  "settings": {
+    "terminal.integrated.shell.linux": "/bin/zsh"
+  }
 }
