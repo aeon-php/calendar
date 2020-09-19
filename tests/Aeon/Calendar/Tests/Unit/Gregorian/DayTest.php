@@ -271,4 +271,9 @@ final class DayTest extends TestCase
         $this->assertSame(3, Day::fromString('2020-07-01')->quarter()->number());
         $this->assertSame(4, Day::fromString('2020-10-01')->quarter()->number());
     }
+
+    public function test_distance_between_two_days() : void
+    {
+        $this->assertSame(10, Day::fromString('2020-01-01')->distance(Day::fromString('2020-01-11'))->inDays());
+    }
 }

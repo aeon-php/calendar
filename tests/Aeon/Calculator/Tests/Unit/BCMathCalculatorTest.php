@@ -10,6 +10,13 @@ use PHPUnit\Framework\TestCase;
 
 final class BCMathCalculatorTest extends TestCase
 {
+    public function setUp() : void
+    {
+        if (!\extension_loaded('bcmath')) {
+            $this->markTestSkipped('Missing bcmath extension');
+        }
+    }
+
     /**
      * @dataProvider add_data_provider
      */
