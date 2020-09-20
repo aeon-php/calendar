@@ -7,10 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 ### Added
+- [#66](https://github.com/aeon-php/calendar/pull/66) - **Added distance to method to Day/Month/Year/DateTime** - [@norberttech]
 - [#64](https://github.com/aeon-php/calendar/pull/64) - **Added possibility to setTime on Day in order to create DateTime** - [@norberttech](https://github.com/norberttech)
 - [#63](https://github.com/aeon-php/calendar/pull/63) - **TimeUnit added modulo and isZero methods** - [@norberttech](https://github.com/norberttech)
 
 ### Changed
+- [#67](https://github.com/aeon-php/calendar/pull/67) - **Unified Day/Month/Year and DateTime interval method** - [@norberttech](https://github.com/norberttech)
 - [#63](https://github.com/aeon-php/calendar/pull/63) - **Unified TimeUnit multiply/divide arguments** - [@norberttech](https://github.com/norberttech)
 
 ## [0.6.0] - 2020-09-04
