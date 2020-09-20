@@ -185,6 +185,11 @@ final class MonthTest extends TestCase
         $this->assertTrue(Month::fromString('2020-12-24')->isEqual($month));
     }
 
+    public function test_distance_to() : void
+    {
+        $this->assertSame(31, Month::create(2020, 01)->distance(Month::create(2020, 02))->inDays());
+    }
+
     public function test_quarter() : void
     {
         $this->assertSame(1, Month::fromString('2020-01-01')->quarter()->number());

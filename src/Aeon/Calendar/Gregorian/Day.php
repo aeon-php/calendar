@@ -345,6 +345,11 @@ final class Day
         );
     }
 
+    public function distance(self $to) : TimeUnit
+    {
+        return (new TimePeriod($this->midnight(TimeZone::UTC()), $to->midnight(TimeZone::UTC())))->distance();
+    }
+
     public function quarter() : Quarter
     {
         return $this->year()->quarter((int) \ceil($this->month()->number() / 3));
