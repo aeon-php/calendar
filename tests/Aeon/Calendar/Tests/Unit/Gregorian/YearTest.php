@@ -219,6 +219,11 @@ final class YearTest extends TestCase
         (new Year(2020))->quarter(5);
     }
 
+    public function test_distance_to() : void
+    {
+        $this->assertSame(366, (new Year(2020))->distance(new Year(2021))->inDays());
+    }
+
     public function test_quarters() : void
     {
         $this->assertSame(1, (new Year(2020))->quarter(1)->number());

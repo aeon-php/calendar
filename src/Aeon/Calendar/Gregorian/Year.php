@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Aeon\Calendar\Gregorian;
 
 use Aeon\Calendar\Exception\InvalidArgumentException;
+use Aeon\Calendar\TimeUnit;
 
 /**
  * @psalm-immutable
@@ -299,5 +300,10 @@ final class Year
                 )
             )
         );
+    }
+
+    public function distance(self $to) : TimeUnit
+    {
+        return (new TimePeriod($this->january()->firstDay()->midnight(TimeZone::UTC()), $to->january()->firstDay()->midnight(TimeZone::UTC())))->distance();
     }
 }

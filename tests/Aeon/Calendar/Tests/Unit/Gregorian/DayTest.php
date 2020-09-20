@@ -264,6 +264,11 @@ final class DayTest extends TestCase
         $this->assertTrue(Day::fromString('2020-12-24')->isEqual($day));
     }
 
+    public function test_distance_to() : void
+    {
+        $this->assertSame(9, Day::create(2020, 01, 01)->distance(Day::create(2020, 01, 10))->inDays());
+    }
+
     public function test_quarter() : void
     {
         $this->assertSame(1, Day::fromString('2020-01-01')->quarter()->number());

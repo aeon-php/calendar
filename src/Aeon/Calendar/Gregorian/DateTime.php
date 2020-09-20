@@ -503,6 +503,11 @@ final class DateTime
         return new TimePeriod($dateTime, $this);
     }
 
+    public function distance(self $dateTime) : TimeUnit
+    {
+        return $this->until($dateTime)->distance();
+    }
+
     public function distanceSince(self $dateTime) : TimeUnit
     {
         return $this->since($dateTime)->distance();

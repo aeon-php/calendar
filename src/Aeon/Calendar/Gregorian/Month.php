@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Aeon\Calendar\Gregorian;
 
 use Aeon\Calendar\Exception\InvalidArgumentException;
+use Aeon\Calendar\TimeUnit;
 
 /**
  * @psalm-immutable
@@ -280,6 +281,11 @@ final class Month
         }
 
         return $this->number() >= $month->number();
+    }
+
+    public function distance(self $to) : TimeUnit
+    {
+        return (new TimePeriod($this->firstDay()->midnight(TimeZone::UTC()), $to->firstDay()->midnight(TimeZone::UTC())))->distance();
     }
 
     public function quarter() : Quarter
