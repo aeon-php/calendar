@@ -19,21 +19,25 @@ final class RelativeTimeUnit implements Unit
         $this->years = $years;
     }
 
+    /** @psalm-pure */
     public static function month() : self
     {
         return new self(1, null);
     }
 
+    /** @psalm-pure */
     public static function months(int $number) : self
     {
         return new self($number, null);
     }
 
+    /** @psalm-pure */
     public static function years(int $number) : self
     {
         return new self(null, $number);
     }
 
+    /** @psalm-pure */
     public static function year() : self
     {
         return new self(null, 1);

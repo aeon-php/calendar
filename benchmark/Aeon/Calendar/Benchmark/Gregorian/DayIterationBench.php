@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Aeon\Calendar\Benchmark\Gregorian;
 
 use Aeon\Calendar\Gregorian\GregorianCalendar;
+use Aeon\Calendar\Gregorian\Interval;
 use Aeon\Calendar\Gregorian\TimePeriod;
 use Aeon\Calendar\Gregorian\TimeZone;
 
@@ -21,7 +22,7 @@ final class DayIterationBench
         $start = $end->minusMonths(6);
 
         for ($index = 0; $index < 20; $index++) {
-            foreach ($start->until($end)->all() as $nextDay) {
+            foreach ($start->until($end, Interval::closed())->all() as $nextDay) {
                 (new TimePeriod($nextDay->midnight($tz = TimeZone::UTC()), $nextDay->next()->midnight($tz)))
                     ->overlaps(new TimePeriod($nextDay->midnight($tz), $nextDay->previous()->midnight($tz)));
             }

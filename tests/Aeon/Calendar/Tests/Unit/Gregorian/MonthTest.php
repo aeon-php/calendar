@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Aeon\Calendar\Tests\Unit\Gregorian;
 
 use Aeon\Calendar\Exception\InvalidArgumentException;
+use Aeon\Calendar\Gregorian\Interval;
 use Aeon\Calendar\Gregorian\Month;
 use Aeon\Calendar\Gregorian\Year;
 use PHPUnit\Framework\TestCase;
@@ -119,19 +120,19 @@ final class MonthTest extends TestCase
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('January 2020 is after January 2019');
-        Month::fromString('2020-01-01')->until(Month::fromString('2019-01-01'));
+        Month::fromString('2020-01-01')->until(Month::fromString('2019-01-01'), Interval::rightOpen());
     }
 
     public function test_since_with_wrong_destination_month() : void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('January 2019 is before January 2020');
-        Month::fromString('2019-01-01')->since(Month::fromString('2020-01-01'));
+        Month::fromString('2019-01-01')->since(Month::fromString('2020-01-01'), Interval::leftOpen());
     }
 
     public function test_until() : void
     {
-        $this->assertCount(12, $months = Month::fromString('2020-01-01')->until(Month::fromString('2021-01-01')));
+        $this->assertCount(12, $months = Month::fromString('2020-01-01')->until(Month::fromString('2021-01-01'), Interval::rightOpen()));
         $this->assertInstanceOf(Month::class, $months[0]);
         $this->assertInstanceOf(Month::class, $months[11]);
         $this->assertSame('January', $months[0]->name());
@@ -140,7 +141,7 @@ final class MonthTest extends TestCase
 
     public function test_since() : void
     {
-        $this->assertCount(12, $months = Month::fromString('2022-01-01')->since(Month::fromString('2021-01-01')));
+        $this->assertCount(12, $months = Month::fromString('2022-01-01')->since(Month::fromString('2021-01-01'), Interval::leftOpen()));
         $this->assertInstanceOf(Month::class, $months[0]);
         $this->assertInstanceOf(Month::class, $months[11]);
         $this->assertSame('January', $months[11]->name());
@@ -149,7 +150,7 @@ final class MonthTest extends TestCase
 
     public function test_iterate_until() : void
     {
-        $this->assertCount(12, $months = Month::fromString('2020-01-01')->iterate(Month::fromString('2021-01-01')));
+        $this->assertCount(12, $months = Month::fromString('2020-01-01')->iterate(Month::fromString('2021-01-01'), Interval::rightOpen()));
         $this->assertInstanceOf(Month::class, $months[0]);
         $this->assertInstanceOf(Month::class, $months[11]);
         $this->assertSame('January', $months[0]->name());
@@ -158,7 +159,7 @@ final class MonthTest extends TestCase
 
     public function test_iterate_since() : void
     {
-        $this->assertCount(12, $months = Month::fromString('2022-01-01')->iterate(Month::fromString('2021-01-01')));
+        $this->assertCount(12, $months = Month::fromString('2022-01-01')->iterate(Month::fromString('2021-01-01'), Interval::leftOpen()));
         $this->assertInstanceOf(Month::class, $months[0]);
         $this->assertInstanceOf(Month::class, $months[11]);
         $this->assertSame('January', $months[11]->name());
