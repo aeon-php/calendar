@@ -6,6 +6,7 @@ namespace Aeon\Calendar\Tests\Unit\Gregorian;
 
 use Aeon\Calendar\Exception\InvalidArgumentException;
 use Aeon\Calendar\Gregorian\Day;
+use Aeon\Calendar\Gregorian\Interval;
 use Aeon\Calendar\Gregorian\Year;
 use PHPUnit\Framework\TestCase;
 
@@ -150,14 +151,14 @@ final class YearTest extends TestCase
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('2020 is after 2019');
-        Year::fromString('2020-01-01')->until(Year::fromString('2019-01-01'));
+        Year::fromString('2020-01-01')->until(Year::fromString('2019-01-01'), Interval::rightOpen());
     }
 
     public function test_since_with_wrong_destination_month() : void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('2019 is before 2020');
-        Year::fromString('2019-01-01')->since(Year::fromString('2020-01-01'));
+        Year::fromString('2019-01-01')->since(Year::fromString('2020-01-01'), Interval::rightOpen());
     }
 
     public function test_modify_months() : void
@@ -169,7 +170,7 @@ final class YearTest extends TestCase
 
     public function test_until() : void
     {
-        $this->assertCount(5, $years = Year::fromString('2020-01-01')->until(Year::fromString('2025-01-01')));
+        $this->assertCount(5, $years = Year::fromString('2020-01-01')->until(Year::fromString('2025-01-01'), Interval::rightOpen()));
         $this->assertInstanceOf(Year::class, $years[0]);
         $this->assertInstanceOf(Year::class, $years[4]);
         $this->assertSame(2020, $years[0]->number());
@@ -178,7 +179,7 @@ final class YearTest extends TestCase
 
     public function test_since() : void
     {
-        $this->assertCount(5, $years = Year::fromString('2025-01-01')->since(Year::fromString('2020-01-01')));
+        $this->assertCount(5, $years = Year::fromString('2025-01-01')->since(Year::fromString('2020-01-01'), Interval::leftOpen()));
         $this->assertInstanceOf(Year::class, $years[0]);
         $this->assertInstanceOf(Year::class, $years[4]);
         $this->assertSame(2020, $years[4]->number());
@@ -187,7 +188,7 @@ final class YearTest extends TestCase
 
     public function test_iterate_until() : void
     {
-        $this->assertCount(5, $years = Year::fromString('2020-01-01')->iterate(Year::fromString('2025-01-01')));
+        $this->assertCount(5, $years = Year::fromString('2020-01-01')->iterate(Year::fromString('2025-01-01'), Interval::rightOpen()));
         $this->assertInstanceOf(Year::class, $years[0]);
         $this->assertInstanceOf(Year::class, $years[4]);
         $this->assertSame(2020, $years[0]->number());
@@ -196,7 +197,7 @@ final class YearTest extends TestCase
 
     public function test_iterate_since() : void
     {
-        $this->assertCount(5, $years = Year::fromString('2025-01-01')->iterate(Year::fromString('2020-01-01')));
+        $this->assertCount(5, $years = Year::fromString('2025-01-01')->iterate(Year::fromString('2020-01-01'), Interval::leftOpen()));
         $this->assertInstanceOf(Year::class, $years[0]);
         $this->assertInstanceOf(Year::class, $years[4]);
         $this->assertSame(2020, $years[4]->number());

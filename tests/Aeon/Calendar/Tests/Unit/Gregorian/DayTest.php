@@ -6,6 +6,7 @@ namespace Aeon\Calendar\Tests\Unit\Gregorian;
 
 use Aeon\Calendar\Exception\InvalidArgumentException;
 use Aeon\Calendar\Gregorian\Day;
+use Aeon\Calendar\Gregorian\Interval;
 use Aeon\Calendar\Gregorian\Month;
 use Aeon\Calendar\Gregorian\Time;
 use Aeon\Calendar\Gregorian\TimeZone;
@@ -203,19 +204,19 @@ final class DayTest extends TestCase
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('1 January 2020 is after 1 January 2019');
-        Day::fromString('2020-01-01')->until(Day::fromString('2019-01-01'));
+        Day::fromString('2020-01-01')->until(Day::fromString('2019-01-01'), Interval::rightOpen());
     }
 
     public function test_since_with_wrong_destination_month() : void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('1 January 2019 is before 1 January 2020');
-        Day::fromString('2019-01-01')->since(Day::fromString('2020-01-01'));
+        Day::fromString('2019-01-01')->since(Day::fromString('2020-01-01'), Interval::rightOpen());
     }
 
     public function test_until() : void
     {
-        $this->assertCount(5, $days = Day::fromString('2020-01-01')->until(Day::fromString('2020-01-06')));
+        $this->assertCount(5, $days = Day::fromString('2020-01-01')->until(Day::fromString('2020-01-06'), Interval::rightOpen()));
         $this->assertInstanceOf(Day::class, $days[0]);
         $this->assertInstanceOf(Day::class, $days[4]);
         $this->assertSame(1, $days[0]->number());
@@ -224,7 +225,7 @@ final class DayTest extends TestCase
 
     public function test_since() : void
     {
-        $this->assertCount(5, $months = Day::fromString('2020-01-06')->since(Day::fromString('2020-01-01')));
+        $this->assertCount(5, $months = Day::fromString('2020-01-06')->since(Day::fromString('2020-01-01'), Interval::leftOpen()));
         $this->assertInstanceOf(Day::class, $months[0]);
         $this->assertInstanceOf(Day::class, $months[4]);
         $this->assertSame(5, $months[0]->number());
@@ -233,7 +234,7 @@ final class DayTest extends TestCase
 
     public function test_iterate_until() : void
     {
-        $this->assertCount(5, $days = Day::fromString('2020-01-01')->iterate(Day::fromString('2020-01-06')));
+        $this->assertCount(5, $days = Day::fromString('2020-01-01')->iterate(Day::fromString('2020-01-06'), Interval::rightOpen()));
         $this->assertInstanceOf(Day::class, $days[0]);
         $this->assertInstanceOf(Day::class, $days[4]);
         $this->assertSame(1, $days[0]->number());
@@ -242,7 +243,7 @@ final class DayTest extends TestCase
 
     public function test_iterate_since() : void
     {
-        $this->assertCount(5, $days = Day::fromString('2020-01-06')->iterate(Day::fromString('2020-01-01')));
+        $this->assertCount(5, $days = Day::fromString('2020-01-06')->iterate(Day::fromString('2020-01-01'), Interval::leftOpen()));
         $this->assertInstanceOf(Day::class, $days[0]);
         $this->assertInstanceOf(Day::class, $days[4]);
         $this->assertSame(5, $days[0]->number());
