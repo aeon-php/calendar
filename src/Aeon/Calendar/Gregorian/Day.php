@@ -76,6 +76,11 @@ final class Day
         ];
     }
 
+    public function toString() : string
+    {
+        return $this->format('Y-m-d');
+    }
+
     public function timeBetween(self $day) : TimeUnit
     {
         return TimeUnit::seconds(\abs(($this->toDateTimeImmutable()->getTimestamp() - $day->toDateTimeImmutable()->getTimestamp())));

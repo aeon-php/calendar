@@ -72,6 +72,11 @@ final class Month
         ];
     }
 
+    public function toString() : string
+    {
+        return $this->toDateTimeImmutable()->format('Y-m');
+    }
+
     public function previous() : self
     {
         return self::fromDateTime($this->toDateTimeImmutable()->modify('-1 month'));
