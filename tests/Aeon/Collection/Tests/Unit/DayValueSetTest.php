@@ -196,4 +196,223 @@ final class DayValueSetTest extends TestCase
 
         $this->assertFalse($set->get(Day::fromString('2020-01-10')));
     }
+
+    public function test_take() : void
+    {
+        $set = new DayValueSet(
+            new DayValue(Day::fromString('2020-01-01'), 10),
+            new DayValue(Day::fromString('2020-01-02'), 20),
+            new DayValue(Day::fromString('2020-01-03'), 30),
+            new DayValue(Day::fromString('2020-01-04'), 40),
+        );
+
+        $this->assertEquals(
+            new DayValueSet(
+                new DayValue(Day::fromString('2020-01-01'), 10),
+                new DayValue(Day::fromString('2020-01-02'), 20),
+            ),
+            $set->take(2)
+        );
+    }
+
+    public function test_take_more_than_available() : void
+    {
+        $set = new DayValueSet(
+            new DayValue(Day::fromString('2020-01-01'), 10),
+            new DayValue(Day::fromString('2020-01-02'), 20),
+            new DayValue(Day::fromString('2020-01-03'), 30),
+            new DayValue(Day::fromString('2020-01-04'), 40),
+        );
+
+        $this->assertEquals(
+            new DayValueSet(
+                new DayValue(Day::fromString('2020-01-01'), 10),
+                new DayValue(Day::fromString('2020-01-02'), 20),
+                new DayValue(Day::fromString('2020-01-03'), 30),
+                new DayValue(Day::fromString('2020-01-04'), 40),
+            ),
+            $set->take(6)
+        );
+    }
+
+    public function test_take_negative_days() : void
+    {
+        $set = new DayValueSet(
+            new DayValue(Day::fromString('2020-01-01'), 10),
+            new DayValue(Day::fromString('2020-01-02'), 20),
+            new DayValue(Day::fromString('2020-01-03'), 30),
+            new DayValue(Day::fromString('2020-01-04'), 40),
+        );
+
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Take does not accept negative number of days');
+
+        $set->take(-1);
+    }
+
+    public function test_take_zero_days() : void
+    {
+        $set = new DayValueSet(
+            new DayValue(Day::fromString('2020-01-01'), 10),
+            new DayValue(Day::fromString('2020-01-02'), 20),
+            new DayValue(Day::fromString('2020-01-03'), 30),
+            new DayValue(Day::fromString('2020-01-04'), 40),
+        );
+
+        $this->assertEquals(
+            new DayValueSet(),
+            $set->take(0)
+        );
+    }
+
+    public function test_slice() : void
+    {
+        $set = new DayValueSet(
+            new DayValue(Day::fromString('2020-01-01'), 10),
+            new DayValue(Day::fromString('2020-01-02'), 20),
+            new DayValue(Day::fromString('2020-01-03'), 30),
+            new DayValue(Day::fromString('2020-01-04'), 40),
+        );
+
+        $this->assertEquals(
+            new DayValueSet(
+                new DayValue(Day::fromString('2020-01-02'), 20),
+                new DayValue(Day::fromString('2020-01-03'), 30),
+            ),
+            $set->slice(1, 2)
+        );
+    }
+
+    public function test_slice_more_than_available() : void
+    {
+        $set = new DayValueSet(
+            new DayValue(Day::fromString('2020-01-01'), 10),
+            new DayValue(Day::fromString('2020-01-02'), 20),
+            new DayValue(Day::fromString('2020-01-03'), 30),
+            new DayValue(Day::fromString('2020-01-04'), 40),
+        );
+
+        $this->assertEquals(
+            new DayValueSet(
+                new DayValue(Day::fromString('2020-01-01'), 10),
+                new DayValue(Day::fromString('2020-01-02'), 20),
+                new DayValue(Day::fromString('2020-01-03'), 30),
+                new DayValue(Day::fromString('2020-01-04'), 40),
+            ),
+            $set->slice(0, 10)
+        );
+    }
+
+    public function test_slice_with_zero_offset_and_zero_days() : void
+    {
+        $set = new DayValueSet(
+            new DayValue(Day::fromString('2020-01-01'), 10),
+            new DayValue(Day::fromString('2020-01-02'), 20),
+            new DayValue(Day::fromString('2020-01-03'), 30),
+            new DayValue(Day::fromString('2020-01-04'), 40),
+        );
+
+        $this->assertEquals(
+            new DayValueSet(),
+            $set->slice(0, 0)
+        );
+    }
+
+    public function test_slice_negative_days() : void
+    {
+        $set = new DayValueSet(
+            new DayValue(Day::fromString('2020-01-01'), 10),
+            new DayValue(Day::fromString('2020-01-02'), 20),
+            new DayValue(Day::fromString('2020-01-03'), 30),
+            new DayValue(Day::fromString('2020-01-04'), 40),
+        );
+
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Slice does not accept negative days');
+
+        $set->slice(0, -1);
+    }
+
+    public function test_slice_negative_offset() : void
+    {
+        $set = new DayValueSet(
+            new DayValue(Day::fromString('2020-01-01'), 10),
+            new DayValue(Day::fromString('2020-01-02'), 20),
+            new DayValue(Day::fromString('2020-01-03'), 30),
+            new DayValue(Day::fromString('2020-01-04'), 40),
+        );
+
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Slice does not accept negative offset');
+
+        $set->slice(-1, 5);
+    }
+
+    public function test_drop() : void
+    {
+        $set = new DayValueSet(
+            new DayValue(Day::fromString('2020-01-01'), 10),
+            new DayValue(Day::fromString('2020-01-02'), 20),
+            new DayValue(Day::fromString('2020-01-03'), 30),
+            new DayValue(Day::fromString('2020-01-04'), 40),
+        );
+
+        $this->assertEquals(
+            new DayValueSet(
+                new DayValue(Day::fromString('2020-01-03'), 30),
+                new DayValue(Day::fromString('2020-01-04'), 40),
+            ),
+            $set->drop(2)
+        );
+    }
+
+    public function test_drop_zero_offset() : void
+    {
+        $set = new DayValueSet(
+            new DayValue(Day::fromString('2020-01-01'), 10),
+            new DayValue(Day::fromString('2020-01-02'), 20),
+            new DayValue(Day::fromString('2020-01-03'), 30),
+            new DayValue(Day::fromString('2020-01-04'), 40),
+        );
+
+        $this->assertEquals(
+            new DayValueSet(
+                new DayValue(Day::fromString('2020-01-01'), 10),
+                new DayValue(Day::fromString('2020-01-02'), 20),
+                new DayValue(Day::fromString('2020-01-03'), 30),
+                new DayValue(Day::fromString('2020-01-04'), 40),
+            ),
+            $set->drop(0)
+        );
+    }
+
+    public function test_drop_negative_offset() : void
+    {
+        $set = new DayValueSet(
+            new DayValue(Day::fromString('2020-01-01'), 10),
+            new DayValue(Day::fromString('2020-01-02'), 20),
+            new DayValue(Day::fromString('2020-01-03'), 30),
+            new DayValue(Day::fromString('2020-01-04'), 40),
+        );
+
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Drop does not accept negative offset');
+
+        $set->drop(-1);
+    }
+
+    public function test_drop_more_than_available() : void
+    {
+        $set = new DayValueSet(
+            new DayValue(Day::fromString('2020-01-01'), 10),
+            new DayValue(Day::fromString('2020-01-02'), 20),
+            new DayValue(Day::fromString('2020-01-03'), 30),
+            new DayValue(Day::fromString('2020-01-04'), 40),
+        );
+
+        $this->assertEquals(
+            new DayValueSet(),
+            $set->drop(10)
+        );
+    }
 }

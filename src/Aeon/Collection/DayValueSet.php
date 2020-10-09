@@ -232,4 +232,44 @@ final class DayValueSet implements \Countable
 
         return new self(...\array_values($values));
     }
+
+    /**
+     * A form of slice that returns the first n elements.
+     */
+    public function take(int $days) : self
+    {
+        if ($days < 0) {
+            throw new InvalidArgumentException('Take does not accept negative number of days');
+        }
+
+        return new self(...\array_values(\array_slice($this->dayValues, 0, $days)));
+    }
+
+    /**
+     * Return a sub-sequence of the set between the given offset and given number of days.
+     */
+    public function slice(int $offset, int $days) : self
+    {
+        if ($offset < 0) {
+            throw new InvalidArgumentException('Slice does not accept negative offset');
+        }
+
+        if ($days < 0) {
+            throw new InvalidArgumentException('Slice does not accept negative days');
+        }
+
+        return new self(...\array_values(\array_slice($this->dayValues, $offset, $days)));
+    }
+
+    /**
+     * A form of slice that returns all but the first n elements.
+     */
+    public function drop(int $offset) : self
+    {
+        if ($offset < 0) {
+            throw new InvalidArgumentException('Drop does not accept negative offset');
+        }
+
+        return new self(...\array_values(\array_slice($this->dayValues, $offset, \count($this->dayValues))));
+    }
 }
