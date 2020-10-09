@@ -50,6 +50,11 @@ final class Year
         ];
     }
 
+    public function toString() : string
+    {
+        return (string) $this->year;
+    }
+
     public function january() : Month
     {
         return $this->months()->byNumber(1);

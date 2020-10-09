@@ -30,6 +30,7 @@
         "psr-4": {
             "Aeon\\Calendar\\Tests\\": "tests/Aeon/Calendar/Tests/",
             "Aeon\\Calculator\\Tests\\": "tests/Aeon/Calculator/Tests/",
+            "Aeon\\Collection\\Tests\\": "tests/Aeon/Collection/Tests/",
             "Aeon\\Calendar\\Benchmark\\": "benchmark/Aeon/Calendar/Benchmark/"
         }
     },

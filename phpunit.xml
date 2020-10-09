@@ -23,6 +23,7 @@
         <testsuite name="unit">
             <directory suffix=".php">tests/Aeon/Calendar/Tests/Unit</directory>
             <directory suffix=".php">tests/Aeon/Calculator/Tests/Unit</directory>
+            <directory suffix=".php">tests/Aeon/Collection/Tests/Unit</directory>
         </testsuite>
     </testsuites>
 </phpunit>

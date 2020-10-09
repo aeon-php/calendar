@@ -49,6 +49,14 @@ final class DayTest extends TestCase
         );
     }
 
+    public function test_to_string() : void
+    {
+        $this->assertSame(
+            '2020-01-01',
+            Day::fromString('2020-01-01')->toString()
+        );
+    }
+
     public function test_midnight() : void
     {
         $day = Day::fromString('2020-01-01');

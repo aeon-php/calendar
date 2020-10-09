@@ -52,9 +52,11 @@ final class Days implements \ArrayAccess, \Countable, \IteratorAggregate
     }
 
     /**
-     * @param callable(Day $day) : mixed $iterator
+     * @psalm-template MapResultType
      *
-     * @return array<mixed>
+     * @param callable(Day $day) : MapResultType $iterator
+     *
+     * @return array<MapResultType>
      */
     public function map(callable $iterator) : array
     {

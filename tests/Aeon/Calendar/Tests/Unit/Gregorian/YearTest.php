@@ -72,6 +72,14 @@ final class YearTest extends TestCase
         );
     }
 
+    public function test_to_string() : void
+    {
+        $this->assertSame(
+            '2020',
+            Year::fromString('2020-01-01')->toString()
+        );
+    }
+
     public function test_map_days() : void
     {
         $days = (new Year(2020))->mapDays(fn (Day $day) : int => $day->number());
