@@ -9,14 +9,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.8.0] - 2020-10-11
 ### Added
-- [#68](https://github.com/aeon-php/calendar/pull/68) - **DayValue Set collection** - [@norberttech]
+- [#68](https://github.com/aeon-php/calendar/pull/68) - **DayValue Set collection** - [@norberttech](https://github.com/norberttech)
 
 ### Fixed
-- [#69](https://github.com/aeon-php/calendar/pull/69) - **Replaced DateTime offset assertion with offset correction** - [@norberttech]
+- [#69](https://github.com/aeon-php/calendar/pull/69) - **Replaced DateTime offset assertion with offset correction** - [@norberttech](https://github.com/norberttech)
 
 ## [0.7.0] - 2020-09-20
 ### Added
-- [#66](https://github.com/aeon-php/calendar/pull/66) - **Added distance to method to Day/Month/Year/DateTime** - [@norberttech]
+- [#66](https://github.com/aeon-php/calendar/pull/66) - **Added distance to method to Day/Month/Year/DateTime** - [@norberttech](https://github.com/norberttech)
 - [#64](https://github.com/aeon-php/calendar/pull/64) - **Added possibility to setTime on Day in order to create DateTime** - [@norberttech](https://github.com/norberttech)
 - [#63](https://github.com/aeon-php/calendar/pull/63) - **TimeUnit added modulo and isZero methods** - [@norberttech](https://github.com/norberttech)
 
