@@ -23,6 +23,8 @@ final class DateTime
 
     private TimeOffset $timeOffset;
 
+    private \DateTimeImmutable $dateTimeImmutable;
+
     private int $unixTimestamp;
 
     /**
@@ -32,41 +34,32 @@ final class DateTime
      */
     public function __construct(Day $day, Time $time, ?TimeZone $timeZone = null, ?TimeOffset $timeOffset = null)
     {
-        if ($timeZone !== null && $timeOffset !== null) {
-            if ($timeZone->toDateTimeZone()->getOffset(
-                $day->toDateTimeImmutable()
-                        ->setTimeZone($timeZone->toDateTimeZone())
-                        ->setTime($time->hour(), $time->minute(), $time->second())
-            ) !== $timeOffset->toTimeUnit()->inSeconds()) {
-                throw new InvalidArgumentException(\sprintf(
-                    'TimeOffset %s does not match TimeZone %s at %s',
-                    $timeOffset->toString(),
-                    $timeZone->name(),
-                    $day->toDateTimeImmutable()->setTimeZone($timeZone->toDateTimeZone())->setTime($time->hour(), $time->minute(), $time->second())->format('Y-m-d H:i:s')
-                ));
-            }
-        }
-
         $this->day = $day;
         $this->time = $time;
-        $this->timeZone = $timeZone !== null
-            ? $timeZone
-            : (($timeOffset !== null && $timeOffset->isUTC()) ? TimeZone::UTC() : null);
+        $this->timeZone = $timeZone;
 
-        $this->timeOffset = $timeOffset !== null
-            ? $timeOffset
-            : (
-                $timeZone !== null
-                ? ($timeZone->name() === 'UTC' ? TimeOffset::UTC() : $timeZone->timeOffset($this))
-                : TimeOffset::UTC()
-            );
+        $this->dateTimeImmutable = new \DateTimeImmutable(
+            \sprintf(
+                '%d-%02d-%02d %02d:%02d:%02d.%06d%s',
+                $this->day->year()->number(),
+                $this->day->month()->number(),
+                $this->day->number(),
+                $this->time->hour(),
+                $this->time->minute(),
+                $this->time->second(),
+                $this->time->microsecond(),
+                ($this->timeZone === null && $timeOffset !== null) ? $timeOffset->toString() : ''
+            ),
+            ($this->timeZone === null) ? null : $this->timeZone->toDateTimeZone()
+        );
+        $this->unixTimestamp = $this->dateTimeImmutable->getTimestamp();
 
-        $dateTimeImmutable = $this->toDateTimeImmutable();
+        $this->timeOffset = $timeOffset === null
+            ? TimeOffset::fromTimeUnit(TimeUnit::seconds($this->dateTimeImmutable->getOffset()))
+            : $timeOffset;
 
-        $this->unixTimestamp = $dateTimeImmutable->getTimestamp();
-
-        if ($this->time->toString() !== $dateTimeImmutable->format('H:i:s.u')) {
-            $this->time = Time::fromDateTime($this->toDateTimeImmutable());
+        if ($this->timeZone !== null) {
+            $this->timeOffset = $this->timeZone->timeOffset($this);
         }
     }
 
@@ -182,23 +175,7 @@ final class DateTime
 
     public function toDateTimeImmutable() : \DateTimeImmutable
     {
-        $tz = $this->timeZone();
-
-        return new \DateTimeImmutable(
-            \sprintf(
-                '%d-%d-%d %d:%d:%d.%06d',
-                $this->day->year()->number(),
-                $this->day->month()->number(),
-                $this->day->number(),
-                $this->time->hour(),
-                $this->time->minute(),
-                $this->time->second(),
-                $this->time->microsecond()
-            ),
-            $tz !== null
-                ? $tz->toDateTimeZone()
-                : $this->timeOffset()->toDateTimeZone()
-        );
+        return $this->dateTimeImmutable;
     }
 
     public function toAtomicTime() : self

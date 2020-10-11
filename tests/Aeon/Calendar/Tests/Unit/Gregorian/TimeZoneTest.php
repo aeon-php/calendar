@@ -39,4 +39,9 @@ final class TimeZoneTest extends TestCase
         $this->assertTrue(TimeZone::isValid(TimeZone::AMERICA_GODTHAB));
         $this->assertTrue(TimeZone::isValid(TimeZone::PACIFIC_JOHNSTON));
     }
+
+    public function test_all_timezones() : void
+    {
+        $this->assertCount(418, TimeZone::all());
+    }
 }
