@@ -10,6 +10,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - [#68](https://github.com/aeon-php/calendar/pull/68) - **DayValue Set collection** - [@norberttech]
 
+### Fixed
+- [#69](https://github.com/aeon-php/calendar/pull/69) - **Replaced DateTime offset assertion with offset correction** - [@norberttech]
+
 ## [0.7.0] - 2020-09-20
 ### Added
 - [#66](https://github.com/aeon-php/calendar/pull/66) - **Added distance to method to Day/Month/Year/DateTime** - [@norberttech]
