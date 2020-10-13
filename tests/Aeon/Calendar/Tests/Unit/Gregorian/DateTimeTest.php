@@ -710,6 +710,21 @@ final class DateTimeTest extends TestCase
         $this->assertSame('UTC', $timeZone->name());
     }
 
+    public function test_timezone_when_not_explicitly_provided_with_zero_offset_explicitly_provided() : void
+    {
+        $timeZone = DateTime::fromString('2020-03-29 00:00:00+00:00')->timeZone();
+
+        $this->assertInstanceOf(TimeZone::class, $timeZone);
+        $this->assertSame('UTC', $timeZone->name());
+    }
+
+    public function test_timezone_when_not_explicitly_provided_with_non_zero_offset_explicitly_provided() : void
+    {
+        $timeZone = DateTime::fromString('2020-03-29 00:00:00+01:00')->timeZone();
+
+        $this->assertNull($timeZone);
+    }
+
     public function test_time_offset_when_not_explicitly_provided() : void
     {
         $this->assertSame('+00:00', DateTime::fromString('2020-03-29 00:00:00')->timeOffset()->toString());

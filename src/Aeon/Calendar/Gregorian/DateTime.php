@@ -28,7 +28,9 @@ final class DateTime
     private int $unixTimestamp;
 
     /**
-     * TimeZone is optional, if not provided it will be set to UTC.
+     * TimeZone is optional, if not provided it will be set to UTC as long, as TimeOffset is zero,
+     * or remain null otherwise.
+     *
      * DateTime always has TimeOffset but when not provided it's calculated from offset and when
      * offset is not provided is set to UTC.
      */
@@ -60,6 +62,8 @@ final class DateTime
 
         if ($this->timeZone !== null) {
             $this->timeOffset = $this->timeZone->timeOffset($this);
+        } elseif ($this->timeOffset->isUTC()) {
+            $this->timeZone = TimeZone::UTC();
         }
     }
 
