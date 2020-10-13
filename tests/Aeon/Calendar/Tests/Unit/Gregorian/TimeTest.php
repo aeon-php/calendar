@@ -36,6 +36,11 @@ final class TimeTest extends TestCase
         $this->assertSame('00:00:00.000000', (new Time(0, 0, 0, 0))->toString());
     }
 
+    public function test_format() : void
+    {
+        $this->assertSame('23 59 59', (new Time(23, 59, 59, 599999))->format('H i s'));
+    }
+
     public function test_is_am() : void
     {
         $this->assertTrue((new Time(0, 0, 0, 0))->isAM());

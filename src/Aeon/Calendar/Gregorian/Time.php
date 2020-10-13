@@ -79,6 +79,11 @@ final class Time
         ];
     }
 
+    public function format(string $format) : string
+    {
+        return $this->toDateTimeImmutable()->format($format);
+    }
+
     public function toTimeUnit() : TimeUnit
     {
         return TimeUnit::positive($this->second(), $this->microsecond())
