@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+## [0.9.0] - 2020-10-13
+### Added
+- [#70](https://github.com/aeon-php/calendar/pull/70) - **Added possibility to format Time** - [@norberttech](https://github.com/norberttech)
+
 ## [0.8.0] - 2020-10-11
 ### Added
 - [#68](https://github.com/aeon-php/calendar/pull/68) - **DayValue Set collection** - [@norberttech](https://github.com/norberttech)
