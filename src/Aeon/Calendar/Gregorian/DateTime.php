@@ -42,6 +42,10 @@ final class DateTime
         if ($this->timeZone !== null) {
             $this->timeOffset = $this->timeZone->timeOffset($this);
         }
+
+        if ($this->timeZone === null && $this->timeOffset->isUTC()) {
+            $this->timeZone = TimeZone::UTC();
+        }
     }
 
     /**

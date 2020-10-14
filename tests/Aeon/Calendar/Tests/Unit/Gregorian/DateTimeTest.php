@@ -91,6 +91,18 @@ final class DateTimeTest extends TestCase
         );
     }
 
+    public function test_create_without_timezone() : void
+    {
+        $this->assertSame(
+            '+00:00',
+            (new DateTime(new Day(new Month(new Year(2020), 1), 1), new Time(0, 0, 0)))->timeOffset()->toString()
+        );
+        $this->assertSame(
+            'UTC',
+            (new DateTime(new Day(new Month(new Year(2020), 1), 1), new Time(0, 0, 0)))->timeZone()->name()
+        );
+    }
+
     public function test_create_from_string_without_offset_and_timezone() : void
     {
         $this->assertSame(
@@ -143,14 +155,14 @@ final class DateTimeTest extends TestCase
         $dateTimeCreate = DateTime::create(2020, 01, 01, 00, 00, 00);
         $dateTime = new DateTime(new Day(new Month(new Year(2020), 01), 01), new Time(00, 00, 00));
 
-        $this->assertObjectEquals($dateTime, $dateTimeFromString, 'isEqual');
-        $this->assertObjectEquals($dateTime, $dateTimeFromTimestamp, 'isEqual');
-        $this->assertObjectEquals($dateTime, $dateTimeCreate, 'isEqual');
+        $this->assertTrue($dateTime->isEqual($dateTimeFromString));
+        $this->assertTrue($dateTime->isEqual($dateTimeFromTimestamp));
+        $this->assertTrue($dateTime->isEqual($dateTimeCreate));
 
-        $this->assertObjectEquals($dateTimeFromString, $dateTimeCreate, 'isEqual');
-        $this->assertObjectEquals($dateTimeFromString, $dateTimeFromTimestamp, 'isEqual');
+        $this->assertTrue($dateTimeFromString->isEqual($dateTimeCreate));
+        $this->assertTrue($dateTimeFromString->isEqual($dateTimeFromTimestamp));
 
-        $this->assertObjectEquals($dateTimeFromTimestamp, $dateTimeCreate, 'isEqual');
+        $this->assertTrue($dateTimeFromTimestamp->isEqual($dateTimeCreate));
     }
 
     public function test_compare_source_datetime_immutable_with_converted_one() : void
