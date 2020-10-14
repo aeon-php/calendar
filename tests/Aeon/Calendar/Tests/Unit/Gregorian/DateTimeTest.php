@@ -51,6 +51,22 @@ final class DateTimeTest extends TestCase
         yield ['2020-10-25 01:30:00+02:00', DateTime::fromString('2020-10-25 01:30:00 Europe/Warsaw'), 'Y-m-d H:i:sP'];
     }
 
+    public function test_debug_info() : void
+    {
+        $dateTime = DateTime::fromString('2020-01-01 00:00:00 America/Los_Angeles');
+
+        $this->assertSame(
+            [
+                'datetime' => $dateTime->toISO8601(),
+                'day' => $dateTime->day(),
+                'time' => $dateTime->time(),
+                'offset' => $dateTime->timeOffset(),
+                'timezone' => $dateTime->timeZone(),
+            ],
+            $dateTime->__debugInfo()
+        );
+    }
+
     public function test_create_without_timezone_and_time_offset() : void
     {
         $this->assertSame(
@@ -73,6 +89,107 @@ final class DateTimeTest extends TestCase
             '-03:00',
             (new DateTime(new Day(new Month(new Year(2020), 1), 1), new Time(0, 0, 0), TimeZone::americaFortaleza()))->timeOffset()->toString()
         );
+    }
+
+    public function test_create_without_timezone() : void
+    {
+        $this->assertSame(
+            '+00:00',
+            (new DateTime(new Day(new Month(new Year(2020), 1), 1), new Time(0, 0, 0)))->timeOffset()->toString()
+        );
+        $this->assertSame(
+            'UTC',
+            (new DateTime(new Day(new Month(new Year(2020), 1), 1), new Time(0, 0, 0)))->timeZone()->name()
+        );
+    }
+
+    public function test_create_from_string_without_offset_and_timezone() : void
+    {
+        $this->assertSame(
+            '+00:00',
+            DateTime::fromString('2020-01-01 00:00:00')->timeOffset()->toString()
+        );
+        $this->assertSame(
+            'UTC',
+            DateTime::fromString('2020-01-01 00:00:00')->timeZone()->name()
+        );
+    }
+
+    public function test_create_from_string_with_default_system_timezone() : void
+    {
+        \date_default_timezone_set('Europe/Warsaw');
+
+        $this->assertSame(
+            '+00:00',
+            DateTime::fromString('2020-01-01 00:00:00')->timeOffset()->toString()
+        );
+        $this->assertSame(
+            'UTC',
+            DateTime::fromString('2020-01-01 00:00:00')->timeZone()->name()
+        );
+        $this->assertSame('Europe/Warsaw', \date_default_timezone_get());
+    }
+
+    public function test_create_from_timestamp_with_default_system_timezone() : void
+    {
+        \date_default_timezone_set('Europe/Warsaw');
+
+        $this->assertSame(
+            '+00:00',
+            DateTime::fromTimestampUnix(1577836800)->timeOffset()->toString()
+        );
+        $this->assertSame(
+            'UTC',
+            DateTime::fromTimestampUnix(1577836800)->timeZone()->name()
+        );
+
+        $this->assertSame('Europe/Warsaw', \date_default_timezone_get());
+    }
+
+    public function test_compare_objects_create_through_different_constructors() : void
+    {
+        \date_default_timezone_set('Europe/Warsaw');
+
+        $dateTimeFromString = DateTime::fromString('2020-01-01 00:00:00');
+        $dateTimeFromTimestamp = DateTime::fromTimestampUnix(1577836800);
+        $dateTimeCreate = DateTime::create(2020, 01, 01, 00, 00, 00);
+        $dateTime = new DateTime(new Day(new Month(new Year(2020), 01), 01), new Time(00, 00, 00));
+
+        $this->assertTrue($dateTime->isEqual($dateTimeFromString));
+        $this->assertTrue($dateTime->isEqual($dateTimeFromTimestamp));
+        $this->assertTrue($dateTime->isEqual($dateTimeCreate));
+
+        $this->assertTrue($dateTimeFromString->isEqual($dateTimeCreate));
+        $this->assertTrue($dateTimeFromString->isEqual($dateTimeFromTimestamp));
+
+        $this->assertTrue($dateTimeFromTimestamp->isEqual($dateTimeCreate));
+    }
+
+    public function test_compare_source_datetime_immutable_with_converted_one() : void
+    {
+        $dateTimeImmutable = new \DateTimeImmutable('2020-01-01 00:00:00');
+
+        $dateTime = DateTime::fromDateTime($dateTimeImmutable);
+
+        $this->assertEquals($dateTimeImmutable, $dateTime->toDateTimeImmutable());
+    }
+
+    public function test_compare_source_datetime_immutable_with_timezone_with_converted_one() : void
+    {
+        $dateTimeImmutable = new \DateTimeImmutable('2020-01-01 00:00:00 America/Los_Angeles');
+
+        $dateTime = DateTime::fromDateTime($dateTimeImmutable);
+
+        $this->assertEquals($dateTimeImmutable, $dateTime->toDateTimeImmutable());
+    }
+
+    public function test_compare_source_from_string_with_timezone_with_converted_one() : void
+    {
+        $dateTimeImmutable = new \DateTimeImmutable('2020-01-01 00:00:00 America/Los_Angeles');
+
+        $dateTime = DateTime::fromString('2020-01-01 00:00:00 America/Los_Angeles');
+
+        $this->assertEquals($dateTimeImmutable, $dateTime->toDateTimeImmutable());
     }
 
     public function test_create_with_timezone_and_time_offset() : void
