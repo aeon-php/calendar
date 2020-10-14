@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+## [0.10.0] - 2020-10-14
+### Fixed
+- [#72](https://github.com/aeon-php/calendar/pull/72) - **Make sure all DateTime constructors create the same instance #72** - [@norberttech](https://github.com/norberttech)
+
 ## [0.9.0] - 2020-10-13
 ### Added
 - [#70](https://github.com/aeon-php/calendar/pull/70) - **Added possibility to format Time** - [@norberttech](https://github.com/norberttech)
