@@ -41,7 +41,8 @@
     "InstanceOf_": {
       "ignore": [
         "Aeon\\Calculator\\PreciseCalculator::initialize",
-        "Aeon\\Calendar\\Gregorian\\LeapSeconds::load"
+        "Aeon\\Calendar\\Gregorian\\LeapSeconds::load",
+        "Aeon\\Calendar\\Gregorian\\DateTime::toDateTimeImmutable"
       ]
     }
   },

@@ -23,39 +23,20 @@ final class DateTime
 
     private TimeOffset $timeOffset;
 
-    private \DateTimeImmutable $dateTimeImmutable;
+    private ?\DateTimeImmutable $lazyDateTimeImmutable;
 
-    private int $unixTimestamp;
+    private ?int $lazyUnixTimestamp;
 
-    /**
-     * TimeZone is optional, if not provided it will be set to UTC.
-     * DateTime always has TimeOffset but when not provided it's calculated from offset and when
-     * offset is not provided is set to UTC.
-     */
     public function __construct(Day $day, Time $time, ?TimeZone $timeZone = null, ?TimeOffset $timeOffset = null)
     {
+        $this->lazyDateTimeImmutable = null;
+        $this->lazyUnixTimestamp = null;
         $this->day = $day;
         $this->time = $time;
         $this->timeZone = $timeZone;
 
-        $this->dateTimeImmutable = new \DateTimeImmutable(
-            \sprintf(
-                '%d-%02d-%02d %02d:%02d:%02d.%06d%s',
-                $this->day->year()->number(),
-                $this->day->month()->number(),
-                $this->day->number(),
-                $this->time->hour(),
-                $this->time->minute(),
-                $this->time->second(),
-                $this->time->microsecond(),
-                ($this->timeZone === null && $timeOffset !== null) ? $timeOffset->toString() : ''
-            ),
-            ($this->timeZone === null) ? null : $this->timeZone->toDateTimeZone()
-        );
-        $this->unixTimestamp = $this->dateTimeImmutable->getTimestamp();
-
         $this->timeOffset = $timeOffset === null
-            ? TimeOffset::fromTimeUnit(TimeUnit::seconds($this->dateTimeImmutable->getOffset()))
+            ? ($timeZone !== null ? $timeZone->timeOffset($this) : TimeOffset::UTC())
             : $timeOffset;
 
         if ($this->timeZone !== null) {
@@ -103,23 +84,55 @@ final class DateTime
 
     /**
      * @psalm-pure
+     * @psalm-suppress ImpureFunctionCall
      */
     public static function fromString(string $date) : self
     {
-        return self::fromDateTime(new \DateTimeImmutable($date));
+        $currentPHPTimeZone = \date_default_timezone_get();
+
+        \date_default_timezone_set('UTC');
+
+        $dateTime = self::fromDateTime(new \DateTimeImmutable($date));
+
+        \date_default_timezone_set($currentPHPTimeZone);
+
+        return $dateTime;
     }
 
     /**
      * @psalm-pure
+     * @psalm-suppress ImpureFunctionCall
      */
     public static function fromTimestampUnix(int $timestamp) : self
     {
-        return self::fromDateTime((new \DateTimeImmutable)->setTimestamp($timestamp));
+        $currentPHPTimeZone = \date_default_timezone_get();
+
+        \date_default_timezone_set('UTC');
+
+        $dateTime = self::fromDateTime((new \DateTimeImmutable)->setTimestamp($timestamp));
+
+        \date_default_timezone_set($currentPHPTimeZone);
+
+        return $dateTime;
     }
 
     public function __toString() : string
     {
         return $this->toISO8601();
+    }
+
+    /**
+     * @return array{datetime: string, day: Day, time: Time, offset: TimeOffset, timezone: ?TimeZone}
+     */
+    public function __debugInfo() : array
+    {
+        return [
+            'datetime' => $this->toISO8601(),
+            'day' => $this->day,
+            'time' => $this->time,
+            'offset' => $this->timeOffset,
+            'timezone' => $this->timeZone,
+        ];
     }
 
     public function year() : Year
@@ -173,9 +186,30 @@ final class DateTime
         );
     }
 
+    /** @psalm-suppress InaccessibleProperty */
     public function toDateTimeImmutable() : \DateTimeImmutable
     {
-        return $this->dateTimeImmutable;
+        if ($this->lazyDateTimeImmutable instanceof \DateTimeImmutable) {
+            return $this->lazyDateTimeImmutable;
+        }
+
+        $this->lazyDateTimeImmutable = new \DateTimeImmutable(
+            \sprintf(
+                '%d-%02d-%02d %02d:%02d:%02d.%06d%s',
+                $this->day->year()->number(),
+                $this->day->month()->number(),
+                $this->day->number(),
+                $this->time->hour(),
+                $this->time->minute(),
+                $this->time->second(),
+                $this->time->microsecond(),
+                $this->timeZone === null ? $this->timeOffset->toString() : ''
+            ),
+            ($this->timeZone === null) ? null : $this->timeZone->toDateTimeZone()
+        );
+        $this->lazyUnixTimestamp = $this->lazyDateTimeImmutable->getTimestamp();
+
+        return $this->lazyDateTimeImmutable;
     }
 
     public function toAtomicTime() : self
@@ -263,11 +297,14 @@ final class DateTime
      */
     public function timestampUNIX() : TimeUnit
     {
-        $unixTimestamp = $this->unixTimestamp;
+        /** @psalm-suppress InaccessibleProperty */
+        if ($this->lazyUnixTimestamp === null) {
+            $this->lazyUnixTimestamp = $this->toDateTimeImmutable()->getTimestamp();
+        }
 
-        return $unixTimestamp >= 0
-            ? TimeUnit::positive($unixTimestamp, $this->time->microsecond())
-            : TimeUnit::negative(\abs($unixTimestamp), $this->time->microsecond());
+        return $this->lazyUnixTimestamp >= 0
+            ? TimeUnit::positive($this->lazyUnixTimestamp, $this->time->microsecond())
+            : TimeUnit::negative(\abs($this->lazyUnixTimestamp), $this->time->microsecond());
     }
 
     public function modify(string $modify) : self
