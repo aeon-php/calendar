@@ -168,6 +168,18 @@ final class TimeUnit implements Unit
         return new self(false, $seconds, $microsecond);
     }
 
+    /**
+     * @return array{seconds: int, microsecond: int, negative: bool}
+     */
+    public function __serialize() : array
+    {
+        return [
+            'seconds' => $this->seconds,
+            'microsecond' => $this->microsecond,
+            'negative' => $this->negative,
+        ];
+    }
+
     public function toDateInterval() : \DateInterval
     {
         $interval = new \DateInterval(\sprintf('PT%dS', $this->seconds));

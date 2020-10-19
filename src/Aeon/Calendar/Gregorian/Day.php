@@ -76,6 +76,17 @@ final class Day
         ];
     }
 
+    /**
+     * @return array{month: Month, number: int}
+     */
+    public function __serialize() : array
+    {
+        return [
+            'month' => $this->month,
+            'number' => $this->number,
+        ];
+    }
+
     public function toString() : string
     {
         return $this->format('Y-m-d');

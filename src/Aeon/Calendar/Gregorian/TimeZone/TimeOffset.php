@@ -60,6 +60,18 @@ final class TimeOffset
         );
     }
 
+    /**
+     * @return array{hours: int, minutes: int, negative: bool}
+     */
+    public function __serialize() : array
+    {
+        return [
+            'hours' => $this->hours,
+            'minutes' => $this->minutes,
+            'negative' => $this->negative,
+        ];
+    }
+
     public function toString() : string
     {
         return ($this->negative ? '-' : '+')

@@ -285,4 +285,25 @@ final class DayTest extends TestCase
         $this->assertSame(3, Day::fromString('2020-07-01')->quarter()->number());
         $this->assertSame(4, Day::fromString('2020-10-01')->quarter()->number());
     }
+
+    public function test_serialization() : void
+    {
+        $day = Day::create(2020, 01, 01);
+
+        $this->assertSame(
+            [
+                'month' => $day->month(),
+                'number' => $day->number(),
+            ],
+            $serializedDay = $day->__serialize()
+        );
+        $this->assertSame(
+            'O:27:"' . Day::class . '":2:{s:5:"month";O:29:"' . Month::class . '":2:{s:4:"year";O:28:"' . Year::class . '":1:{s:4:"year";i:2020;}s:6:"number";i:1;}s:6:"number";i:1;}',
+            $serializedDayString = \serialize($day)
+        );
+        $this->assertEquals(
+            \unserialize($serializedDayString),
+            $day
+        );
+    }
 }

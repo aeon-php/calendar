@@ -109,4 +109,26 @@ final class TimeOffsetTest extends TestCase
     {
         $this->assertInstanceOf(\DateTimeZone::class, TimeOffset::UTC()->toDateTimeZone());
     }
+
+    public function test_serialization() : void
+    {
+        $timeOffset = TimeOffset::fromString('+01:00');
+
+        $this->assertSame(
+            [
+                'hours' => 1,
+                'minutes' => 0,
+                'negative' => false,
+            ],
+            $serializedTimeZone = $timeOffset->__serialize()
+        );
+        $this->assertSame(
+            'O:43:"' . TimeOffset::class . '":3:{s:5:"hours";i:1;s:7:"minutes";i:0;s:8:"negative";b:0;}',
+            $serializedTimeOffsetString = \serialize($timeOffset)
+        );
+        $this->assertEquals(
+            \unserialize($serializedTimeOffsetString),
+            $timeOffset
+        );
+    }
 }

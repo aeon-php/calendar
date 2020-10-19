@@ -907,4 +907,23 @@ final class DateTimeTest extends TestCase
         $this->assertSame(3, DateTime::fromString('2020-07-01')->quarter()->number());
         $this->assertSame(4, DateTime::fromString('2020-10-01')->quarter()->number());
     }
+
+    public function test_serialization() : void
+    {
+        $dateTime = DateTime::create(2020, 03, 29, 02, 30, 00, 0, 'Europe/Warsaw');
+
+        $this->assertSame(
+            [
+                'day' => $dateTime->day(),
+                'time' => $dateTime->time(),
+                'timeZone' => $dateTime->timeZone(),
+                'timeOffset' => $dateTime->timeOffset(),
+            ],
+            $dateTime->__serialize()
+        );
+        $this->assertSame(
+            'O:32:"' . DateTime::class . '":4:{s:3:"day";O:27:"' . Day::class . '":2:{s:5:"month";O:29:"' . Month::class . '":2:{s:4:"year";O:28:"' . Year::class . '":1:{s:4:"year";i:2020;}s:6:"number";i:3;}s:6:"number";i:29;}s:4:"time";O:28:"' . Time::class . '":4:{s:4:"hour";i:2;s:6:"minute";i:30;s:6:"second";i:0;s:11:"microsecond";i:0;}s:8:"timeZone";O:32:"' . TimeZone::class . '":1:{s:4:"name";s:13:"Europe/Warsaw";}s:10:"timeOffset";O:43:"' . TimeOffset::class . '":3:{s:5:"hours";i:2;s:7:"minutes";i:0;s:8:"negative";b:0;}}',
+            \serialize($dateTime)
+        );
+    }
 }

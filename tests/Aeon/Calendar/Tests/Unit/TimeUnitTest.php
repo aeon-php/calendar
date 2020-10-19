@@ -540,4 +540,18 @@ final class TimeUnitTest extends TestCase
     {
         $this->assertSame('500000', TimeUnit::precise(2.500000)->microsecondString());
     }
+
+    public function test_serialization() : void
+    {
+        $timeUnit = TimeUnit::positive(10, 10);
+
+        $this->assertSame(
+            [
+                'seconds' => 10,
+                'microsecond' => 10,
+                'negative' => false,
+            ],
+            $timeUnit->__serialize()
+        );
+    }
 }

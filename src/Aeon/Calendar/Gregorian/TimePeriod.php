@@ -23,6 +23,17 @@ final class TimePeriod
         $this->end = $end;
     }
 
+    /**
+     * @return array{start: DateTime, end: DateTime}
+     */
+    public function __serialize() : array
+    {
+        return [
+            'start' => $this->start,
+            'end' => $this->end,
+        ];
+    }
+
     public function start() : DateTime
     {
         return $this->start;

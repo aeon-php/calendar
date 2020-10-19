@@ -4765,6 +4765,16 @@ final class TimeZone
         ];
     }
 
+    /**
+     * @return array{name: string}
+     */
+    public function __serialize() : array
+    {
+        return [
+            'name' => $this->name,
+        ];
+    }
+
     public function toDateTimeZone() : \DateTimeZone
     {
         return new \DateTimeZone($this->name);
