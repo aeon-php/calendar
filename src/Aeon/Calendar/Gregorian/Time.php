@@ -79,6 +79,19 @@ final class Time
         ];
     }
 
+    /**
+     * @return array{hour: int, minute: int, second: int, microsecond: int}
+     */
+    public function __serialize() : array
+    {
+        return [
+            'hour' => $this->hour,
+            'minute' => $this->minute,
+            'second' => $this->second,
+            'microsecond' => $this->microsecond,
+        ];
+    }
+
     public function format(string $format) : string
     {
         return $this->toDateTimeImmutable()->format($format);

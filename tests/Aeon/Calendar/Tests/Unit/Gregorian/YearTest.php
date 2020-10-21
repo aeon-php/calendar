@@ -257,4 +257,24 @@ final class YearTest extends TestCase
         $this->assertSame(11, (new Year(2020))->quarter(4)->months()[1]->number());
         $this->assertSame(12, (new Year(2020))->quarter(4)->months()[2]->number());
     }
+
+    public function test_serialization() : void
+    {
+        $year = new Year(2020);
+
+        $this->assertSame(
+            [
+                'year' => 2020,
+            ],
+            $serializedYear = $year->__serialize()
+        );
+        $this->assertSame(
+            'O:28:"' . Year::class . '":1:{s:4:"year";i:2020;}',
+            $serializedYearString = \serialize($year)
+        );
+        $this->assertEquals(
+            \unserialize($serializedYearString),
+            $year
+        );
+    }
 }

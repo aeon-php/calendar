@@ -130,4 +130,27 @@ final class TimeTest extends TestCase
         $this->assertSame('00:00:00.000000', Time::fromString('00:00')->sub(TimeUnit::days(2))->toString());
         $this->assertSame('21:00:00.000000', Time::fromString('00:00')->sub(TimeUnit::hours(27))->toString());
     }
+
+    public function test_serialization() : void
+    {
+        $time = new Time(10, 00, 00, 00);
+
+        $this->assertSame(
+            [
+                'hour' => 10,
+                'minute' => 00,
+                'second' => 00,
+                'microsecond' => 00,
+            ],
+            $serializedTime = $time->__serialize()
+        );
+        $this->assertSame(
+            'O:28:"' . Time::class . '":4:{s:4:"hour";i:10;s:6:"minute";i:0;s:6:"second";i:0;s:11:"microsecond";i:0;}',
+            $serializedTimeString = \serialize($time)
+        );
+        $this->assertEquals(
+            \unserialize($serializedTimeString),
+            $time
+        );
+    }
 }

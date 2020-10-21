@@ -44,4 +44,24 @@ final class TimeZoneTest extends TestCase
     {
         $this->assertCount(418, TimeZone::all());
     }
+
+    public function test_serialization() : void
+    {
+        $timeZone = new TimeZone('America/Los_Angeles');
+
+        $this->assertSame(
+            [
+                'name' => 'America/Los_Angeles',
+            ],
+            $serializedTimeZone = $timeZone->__serialize()
+        );
+        $this->assertSame(
+            'O:32:"' . TimeZone::class . '":1:{s:4:"name";s:19:"America/Los_Angeles";}',
+            $serializedTimeZoneString = \serialize($timeZone)
+        );
+        $this->assertEquals(
+            \unserialize($serializedTimeZoneString),
+            $timeZone
+        );
+    }
 }

@@ -72,6 +72,27 @@ final class Month
         ];
     }
 
+    /**
+     * @return array{year: Year, number: int}
+     */
+    public function __serialize() : array
+    {
+        return [
+            'year' => $this->year,
+            'number' => $this->number,
+        ];
+    }
+
+    /**
+     * @param array{year: Year, number: int} $data
+     */
+    public function __unserialize(array $data) : void
+    {
+        $this->year = $data['year'];
+        $this->number = $data['number'];
+        $this->days = new MonthDays($this);
+    }
+
     public function toString() : string
     {
         return $this->toDateTimeImmutable()->format('Y-m');

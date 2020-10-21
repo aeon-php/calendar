@@ -50,6 +50,25 @@ final class Year
         ];
     }
 
+    /**
+     * @return array{year:int}
+     */
+    public function __serialize() : array
+    {
+        return [
+            'year' => $this->year,
+        ];
+    }
+
+    /**
+     * @param array{year:int} $data
+     */
+    public function __unserialize(array $data) : void
+    {
+        $this->year = $data['year'];
+        $this->months = new YearMonths($this);
+    }
+
     public function toString() : string
     {
         return (string) $this->year;

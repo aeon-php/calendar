@@ -206,4 +206,25 @@ final class MonthTest extends TestCase
         $this->assertSame(3, Month::fromString('2020-07-01')->quarter()->number());
         $this->assertSame(4, Month::fromString('2020-10-01')->quarter()->number());
     }
+
+    public function test_serialization() : void
+    {
+        $month = Month::create(2020, 1);
+
+        $this->assertSame(
+            [
+                'year' => $month->year(),
+                'number' => $month->number(),
+            ],
+            $serializedMonth = $month->__serialize()
+        );
+        $this->assertSame(
+            'O:29:"' . Month::class . '":2:{s:4:"year";O:28:"' . Year::class . '":1:{s:4:"year";i:2020;}s:6:"number";i:1;}',
+            $serializedMonthString = \serialize($month)
+        );
+        $this->assertEquals(
+            \unserialize($serializedMonthString),
+            $month
+        );
+    }
 }

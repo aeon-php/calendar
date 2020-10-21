@@ -139,6 +139,19 @@ final class DateTime
         ];
     }
 
+    /**
+     * @return array{day: Day, time: Time, timeZone: ?TimeZone, timeOffset: TimeZone\TimeOffset}
+     */
+    public function __serialize() : array
+    {
+        return [
+            'day' => $this->day,
+            'time' => $this->time,
+            'timeZone' => $this->timeZone,
+            'timeOffset' => $this->timeOffset,
+        ];
+    }
+
     public function year() : Year
     {
         return $this->month()->year();
