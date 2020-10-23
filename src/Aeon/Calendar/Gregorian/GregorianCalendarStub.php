@@ -10,18 +10,19 @@ namespace Aeon\Calendar\Gregorian;
  */
 final class GregorianCalendarStub implements Calendar
 {
-    private ?\DateTimeImmutable $currentDate;
+    private TimeZone $timeZone;
 
-    public function __construct(?\DateTimeImmutable $currentDate = null)
+    private ?DateTime $currentDate;
+
+    public function __construct(TimeZone $timeZone)
     {
-        $this->currentDate = $currentDate;
+        $this->timeZone = $timeZone;
+        $this->currentDate = null;
     }
 
     public function timeZone() : TimeZone
     {
-        $tz = $this->now()->timeZone();
-
-        return $tz ? $tz : TimeZone::UTC();
+        return $this->timeZone;
     }
 
     public function currentYear() : Year
@@ -41,11 +42,9 @@ final class GregorianCalendarStub implements Calendar
 
     public function now() : DateTime
     {
-        return DateTime::fromDateTime(
-            $this->currentDate
-                ? $this->currentDate
-                : new \DateTimeImmutable('now', new \DateTimeZone('UTC'))
-        );
+        return $this->currentDate
+            ? $this->currentDate
+            : DateTime::fromDateTime(new \DateTimeImmutable('now', $this->timeZone->toDateTimeZone()));
     }
 
     public function yesterday() : DateTime
@@ -63,6 +62,6 @@ final class GregorianCalendarStub implements Calendar
      */
     public function setNow(DateTime $dateTime) : void
     {
-        $this->currentDate = $dateTime->toDateTimeImmutable();
+        $this->currentDate = $dateTime;
     }
 }
