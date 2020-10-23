@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+## [0.11.0] - 2020-10-23
+### Changed 
+- [#75](https://github.com/aeon-php/calendar/pull/75) - **Pass TimeZone into GregorianCalendarStub instead of nullable DateTimeImmutable #75** - [@norberttech](https://github.com/norberttech)
+
+### Added
+- [#73](https://github.com/aeon-php/calendar/pull/73) - **Added __serialize and __unserialize methods to those value objects that might be serialized #73** - [@norberttech](https://github.com/norberttech)
+
 ## [0.10.0] - 2020-10-14
 ### Fixed
 - [#72](https://github.com/aeon-php/calendar/pull/72) - **Make sure all DateTime constructors create the same instance #72** - [@norberttech](https://github.com/norberttech)
