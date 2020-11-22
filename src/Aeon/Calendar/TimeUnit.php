@@ -92,6 +92,11 @@ final class TimeUnit implements Unit
         return $dateInterval->invert === 1 ? $timeUnit->invert() : $timeUnit;
     }
 
+    public static function fromDateString(string $dateString) : self
+    {
+        return self::fromDateInterval(\DateInterval::createFromDateString($dateString));
+    }
+
     /** @psalm-pure */
     public static function millisecond() : self
     {
