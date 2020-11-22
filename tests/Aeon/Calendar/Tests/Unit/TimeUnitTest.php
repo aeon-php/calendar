@@ -420,6 +420,32 @@ final class TimeUnitTest extends TestCase
         yield [(new \DateTimeImmutable('2020-01-01'))->diff(new \DateTimeImmutable('2020-03-01')), TimeUnit::days(60)];
     }
 
+    /**
+     * @dataProvider creating_from_date_string_provider
+     */
+    public function test_creating_from_date_string(string $dateString, TimeUnit $timeUnit) : void
+    {
+        $this->assertEquals(TimeUnit::fromDateString($dateString), $timeUnit);
+    }
+
+    /**
+     * @return \Generator<int, array{string, TimeUnit}, mixed, void>
+     */
+    public function creating_from_date_string_provider() : \Generator
+    {
+        yield ['5 microseconds', TimeUnit::precise(0.000005)];
+        yield ['1 second 5 microsecond', TimeUnit::precise(1.000005)];
+        yield ['1 second', TimeUnit::second()];
+        yield ['5 seconds', TimeUnit::seconds(5)];
+        yield ['1 minute', TimeUnit::minute()];
+        yield ['5 minutes', TimeUnit::minutes(5)];
+        yield ['1 hour', TimeUnit::hour()];
+        yield ['10 hours', TimeUnit::hours(10)];
+        yield ['28 hours', TimeUnit::hours(28)];
+        yield ['1 day', TimeUnit::day()];
+        yield ['365 days', TimeUnit::days(365)];
+    }
+
     public function test_creating_from_inaccurate_date_interval_years() : void
     {
         $this->expectException(Exception::class);
