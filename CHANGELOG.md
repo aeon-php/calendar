@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+## [0.12.0] - 2020-11-22
+### Added
+- [#77](https://github.com/aeon-php/calendar/pull/77) - **Added possibility to create TimeUnit from date string #77** - [@norberttech](https://github.com/norberttech)
+
 ## [0.11.0] - 2020-10-23
 ### Changed 
 - [#75](https://github.com/aeon-php/calendar/pull/75) - **Pass TimeZone into GregorianCalendarStub instead of nullable DateTimeImmutable #75** - [@norberttech](https://github.com/norberttech)
