@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+### Removed
+- [#79](https://github.com/aeon-php/calendar/pull/79) - **Remove function trailing commas #79** - [@norberttech](https://github.com/norberttech)
+
+### Added
+- [#78](https://github.com/aeon-php/calendar/pull/78) - **Run testsuite at php8 #78** - [@norberttech](https://github.com/norberttech)
+
 ## [0.12.0] - 2020-11-22
 ### Added
 - [#77](https://github.com/aeon-php/calendar/pull/77) - **Added possibility to create TimeUnit from date string #77** - [@norberttech](https://github.com/norberttech)
