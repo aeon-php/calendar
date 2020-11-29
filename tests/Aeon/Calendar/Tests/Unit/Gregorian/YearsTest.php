@@ -15,7 +15,7 @@ final class YearsTest extends TestCase
         $years = new Years(
             Year::fromString('2000-01-01'),
             Year::fromString('2001-02-02'),
-            Year::fromString('2002-03-03'),
+            Year::fromString('2002-03-03')
         );
 
         $this->assertTrue(isset($years[0]));
@@ -29,7 +29,7 @@ final class YearsTest extends TestCase
         $yeras = new Years(
             Year::fromString('2000-01-01'),
             Year::fromString('2001-02-02'),
-            Year::fromString('2002-03-03'),
+            Year::fromString('2002-03-03')
         );
 
         $this->assertSame(
@@ -45,7 +45,7 @@ final class YearsTest extends TestCase
         $years = new Years(
             Year::fromString('2000-01-01'),
             Year::fromString('2001-02-02'),
-            Year::fromString('2002-03-03'),
+            Year::fromString('2002-03-03')
         );
 
         $this->assertEquals(

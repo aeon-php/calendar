@@ -15,7 +15,7 @@ final class DaysTest extends TestCase
         $days = new Days(
             Day::fromString('2002-01-01'),
             Day::fromString('2002-01-02'),
-            Day::fromString('2002-01-03'),
+            Day::fromString('2002-01-03')
         );
 
         $this->assertTrue(isset($days[0]));
@@ -28,7 +28,7 @@ final class DaysTest extends TestCase
         $days = new Days(
             Day::fromString('2002-01-01'),
             Day::fromString('2002-01-02'),
-            Day::fromString('2002-01-03'),
+            Day::fromString('2002-01-03')
         );
 
         $this->assertSame(
@@ -44,7 +44,7 @@ final class DaysTest extends TestCase
         $days = new Days(
             Day::fromString('2002-01-01'),
             Day::fromString('2002-01-02'),
-            Day::fromString('2002-01-03'),
+            Day::fromString('2002-01-03')
         );
 
         $this->assertEquals(

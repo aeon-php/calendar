@@ -86,7 +86,7 @@ final class DayValueSetTest extends TestCase
             new DayValue(Day::fromString('2020-01-08'), 100),
             new DayValue(Day::fromString('2020-01-02'), 100),
             new DayValue(Day::fromString('2020-01-06'), 100),
-            new DayValue(Day::fromString('2020-01-09'), 100),
+            new DayValue(Day::fromString('2020-01-09'), 100)
         );
 
         $sortedSet = $set->sortAscending();
@@ -122,7 +122,7 @@ final class DayValueSetTest extends TestCase
             new DayValue(Day::fromString('2020-01-08'), 100),
             new DayValue(Day::fromString('2020-01-02'), 100),
             new DayValue(Day::fromString('2020-01-06'), 100),
-            new DayValue(Day::fromString('2020-01-09'), 100),
+            new DayValue(Day::fromString('2020-01-09'), 100)
         );
 
         $sortedSet = $set->sortDescending();
@@ -148,13 +148,13 @@ final class DayValueSetTest extends TestCase
     {
         $set = new DayValueSet(
             new DayValue(Day::fromString('2020-01-10'), 20),
-            new DayValue(Day::fromString('2020-01-01'), 20),
+            new DayValue(Day::fromString('2020-01-01'), 20)
         );
 
         $set = $set->put(
             new DayValue(Day::fromString('2020-01-03'), 100),
             new DayValue(Day::fromString('2020-01-05'), 100),
-            new DayValue(Day::fromString('2020-01-04'), 100),
+            new DayValue(Day::fromString('2020-01-04'), 100)
         );
 
         $set = $set->fillMissingWith(50)->sortAscending();
@@ -203,7 +203,7 @@ final class DayValueSetTest extends TestCase
             new DayValue(Day::fromString('2020-01-01'), 10),
             new DayValue(Day::fromString('2020-01-02'), 20),
             new DayValue(Day::fromString('2020-01-03'), 30),
-            new DayValue(Day::fromString('2020-01-04'), 40),
+            new DayValue(Day::fromString('2020-01-04'), 40)
         );
 
         $this->assertEquals(
@@ -221,7 +221,7 @@ final class DayValueSetTest extends TestCase
             new DayValue(Day::fromString('2020-01-01'), 10),
             new DayValue(Day::fromString('2020-01-02'), 20),
             new DayValue(Day::fromString('2020-01-03'), 30),
-            new DayValue(Day::fromString('2020-01-04'), 40),
+            new DayValue(Day::fromString('2020-01-04'), 40)
         );
 
         $this->assertEquals(
@@ -241,7 +241,7 @@ final class DayValueSetTest extends TestCase
             new DayValue(Day::fromString('2020-01-01'), 10),
             new DayValue(Day::fromString('2020-01-02'), 20),
             new DayValue(Day::fromString('2020-01-03'), 30),
-            new DayValue(Day::fromString('2020-01-04'), 40),
+            new DayValue(Day::fromString('2020-01-04'), 40)
         );
 
         $this->expectException(InvalidArgumentException::class);
@@ -256,7 +256,7 @@ final class DayValueSetTest extends TestCase
             new DayValue(Day::fromString('2020-01-01'), 10),
             new DayValue(Day::fromString('2020-01-02'), 20),
             new DayValue(Day::fromString('2020-01-03'), 30),
-            new DayValue(Day::fromString('2020-01-04'), 40),
+            new DayValue(Day::fromString('2020-01-04'), 40)
         );
 
         $this->assertEquals(
@@ -271,7 +271,7 @@ final class DayValueSetTest extends TestCase
             new DayValue(Day::fromString('2020-01-01'), 10),
             new DayValue(Day::fromString('2020-01-02'), 20),
             new DayValue(Day::fromString('2020-01-03'), 30),
-            new DayValue(Day::fromString('2020-01-04'), 40),
+            new DayValue(Day::fromString('2020-01-04'), 40)
         );
 
         $this->assertEquals(
@@ -289,7 +289,7 @@ final class DayValueSetTest extends TestCase
             new DayValue(Day::fromString('2020-01-01'), 10),
             new DayValue(Day::fromString('2020-01-02'), 20),
             new DayValue(Day::fromString('2020-01-03'), 30),
-            new DayValue(Day::fromString('2020-01-04'), 40),
+            new DayValue(Day::fromString('2020-01-04'), 40)
         );
 
         $this->assertEquals(
@@ -309,7 +309,7 @@ final class DayValueSetTest extends TestCase
             new DayValue(Day::fromString('2020-01-01'), 10),
             new DayValue(Day::fromString('2020-01-02'), 20),
             new DayValue(Day::fromString('2020-01-03'), 30),
-            new DayValue(Day::fromString('2020-01-04'), 40),
+            new DayValue(Day::fromString('2020-01-04'), 40)
         );
 
         $this->assertEquals(
@@ -324,7 +324,7 @@ final class DayValueSetTest extends TestCase
             new DayValue(Day::fromString('2020-01-01'), 10),
             new DayValue(Day::fromString('2020-01-02'), 20),
             new DayValue(Day::fromString('2020-01-03'), 30),
-            new DayValue(Day::fromString('2020-01-04'), 40),
+            new DayValue(Day::fromString('2020-01-04'), 40)
         );
 
         $this->expectException(InvalidArgumentException::class);
@@ -339,7 +339,7 @@ final class DayValueSetTest extends TestCase
             new DayValue(Day::fromString('2020-01-01'), 10),
             new DayValue(Day::fromString('2020-01-02'), 20),
             new DayValue(Day::fromString('2020-01-03'), 30),
-            new DayValue(Day::fromString('2020-01-04'), 40),
+            new DayValue(Day::fromString('2020-01-04'), 40)
         );
 
         $this->expectException(InvalidArgumentException::class);
@@ -354,7 +354,7 @@ final class DayValueSetTest extends TestCase
             new DayValue(Day::fromString('2020-01-01'), 10),
             new DayValue(Day::fromString('2020-01-02'), 20),
             new DayValue(Day::fromString('2020-01-03'), 30),
-            new DayValue(Day::fromString('2020-01-04'), 40),
+            new DayValue(Day::fromString('2020-01-04'), 40)
         );
 
         $this->assertEquals(
@@ -372,7 +372,7 @@ final class DayValueSetTest extends TestCase
             new DayValue(Day::fromString('2020-01-01'), 10),
             new DayValue(Day::fromString('2020-01-02'), 20),
             new DayValue(Day::fromString('2020-01-03'), 30),
-            new DayValue(Day::fromString('2020-01-04'), 40),
+            new DayValue(Day::fromString('2020-01-04'), 40)
         );
 
         $this->assertEquals(
@@ -392,7 +392,7 @@ final class DayValueSetTest extends TestCase
             new DayValue(Day::fromString('2020-01-01'), 10),
             new DayValue(Day::fromString('2020-01-02'), 20),
             new DayValue(Day::fromString('2020-01-03'), 30),
-            new DayValue(Day::fromString('2020-01-04'), 40),
+            new DayValue(Day::fromString('2020-01-04'), 40)
         );
 
         $this->expectException(InvalidArgumentException::class);
@@ -407,7 +407,7 @@ final class DayValueSetTest extends TestCase
             new DayValue(Day::fromString('2020-01-01'), 10),
             new DayValue(Day::fromString('2020-01-02'), 20),
             new DayValue(Day::fromString('2020-01-03'), 30),
-            new DayValue(Day::fromString('2020-01-04'), 40),
+            new DayValue(Day::fromString('2020-01-04'), 40)
         );
 
         $this->assertEquals(
