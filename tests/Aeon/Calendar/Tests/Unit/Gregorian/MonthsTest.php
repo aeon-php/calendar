@@ -17,7 +17,7 @@ final class MonthsTest extends TestCase
         $months = new Months(
             Month::fromString('2002-01-01'),
             Month::fromString('2002-02-02'),
-            Month::fromString('2002-03-03'),
+            Month::fromString('2002-03-03')
         );
 
         $this->assertTrue(isset($months[0]));
@@ -31,7 +31,7 @@ final class MonthsTest extends TestCase
         $days = new Months(
             Month::fromString('2002-01-01'),
             Month::fromString('2002-02-02'),
-            Month::fromString('2002-03-03'),
+            Month::fromString('2002-03-03')
         );
 
         $this->assertSame(
@@ -47,7 +47,7 @@ final class MonthsTest extends TestCase
         $months = new Months(
             Month::fromString('2002-01-01'),
             Month::fromString('2002-02-02'),
-            Month::fromString('2002-03-03'),
+            Month::fromString('2002-03-03')
         );
 
         $this->assertEquals(

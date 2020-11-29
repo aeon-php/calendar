@@ -62,7 +62,7 @@ final class TimePeriodTest extends TestCase
     {
         $period = new TimePeriod(
             DateTime::fromString('1969-01-01 01:00:00.0000'),
-            DateTime::fromString('1969-01-01 00:00:00.0000'),
+            DateTime::fromString('1969-01-01 00:00:00.0000')
         );
 
         $this->assertSame(-3600, $period->distance()->inSeconds());
