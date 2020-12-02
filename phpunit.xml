@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:noNamespaceSchemaLocation="./vendor/phpunit/phpunit/schema/9.2.xsd"
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.2/phpunit.xsd"
          colors="true"
          bootstrap="vendor/autoload.php"
          cacheResultFile="var/phpunit/.result.cache"
@@ -18,7 +18,9 @@
     <testsuites>
         <testsuite name="functional">
             <directory suffix=".php">tests/Aeon/Calendar/Tests/Functional</directory>
-            <directory suffix="*.phpt">tests/Aeon/Calendar/Tests/Functional</directory>
+        </testsuite>
+        <testsuite name="functional-phpt">
+            <directory suffix=".phpt">tests/Aeon/Calendar/Tests/Functional</directory>
         </testsuite>
         <testsuite name="unit">
             <directory suffix=".php">tests/Aeon/Calendar/Tests/Unit</directory>

@@ -5,4 +5,5 @@
   <phar name="phpstan" version="^0.12.40" installed="0.12.40" location="./tools/phpstan" copy="true"/>
   <phar name="psalm" version="^3.12.1" installed="3.14.2" location="./tools/psalm" copy="true"/>
   <phar name="phpbench" version="^0.17.1" installed="0.17.1" location="./tools/phpbench" copy="true"/>
+  <phar name="phpunit" version="^9.2.5" installed="9.2.5" location="./tools/phpunit.phar" copy="true"/>
 </phive>

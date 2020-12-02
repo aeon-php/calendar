@@ -2,14 +2,19 @@
     "name": "aeon-php/calendar",
     "type": "library",
     "description": "PHP type safe, immutable calendar library",
-    "keywords": ["calendar", "immutable", "date", "time", "datetime"],
+    "keywords": [
+        "calendar",
+        "immutable",
+        "date",
+        "time",
+        "datetime"
+    ],
     "prefer-stable": true,
     "require": {
         "php": ">=7.4.2"
     },
     "require-dev": {
-        "ext-bcmath": "*",
-        "phpunit/phpunit": "^9.3"
+        "ext-bcmath": "*"
     },
     "suggest": {
         "ext-bcmath": "Compare time units with high precision"
@@ -41,7 +46,7 @@
             "@test:mutation"
         ],
         "test": [
-            "phpunit"
+            "tools/phpunit"
         ],
         "test:mutation": [
             "tools/infection -j2"

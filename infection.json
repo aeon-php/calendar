@@ -5,7 +5,7 @@
       "src\/Aeon"
     ],
     "excludes": [
-      "/.*\\.phpt/"
+      "/\\.phpt/"
     ]
   },
   "logs": {
@@ -47,7 +47,11 @@
     }
   },
   "testFramework": "phpunit",
+  "testFrameworkOptions": "--testsuite=unit,functional",
   "bootstrap": "./vendor/autoload.php",
+  "phpUnit": {
+    "customPath": "tools\/phpunit"
+  },
   "minMsi": 100,
   "minCoveredMsi": 100
 }
