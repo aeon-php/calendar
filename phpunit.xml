@@ -1,31 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.2/phpunit.xsd"
-         colors="true"
-         bootstrap="vendor/autoload.php"
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd"
+         colors="true" bootstrap="vendor/autoload.php"
          cacheResultFile="var/phpunit/.result.cache"
 >
-    <logging>
-        <log type="coverage-html" target="var/phpunit/coverage/html" lowUpperBound="95" highLowerBound="100"/>
-    </logging>
-    <filter>
-        <whitelist>
-            <directory suffix=".php">src</directory>
-        </whitelist>
-    </filter>
-
-    <testsuites>
-        <testsuite name="functional">
-            <directory suffix=".php">tests/Aeon/Calendar/Tests/Functional</directory>
-        </testsuite>
-        <testsuite name="functional-phpt">
-            <directory suffix=".phpt">tests/Aeon/Calendar/Tests/Functional</directory>
-        </testsuite>
-        <testsuite name="unit">
-            <directory suffix=".php">tests/Aeon/Calendar/Tests/Unit</directory>
-            <directory suffix=".php">tests/Aeon/Calculator/Tests/Unit</directory>
-            <directory suffix=".php">tests/Aeon/Collection/Tests/Unit</directory>
-        </testsuite>
-    </testsuites>
+  <coverage>
+    <include>
+      <directory suffix=".php">src</directory>
+    </include>
+    <report>
+      <html outputDirectory="var/phpunit/coverage/html" lowUpperBound="95" highLowerBound="100"/>
+    </report>
+  </coverage>
+  <logging/>
+  <testsuites>
+    <testsuite name="functional">
+      <directory suffix=".php">tests/Aeon/Calendar/Tests/Functional</directory>
+    </testsuite>
+    <testsuite name="unit">
+      <directory suffix=".php">tests/Aeon/Calendar/Tests/Unit</directory>
+      <directory suffix=".php">tests/Aeon/Calculator/Tests/Unit</directory>
+      <directory suffix=".php">tests/Aeon/Collection/Tests/Unit</directory>
+    </testsuite>
+  </testsuites>
 </phpunit>
