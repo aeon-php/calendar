@@ -46,7 +46,7 @@
             "@test:mutation"
         ],
         "test": [
-            "tools/phpunit"
+            "tools/phpunit.phar"
         ],
         "test:mutation": [
             "tools/infection -j2"
