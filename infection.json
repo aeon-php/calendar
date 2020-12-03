@@ -47,7 +47,6 @@
     }
   },
   "testFramework": "phpunit",
-  "testFrameworkOptions": "--testsuite=unit,functional",
   "bootstrap": "./vendor/autoload.php",
   "phpUnit": {
     "customPath": "tools\/phpunit.phar"
