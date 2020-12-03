@@ -46,16 +46,16 @@
             "@test:mutation"
         ],
         "test": [
-            "tools/phpunit.phar"
+            "tools\/phpunit.phar"
         ],
         "test:mutation": [
-            "tools/infection -j2"
+            "tools\/infection -j2"
         ],
         "static:analyze": [
-            "tools/psalm --output-format=compact",
-            "tools/phpstan analyze -c phpstan.neon",
-            "tools/php-cs-fixer fix --dry-run"
+            "tools\/psalm --output-format=compact",
+            "tools\/phpstan analyze -c phpstan.neon",
+            "tools\/php-cs-fixer fix --dry-run"
         ],
-        "cs:php:fix": "tools/php-cs-fixer fix"
+        "cs:php:fix": "tools\/php-cs-fixer fix"
     }
 }
