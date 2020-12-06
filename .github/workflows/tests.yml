@@ -43,6 +43,7 @@ jobs:
         with:
           path: |
             ~/.composer/cache
+            tools
             vendor
           key: "php-${{ matrix.php-version }}-${{ matrix.dependencies }}"
           restore-keys: "php-${{ matrix.php-version }}-${{ matrix.dependencies }}"
