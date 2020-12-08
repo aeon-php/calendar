@@ -2,14 +2,19 @@
     "name": "aeon-php/calendar",
     "type": "library",
     "description": "PHP type safe, immutable calendar library",
-    "keywords": ["calendar", "immutable", "date", "time", "datetime"],
+    "keywords": [
+        "calendar",
+        "immutable",
+        "date",
+        "time",
+        "datetime"
+    ],
     "prefer-stable": true,
     "require": {
         "php": ">=7.4.2"
     },
     "require-dev": {
-        "ext-bcmath": "*",
-        "phpunit/phpunit": "^9.3"
+        "ext-bcmath": "*"
     },
     "suggest": {
         "ext-bcmath": "Compare time units with high precision"
@@ -41,16 +46,17 @@
             "@test:mutation"
         ],
         "test": [
-            "phpunit"
+            "tools\/phpunit.phar"
         ],
         "test:mutation": [
-            "tools/infection -j2"
+            "Composer\\Config::disableProcessTimeout",
+            "tools\/infection -j2"
         ],
         "static:analyze": [
-            "tools/psalm --output-format=compact",
-            "tools/phpstan analyze -c phpstan.neon",
-            "tools/php-cs-fixer fix --dry-run"
+            "tools\/psalm --output-format=compact",
+            "tools\/phpstan analyze -c phpstan.neon",
+            "tools\/php-cs-fixer fix --dry-run"
         ],
-        "cs:php:fix": "tools/php-cs-fixer fix"
+        "cs:php:fix": "tools\/php-cs-fixer fix"
     }
 }

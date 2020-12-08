@@ -40,6 +40,7 @@ jobs:
         with:
           path: |
             ~/.composer/cache
+            tools
             vendor
           key: "php-${{ matrix.php-version }}-${{ matrix.dependencies }}"
           restore-keys: "php-${{ matrix.php-version }}-${{ matrix.dependencies }}"
@@ -57,7 +58,7 @@ jobs:
         run: "composer install --no-interaction --no-progress --no-suggest"
 
       - name: "Install tools"
-        run: "phive install --trust-gpg-keys E82B2FB314E9906E,C5095986493B4AA0,CF1A108D0E7AE720,8A03EA3B385DBAA1,D0254321FB74703A --force-accept-unsigned"
+        run: "phive install --trust-gpg-keys E82B2FB314E9906E,C5095986493B4AA0,CF1A108D0E7AE720,8A03EA3B385DBAA1,D0254321FB74703A,4AA394086372C20A --force-accept-unsigned"
 
       - name: "Mutation Tests"
         run: "composer test:mutation"
