@@ -33,6 +33,7 @@ final class YearMonths implements \Countable
      */
     public function all() : array
     {
+        /** @psalm-suppress ImpureFunctionCall */
         return \array_map(
             fn (int $monthNumber) : Month => new Month($this->year, $monthNumber),
             \range(1, $this->year->numberOfMonths())
@@ -40,6 +41,8 @@ final class YearMonths implements \Countable
     }
 
     /**
+     * @psalm-param pure-callable(Month $day) : void $iterator
+     *
      * @param callable(Month $day) : void $iterator
      *
      * @return array<mixed>
@@ -53,6 +56,8 @@ final class YearMonths implements \Countable
     }
 
     /**
+     * @psalm-param pure-callable(Month $day) : bool $iterator
+     *
      * @param callable(Month $day) : bool $iterator
      *
      * @return array<Month>

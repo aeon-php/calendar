@@ -192,12 +192,15 @@ final class Year
     }
 
     /**
+     * @psalm-param pure-callable(Day $day) : void $iterator
+     *
      * @param callable(Day $day) : void $iterator
      *
      * @return array<mixed>
      */
     public function mapDays(callable $iterator) : array
     {
+        /** @psalm-suppress ImpureFunctionCall */
         return \array_map(
             $iterator,
             \array_merge(
@@ -210,12 +213,15 @@ final class Year
     }
 
     /**
+     * @psalm-param pure-callable(Day $day) : bool $iterator
+     *
      * @param callable(Day $day) : bool $iterator
      *
      * @return Days
      */
     public function filterDays(callable $iterator) : Days
     {
+        /** @psalm-suppress ImpureFunctionCall */
         return new Days(...\array_filter(
             \array_merge(
                 ...\array_map(

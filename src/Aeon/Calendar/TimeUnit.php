@@ -69,12 +69,16 @@ final class TimeUnit implements Unit
     /**
      * @psalm-pure
      * @psalm-suppress ImpureMethodCall
+     * @psalm-suppress ImpurePropertyFetch
+     *
      * Limitations: TimeUnit can't be created from relative DateIntervals like \DateInterval::createFromDateString('4 months')
      * or \DateInterval::createFromDateString('1 years'). It's because years and months are can't be precisely
      * converted into seconds/days/hours.
      */
     public static function fromDateInterval(\DateInterval $dateInterval) : self
     {
+        $dateInterval = clone $dateInterval;
+
         if ($dateInterval->y && !$dateInterval->days) {
             throw new Exception('Can\'t convert ' . $dateInterval->format('P%yY%mM%dDT%hH%iM%sS') . ' precisely to time unit because year can\'t be directly converted to number of seconds.');
         }

@@ -52,6 +52,8 @@ final class Years implements \ArrayAccess, \Countable, \IteratorAggregate
     }
 
     /**
+     * @psalm-param pure-callable(Year $year) : mixed $iterator
+     *
      * @param callable(Year $year) : mixed $iterator
      *
      * @return array<mixed>
@@ -62,6 +64,8 @@ final class Years implements \ArrayAccess, \Countable, \IteratorAggregate
     }
 
     /**
+     * @psalm-param pure-callable(Year $year) : bool $iterator
+     *
      * @param callable(Year $year) : bool $iterator
      */
     public function filter(callable $iterator) : self
