@@ -67,12 +67,14 @@ jobs:
       - name: "Update Pull Request"
         uses: actions/github-script@0.9.0
         if: github.event_name == 'pull_request'
+        env:
+          BENCHMARK: "${{ steps.benchmark.outputs.stdout }}"
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             #### Benchmark Results ⚙️
             <details><summary>Show</summary>
-            \`\`\`${{ steps.benchmark.outputs.stdout}} \`\`\`
+            \`\`\`${process.env.BENCHMARK}\`\`\`
             </details>
             *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`*`;
 
