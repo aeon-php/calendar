@@ -61,4 +61,23 @@ jobs:
         run: "phive install --trust-gpg-keys E82B2FB314E9906E,C5095986493B4AA0,CF1A108D0E7AE720,8A03EA3B385DBAA1,D0254321FB74703A,4AA394086372C20A --force-accept-unsigned"
 
       - name: "Benchmarks"
-        run: "./tools/phpbench run --report=aeon"
+        id: benchmark
+        run: "composer benchmark"
+
+      - name: "Update Pull Request"
+        uses: actions/github-script@0.9.0
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            #### Benchmark Results ⚙️`
+            <details><summary>Show</summary>
+            \`\`\`${steps.benchmark.outputs.stdout}\`\`\`
+            </details>
+            *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`*`;
+
+            github.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: output
+            })
