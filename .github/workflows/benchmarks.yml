@@ -72,7 +72,7 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            #### Benchmark Results ⚙️
+            const output = `#### Benchmark Results ⚙️
             <details><summary>Show</summary>
             \`\`\`${process.env.BENCHMARK}\`\`\`
             </details>
