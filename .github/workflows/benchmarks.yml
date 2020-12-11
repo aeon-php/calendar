@@ -62,7 +62,7 @@ jobs:
 
       - name: "Benchmarks"
         id: benchmark
-        run: "composer benchmark"
+        run: "composer benchmark -- --progress=none"
 
       - name: "Update Pull Request"
         uses: actions/github-script@0.9.0
