@@ -70,7 +70,7 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            #### Benchmark Results ⚙️`
+            #### Benchmark Results ⚙️
             <details><summary>Show</summary>
             \`\`\`${{ steps.benchmark.outputs.stdout}} \`\`\`
             </details>
