@@ -197,14 +197,6 @@ final class DayValueSet implements \Countable
     }
 
     /**
-     * @return DayValue[]
-     */
-    public function all() : array
-    {
-        return $this->dayValues;
-    }
-
-    /**
      * @psalm-suppress MixedAssignment
      *
      * @return array<mixed>

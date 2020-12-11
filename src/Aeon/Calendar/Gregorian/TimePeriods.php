@@ -111,10 +111,7 @@ final class TimePeriods implements \ArrayAccess, \Countable, \IteratorAggregate
         \uasort(
             $periods,
             function (TimePeriod $timePeriodA, TimePeriod $timePeriodB) : int {
-                $timePeriodAForward = $timePeriodA->isForward() ? $timePeriodA : $timePeriodA->revert();
-                $timePeriodBForward = $timePeriodB->isForward() ? $timePeriodB : $timePeriodB->revert();
-
-                return $timePeriodAForward->start()->toDateTimeImmutable() <=> $timePeriodBForward->start()->toDateTimeImmutable();
+                return $timePeriodA->start()->toDateTimeImmutable() <=> $timePeriodB->start()->toDateTimeImmutable();
             }
         );
 

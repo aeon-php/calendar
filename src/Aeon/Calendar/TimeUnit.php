@@ -77,8 +77,6 @@ final class TimeUnit implements Unit
      */
     public static function fromDateInterval(\DateInterval $dateInterval) : self
     {
-        $dateInterval = clone $dateInterval;
-
         if ($dateInterval->y && !$dateInterval->days) {
             throw new Exception('Can\'t convert ' . $dateInterval->format('P%yY%mM%dDT%hH%iM%sS') . ' precisely to time unit because year can\'t be directly converted to number of seconds.');
         }
