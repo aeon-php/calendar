@@ -50,6 +50,8 @@ final class TimePeriods implements \ArrayAccess, \Countable, \IteratorAggregate
     }
 
     /**
+     * @psalm-param pure-callable(TimePeriod $timePeriod) : void $iterator
+     *
      * @param callable(TimePeriod $timePeriod) : void $iterator
      */
     public function each(callable $iterator) : void
@@ -61,6 +63,8 @@ final class TimePeriods implements \ArrayAccess, \Countable, \IteratorAggregate
     }
 
     /**
+     * @psalm-param pure-callable(TimePeriod $timePeriod) : mixed $iterator
+     *
      * @param callable(TimePeriod $timePeriod) : mixed $iterator
      *
      * @return array<mixed>
@@ -71,7 +75,11 @@ final class TimePeriods implements \ArrayAccess, \Countable, \IteratorAggregate
     }
 
     /**
+     * @psalm-param pure-callable(TimePeriod $timePeriod) : bool $iterator
+     *
      * @param callable(TimePeriod $timePeriod) : bool $iterator
+     *
+     * @return self
      */
     public function filter(callable $iterator) : self
     {
@@ -103,10 +111,7 @@ final class TimePeriods implements \ArrayAccess, \Countable, \IteratorAggregate
         \uasort(
             $periods,
             function (TimePeriod $timePeriodA, TimePeriod $timePeriodB) : int {
-                $timePeriodAForward = $timePeriodA->isForward() ? $timePeriodA : $timePeriodA->revert();
-                $timePeriodBForward = $timePeriodB->isForward() ? $timePeriodB : $timePeriodB->revert();
-
-                return $timePeriodAForward->start()->toDateTimeImmutable() <=> $timePeriodBForward->start()->toDateTimeImmutable();
+                return $timePeriodA->start()->toDateTimeImmutable() <=> $timePeriodB->start()->toDateTimeImmutable();
             }
         );
 

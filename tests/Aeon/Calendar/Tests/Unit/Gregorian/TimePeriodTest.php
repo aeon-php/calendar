@@ -367,6 +367,18 @@ final class TimePeriodTest extends TestCase
 
         yield [
             false,
+            new TimePeriod(DateTime::fromString('2020-01-02 00:00:00.0000'), DateTime::fromString('2020-01-01 00:00:00.0000')),
+            new TimePeriod(DateTime::fromString('2020-05-02 00:00:00.0000'), DateTime::fromString('2020-05-03 00:00:00.0000')),
+        ];
+
+        yield [
+            false,
+            new TimePeriod(DateTime::fromString('2020-01-01 00:00:00.0000'), DateTime::fromString('2020-01-02 00:00:00.0000')),
+            new TimePeriod(DateTime::fromString('2020-05-03 00:00:00.0000'), DateTime::fromString('2020-05-02 00:00:00.0000')),
+        ];
+
+        yield [
+            false,
             new TimePeriod(DateTime::fromString('2020-01-01 00:00:00.0000'), DateTime::fromString('2020-01-02 00:00:00.0000')),
             new TimePeriod(DateTime::fromString('2020-01-02 00:00:00.0000'), DateTime::fromString('2020-01-03 00:00:00.0000')),
         ];

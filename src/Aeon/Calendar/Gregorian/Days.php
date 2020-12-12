@@ -54,6 +54,8 @@ final class Days implements \ArrayAccess, \Countable, \IteratorAggregate
     /**
      * @psalm-template MapResultType
      *
+     * @psalm-param pure-callable(Day $day) : MapResultType $iterator
+     *
      * @param callable(Day $day) : MapResultType $iterator
      *
      * @return array<MapResultType>
@@ -64,6 +66,8 @@ final class Days implements \ArrayAccess, \Countable, \IteratorAggregate
     }
 
     /**
+     * @psalm-param pure-callable(Day $day) : bool $iterator
+     *
      * @param callable(Day $day) : bool $iterator
      */
     public function filter(callable $iterator) : self

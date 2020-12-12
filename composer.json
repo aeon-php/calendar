@@ -40,6 +40,10 @@
         }
     },
     "scripts": {
+        "benchmark": [
+            "Composer\\Config::disableProcessTimeout",
+            "tools\/phpbench run --report=aeon"
+        ],
         "build": [
             "@static:analyze",
             "@test",

@@ -69,6 +69,8 @@ final class TimeUnit implements Unit
     /**
      * @psalm-pure
      * @psalm-suppress ImpureMethodCall
+     * @psalm-suppress ImpurePropertyFetch
+     *
      * Limitations: TimeUnit can't be created from relative DateIntervals like \DateInterval::createFromDateString('4 months')
      * or \DateInterval::createFromDateString('1 years'). It's because years and months are can't be precisely
      * converted into seconds/days/hours.

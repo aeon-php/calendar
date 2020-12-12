@@ -36,6 +36,7 @@ final class MonthDays implements \Countable
      */
     public function all() : array
     {
+        /** @psalm-suppress ImpureFunctionCall */
         return \array_map(
             fn (int $dayNumber) : Day => new Day($this->month, $dayNumber),
             \range(1, $this->month->numberOfDays())
@@ -43,6 +44,8 @@ final class MonthDays implements \Countable
     }
 
     /**
+     * @psalm-param pure-callable(Day $day) : void $iterator
+     *
      * @param callable(Day $day) : void $iterator
      *
      * @return array<mixed>
@@ -56,6 +59,8 @@ final class MonthDays implements \Countable
     }
 
     /**
+     * @psalm-param pure-callable(Day $day) : bool $iterator
+     *
      * @param callable(Day $day) : bool $iterator
      *
      * @return Days

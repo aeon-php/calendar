@@ -256,9 +256,6 @@ final class DateTime
         return $this->timeOffset;
     }
 
-    /**
-     * @psalm-pure
-     */
     public function toTimeZone(TimeZone $dateTimeZone) : self
     {
         return self::fromDateTime($this->toDateTimeImmutable()->setTimezone($dateTimeZone->toDateTimeZone()));
