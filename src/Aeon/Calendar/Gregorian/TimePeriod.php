@@ -112,13 +112,17 @@ final class TimePeriod
 
     public function overlaps(self $timePeriod) : bool
     {
-        $thisPeriodForward = $this->isBackward()
-            ? $this->revert()
-            : $this;
+        if ($this->isBackward()) {
+            $thisPeriodForward = $this->revert();
+        } else {
+            $thisPeriodForward = $this;
+        }
 
-        $otherPeriodForward = $timePeriod->isBackward()
-            ? $timePeriod->revert()
-            : $timePeriod;
+        if ($timePeriod->isBackward()) {
+            $otherPeriodForward = $timePeriod->revert();
+        } else {
+            $otherPeriodForward = $timePeriod;
+        }
 
         $thisPeriodStart = $thisPeriodForward->start();
         $thisPeriodEnd = $thisPeriodForward->end();
