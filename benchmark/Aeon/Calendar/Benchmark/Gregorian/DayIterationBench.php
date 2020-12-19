@@ -6,26 +6,40 @@ namespace Aeon\Calendar\Benchmark\Gregorian;
 
 use Aeon\Calendar\Gregorian\GregorianCalendar;
 use Aeon\Calendar\Gregorian\Interval;
-use Aeon\Calendar\Gregorian\TimePeriod;
-use Aeon\Calendar\Gregorian\TimeZone;
 
 /**
- * @iterations(5)
- * @revs(5)
+ * @revs(50)
+ * @iterations(10)*
  * @outputTimeUnit("milliseconds")
  */
 final class DayIterationBench
 {
-    public function bench_iteration_over_last_half_of_the_year_multiple_times() : void
+    public function bench_aeon_iteration_over_last_half_of_the_year() : void
     {
         $end = GregorianCalendar::UTC()->currentDay();
         $start = $end->minusMonths(6);
 
-        for ($index = 0; $index < 20; $index++) {
-            foreach ($start->until($end, Interval::closed())->all() as $nextDay) {
-                (new TimePeriod($nextDay->midnight($tz = TimeZone::UTC()), $nextDay->next()->midnight($tz)))
-                    ->overlaps(new TimePeriod($nextDay->midnight($tz), $nextDay->previous()->midnight($tz)));
-            }
+        $days = [];
+
+        foreach ($start->until($end, Interval::rightOpen())->all() as $nextDay) {
+            $days[] = $nextDay->format('Y-m-d');
+        }
+    }
+
+    public function bench_php_iteration_over_last_half_of_the_year() : void
+    {
+        \date_default_timezone_set('UTC');
+
+        $end = new \DateTime('today');
+        $start = new \DateTime('-6 months');
+
+        $interval = \DateInterval::createFromDateString('1 day');
+        $period = new \DatePeriod($start, $interval, $end);
+
+        $days = [];
+
+        foreach ($period as $nextDay) {
+            $days[] = $nextDay->format('Y-m-d');
         }
     }
 }

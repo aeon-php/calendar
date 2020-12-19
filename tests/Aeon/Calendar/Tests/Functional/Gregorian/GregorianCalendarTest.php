@@ -13,6 +13,11 @@ use PHPUnit\Framework\TestCase;
 
 final class GregorianCalendarTest extends TestCase
 {
+    public function setUp() : void
+    {
+        \date_default_timezone_set('UTC');
+    }
+
     public function test_creating_calendar_with_system_default_tz() : void
     {
         $timezone = (GregorianCalendar::systemDefault())->now()->timeZone();

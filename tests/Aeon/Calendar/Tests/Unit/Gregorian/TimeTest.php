@@ -24,6 +24,57 @@ final class TimeTest extends TestCase
         );
     }
 
+    /**
+     * @dataProvider invalid_string_day_format
+     */
+    public function test_from_invalid_string(string $invalidValue) : void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage("Value \"{$invalidValue}\" is not valid time format.");
+
+        Time::fromString($invalidValue);
+    }
+
+    /**
+     * @return \Generator<int, array{string}, mixed, void>
+     */
+    public function invalid_string_day_format() : \Generator
+    {
+        yield ['01-01-01'];
+        yield ['2020-32'];
+        yield ['+1 minute'];
+    }
+
+    public function test_each_part_of_time() : void
+    {
+        $time = Time::fromString('00:00');
+
+        $this->assertSame(0, $time->hour());
+        $this->assertSame(0, $time->minute());
+        $this->assertSame(0, $time->second());
+        $this->assertSame(0, $time->microsecond());
+    }
+
+    /**
+     * @dataProvider valid_string_day_format
+     */
+    public function test_from_string(string $invalidValue, Time $time) : void
+    {
+        $this->assertEquals($time, Time::fromString($invalidValue));
+    }
+
+    /**
+     * @return \Generator<int, array{string, Time}, mixed, void>
+     */
+    public function valid_string_day_format() : \Generator
+    {
+        yield ['01:00:01.5', new Time(01, 00, 01, 500000)];
+        yield ['01:00:01.005', new Time(01, 00, 01, 5000)];
+        yield ['01:00:01.00001', new Time(01, 00, 01, 10)];
+        yield ['01:12', new Time(01, 12, 00)];
+        yield ['01:12 +1 minute + 10 seconds', new Time(01, 13, 10)];
+    }
+
     public function test_time_millisecond() : void
     {
         $this->assertSame(101, (new Time(0, 0, 0, 101999))->millisecond());

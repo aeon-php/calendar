@@ -551,24 +551,24 @@ final class TimePeriodTest extends TestCase
     public function test_one_period_contains_the_same_period() : void
     {
         $this->assertTrue(
-            (new TimePeriod(DateTime::fromString('2020-01-01'), DateTime::fromString('2020-01-02')))
-                ->contains(new TimePeriod(DateTime::fromString('2020-01-01'), DateTime::fromString('2020-01-02')))
+            (new TimePeriod(DateTime::fromString('2020-01-01 00:00:00'), DateTime::fromString('2020-01-02 00:00:00')))
+                ->contains(new TimePeriod(DateTime::fromString('2020-01-01 00:00:00'), DateTime::fromString('2020-01-02 00:00:00')))
         );
     }
 
     public function test_one_period_contains_shorted_period() : void
     {
         $this->assertTrue(
-            (new TimePeriod(DateTime::fromString('2020-01-01'), DateTime::fromString('2020-01-05')))
-                ->contains(new TimePeriod(DateTime::fromString('2020-01-02'), DateTime::fromString('2020-01-03')))
+            (new TimePeriod(DateTime::fromString('2020-01-01 00:00:00'), DateTime::fromString('2020-01-05 00:00:00')))
+                ->contains(new TimePeriod(DateTime::fromString('2020-01-02 00:00:00'), DateTime::fromString('2020-01-03 00:00:00')))
         );
     }
 
     public function test_one_period_not_contains_other_overlapping_period() : void
     {
         $this->assertFalse(
-            (new TimePeriod(DateTime::fromString('2020-01-05'), DateTime::fromString('2020-01-10')))
-                ->contains(new TimePeriod(DateTime::fromString('2020-01-02'), DateTime::fromString('2020-01-07')))
+            (new TimePeriod(DateTime::fromString('2020-01-05 00:00:00'), DateTime::fromString('2020-01-10 00:00:00')))
+                ->contains(new TimePeriod(DateTime::fromString('2020-01-02 00:00:00'), DateTime::fromString('2020-01-07 00:00:00')))
         );
     }
 
@@ -577,14 +577,14 @@ final class TimePeriodTest extends TestCase
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage("Can't merge not overlapping time periods");
 
-        (new TimePeriod(DateTime::fromString('2020-01-05'), DateTime::fromString('2020-01-10')))
-            ->merge(new TimePeriod(DateTime::fromString('2020-01-20'), DateTime::fromString('2020-01-25')));
+        (new TimePeriod(DateTime::fromString('2020-01-05 00:00:00'), DateTime::fromString('2020-01-10 00:00:00')))
+            ->merge(new TimePeriod(DateTime::fromString('2020-01-20 00:00:00'), DateTime::fromString('2020-01-25 00:00:00')));
     }
 
     public function test_merge_left_overlapping_time_periods() : void
     {
-        $newPeriod = (new TimePeriod(DateTime::fromString('2020-01-05'), DateTime::fromString('2020-01-10')))
-            ->merge(new TimePeriod(DateTime::fromString('2020-01-08'), DateTime::fromString('2020-01-25')));
+        $newPeriod = (new TimePeriod(DateTime::fromString('2020-01-05 00:00:00'), DateTime::fromString('2020-01-10 00:00:00')))
+            ->merge(new TimePeriod(DateTime::fromString('2020-01-08 00:00:00'), DateTime::fromString('2020-01-25 00:00:00')));
 
         $this->assertSame(
             '2020-01-05',
@@ -599,8 +599,8 @@ final class TimePeriodTest extends TestCase
 
     public function test_merge_right_overlapping_time_periods() : void
     {
-        $newPeriod = (new TimePeriod(DateTime::fromString('2020-01-10'), DateTime::fromString('2020-02-10')))
-            ->merge(new TimePeriod(DateTime::fromString('2020-01-08'), DateTime::fromString('2020-01-25')));
+        $newPeriod = (new TimePeriod(DateTime::fromString('2020-01-10 00:00:00'), DateTime::fromString('2020-02-10 00:00:00')))
+            ->merge(new TimePeriod(DateTime::fromString('2020-01-08 00:00:00'), DateTime::fromString('2020-01-25 00:00:00')));
 
         $this->assertSame(
             '2020-01-08',
@@ -628,7 +628,7 @@ final class TimePeriodTest extends TestCase
             $timePeriod->__serialize()
         );
         $this->assertSame(
-            'O:34:"Aeon\Calendar\Gregorian\TimePeriod":2:{s:5:"start";O:32:"Aeon\Calendar\Gregorian\DateTime":4:{s:3:"day";O:27:"Aeon\Calendar\Gregorian\Day":2:{s:5:"month";O:29:"Aeon\Calendar\Gregorian\Month":2:{s:4:"year";O:28:"Aeon\Calendar\Gregorian\Year":1:{s:4:"year";i:2020;}s:6:"number";i:1;}s:6:"number";i:1;}s:4:"time";O:28:"Aeon\Calendar\Gregorian\Time":4:{s:4:"hour";i:0;s:6:"minute";i:0;s:6:"second";i:0;s:11:"microsecond";i:0;}s:8:"timeZone";O:32:"Aeon\Calendar\Gregorian\TimeZone":1:{s:4:"name";s:3:"UTC";}s:10:"timeOffset";O:43:"Aeon\Calendar\Gregorian\TimeZone\TimeOffset":3:{s:5:"hours";i:0;s:7:"minutes";i:0;s:8:"negative";b:0;}}s:3:"end";O:32:"Aeon\Calendar\Gregorian\DateTime":4:{s:3:"day";O:27:"Aeon\Calendar\Gregorian\Day":2:{s:5:"month";O:29:"Aeon\Calendar\Gregorian\Month":2:{s:4:"year";O:28:"Aeon\Calendar\Gregorian\Year":1:{s:4:"year";i:2020;}s:6:"number";i:1;}s:6:"number";i:2;}s:4:"time";O:28:"Aeon\Calendar\Gregorian\Time":4:{s:4:"hour";i:0;s:6:"minute";i:0;s:6:"second";i:0;s:11:"microsecond";i:0;}s:8:"timeZone";O:32:"Aeon\Calendar\Gregorian\TimeZone":1:{s:4:"name";s:3:"UTC";}s:10:"timeOffset";O:43:"Aeon\Calendar\Gregorian\TimeZone\TimeOffset":3:{s:5:"hours";i:0;s:7:"minutes";i:0;s:8:"negative";b:0;}}}',
+            'O:34:"Aeon\Calendar\Gregorian\TimePeriod":2:{s:5:"start";O:32:"Aeon\Calendar\Gregorian\DateTime":3:{s:3:"day";O:27:"Aeon\Calendar\Gregorian\Day":2:{s:5:"month";O:29:"Aeon\Calendar\Gregorian\Month":2:{s:4:"year";O:28:"Aeon\Calendar\Gregorian\Year":1:{s:4:"year";i:2020;}s:6:"number";i:1;}s:6:"number";i:1;}s:4:"time";O:28:"Aeon\Calendar\Gregorian\Time":4:{s:4:"hour";i:0;s:6:"minute";i:0;s:6:"second";i:0;s:11:"microsecond";i:0;}s:8:"timeZone";O:32:"Aeon\Calendar\Gregorian\TimeZone":1:{s:4:"name";s:3:"UTC";}}s:3:"end";O:32:"Aeon\Calendar\Gregorian\DateTime":3:{s:3:"day";O:27:"Aeon\Calendar\Gregorian\Day":2:{s:5:"month";O:29:"Aeon\Calendar\Gregorian\Month":2:{s:4:"year";O:28:"Aeon\Calendar\Gregorian\Year":1:{s:4:"year";i:2020;}s:6:"number";i:1;}s:6:"number";i:2;}s:4:"time";O:28:"Aeon\Calendar\Gregorian\Time":4:{s:4:"hour";i:0;s:6:"minute";i:0;s:6:"second";i:0;s:11:"microsecond";i:0;}s:8:"timeZone";O:32:"Aeon\Calendar\Gregorian\TimeZone":1:{s:4:"name";s:3:"UTC";}}}',
             \serialize($timePeriod)
         );
     }

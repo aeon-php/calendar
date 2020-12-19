@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Aeon\Calendar\Tests\Unit\Gregorian;
 
 use Aeon\Calendar\Exception\Exception;
+use Aeon\Calendar\Exception\InvalidArgumentException;
 use Aeon\Calendar\Gregorian\DateTime;
 use Aeon\Calendar\Gregorian\Day;
 use Aeon\Calendar\Gregorian\Month;
@@ -12,7 +13,6 @@ use Aeon\Calendar\Gregorian\Time;
 use Aeon\Calendar\Gregorian\TimeEpoch;
 use Aeon\Calendar\Gregorian\TimePeriod;
 use Aeon\Calendar\Gregorian\TimeZone;
-use Aeon\Calendar\Gregorian\TimeZone\TimeOffset;
 use Aeon\Calendar\Gregorian\Year;
 use Aeon\Calendar\TimeUnit;
 use PHPUnit\Framework\TestCase;
@@ -35,7 +35,7 @@ final class DateTimeTest extends TestCase
         yield ['2020-01-01 00:00:00+00:00', DateTime::fromString('2020-01-01 00:00:00+00:00'), 'Y-m-d H:i:sP'];
         yield ['2020-01-01 00:00:00+00:00', DateTime::create(2020, 01, 01, 00, 00, 00), 'Y-m-d H:i:sP'];
         yield ['2020-01-01 00:00:00+00:00', DateTime::fromDateTime(new \DateTimeImmutable('2020-01-01 00:00:00+00:00')), 'Y-m-d H:i:sP'];
-        yield ['2020-01-01 00:00:00+00:00', new DateTime(new Day(new Month(new Year(2020), 01), 01), new Time(0, 0, 0)), 'Y-m-d H:i:sP'];
+        yield ['2020-01-01 00:00:00+00:00', new DateTime(new Day(new Month(new Year(2020), 01), 01), new Time(0, 0, 0), TimeZone::UTC()), 'Y-m-d H:i:sP'];
 
         yield ['2020-11-01 02:00:00-08:00', DateTime::fromDateTime(new \DateTimeImmutable('2020-11-01 02:00 America/Los_Angeles')), 'Y-m-d H:i:sP'];
 
@@ -43,12 +43,57 @@ final class DateTimeTest extends TestCase
         yield ['2020-01-01 00:00:00+01:00', DateTime::create(2020, 01, 01, 00, 00, 00, 0, 'Europe/Warsaw'), 'Y-m-d H:i:sP'];
         yield ['2020-01-01 00:00:00+01:00', DateTime::fromDateTime(new \DateTimeImmutable('2020-01-01 00:00:00+01:00')), 'Y-m-d H:i:sP'];
         yield ['2020-01-01 00:00:00+01:00', new DateTime(new Day(new Month(new Year(2020), 01), 01), new Time(0, 0, 0), TimeZone::europeWarsaw()), 'Y-m-d H:i:sP'];
-
+        yield ['2020-01-01 00:00:00+00:00', DateTime::fromString('2020-01 00:00:00'), 'Y-m-d H:i:sP'];
+        yield ['2020-01-02 00:00:00+00:00', DateTime::fromString('2020-01 00:00:00 +1 day'), 'Y-m-d H:i:sP'];
+        yield ['2020-01-01 00:00:00+00:00', DateTime::fromString('2020-01 00:00'), 'Y-m-d H:i:sP'];
+        yield ['2020-01-01 00:00:00+00:00.000000', DateTime::fromString('2020-01 00:00'), 'Y-m-d H:i:sP.u'];
+        yield ['2020-01-01 00:00:00+00:00.000500', DateTime::fromString('2020-01 00:00:00.0005'), 'Y-m-d H:i:sP.u'];
+        yield ['1999-10-13 00:00:00', DateTime::fromString('1999-10-13 00:00:00'), 'Y-m-d H:i:s'];
+        yield ['1999-10-13 00:00:00', DateTime::fromString('Oct 13  1999 00:00:00'), 'Y-m-d H:i:s'];
+        yield ['2000-01-19 00:00:00', DateTime::fromString('2000-01-19 00:00:00'), 'Y-m-d H:i:s'];
+        yield ['2000-01-19 00:00:00', DateTime::fromString('Jan 19  2000 00:00:00'), 'Y-m-d H:i:s'];
+        yield ['2001-12-21 00:00:00', DateTime::fromString('2001-12-21 00:00:00'), 'Y-m-d H:i:s'];
+        yield ['2001-12-21 00:00:00', DateTime::fromString('Dec 21  2001 00:00:00'), 'Y-m-d H:i:s'];
+        yield ['2001-12-21 12:16:00', DateTime::fromString('2001-12-21 12:16'), 'Y-m-d H:i:s'];
+        yield ['2001-12-21 12:16:00', DateTime::fromString('Dec 21 2001 12:16'), 'Y-m-d H:i:s'];
+        yield ['2001-10-22 21:19:58', DateTime::fromString('2001-10-22 21:19:58'), 'Y-m-d H:i:s'];
+        yield ['2001-10-22 21:19:58', DateTime::fromString('2001-10-22 21:19:58-02'), 'Y-m-d H:i:s'];
+        yield ['2001-10-22 21:19:58', DateTime::fromString('2001-10-22 21:19:58-0213'), 'Y-m-d H:i:s'];
+        yield ['2001-10-22 21:19:58', DateTime::fromString('2001-10-22 21:19:58+02'), 'Y-m-d H:i:s'];
+        yield ['2001-10-22 21:19:58', DateTime::fromString('2001-10-22 21:19:58+0213'), 'Y-m-d H:i:s'];
+        yield ['2001-10-22 21:20:58', DateTime::fromString('2001-10-22T21:20:58-03:40'), 'Y-m-d H:i:s'];
+        yield ['2001-10-22 21:19:58', DateTime::fromString('2001-10-22T211958-2'), 'Y-m-d H:i:s'];
+        yield ['2001-10-22 21:19:58', DateTime::fromString('20011022T211958+0213'), 'Y-m-d H:i:s'];
+        yield ['2001-10-22 21:20:00', DateTime::fromString('20011022T21:20+0215'), 'Y-m-d H:i:s'];
+        yield ['1996-12-30 00:00:00', DateTime::fromString('1997W011 00:00:00'), 'Y-m-d H:i:s'];
+        yield ['2004-03-01 05:00:00', DateTime::fromString('2004W101T05:00+0'), 'Y-m-d H:i:s'];
         // DTS switch +1 hour
         yield ['2020-03-29 03:30:00+02:00', DateTime::fromString('2020-03-29 02:30:00 Europe/Warsaw'), 'Y-m-d H:i:sP'];
         // DTS switch -1 hour
         yield ['2020-10-25 02:30:00+01:00', DateTime::fromString('2020-10-25 02:30:00 Europe/Warsaw'), 'Y-m-d H:i:sP'];
         yield ['2020-10-25 01:30:00+02:00', DateTime::fromString('2020-10-25 01:30:00 Europe/Warsaw'), 'Y-m-d H:i:sP'];
+    }
+
+    /**
+     * @dataProvider invalid_date_time_string
+     */
+    public function test_creating_datetime_from_invalid_string(string $dateTimeInvalidString) : void
+    {
+        $this->expectExceptionMessage("Value \"{$dateTimeInvalidString}\" is not valid date time format.");
+        $this->expectException(InvalidArgumentException::class);
+
+        DateTime::fromString($dateTimeInvalidString);
+    }
+
+    /**
+     * @return \Generator<int, array{string}, mixed, void>
+     */
+    public function invalid_date_time_string() : \Generator
+    {
+        yield ['2020-31-01'];
+        yield ['2020-01-32'];
+        yield ['something'];
+        yield ['00:00:00'];
     }
 
     public function test_debug_info() : void
@@ -60,18 +105,9 @@ final class DateTimeTest extends TestCase
                 'datetime' => $dateTime->toISO8601(),
                 'day' => $dateTime->day(),
                 'time' => $dateTime->time(),
-                'offset' => $dateTime->timeOffset(),
-                'timezone' => $dateTime->timeZone(),
+                'timeZone' => $dateTime->timeZone(),
             ],
             $dateTime->__debugInfo()
-        );
-    }
-
-    public function test_create_without_timezone_and_time_offset() : void
-    {
-        $this->assertSame(
-            '2020-01-01 00:00:00.000000+0000',
-            (new DateTime(new Day(new Month(new Year(2020), 1), 1), new Time(0, 0, 0)))->format('Y-m-d H:i:s.uO')
         );
     }
 
@@ -83,32 +119,8 @@ final class DateTimeTest extends TestCase
         );
     }
 
-    public function test_create_with_timezone_utc() : void
-    {
-        $this->assertSame(
-            '-03:00',
-            (new DateTime(new Day(new Month(new Year(2020), 1), 1), new Time(0, 0, 0), TimeZone::americaFortaleza()))->timeOffset()->toString()
-        );
-    }
-
-    public function test_create_without_timezone() : void
-    {
-        $this->assertSame(
-            '+00:00',
-            (new DateTime(new Day(new Month(new Year(2020), 1), 1), new Time(0, 0, 0)))->timeOffset()->toString()
-        );
-        $this->assertSame(
-            'UTC',
-            (new DateTime(new Day(new Month(new Year(2020), 1), 1), new Time(0, 0, 0)))->timeZone()->name()
-        );
-    }
-
     public function test_create_from_string_without_offset_and_timezone() : void
     {
-        $this->assertSame(
-            '+00:00',
-            DateTime::fromString('2020-01-01 00:00:00')->timeOffset()->toString()
-        );
         $this->assertSame(
             'UTC',
             DateTime::fromString('2020-01-01 00:00:00')->timeZone()->name()
@@ -120,10 +132,6 @@ final class DateTimeTest extends TestCase
         \date_default_timezone_set('Europe/Warsaw');
 
         $this->assertSame(
-            '+00:00',
-            DateTime::fromString('2020-01-01 00:00:00')->timeOffset()->toString()
-        );
-        $this->assertSame(
             'UTC',
             DateTime::fromString('2020-01-01 00:00:00')->timeZone()->name()
         );
@@ -134,10 +142,6 @@ final class DateTimeTest extends TestCase
     {
         \date_default_timezone_set('Europe/Warsaw');
 
-        $this->assertSame(
-            '+00:00',
-            DateTime::fromTimestampUnix(1577836800)->timeOffset()->toString()
-        );
         $this->assertSame(
             'UTC',
             DateTime::fromTimestampUnix(1577836800)->timeZone()->name()
@@ -153,7 +157,7 @@ final class DateTimeTest extends TestCase
         $dateTimeFromString = DateTime::fromString('2020-01-01 00:00:00');
         $dateTimeFromTimestamp = DateTime::fromTimestampUnix(1577836800);
         $dateTimeCreate = DateTime::create(2020, 01, 01, 00, 00, 00);
-        $dateTime = new DateTime(new Day(new Month(new Year(2020), 01), 01), new Time(00, 00, 00));
+        $dateTime = new DateTime(new Day(new Month(new Year(2020), 01), 01), new Time(00, 00, 00), TimeZone::UTC());
 
         $this->assertTrue($dateTime->isEqual($dateTimeFromString));
         $this->assertTrue($dateTime->isEqual($dateTimeFromTimestamp));
@@ -190,37 +194,6 @@ final class DateTimeTest extends TestCase
         $dateTime = DateTime::fromString('2020-01-01 00:00:00 America/Los_Angeles');
 
         $this->assertEquals($dateTimeImmutable, $dateTime->toDateTimeImmutable());
-    }
-
-    public function test_create_with_timezone_and_time_offset() : void
-    {
-        $this->assertSame(
-            '2020-01-01 00:00:00.000000-0800',
-            (new DateTime(new Day(new Month(new Year(2020), 1), 1), new Time(0, 0, 0), TimeZone::americaLosAngeles(), TimeOffset::fromString('-08:00')))->format('Y-m-d H:i:s.uO')
-        );
-    }
-
-    public function test_creating_datetime_with_timezone_not_matching_offset() : void
-    {
-        $dateTime = new DateTime(Day::fromString('2020-01-01'), new Time(0, 0, 0, 0), TimeZone::europeWarsaw(), TimeOffset::fromString('00:00'));
-
-        $this->assertSame(
-            'Europe/Warsaw',
-            $dateTime->timeZone()->name()
-        );
-
-        $this->assertSame(
-            '+01:00',
-            $dateTime->timeOffset()->toString()
-        );
-    }
-
-    public function test_create_without_timezone_and_with_time_offset() : void
-    {
-        $this->assertSame(
-            '2020-01-01 00:00:00.000000-0800',
-            (new DateTime(new Day(new Month(new Year(2020), 1), 1), new Time(0, 0, 0), null, TimeOffset::fromString('-08:00')))->format('Y-m-d H:i:s.uO')
-        );
     }
 
     public function test_create_from_string_with_timezone() : void
@@ -262,24 +235,6 @@ final class DateTimeTest extends TestCase
         $this->assertTrue(
             DateTime::create(2020, 01, 01, 00, 00, 00)
                 ->isEqual(DateTime::fromString('2020-01-01 00:00:00.000000 UTC'))
-        );
-    }
-
-    public function test_create_date_just_after_daylight_saving_time_change() : void
-    {
-        $this->assertSame(
-            '+02:00',
-            DateTime::fromString('2020-10-25 01:00:00 Europe/Warsaw')->timeOffset()->toString()
-        );
-    }
-
-    public function test_converting_timezone_just_after_daylight_saving_time() : void
-    {
-        $this->assertSame(
-            '+02:00',
-            DateTime::fromString('2020-10-25 00:30:00 Europe/Prague')
-                ->toTimeZone(TimeZone::europePrague())
-                ->timeOffset()->toString()
         );
     }
 
@@ -350,13 +305,6 @@ final class DateTimeTest extends TestCase
         $this->assertSame(1000, $dateTime->time()->microsecond());
     }
 
-    public function test_creating_time_offset_from_timezone() : void
-    {
-        $dateTime = DateTime::fromString('2020-01-01 00:00:00')->toTimeZone(TimeZone::americaLosAngeles());
-
-        $this->assertSame('-08:00', $dateTime->timeOffset()->toString());
-    }
-
     public function test_timezone_conversion() : void
     {
         $dateTimeString = '2020-01-01 00:00:00.000000+0000';
@@ -365,14 +313,14 @@ final class DateTimeTest extends TestCase
 
         $this->assertSame(
             (new \DateTimeImmutable($dateTimeString))->setTimezone(new \DateTimeZone($timeZone))->format('Y-m-d H:i:s.uO'),
-            $dateTime->toTimeZone(new TimeZone($timeZone))->format('Y-m-d H:i:s.uO')
+            $dateTime->toTimeZone(TimeZone::fromString($timeZone))->format('Y-m-d H:i:s.uO')
         );
     }
 
     public function test_daylight() : void
     {
         $dateTime = DateTime::fromString('2020-01-01 00:00:00')
-            ->toTimeZone(new TimeZone('Europe/Warsaw'));
+            ->toTimeZone(TimeZone::fromString('Europe/Warsaw'));
 
         $this->assertFalse($dateTime->isDaylightSaving());
         $this->assertTrue($dateTime->isDaylight());
@@ -381,7 +329,7 @@ final class DateTimeTest extends TestCase
     public function test_saving_time() : void
     {
         $dateTime = DateTime::fromString('2020-08-01 00:00:00')
-            ->toTimeZone(new TimeZone('Europe/Warsaw'));
+            ->toTimeZone(TimeZone::fromString('Europe/Warsaw'));
 
         $this->assertTrue($dateTime->isDaylightSaving());
         $this->assertFalse($dateTime->isDaylight());
@@ -778,7 +726,7 @@ final class DateTimeTest extends TestCase
      */
     public function checking_ambiguous_time_data_provider() : \Generator
     {
-        yield [new DateTime(Day::fromString('2020-01-01'), Time::fromString('00:00:00'), null, TimeOffset::fromString('01:00')), false];
+        yield [new DateTime(Day::fromString('2020-01-01'), Time::fromString('00:00:00'), TimeZone::UTC()), false];
         yield [DateTime::fromString('2020-10-25 01:59:59 UTC'), false];
         yield [DateTime::fromString('2020-10-25 00:00:00 Europe/Warsaw'), false];
         yield [DateTime::fromString('2020-10-25 01:00:00 Europe/Warsaw'), false];
@@ -827,19 +775,9 @@ final class DateTimeTest extends TestCase
         $this->assertSame('UTC', $timeZone->name());
     }
 
-    public function test_time_offset_when_not_explicitly_provided() : void
+    public function test_time_zone_when_only_time_offset_explicitly_provided() : void
     {
-        $this->assertSame('+00:00', DateTime::fromString('2020-03-29 00:00:00')->timeOffset()->toString());
-    }
-
-    public function test_time_offset_when_only_timezone_explicitly_provided() : void
-    {
-        $this->assertSame('+01:00', DateTime::fromString('2020-03-29 00:00:00 Europe/Warsaw')->timeOffset()->toString());
-    }
-
-    public function test_time_zone_when_only_timestamp_explicitly_provided() : void
-    {
-        $this->assertSame(null, DateTime::fromString('2020-01-01 01:00:00+0100')->timeZone());
+        $this->assertSame('+01:00', DateTime::fromString('2020-01-01 00:00:00+0100')->timeZone()->name());
     }
 
     public function test_yesterday() : void
@@ -902,10 +840,10 @@ final class DateTimeTest extends TestCase
 
     public function test_quarter() : void
     {
-        $this->assertSame(1, DateTime::fromString('2020-01-01')->quarter()->number());
-        $this->assertSame(2, DateTime::fromString('2020-04-01')->quarter()->number());
-        $this->assertSame(3, DateTime::fromString('2020-07-01')->quarter()->number());
-        $this->assertSame(4, DateTime::fromString('2020-10-01')->quarter()->number());
+        $this->assertSame(1, DateTime::fromString('2020-01-01 00:00:00')->quarter()->number());
+        $this->assertSame(2, DateTime::fromString('2020-04-01 00:00:00')->quarter()->number());
+        $this->assertSame(3, DateTime::fromString('2020-07-01 00:00:00')->quarter()->number());
+        $this->assertSame(4, DateTime::fromString('2020-10-01 00:00:00')->quarter()->number());
     }
 
     public function test_serialization() : void
@@ -917,12 +855,11 @@ final class DateTimeTest extends TestCase
                 'day' => $dateTime->day(),
                 'time' => $dateTime->time(),
                 'timeZone' => $dateTime->timeZone(),
-                'timeOffset' => $dateTime->timeOffset(),
             ],
             $dateTime->__serialize()
         );
         $this->assertSame(
-            'O:32:"' . DateTime::class . '":4:{s:3:"day";O:27:"' . Day::class . '":2:{s:5:"month";O:29:"' . Month::class . '":2:{s:4:"year";O:28:"' . Year::class . '":1:{s:4:"year";i:2020;}s:6:"number";i:3;}s:6:"number";i:29;}s:4:"time";O:28:"' . Time::class . '":4:{s:4:"hour";i:2;s:6:"minute";i:30;s:6:"second";i:0;s:11:"microsecond";i:0;}s:8:"timeZone";O:32:"' . TimeZone::class . '":1:{s:4:"name";s:13:"Europe/Warsaw";}s:10:"timeOffset";O:43:"' . TimeOffset::class . '":3:{s:5:"hours";i:2;s:7:"minutes";i:0;s:8:"negative";b:0;}}',
+            'O:32:"' . DateTime::class . '":3:{s:3:"day";O:27:"' . Day::class . '":2:{s:5:"month";O:29:"' . Month::class . '":2:{s:4:"year";O:28:"' . Year::class . '":1:{s:4:"year";i:2020;}s:6:"number";i:3;}s:6:"number";i:29;}s:4:"time";O:28:"' . Time::class . '":4:{s:4:"hour";i:2;s:6:"minute";i:30;s:6:"second";i:0;s:11:"microsecond";i:0;}s:8:"timeZone";O:32:"' . TimeZone::class . '":1:{s:4:"name";s:13:"Europe/Warsaw";}}',
             \serialize($dateTime)
         );
     }

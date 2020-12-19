@@ -6,7 +6,6 @@ namespace Aeon\Calendar\Gregorian;
 
 use Aeon\Calendar\Exception\Exception;
 use Aeon\Calendar\Exception\InvalidArgumentException;
-use Aeon\Calendar\Gregorian\TimeZone\TimeOffset;
 use Aeon\Calendar\TimeUnit;
 use Aeon\Calendar\Unit;
 
@@ -19,33 +18,13 @@ final class DateTime
 
     private Time $time;
 
-    private ?TimeZone $timeZone;
+    private TimeZone $timeZone;
 
-    private TimeOffset $timeOffset;
-
-    private ?\DateTimeImmutable $lazyDateTimeImmutable;
-
-    private ?int $lazyUnixTimestamp;
-
-    public function __construct(Day $day, Time $time, ?TimeZone $timeZone = null, ?TimeOffset $timeOffset = null)
+    public function __construct(Day $day, Time $time, TimeZone $timeZone)
     {
-        $this->lazyDateTimeImmutable = null;
-        $this->lazyUnixTimestamp = null;
         $this->day = $day;
         $this->time = $time;
         $this->timeZone = $timeZone;
-
-        $this->timeOffset = $timeOffset === null
-            ? ($timeZone !== null ? $timeZone->timeOffset($this) : TimeOffset::UTC())
-            : $timeOffset;
-
-        if ($this->timeZone !== null) {
-            $this->timeOffset = $this->timeZone->timeOffset($this);
-        }
-
-        if ($this->timeZone === null && $this->timeOffset->isUTC()) {
-            $this->timeZone = TimeZone::UTC();
-        }
     }
 
     /**
@@ -62,7 +41,7 @@ final class DateTime
                 $day
             ),
             new Time($hour, $minute, $second, $microsecond),
-            new TimeZone($timezone)
+            TimeZone::fromString($timezone)
         );
     }
 
@@ -75,14 +54,13 @@ final class DateTime
         try {
             $tz = TimeZone::fromDateTimeZone($dateTime->getTimezone());
         } catch (InvalidArgumentException $e) {
-            $tz = null;
+            $tz = TimeZone::UTC();
         }
 
         return new self(
             Day::fromDateTime($dateTime),
             Time::fromDateTime($dateTime),
-            $tz,
-            TimeOffset::fromTimeUnit(TimeUnit::seconds($dateTime->getOffset()))
+            $tz
         );
     }
 
@@ -92,6 +70,20 @@ final class DateTime
      */
     public static function fromString(string $date) : self
     {
+        $dateParts = \date_parse($date);
+
+        if (!\is_array($dateParts)) {
+            throw new InvalidArgumentException("Value \"{$date}\" is not valid date time format.");
+        }
+
+        if ($dateParts['error_count'] > 0) {
+            throw new InvalidArgumentException("Value \"{$date}\" is not valid date time format.");
+        }
+
+        if (!\is_int($dateParts['year']) || !\is_int($dateParts['month']) || !\is_int($dateParts['day'])) {
+            throw new InvalidArgumentException("Value \"{$date}\" is not valid date time format.");
+        }
+
         $currentPHPTimeZone = \date_default_timezone_get();
 
         \date_default_timezone_set('UTC');
@@ -126,7 +118,7 @@ final class DateTime
     }
 
     /**
-     * @return array{datetime: string, day: Day, time: Time, offset: TimeOffset, timezone: ?TimeZone}
+     * @return array{datetime: string, day: Day, time: Time, timeZone: TimeZone}
      */
     public function __debugInfo() : array
     {
@@ -134,13 +126,12 @@ final class DateTime
             'datetime' => $this->toISO8601(),
             'day' => $this->day,
             'time' => $this->time,
-            'offset' => $this->timeOffset,
-            'timezone' => $this->timeZone,
+            'timeZone' => $this->timeZone,
         ];
     }
 
     /**
-     * @return array{day: Day, time: Time, timeZone: ?TimeZone, timeOffset: TimeZone\TimeOffset}
+     * @return array{day: Day, time: Time, timeZone: TimeZone}
      */
     public function __serialize() : array
     {
@@ -148,7 +139,6 @@ final class DateTime
             'day' => $this->day,
             'time' => $this->time,
             'timeZone' => $this->timeZone,
-            'timeOffset' => $this->timeOffset,
         ];
     }
 
@@ -177,8 +167,7 @@ final class DateTime
         return new self(
             $this->day(),
             $time,
-            $this->timeZone(),
-            $this->timeOffset()
+            $this->timeZone()
         );
     }
 
@@ -187,8 +176,7 @@ final class DateTime
         return (new self(
             $this->day(),
             $time,
-            $this->timeZone(),
-            $this->timeOffset()
+            $this->timeZone()
         ))->toTimeZone($timeZone)
             ->setTime($time);
     }
@@ -198,21 +186,15 @@ final class DateTime
         return new self(
             $day,
             $this->time(),
-            $this->timeZone(),
-            $this->timeOffset()
+            $this->timeZone()
         );
     }
 
-    /** @psalm-suppress InaccessibleProperty */
     public function toDateTimeImmutable() : \DateTimeImmutable
     {
-        if ($this->lazyDateTimeImmutable instanceof \DateTimeImmutable) {
-            return $this->lazyDateTimeImmutable;
-        }
-
-        $this->lazyDateTimeImmutable = new \DateTimeImmutable(
+        return new \DateTimeImmutable(
             \sprintf(
-                '%d-%02d-%02d %02d:%02d:%02d.%06d%s',
+                '%d-%02d-%02d %02d:%02d:%02d.%06d',
                 $this->day->year()->number(),
                 $this->day->month()->number(),
                 $this->day->number(),
@@ -220,13 +202,9 @@ final class DateTime
                 $this->time->minute(),
                 $this->time->second(),
                 $this->time->microsecond(),
-                $this->timeZone === null ? $this->timeOffset->toString() : ''
             ),
-            ($this->timeZone === null) ? null : $this->timeZone->toDateTimeZone()
+            $this->timeZone->toDateTimeZone()
         );
-        $this->lazyUnixTimestamp = $this->lazyDateTimeImmutable->getTimestamp();
-
-        return $this->lazyDateTimeImmutable;
     }
 
     public function toAtomicTime() : self
@@ -246,14 +224,9 @@ final class DateTime
         return $this->toDateTimeImmutable()->format($format);
     }
 
-    public function timeZone() : ?TimeZone
+    public function timeZone() : TimeZone
     {
         return $this->timeZone;
-    }
-
-    public function timeOffset() : TimeOffset
-    {
-        return $this->timeOffset;
     }
 
     public function toTimeZone(TimeZone $dateTimeZone) : self
@@ -311,14 +284,13 @@ final class DateTime
      */
     public function timestampUNIX() : TimeUnit
     {
-        /** @psalm-suppress InaccessibleProperty */
-        if ($this->lazyUnixTimestamp === null) {
-            $this->lazyUnixTimestamp = $this->toDateTimeImmutable()->getTimestamp();
+        $timestamp = $this->toDateTimeImmutable()->getTimestamp();
+
+        if ($timestamp >= 0) {
+            return TimeUnit::positive($timestamp, $this->time->microsecond());
         }
 
-        return $this->lazyUnixTimestamp >= 0
-            ? TimeUnit::positive($this->lazyUnixTimestamp, $this->time->microsecond())
-            : TimeUnit::negative(\abs($this->lazyUnixTimestamp), $this->time->microsecond());
+        return TimeUnit::negative(\abs($timestamp), $this->time->microsecond());
     }
 
     public function modify(string $modify) : self
@@ -451,8 +423,7 @@ final class DateTime
         return new self(
             $this->day(),
             new Time(0, 0, 0, 0),
-            $this->timeZone(),
-            $this->timeOffset()
+            $this->timeZone()
         );
     }
 
@@ -461,8 +432,7 @@ final class DateTime
         return new self(
             $this->day(),
             new Time(12, 0, 0, 0),
-            $this->timeZone(),
-            $this->timeOffset()
+            $this->timeZone()
         );
     }
 
@@ -471,8 +441,7 @@ final class DateTime
         return new self(
             $this->day(),
             new Time(23, 59, 59, 999999),
-            $this->timeZone(),
-            $this->timeOffset()
+            $this->timeZone()
         );
     }
 
@@ -557,7 +526,7 @@ final class DateTime
     {
         $tz = $this->timeZone();
 
-        if ($tz === null || $tz->timeOffset($this)->isUTC()) {
+        if ($tz->timeOffset($this)->isUTC()) {
             return false;
         }
 

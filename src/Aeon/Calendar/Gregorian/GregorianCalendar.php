@@ -30,7 +30,7 @@ final class GregorianCalendar implements Calendar
      */
     public static function systemDefault() : self
     {
-        return new self(new TimeZone(\date_default_timezone_get()));
+        return new self(TimeZone::fromString(\date_default_timezone_get()));
     }
 
     public function timeZone() : TimeZone
