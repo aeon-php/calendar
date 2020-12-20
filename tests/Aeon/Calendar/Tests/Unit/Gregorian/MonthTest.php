@@ -41,6 +41,45 @@ final class MonthTest extends TestCase
     }
 
     /**
+     * @dataProvider creating_month_data_provider_from_string
+     */
+    public function test_creating_month_from_string(string $dateTimeString, string $dateTime) : void
+    {
+        try {
+            $this->assertSame($dateTimeString, Month::fromString($dateTime)->toString());
+        } catch (InvalidArgumentException $exception) {
+            $this->fail($exception->getMessage());
+        }
+    }
+
+    /**
+     * @return \Generator<int, array{string, string}, mixed, void>
+     */
+    public function creating_month_data_provider_from_string() : \Generator
+    {
+        yield [(new \DateTimeImmutable('now'))->format('Y-m'), 'now'];
+        yield [(new \DateTimeImmutable('now'))->format('Y-m'), 'NoW'];
+        yield [(new \DateTimeImmutable('today'))->format('Y-m'), 'today'];
+        yield [(new \DateTimeImmutable('today'))->format('Y-m'), 'today '];
+        yield [(new \DateTimeImmutable('noon'))->format('Y-m'), 'noon'];
+        yield [(new \DateTimeImmutable('noon'))->format('Y-m'), ' noon'];
+        yield [(new \DateTimeImmutable('yesterday noon'))->format('Y-m'), 'yesterday noon'];
+        yield [(new \DateTimeImmutable('tomorrow'))->format('Y-m'), 'tomorrow'];
+        yield [(new \DateTimeImmutable('tomorrow midnight'))->format('Y-m'), 'tomorrow midnight'];
+        yield [(new \DateTimeImmutable('yesterday'))->format('Y-m'), 'yesterday'];
+        yield [(new \DateTimeImmutable('midnight'))->format('Y-m'), 'midnight'];
+        yield [(new \DateTimeImmutable('24 week'))->format('Y-m'), '24 week'];
+        yield [(new \DateTimeImmutable('today +1 hour'))->format('Y-m'), 'today +1 hour'];
+        yield [(new \DateTimeImmutable('tomorrow +1 hour'))->format('Y-m'), 'tomorrow +1 hour'];
+        yield [(new \DateTimeImmutable('-2 days'))->format('Y-m'), '-2 days'];
+        yield [(new \DateTimeImmutable('Monday'))->format('Y-m'), 'Monday'];
+        yield [(new \DateTimeImmutable('Monday next week'))->format('Y-m'), 'Monday next week'];
+        yield [(new \DateTimeImmutable('next year'))->format('Y-m'), 'next year'];
+        yield [(new \DateTimeImmutable('fifth day'))->format('Y-m'), 'fifth day'];
+        yield [(new \DateTimeImmutable('first day of January 2019'))->format('Y-m'), 'first day of January 2019'];
+    }
+
+    /**
      * @dataProvider invalid_string_day_format
      */
     public function test_from_invalid_string(string $invalidValue) : void
@@ -58,7 +97,6 @@ final class MonthTest extends TestCase
     {
         yield ['00:01'];
         yield ['2020'];
-        yield ['+1 month'];
         yield ['test'];
     }
 

@@ -49,6 +49,45 @@ final class DayTest extends TestCase
         );
     }
 
+    /**
+     * @dataProvider creating_day_data_provider_from_string
+     */
+    public function test_creating_day_from_string(string $dateTimeString, string $dateTime, string $format) : void
+    {
+        try {
+            $this->assertSame($dateTimeString, Day::fromString($dateTime)->format($format));
+        } catch (InvalidArgumentException $exception) {
+            $this->fail($exception->getMessage());
+        }
+    }
+
+    /**
+     * @return \Generator<int, array{string, string, string}, mixed, void>
+     */
+    public function creating_day_data_provider_from_string() : \Generator
+    {
+        yield [(new \DateTimeImmutable('now'))->format('Y-m-d 00:00:00+00:00'), 'now', 'Y-m-d H:i:sP'];
+        yield [(new \DateTimeImmutable('now'))->format('Y-m-d 00:00:00+00:00'), 'now ', 'Y-m-d H:i:sP'];
+        yield [(new \DateTimeImmutable('today'))->format('Y-m-d 00:00:00+00:00'), 'today', 'Y-m-d H:i:sP'];
+        yield [(new \DateTimeImmutable('today'))->format('Y-m-d 00:00:00+00:00'), ' tOday', 'Y-m-d H:i:sP'];
+        yield [(new \DateTimeImmutable('noon'))->format('Y-m-d 00:00:00+00:00'), 'noon', 'Y-m-d H:i:sP'];
+        yield [(new \DateTimeImmutable('noon'))->format('Y-m-d 00:00:00+00:00'), 'noon  ', 'Y-m-d H:i:sP'];
+        yield [(new \DateTimeImmutable('yesterday noon'))->format('Y-m-d 00:00:00+00:00'), 'yesterday noon', 'Y-m-d H:i:sP'];
+        yield [(new \DateTimeImmutable('tomorrow'))->format('Y-m-d 00:00:00+00:00'), 'tomorrow', 'Y-m-d H:i:sP'];
+        yield [(new \DateTimeImmutable('tomorrow midnight'))->format('Y-m-d 00:00:00+00:00'), 'tomorrow midnight', 'Y-m-d H:i:sP'];
+        yield [(new \DateTimeImmutable('yesterday'))->format('Y-m-d 00:00:00+00:00'), 'yesterday', 'Y-m-d H:i:sP'];
+        yield [(new \DateTimeImmutable('midnight'))->format('Y-m-d 00:00:00+00:00'), 'midnight', 'Y-m-d H:i:sP'];
+        yield [(new \DateTimeImmutable('24 week'))->format('Y-m-d 00:00:00+00:00'), '24 week', 'Y-m-d H:i:sP'];
+        yield [(new \DateTimeImmutable('today +1 hour'))->format('Y-m-d 00:00:00+00:00'), 'today +1 hour', 'Y-m-d H:i:sP'];
+        yield [(new \DateTimeImmutable('tomorrow +1 hour'))->format('Y-m-d 00:00:00+00:00'), 'tomorrow +1 hour', 'Y-m-d H:i:sP'];
+        yield [(new \DateTimeImmutable('-2 days'))->format('Y-m-d 00:00:00+00:00'), '-2 days', 'Y-m-d H:i:sP'];
+        yield [(new \DateTimeImmutable('Monday'))->format('Y-m-d 00:00:00+00:00'), 'Monday', 'Y-m-d H:i:sP'];
+        yield [(new \DateTimeImmutable('Monday next week'))->format('Y-m-d 00:00:00+00:00'), 'Monday next week', 'Y-m-d H:i:sP'];
+        yield [(new \DateTimeImmutable('next year'))->format('Y-m-d 00:00:00+00:00'), 'next year', 'Y-m-d H:i:sP'];
+        yield [(new \DateTimeImmutable('fifth day'))->format('Y-m-d 00:00:00+00:00'), 'fifth day', 'Y-m-d H:i:sP'];
+        yield [(new \DateTimeImmutable('first day of January 2019'))->format('Y-m-d 00:00:00+00:00'), 'first day of January 2019', 'Y-m-d H:i:sP'];
+    }
+
     public function test_to_string() : void
     {
         $this->assertSame(

@@ -58,6 +58,7 @@ final class Month
      */
     public static function fromString(string $date) : self
     {
+        $dateNormalized = \trim(\strtolower($date));
         $dateParts = \date_parse($date);
 
         if (!\is_array($dateParts)) {
@@ -68,12 +69,12 @@ final class Month
             throw new InvalidArgumentException("Value \"{$date}\" is not valid month format.");
         }
 
-        if (!\is_int($dateParts['year']) || !\is_int($dateParts['month'])) {
-            throw new InvalidArgumentException("Value \"{$date}\" is not valid month format.");
+        if (isset($dateParts['relative']) || \in_array($dateNormalized, ['midnight', 'noon', 'now', 'today'], true)) {
+            return self::fromDateTime(new \DateTimeImmutable($date));
         }
 
-        if (isset($dateParts['relative'])) {
-            return self::fromDateTime(new \DateTimeImmutable($date));
+        if (!\is_int($dateParts['year']) || !\is_int($dateParts['month'])) {
+            throw new InvalidArgumentException("Value \"{$date}\" is not valid month format.");
         }
 
         return new self(new Year($dateParts['year']), $dateParts['month']);
