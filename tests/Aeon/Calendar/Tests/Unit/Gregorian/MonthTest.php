@@ -33,11 +33,52 @@ final class MonthTest extends TestCase
         $this->assertSame(1, $month->firstDay()->number());
     }
 
-    public function test_create_from_datetime_() : void
+    public function test_create_from_datetime() : void
     {
         $month = Month::fromDateTime(new \DateTimeImmutable('2020-02-01'));
 
         $this->assertSame(2, $month->number());
+    }
+
+    /**
+     * @dataProvider invalid_string_day_format
+     */
+    public function test_from_invalid_string(string $invalidValue) : void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage("Value \"{$invalidValue}\" is not valid month format.");
+
+        Month::fromString($invalidValue);
+    }
+
+    /**
+     * @return \Generator<int, array{string}, mixed, void>
+     */
+    public function invalid_string_day_format() : \Generator
+    {
+        yield ['00:01'];
+        yield ['2020'];
+        yield ['+1 month'];
+        yield ['test'];
+    }
+
+    /**
+     * @dataProvider valid_string_day_format
+     */
+    public function test_from_string(string $invalidValue, Month $month) : void
+    {
+        $this->assertEquals($month, Month::fromString($invalidValue));
+    }
+
+    /**
+     * @return \Generator<int, array{string, Time}, mixed, void>
+     */
+    public function valid_string_day_format() : \Generator
+    {
+        yield ['2020-01', new Month(new Year(2020), 1)];
+        yield ['2020-01 +1 month', new Month(new Year(2020), 2)];
+        yield ['2020-01 +1 year', new Month(new Year(2021), 1)];
+        yield ['2020-01-01', new Month(new Year(2020), 1)];
     }
 
     public function test_debug_info() : void

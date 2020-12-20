@@ -12,15 +12,20 @@ use Aeon\Calendar\Gregorian\TimeZone;
 use Aeon\Calendar\Gregorian\Year;
 
 /**
- * @iterations(5)
- * @revs(1000)
+ * @revs(50)
+ * @iterations(10)
  * @outputTimeUnit("milliseconds")
  */
 final class DateTimeInitBench
 {
-    public function bench_datetime_immutable() : void
+    public function bench_datetime_immutable_constructor() : void
     {
         new \DateTimeImmutable('2020-01-01 00:00:00.00000 UTC');
+    }
+
+    public function bench_datetime_constructor() : void
+    {
+        new \DateTime('2020-01-01 00:00:00.00000 UTC');
     }
 
     public function bench_aeon_datetime_from_datetime_immutable() : void
@@ -33,12 +38,12 @@ final class DateTimeInitBench
         DateTime::create(2020, 01, 01, 00, 00, 00, 0, 'UTC');
     }
 
-    public function bench_aeon_datetime_new() : void
+    public function bench_aeon_datetime_constructor() : void
     {
         new DateTime(
             new Day(new Month(new Year(2020), 01), 01),
             new Time(00, 00, 00, 0),
-            new TimeZone('UTC')
+            TimeZone::fromString('UTC')
         );
     }
 

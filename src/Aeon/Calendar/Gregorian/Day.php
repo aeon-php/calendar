@@ -61,7 +61,25 @@ final class Day
      */
     public static function fromString(string $date) : self
     {
-        return self::fromDateTime(new \DateTimeImmutable($date));
+        $dateParts = \date_parse($date);
+
+        if (!\is_array($dateParts)) {
+            throw new InvalidArgumentException("Value \"{$date}\" is not valid day format.");
+        }
+
+        if ($dateParts['error_count'] > 0) {
+            throw new InvalidArgumentException("Value \"{$date}\" is not valid day format.");
+        }
+
+        if (!\is_int($dateParts['year']) || !\is_int($dateParts['month']) || !\is_int($dateParts['day'])) {
+            throw new InvalidArgumentException("Value \"{$date}\" is not valid day format.");
+        }
+
+        if (isset($dateParts['relative'])) {
+            return self::fromDateTime(new \DateTimeImmutable($date));
+        }
+
+        return new self(new Month(new Year($dateParts['year']), $dateParts['month']), $dateParts['day']);
     }
 
     /**

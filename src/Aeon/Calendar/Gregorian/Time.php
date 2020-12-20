@@ -12,6 +12,8 @@ use Aeon\Calendar\TimeUnit;
  */
 final class Time
 {
+    private const PRECISION_MICROSECOND = 6;
+
     private int $hour;
 
     private int $minute;
@@ -63,7 +65,30 @@ final class Time
      */
     public static function fromString(string $date) : self
     {
-        return self::fromDateTime(new \DateTimeImmutable($date));
+        $dateParts = \date_parse($date);
+
+        if (!\is_array($dateParts)) {
+            throw new InvalidArgumentException("Value \"{$date}\" is not valid time format.");
+        }
+
+        if ($dateParts['error_count'] > 0) {
+            throw new InvalidArgumentException("Value \"{$date}\" is not valid time format.");
+        }
+
+        if (!\is_int($dateParts['hour']) || !\is_int($dateParts['minute']) || !\is_int($dateParts['second'])) {
+            throw new InvalidArgumentException("Value \"{$date}\" is not valid time format.");
+        }
+
+        if (isset($dateParts['relative'])) {
+            return self::fromDateTime(new \DateTimeImmutable($date));
+        }
+
+        /** @psalm-suppress MixedArgument */
+        $secondsString = \number_format(\round($dateParts['fraction'], self::PRECISION_MICROSECOND, PHP_ROUND_HALF_UP), self::PRECISION_MICROSECOND, '.', '');
+        $secondsStringParts = \explode('.', $secondsString);
+        $microseconds = \abs(\intval($secondsStringParts[1]));
+
+        return new self($dateParts['hour'], $dateParts['minute'], $dateParts['second'], $microseconds);
     }
 
     /**
@@ -109,7 +134,7 @@ final class Time
         return \str_pad((string) $this->hour, 2, '0', STR_PAD_LEFT) . ':'
             . \str_pad((string) $this->minute, 2, '0', STR_PAD_LEFT) . ':'
             . \str_pad((string) $this->second, 2, '0', STR_PAD_LEFT) . '.'
-            . \str_pad((string) $this->microsecond, 6, '0', STR_PAD_LEFT);
+            . \str_pad((string) $this->microsecond, self::PRECISION_MICROSECOND, '0', STR_PAD_LEFT);
     }
 
     public function hour() : int

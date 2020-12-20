@@ -21,7 +21,7 @@ final class LeapSecondTest extends TestCase
             $leapSecond->__serialize()
         );
         $this->assertSame(
-            'O:34:"Aeon\Calendar\Gregorian\LeapSecond":2:{s:8:"dateTime";O:32:"Aeon\Calendar\Gregorian\DateTime":4:{s:3:"day";O:27:"Aeon\Calendar\Gregorian\Day":2:{s:5:"month";O:29:"Aeon\Calendar\Gregorian\Month":2:{s:4:"year";O:28:"Aeon\Calendar\Gregorian\Year":1:{s:4:"year";i:1972;}s:6:"number";i:1;}s:6:"number";i:1;}s:4:"time";O:28:"Aeon\Calendar\Gregorian\Time":4:{s:4:"hour";i:0;s:6:"minute";i:0;s:6:"second";i:0;s:11:"microsecond";i:0;}s:8:"timeZone";O:32:"Aeon\Calendar\Gregorian\TimeZone":1:{s:4:"name";s:3:"UTC";}s:10:"timeOffset";O:43:"Aeon\Calendar\Gregorian\TimeZone\TimeOffset":3:{s:5:"hours";i:0;s:7:"minutes";i:0;s:8:"negative";b:0;}}s:9:"offsetTAI";O:22:"Aeon\Calendar\TimeUnit":3:{s:7:"seconds";i:10;s:11:"microsecond";i:0;s:8:"negative";b:0;}}',
+            'O:34:"Aeon\Calendar\Gregorian\LeapSecond":2:{s:8:"dateTime";O:32:"Aeon\Calendar\Gregorian\DateTime":3:{s:3:"day";O:27:"Aeon\Calendar\Gregorian\Day":2:{s:5:"month";O:29:"Aeon\Calendar\Gregorian\Month":2:{s:4:"year";O:28:"Aeon\Calendar\Gregorian\Year":1:{s:4:"year";i:1972;}s:6:"number";i:1;}s:6:"number";i:1;}s:4:"time";O:28:"Aeon\Calendar\Gregorian\Time":4:{s:4:"hour";i:0;s:6:"minute";i:0;s:6:"second";i:0;s:11:"microsecond";i:0;}s:8:"timeZone";O:32:"Aeon\Calendar\Gregorian\TimeZone":1:{s:4:"name";s:3:"UTC";}}s:9:"offsetTAI";O:22:"Aeon\Calendar\TimeUnit":3:{s:7:"seconds";i:10;s:11:"microsecond";i:0;s:8:"negative";b:0;}}',
             \serialize($leapSecond)
         );
     }

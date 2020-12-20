@@ -1,5 +1,5 @@
 {
-  "timeout": 1000,
+  "timeout": 30,
   "source": {
     "directories": [
       "src\/Aeon"
@@ -35,7 +35,20 @@
     },
     "DecrementInteger": {
       "ignore": [
-        "Aeon\\Calendar\\Stopwatch::elapsedTime"
+        "Aeon\\Calendar\\Stopwatch::elapsedTime",
+        "Aeon\\Calendar\\RelativeTimeUnit::month",
+        "Aeon\\Calendar\\RelativeTimeUnit::year"
+      ]
+    },
+    "OneZeroInteger": {
+      "ignore": [
+        "Aeon\\Calendar\\RelativeTimeUnit::month",
+        "Aeon\\Calendar\\RelativeTimeUnit::year"
+      ]
+    },
+    "Ternary": {
+      "ignore": [
+        "Aeon\\Calendar\\RelativeTimeUnit::toDateInterval"
       ]
     },
     "InstanceOf_": {
@@ -43,6 +56,22 @@
         "Aeon\\Calculator\\PreciseCalculator::initialize",
         "Aeon\\Calendar\\Gregorian\\LeapSeconds::load",
         "Aeon\\Calendar\\Gregorian\\DateTime::toDateTimeImmutable"
+      ]
+    },
+    "Throw_": {
+      "ignore": [
+        "Aeon\\Calendar\\Gregorian\\DateTime::fromString",
+        "Aeon\\Calendar\\Gregorian\\Day::fromString",
+        "Aeon\\Calendar\\Gregorian\\Month::fromString",
+        "Aeon\\Calendar\\Gregorian\\Time::fromString"
+      ]
+    },
+    "LogicalOr": {
+      "ignore": [
+        "Aeon\\Calendar\\Gregorian\\DateTime::fromString",
+        "Aeon\\Calendar\\Gregorian\\Day::fromString",
+        "Aeon\\Calendar\\Gregorian\\Month::fromString",
+        "Aeon\\Calendar\\Gregorian\\Time::fromString"
       ]
     }
   },

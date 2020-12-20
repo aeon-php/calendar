@@ -52,9 +52,47 @@ final class DayTest extends TestCase
     public function test_to_string() : void
     {
         $this->assertSame(
-            '2020-01-01',
-            Day::fromString('2020-01-01')->toString()
+            '2020-01-02',
+            Day::fromString('2020-01-01 +1 day')->toString()
         );
+    }
+
+    /**
+     * @dataProvider invalid_string_day_format
+     */
+    public function test_from_invalid_string(string $invalidValue) : void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage("Value \"{$invalidValue}\" is not valid day format.");
+
+        Day::fromString($invalidValue);
+    }
+
+    /**
+     * @return \Generator<int, array{string}, mixed, void>
+     */
+    public function invalid_string_day_format() : \Generator
+    {
+        yield ['00:01'];
+        yield ['2020-32'];
+        yield ['2020'];
+    }
+
+    /**
+     * @dataProvider valid_string_day_format
+     */
+    public function test_from_string(string $invalidValue, Day $month) : void
+    {
+        $this->assertEquals($month, Day::fromString($invalidValue));
+    }
+
+    /**
+     * @return \Generator<int, array{string, Day}, mixed, void>
+     */
+    public function valid_string_day_format() : \Generator
+    {
+        yield ['2020-01', new Day(new Month(new Year(2020), 1), 1)];
+        yield ['2020-01-02 +1 month', new Day(new Month(new Year(2020), 2), 2)];
     }
 
     public function test_midnight() : void
