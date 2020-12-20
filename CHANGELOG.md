@@ -7,12 +7,36 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
-### Removed
-- [#79](https://github.com/aeon-php/calendar/pull/79) - **Remove function trailing commas #79** - [@norberttech](https://github.com/norberttech)
-
+## [0.13.0] - 2020-12-20
 ### Added
+- [#84](https://github.com/aeon-php/calendar/pull/84) - **Added fromString validation to most of the classes, simplified DateTime and TimeZone API #84** - [@norberttech](https://github.com/norberttech)
+  - Validation to all fromString methods that are using date/time format
+  - Type to TimeZone (offset, abbreviation, identifier)
+  - More benchmarks
+  - TimeZone abbreviation static constructors
+  - TimeZone allIdentifiers() allAbbreviations() methods
 - [#78](https://github.com/aeon-php/calendar/pull/78) - **Run testsuite at php8 #78** - [@norberttech](https://github.com/norberttech)
 
+### Changed
+- [#84](https://github.com/aeon-php/calendar/pull/84) - **Added fromString validation to most of the classes, simplified DateTime and TimeZone API #84** - [@norberttech](https://github.com/norberttech)
+  - TimeZone to mandatory argument of DateTime
+  - TimeZone new replaced with TimeZone fromString()
+- [#83](https://github.com/aeon-php/calendar/pull/83) - **Updated tools #81** - [@norberttech](https://github.com/norberttech)
+- [#81](https://github.com/aeon-php/calendar/pull/81) - **Moved phpunit to phars #81** - [@norberttech](https://github.com/norberttech)
+
+### Removed
+- [#84](https://github.com/aeon-php/calendar/pull/84) - **Added fromString validation to most of the classes, simplified DateTime and TimeZone API #84** - [@norberttech](https://github.com/norberttech)
+  - Offset from DateTime object
+  - TimeZone identifiers constants
+  - TimeZone toCountryCode method
+  - Internal \DateTimeImmutable object from DateTime
+  - Possibility to create DateTime object from string without providing valid date
+- [#79](https://github.com/aeon-php/calendar/pull/79) - **Remove function trailing commas #79** - [@norberttech](https://github.com/norberttech)
+
+### Fixed
+- [#84](https://github.com/aeon-php/calendar/pull/84) - **Added fromString validation to most of the classes, simplified DateTime and TimeZone API #84** - [@norberttech](https://github.com/norberttech)
+  - Tests failing around midnight on machines with default timezone different than UTC
+  
 ## [0.12.0] - 2020-11-22
 ### Added
 - [#77](https://github.com/aeon-php/calendar/pull/77) - **Added possibility to create TimeUnit from date string #77** - [@norberttech](https://github.com/norberttech)
