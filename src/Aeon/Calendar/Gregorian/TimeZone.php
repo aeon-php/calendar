@@ -587,11 +587,11 @@ final class TimeZone
 
     private const TYPE_ABBREVIATION = 2;
 
-    private const TYPE_ID = 3;
+    private const TYPE_IDENTIFIER = 3;
 
     private string $name;
 
-    private int $type = self::TYPE_ID;
+    private int $type = self::TYPE_IDENTIFIER;
 
     private function __construct(string $name)
     {
@@ -761,6 +761,21 @@ final class TimeZone
         return [
             'name' => $this->name,
         ];
+    }
+
+    public function isOffset() : bool
+    {
+        return $this->type === self::TYPE_OFFSET;
+    }
+
+    public function isAbbreviation() : bool
+    {
+        return $this->type === self::TYPE_ABBREVIATION;
+    }
+
+    public function isIdentifier() : bool
+    {
+        return $this->type === self::TYPE_IDENTIFIER;
     }
 
     public function toDateTimeZone() : \DateTimeZone

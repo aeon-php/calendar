@@ -48,18 +48,27 @@ final class TimeZoneTest extends TestCase
     {
         $tz = TimeZone::fromString('+0100');
         $this->assertSame('+01:00', $tz->name());
+        $this->assertTrue($tz->isOffset());
+        $this->assertFalse($tz->isAbbreviation());
+        $this->assertFalse($tz->isIdentifier());
     }
 
     public function test_creating_from_abbreviation() : void
     {
         $tz = TimeZone::fromString('gmt');
         $this->assertSame('GMT', $tz->name());
+        $this->assertTrue($tz->isAbbreviation());
+        $this->assertFalse($tz->isOffset());
+        $this->assertFalse($tz->isIdentifier());
     }
 
     public function test_creating_from_id() : void
     {
         $tz = TimeZone::fromString('Europe/Warsaw');
         $this->assertSame('Europe/Warsaw', $tz->name());
+        $this->assertTrue($tz->isIdentifier());
+        $this->assertFalse($tz->isAbbreviation());
+        $this->assertFalse($tz->isOffset());
     }
 
     public function test_creating_from_static_id() : void
