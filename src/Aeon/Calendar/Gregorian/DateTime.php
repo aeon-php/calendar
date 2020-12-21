@@ -81,25 +81,30 @@ final class DateTime
             throw new InvalidArgumentException("Value \"{$date}\" is not valid date time format.");
         }
 
-        if (isset($dateTimeParts['relative']) || \in_array($dateNormalized, ['midnight', 'noon', 'now', 'today'], true)) {
+        $constructor = function (string $date) : self {
             $currentPHPTimeZone = \date_default_timezone_get();
             \date_default_timezone_set('UTC');
             $dateTime = self::fromDateTime(new \DateTimeImmutable($date));
             \date_default_timezone_set($currentPHPTimeZone);
 
             return $dateTime;
+        };
+
+        if (isset($dateTimeParts['relative'])) {
+            return $constructor($date);
+        }
+
+        foreach (['midnight', 'noon', 'now', 'today'] as $relativeFormat) {
+            if (\substr($dateNormalized, 0, \strlen($relativeFormat)) === $relativeFormat) {
+                return $constructor($date);
+            }
         }
 
         if (!\is_int($dateTimeParts['year']) || !\is_int($dateTimeParts['month']) || !\is_int($dateTimeParts['day'])) {
             throw new InvalidArgumentException("Value \"{$date}\" is not valid date time format.");
         }
 
-        $currentPHPTimeZone = \date_default_timezone_get();
-        \date_default_timezone_set('UTC');
-        $dateTime = self::fromDateTime(new \DateTimeImmutable($date));
-        \date_default_timezone_set($currentPHPTimeZone);
-
-        return $dateTime;
+        return $constructor($date);
     }
 
     /**
