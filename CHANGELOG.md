@@ -136,5 +136,35 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - `Days` -> `MonthDays` 
   
 ## [0.1.0] - 2020-07-10
-### First release :tada:
-- initial release
+### Added
+- [#37](https://github.com/aeon-php/calendar/pull/37) - **Added Year/Month/Day manipulation and comparison methods** [@norberttech](https://github.com/norberttech)
+- [#35](https://github.com/aeon-php/calendar/pull/35) - **Update README.md** [@norberttech](https://github.com/norberttech)
+- [#31](https://github.com/aeon-php/calendar/pull/31) - **Improved toISO8601 DateTime conversion** [@norberttech](https://github.com/norberttech)
+- [#30](https://github.com/aeon-php/calendar/pull/30) - **Use bcmath to compare TimeUnits** [@norberttech](https://github.com/norberttech)
+- [#29](https://github.com/aeon-php/calendar/pull/29) - **Added extra features to TimePeriod and TimePeriods** [@norberttech](https://github.com/norberttech)
+- [#28](https://github.com/aeon-php/calendar/pull/28) - **Fixed issue where for certain Day class methods timezone was implicitly set to UTC** [@norberttech](https://github.com/norberttech)
+- [#27](https://github.com/aeon-php/calendar/pull/27) - **Added more precised php cs fixer rules** [@norberttech](https://github.com/norberttech)
+- [#26](https://github.com/aeon-php/calendar/pull/26) - **Drop webmozart/assert dependnecy** [@norberttech](https://github.com/norberttech)
+- [#25](https://github.com/aeon-php/calendar/pull/25) - **Make sure that DateTime methods endOfDay, noon and midnight dont reset the timezone** [@norberttech](https://github.com/norberttech)
+- [#24](https://github.com/aeon-php/calendar/pull/24) - **Add possibility to multiply/divide TimeUnit** [@norberttech](https://github.com/norberttech)
+- [#22](https://github.com/aeon-php/calendar/pull/22) - **Resolve bug in datetime object creation** [@norberttech](https://github.com/norberttech)
+- [#21](https://github.com/aeon-php/calendar/pull/21) - **Added possibility to detect ambiguous local time** [@norberttech](https://github.com/norberttech)
+- [#20](https://github.com/aeon-php/calendar/pull/20) - **Fixed distance since/until functions at DateTime** [@norberttech](https://github.com/norberttech)
+- [#19](https://github.com/aeon-php/calendar/pull/19) - **Added helper methods to Stopwatch class** [@norberttech](https://github.com/norberttech)
+- [#18](https://github.com/aeon-php/calendar/pull/18) - **Updated Stopwatch class API** [@norberttech](https://github.com/norberttech)
+- [#17](https://github.com/aeon-php/calendar/pull/17) - **Leap seconds support** [@norberttech](https://github.com/norberttech)
+- [#16](https://github.com/aeon-php/calendar/pull/16) - **Added Stopwatch class built on top of php \hrtime function** [@norberttech](https://github.com/norberttech)
+- [#15](https://github.com/aeon-php/calendar/pull/15) - **Added possibility to create DateTime from primitives and fixed related bug** [@norberttech](https://github.com/norberttech)
+- [#14](https://github.com/aeon-php/calendar/pull/14) - **Reset time when converging Year, Month and Day to DateTimeImmutable** [@norberttech](https://github.com/norberttech)
+- [#12](https://github.com/aeon-php/calendar/pull/12) - **Added DateTime::secondsSinceUnixEpochPrecise() : float method used later in TimePeriod::distance** [@norberttech](https://github.com/norberttech)
+- [#11](https://github.com/aeon-php/calendar/pull/11) - **Removed redundant TimeInterval and renamed TimeIntervals into TimePeriods** [@norberttech](https://github.com/norberttech)
+- [#10](https://github.com/aeon-php/calendar/pull/10) - **Remove minimum stability dev** [@norberttech](https://github.com/norberttech)
+- [#9](https://github.com/aeon-php/calendar/pull/9) - **Added possibility to filter TimeIntervals** [@norberttech](https://github.com/norberttech)
+- [#8](https://github.com/aeon-php/calendar/pull/8) - **Added week of month number to Day class** [@norberttech](https://github.com/norberttech)
+- [#7](https://github.com/aeon-php/calendar/pull/7) - **Added possibility to compare Time objects** [@norberttech](https://github.com/norberttech)
+- [#6](https://github.com/aeon-php/calendar/pull/6) - **Allow to use DateTimeInterface to create Aeon objects** [@norberttech](https://github.com/norberttech)
+- [#5](https://github.com/aeon-php/calendar/pull/5) - **Added possibility to convert DateInterval into TimeUnit** [@norberttech](https://github.com/norberttech)
+- [#4](https://github.com/aeon-php/calendar/pull/4) - **Fixed precision in DateTime::sub DateTime::add methods** [@norberttech](https://github.com/norberttech)
+- [#3](https://github.com/aeon-php/calendar/pull/3) - **Added DateTime::modify(string ) : DateTime method** [@norberttech](https://github.com/norberttech)
+- [#2](https://github.com/aeon-php/calendar/pull/2) - **Added leap years test** [@norberttech](https://github.com/norberttech)
+- [#1](https://github.com/aeon-php/calendar/pull/1) - **Extracted week day to standalone class** [@norberttech](https://github.com/norberttech)
