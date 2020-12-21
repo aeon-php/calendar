@@ -42,7 +42,6 @@ final class TimeTest extends TestCase
     {
         yield ['01-01-01'];
         yield ['2020-32'];
-        yield ['+1 minute'];
     }
 
     public function test_each_part_of_time() : void
@@ -73,6 +72,35 @@ final class TimeTest extends TestCase
         yield ['01:00:01.00001', new Time(01, 00, 01, 10)];
         yield ['01:12', new Time(01, 12, 00)];
         yield ['01:12 +1 minute + 10 seconds', new Time(01, 13, 10)];
+    }
+
+    /**
+     * @dataProvider creating_time_data_provider_from_string
+     */
+    public function test_creating_time_from_string(string $dateTimeString, string $dateTime, string $format) : void
+    {
+        try {
+            $this->assertEqualsWithDelta((int) $dateTimeString, (int) Time::fromString($dateTime)->format($format), 10);
+        } catch (InvalidArgumentException $exception) {
+            $this->fail($exception->getMessage());
+        }
+    }
+
+    /**
+     * @return \Generator<int, array{string, string, string}, mixed, void>
+     */
+    public function creating_time_data_provider_from_string() : \Generator
+    {
+        yield [(new \DateTimeImmutable('now'))->format('U'), 'noW', 'U'];
+        yield [(new \DateTimeImmutable('now'))->format('U'), 'now ', 'U'];
+        yield [(new \DateTimeImmutable('today'))->format('U'), 'today', 'U'];
+        yield [(new \DateTimeImmutable('today'))->format('U'), ' tOday', 'U'];
+        yield [(new \DateTimeImmutable('noon'))->format('U'), 'noon', 'U'];
+        yield [(new \DateTimeImmutable('noon'))->format('U'), 'noon  ', 'U'];
+        yield [(new \DateTimeImmutable('midnight'))->format('U'), 'midnight  ', 'U'];
+        yield [(new \DateTimeImmutable('noon +1 minute'))->format('U'), 'noon +1 minute', 'U'];
+        yield [(new \DateTimeImmutable('back of 7pm'))->format('U'), 'back of 7pm', 'U'];
+        yield [(new \DateTimeImmutable('last hour'))->format('U'), 'last hour', 'U'];
     }
 
     public function test_time_millisecond() : void

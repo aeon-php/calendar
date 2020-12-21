@@ -70,26 +70,33 @@ final class DateTime
      */
     public static function fromString(string $date) : self
     {
-        $dateParts = \date_parse($date);
+        $dateNormalized = \trim(\strtolower($date));
+        $dateTimeParts = \date_parse($date);
 
-        if (!\is_array($dateParts)) {
+        if (!\is_array($dateTimeParts)) {
             throw new InvalidArgumentException("Value \"{$date}\" is not valid date time format.");
         }
 
-        if ($dateParts['error_count'] > 0) {
+        if ($dateTimeParts['error_count'] > 0) {
             throw new InvalidArgumentException("Value \"{$date}\" is not valid date time format.");
         }
 
-        if (!\is_int($dateParts['year']) || !\is_int($dateParts['month']) || !\is_int($dateParts['day'])) {
+        if (isset($dateTimeParts['relative']) || \in_array($dateNormalized, ['midnight', 'noon', 'now', 'today'], true)) {
+            $currentPHPTimeZone = \date_default_timezone_get();
+            \date_default_timezone_set('UTC');
+            $dateTime = self::fromDateTime(new \DateTimeImmutable($date));
+            \date_default_timezone_set($currentPHPTimeZone);
+
+            return $dateTime;
+        }
+
+        if (!\is_int($dateTimeParts['year']) || !\is_int($dateTimeParts['month']) || !\is_int($dateTimeParts['day'])) {
             throw new InvalidArgumentException("Value \"{$date}\" is not valid date time format.");
         }
 
         $currentPHPTimeZone = \date_default_timezone_get();
-
         \date_default_timezone_set('UTC');
-
         $dateTime = self::fromDateTime(new \DateTimeImmutable($date));
-
         \date_default_timezone_set($currentPHPTimeZone);
 
         return $dateTime;

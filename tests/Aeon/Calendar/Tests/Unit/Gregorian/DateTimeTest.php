@@ -19,12 +19,21 @@ use PHPUnit\Framework\TestCase;
 
 final class DateTimeTest extends TestCase
 {
+    public function setUp() : void
+    {
+        \date_default_timezone_set('UTC');
+    }
+
     /**
      * @dataProvider creating_datetime_data_provider
      */
     public function test_creating_datetime(string $dateTimeString, DateTime $dateTime, string $format) : void
     {
-        $this->assertSame($dateTimeString, $dateTime->format($format));
+        try {
+            $this->assertSame($dateTimeString, $dateTime->format($format));
+        } catch (InvalidArgumentException $exception) {
+            $this->fail($exception->getMessage());
+        }
     }
 
     /**
@@ -43,35 +52,74 @@ final class DateTimeTest extends TestCase
         yield ['2020-01-01 00:00:00+01:00', DateTime::create(2020, 01, 01, 00, 00, 00, 0, 'Europe/Warsaw'), 'Y-m-d H:i:sP'];
         yield ['2020-01-01 00:00:00+01:00', DateTime::fromDateTime(new \DateTimeImmutable('2020-01-01 00:00:00+01:00')), 'Y-m-d H:i:sP'];
         yield ['2020-01-01 00:00:00+01:00', new DateTime(new Day(new Month(new Year(2020), 01), 01), new Time(0, 0, 0), TimeZone::europeWarsaw()), 'Y-m-d H:i:sP'];
-        yield ['2020-01-01 00:00:00+00:00', DateTime::fromString('2020-01 00:00:00'), 'Y-m-d H:i:sP'];
-        yield ['2020-01-02 00:00:00+00:00', DateTime::fromString('2020-01 00:00:00 +1 day'), 'Y-m-d H:i:sP'];
-        yield ['2020-01-01 00:00:00+00:00', DateTime::fromString('2020-01 00:00'), 'Y-m-d H:i:sP'];
-        yield ['2020-01-01 00:00:00+00:00.000000', DateTime::fromString('2020-01 00:00'), 'Y-m-d H:i:sP.u'];
-        yield ['2020-01-01 00:00:00+00:00.000500', DateTime::fromString('2020-01 00:00:00.0005'), 'Y-m-d H:i:sP.u'];
-        yield ['1999-10-13 00:00:00', DateTime::fromString('1999-10-13 00:00:00'), 'Y-m-d H:i:s'];
-        yield ['1999-10-13 00:00:00', DateTime::fromString('Oct 13  1999 00:00:00'), 'Y-m-d H:i:s'];
-        yield ['2000-01-19 00:00:00', DateTime::fromString('2000-01-19 00:00:00'), 'Y-m-d H:i:s'];
-        yield ['2000-01-19 00:00:00', DateTime::fromString('Jan 19  2000 00:00:00'), 'Y-m-d H:i:s'];
-        yield ['2001-12-21 00:00:00', DateTime::fromString('2001-12-21 00:00:00'), 'Y-m-d H:i:s'];
-        yield ['2001-12-21 00:00:00', DateTime::fromString('Dec 21  2001 00:00:00'), 'Y-m-d H:i:s'];
-        yield ['2001-12-21 12:16:00', DateTime::fromString('2001-12-21 12:16'), 'Y-m-d H:i:s'];
-        yield ['2001-12-21 12:16:00', DateTime::fromString('Dec 21 2001 12:16'), 'Y-m-d H:i:s'];
-        yield ['2001-10-22 21:19:58', DateTime::fromString('2001-10-22 21:19:58'), 'Y-m-d H:i:s'];
-        yield ['2001-10-22 21:19:58', DateTime::fromString('2001-10-22 21:19:58-02'), 'Y-m-d H:i:s'];
-        yield ['2001-10-22 21:19:58', DateTime::fromString('2001-10-22 21:19:58-0213'), 'Y-m-d H:i:s'];
-        yield ['2001-10-22 21:19:58', DateTime::fromString('2001-10-22 21:19:58+02'), 'Y-m-d H:i:s'];
-        yield ['2001-10-22 21:19:58', DateTime::fromString('2001-10-22 21:19:58+0213'), 'Y-m-d H:i:s'];
-        yield ['2001-10-22 21:20:58', DateTime::fromString('2001-10-22T21:20:58-03:40'), 'Y-m-d H:i:s'];
-        yield ['2001-10-22 21:19:58', DateTime::fromString('2001-10-22T211958-2'), 'Y-m-d H:i:s'];
-        yield ['2001-10-22 21:19:58', DateTime::fromString('20011022T211958+0213'), 'Y-m-d H:i:s'];
-        yield ['2001-10-22 21:20:00', DateTime::fromString('20011022T21:20+0215'), 'Y-m-d H:i:s'];
-        yield ['1996-12-30 00:00:00', DateTime::fromString('1997W011 00:00:00'), 'Y-m-d H:i:s'];
-        yield ['2004-03-01 05:00:00', DateTime::fromString('2004W101T05:00+0'), 'Y-m-d H:i:s'];
+    }
+
+    /**
+     * @dataProvider creating_datetime_data_provider_from_string
+     */
+    public function test_creating_datetime_from_string(string $dateTimeString, string $dateTime, string $format) : void
+    {
+        try {
+            $this->assertSame($dateTimeString, DateTime::fromString($dateTime)->format($format));
+        } catch (InvalidArgumentException $exception) {
+            $this->fail($exception->getMessage());
+        }
+    }
+
+    /**
+     * @return \Generator<int, array{string, string, string}, mixed, void>
+     */
+    public function creating_datetime_data_provider_from_string() : \Generator
+    {
+        yield ['2020-01-01 00:00:00+00:00', '2020-01 00:00:00', 'Y-m-d H:i:sP'];
+        yield ['2020-01-02 00:00:00+00:00', '2020-01 00:00:00 +1 day', 'Y-m-d H:i:sP'];
+        yield ['2020-01-01 00:00:00+00:00', '2020-01 00:00', 'Y-m-d H:i:sP'];
+        yield ['2020-01-01 00:00:00+00:00.000000', '2020-01 00:00', 'Y-m-d H:i:sP.u'];
+        yield ['2020-01-01 00:00:00+00:00.000500', '2020-01 00:00:00.0005', 'Y-m-d H:i:sP.u'];
+        yield ['1999-10-13 00:00:00', '1999-10-13 00:00:00', 'Y-m-d H:i:s'];
+        yield ['1999-10-13 00:00:00', 'Oct 13  1999 00:00:00', 'Y-m-d H:i:s'];
+        yield ['2000-01-19 00:00:00', '2000-01-19 00:00:00', 'Y-m-d H:i:s'];
+        yield ['2000-01-19 00:00:00', 'Jan 19  2000 00:00:00', 'Y-m-d H:i:s'];
+        yield ['2001-12-21 00:00:00', '2001-12-21 00:00:00', 'Y-m-d H:i:s'];
+        yield ['2001-12-21 00:00:00', 'Dec 21  2001 00:00:00', 'Y-m-d H:i:s'];
+        yield ['2001-12-21 12:16:00', '2001-12-21 12:16', 'Y-m-d H:i:s'];
+        yield ['2001-12-21 12:16:00', 'Dec 21 2001 12:16', 'Y-m-d H:i:s'];
+        yield ['2001-10-22 21:19:58', '2001-10-22 21:19:58', 'Y-m-d H:i:s'];
+        yield ['2001-10-22 21:19:58', '2001-10-22 21:19:58-02', 'Y-m-d H:i:s'];
+        yield ['2001-10-22 21:19:58', '2001-10-22 21:19:58-0213', 'Y-m-d H:i:s'];
+        yield ['2001-10-22 21:19:58', '2001-10-22 21:19:58+02', 'Y-m-d H:i:s'];
+        yield ['2001-10-22 21:19:58', '2001-10-22 21:19:58+0213', 'Y-m-d H:i:s'];
+        yield ['2001-10-22 21:20:58', '2001-10-22T21:20:58-03:40', 'Y-m-d H:i:s'];
+        yield ['2001-10-22 21:19:58', '2001-10-22T211958-2', 'Y-m-d H:i:s'];
+        yield ['2001-10-22 21:19:58', '20011022T211958+0213', 'Y-m-d H:i:s'];
+        yield ['2001-10-22 21:20:00', '20011022T21:20+0215', 'Y-m-d H:i:s'];
+        yield ['1996-12-30 00:00:00', '1997W011 00:00:00', 'Y-m-d H:i:s'];
+        yield ['2004-03-01 05:00:00', '2004W101T05:00+0', 'Y-m-d H:i:s'];
         // DTS switch +1 hour
-        yield ['2020-03-29 03:30:00+02:00', DateTime::fromString('2020-03-29 02:30:00 Europe/Warsaw'), 'Y-m-d H:i:sP'];
+        yield ['2020-03-29 03:30:00+02:00', '2020-03-29 02:30:00 Europe/Warsaw', 'Y-m-d H:i:sP'];
         // DTS switch -1 hour
-        yield ['2020-10-25 02:30:00+01:00', DateTime::fromString('2020-10-25 02:30:00 Europe/Warsaw'), 'Y-m-d H:i:sP'];
-        yield ['2020-10-25 01:30:00+02:00', DateTime::fromString('2020-10-25 01:30:00 Europe/Warsaw'), 'Y-m-d H:i:sP'];
+        yield ['2020-10-25 02:30:00+01:00', '2020-10-25 02:30:00 Europe/Warsaw', 'Y-m-d H:i:sP'];
+        yield ['2020-10-25 01:30:00+02:00', '2020-10-25 01:30:00 Europe/Warsaw', 'Y-m-d H:i:sP'];
+
+        yield [(new \DateTimeImmutable('now'))->format('Y-m-d'), 'now', 'Y-m-d'];
+        yield [(new \DateTimeImmutable('now'))->format('Y-m-d'), 'noW', 'Y-m-d'];
+        yield [(new \DateTimeImmutable('today'))->format('Y-m-d'), 'today ', 'Y-m-d'];
+        yield [(new \DateTimeImmutable('noon'))->format('Y-m-d'), ' noON ', 'Y-m-d'];
+        yield [(new \DateTimeImmutable('yesterday noon'))->format('Y-m-d'), 'yesterday noon', 'Y-m-d'];
+        yield [(new \DateTimeImmutable('tomorrow'))->format('Y-m-d'), 'tomorrow', 'Y-m-d'];
+        yield [(new \DateTimeImmutable('tomorrow midnight'))->format('Y-m-d'), 'tomorrow midnight', 'Y-m-d'];
+        yield [(new \DateTimeImmutable('yesterday'))->format('Y-m-d'), 'yesterday', 'Y-m-d'];
+        yield [(new \DateTimeImmutable('midnight'))->format('Y-m-d'), 'midnight', 'Y-m-d'];
+        yield [(new \DateTimeImmutable('24 week'))->format('Y-m-d'), '24 week', 'Y-m-d'];
+        yield [(new \DateTimeImmutable('today +1 hour'))->format('Y-m-d'), 'today +1 hour', 'Y-m-d'];
+        yield [(new \DateTimeImmutable('tomorrow +1 hour'))->format('Y-m-d'), 'tomorrow +1 hour', 'Y-m-d'];
+        yield [(new \DateTimeImmutable('-2 days'))->format('Y-m-d'), '-2 days', 'Y-m-d'];
+        yield [(new \DateTimeImmutable('Monday'))->format('Y-m-d'), 'Monday', 'Y-m-d'];
+        yield [(new \DateTimeImmutable('Monday next week'))->format('Y-m-d'), 'Monday next week', 'Y-m-d'];
+        yield [(new \DateTimeImmutable('next year'))->format('Y-m-d'), 'next year', 'Y-m-d'];
+        yield [(new \DateTimeImmutable('fifth day'))->format('Y-m-d'), 'fifth day', 'Y-m-d'];
+        yield [(new \DateTimeImmutable('last day'))->format('Y-m-d'), 'last day', 'Y-m-d'];
+        yield [(new \DateTimeImmutable('first day of January 2019'))->format('Y-m-d'), 'first day of January 2019', 'Y-m-d'];
     }
 
     /**
@@ -94,6 +142,16 @@ final class DateTimeTest extends TestCase
         yield ['2020-01-32'];
         yield ['something'];
         yield ['00:00:00'];
+    }
+
+    public function test_creating_datetime_from_string_relative_with_system_defualt_timezone_different_from_UTC() : void
+    {
+        \date_default_timezone_set('Europe/Warsaw');
+
+        $dateTime = DateTime::fromString('tomorrow');
+
+        $this->assertSame('UTC', $dateTime->timeZone()->name());
+        $this->assertSame('Europe/Warsaw', \date_default_timezone_get());
     }
 
     public function test_debug_info() : void
