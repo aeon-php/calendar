@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+## [0.13.1] - 2020-12-21
+### Fixed
+- [#84](https://github.com/aeon-php/calendar/pull/84) - **Restored support for relative dates into toString methods #85** - [@norberttech](https://github.com/norberttech)
+
 ## [0.13.0] - 2020-12-20
 ### Added
 - [#84](https://github.com/aeon-php/calendar/pull/84) - **Added fromString validation to most of the classes, simplified DateTime and TimeZone API #84** - [@norberttech](https://github.com/norberttech)
