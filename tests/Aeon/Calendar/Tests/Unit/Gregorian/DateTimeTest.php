@@ -100,16 +100,31 @@ final class DateTimeTest extends TestCase
         // DTS switch -1 hour
         yield ['2020-10-25 02:30:00+01:00', '2020-10-25 02:30:00 Europe/Warsaw', 'Y-m-d H:i:sP'];
         yield ['2020-10-25 01:30:00+02:00', '2020-10-25 01:30:00 Europe/Warsaw', 'Y-m-d H:i:sP'];
-
+        // now
         yield [(new \DateTimeImmutable('now'))->format('Y-m-d'), 'now', 'Y-m-d'];
         yield [(new \DateTimeImmutable('now'))->format('Y-m-d'), 'noW', 'Y-m-d'];
+        yield [(new \DateTimeImmutable('now GMT'))->format('Y-m-d'), 'noW GMT', 'Y-m-d'];
+        yield [(new \DateTimeImmutable('now America/Los_Angeles'))->format('Y-m-d'), 'noW America/Los_Angeles', 'Y-m-d'];
+        yield [(new \DateTimeImmutable('now +01:00'))->format('Y-m-d'), 'noW +01:00', 'Y-m-d'];
+        // today
         yield [(new \DateTimeImmutable('today'))->format('Y-m-d'), 'today ', 'Y-m-d'];
+        yield [(new \DateTimeImmutable('today America/Los_Angeles'))->format('Y-m-d'), 'today America/Los_Angeles', 'Y-m-d'];
+        yield [(new \DateTimeImmutable('today +01:00'))->format('Y-m-d'), 'today +01:00', 'Y-m-d'];
+        yield [(new \DateTimeImmutable('today GMT'))->format('Y-m-d'), 'today GMT', 'Y-m-d'];
+        // noon
         yield [(new \DateTimeImmutable('noon'))->format('Y-m-d'), ' noON ', 'Y-m-d'];
         yield [(new \DateTimeImmutable('yesterday noon'))->format('Y-m-d'), 'yesterday noon', 'Y-m-d'];
+        yield [(new \DateTimeImmutable('noon Europe/Warsaw'))->format('Y-m-d'), ' noON  Europe/Warsaw', 'Y-m-d'];
+        // tomorrow
         yield [(new \DateTimeImmutable('tomorrow'))->format('Y-m-d'), 'tomorrow', 'Y-m-d'];
         yield [(new \DateTimeImmutable('tomorrow midnight'))->format('Y-m-d'), 'tomorrow midnight', 'Y-m-d'];
+        yield [(new \DateTimeImmutable('tomorrow +01:00'))->format('Y-m-d'), 'tomorrow +01:00', 'Y-m-d'];
+        // yesterday
         yield [(new \DateTimeImmutable('yesterday'))->format('Y-m-d'), 'yesterday', 'Y-m-d'];
+        yield [(new \DateTimeImmutable('yesterday GMT'))->format('Y-m-d'), 'yesterday GMT', 'Y-m-d'];
+        // midnight
         yield [(new \DateTimeImmutable('midnight'))->format('Y-m-d'), 'midnight', 'Y-m-d'];
+        yield [(new \DateTimeImmutable('midnight PST'))->format('Y-m-d'), 'midnight  PST', 'Y-m-d'];
         yield [(new \DateTimeImmutable('24 week'))->format('Y-m-d'), '24 week', 'Y-m-d'];
         yield [(new \DateTimeImmutable('today +1 hour'))->format('Y-m-d'), 'today +1 hour', 'Y-m-d'];
         yield [(new \DateTimeImmutable('tomorrow +1 hour'))->format('Y-m-d'), 'tomorrow +1 hour', 'Y-m-d'];
@@ -144,13 +159,23 @@ final class DateTimeTest extends TestCase
         yield ['00:00:00'];
     }
 
-    public function test_creating_datetime_from_string_relative_with_system_defualt_timezone_different_from_UTC() : void
+    public function test_creating_datetime_from_string_relative_with_system_default_timezone_different_from_UTC() : void
     {
         \date_default_timezone_set('Europe/Warsaw');
 
         $dateTime = DateTime::fromString('tomorrow');
 
         $this->assertSame('UTC', $dateTime->timeZone()->name());
+        $this->assertSame('Europe/Warsaw', \date_default_timezone_get());
+    }
+
+    public function test_creating_datetime_from_string_relative_with_timezone_and_with_system_default_timezone_different_from_UTC() : void
+    {
+        \date_default_timezone_set('Europe/Warsaw');
+
+        $dateTime = DateTime::fromString('tomorrow PST');
+
+        $this->assertSame('PST', $dateTime->timeZone()->name());
         $this->assertSame('Europe/Warsaw', \date_default_timezone_get());
     }
 
