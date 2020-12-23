@@ -42,7 +42,7 @@ final class LeapSeconds
         }
 
         self::$instance = new self(
-            $expirationDate = DateTime::fromString('2020-12-28 00:00:00 UTC'),
+            $expirationDate = DateTime::fromString('2021-06-28 00:00:00 UTC'),
             new LeapSecond(DateTime::fromString('1972-01-01 00:00:00 UTC'), TimeUnit::seconds(10)),
             new LeapSecond(DateTime::fromString('1972-07-01 00:00:00 UTC'), TimeUnit::seconds(11)),
             new LeapSecond(DateTime::fromString('1973-01-01 00:00:00 UTC'), TimeUnit::seconds(12)),
