@@ -28,6 +28,27 @@ final class YearTest extends TestCase
         $this->assertSame(12, Year::fromString('2020-01-01')->december()->number());
     }
 
+    public function test_from_string() : void
+    {
+        $this->assertSame(2018, Year::fromString('2018')->number());
+        $this->assertSame(2020, Year::fromString('2020')->number());
+        $this->assertSame((int) (new \DateTimeImmutable('now'))->format('Y'), Year::fromString('now')->number());
+        $this->assertSame((int) (new \DateTimeImmutable('midnight'))->format('Y'), Year::fromString('midnight')->number());
+        $this->assertSame((int) (new \DateTimeImmutable('yesterday'))->format('Y'), Year::fromString('yesterday')->number());
+        $this->assertSame((int) (new \DateTimeImmutable('yesterday'))->format('Y'), Year::fromString('yesterday ')->number());
+        $this->assertSame((int) (new \DateTimeImmutable('noon'))->format('Y'), Year::fromString('NooN ')->number());
+        $this->assertSame((int) (new \DateTimeImmutable('noon'))->format('Y'), Year::fromString('noon')->number());
+        $this->assertSame((int) (new \DateTimeImmutable('tomorrow'))->format('Y'), Year::fromString('tomorrow')->number());
+    }
+
+    public function test_from_string_that_is_not_valid_number() : void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectDeprecationMessage('Value "not a number" is not valid year format');
+
+        Year::fromString('not a number');
+    }
+
     public function test_from_date_time_immutable() : void
     {
         $this->assertSame(2020, Year::fromDateTime(new \DateTimeImmutable('2020-05-01'))->number());

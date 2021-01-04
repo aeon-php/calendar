@@ -37,7 +37,26 @@ final class Year
      */
     public static function fromString(string $date) : self
     {
-        return self::fromDateTime(new \DateTimeImmutable($date));
+        $dateNormalized = \is_numeric($date) ? \sprintf('%d-01-01', $date) : \trim($date);
+        $dateParts = \date_parse($dateNormalized);
+
+        if (!\is_array($dateParts)) {
+            throw new InvalidArgumentException("Value \"{$date}\" is not valid year format.");
+        }
+
+        if ($dateParts['error_count'] > 0) {
+            throw new InvalidArgumentException("Value \"{$date}\" is not valid year format.");
+        }
+
+        if (isset($dateParts['relative']) || \in_array(\strtolower($dateNormalized), ['midnight', 'noon', 'now', 'today'], true)) {
+            return self::fromDateTime(new \DateTimeImmutable($date));
+        }
+
+        if (!isset($dateParts['year']) || !\is_int($dateParts['year'])) {
+            throw new InvalidArgumentException("Value \"{$date}\" is not valid year format.");
+        }
+
+        return new self($dateParts['year']);
     }
 
     /**
