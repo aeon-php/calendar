@@ -1,3 +1,15 @@
+## [Unreleased] - 2021-01-20
+
+### Added
+  - [#89](https://github.com/aeon-php/calendar/pull/89) - **integration with aeon-php/automation** - [@norberttech](https://github.com/norberttech)
+
+### Changed
+  - [#89](https://github.com/aeon-php/calendar/pull/89) - **Updated changelog file** - [@norberttech](https://github.com/norberttech)
+
+### Fixed
+  - [#89](https://github.com/aeon-php/calendar/pull/89) - **GitHub Actions cache integration** - [@norberttech](https://github.com/norberttech)
+  - [#89](https://github.com/aeon-php/calendar/pull/89) - **Failing tests** - [@norberttech](https://github.com/norberttech)
+
 ## [0.13.3] - 2021-01-04
 
 ### Changed
@@ -49,7 +61,7 @@
 ## [0.11.0] - 2020-10-23
 
 ### Added
-  - [#73](https://github.com/aeon-php/calendar/pull/73) - **__serialize and __unserialize methods to those value objects that might be serialized** - [@norberttech](https://github.com/norberttech)
+  - [#73](https://github.com/aeon-php/calendar/pull/73) - **<strong>serialize and </strong>unserialize methods to those value objects that might be serialized** - [@norberttech](https://github.com/norberttech)
 
 ### Changed
   - [c93e22](https://github.com/aeon-php/calendar/commit/c93e225a30b42522a1b3b4b867eaf168886ba4c5) - **Update CHANGELOG.md** - [@norberttech](https://github.com/norberttech)
@@ -109,7 +121,7 @@
   - [#53](https://github.com/aeon-php/calendar/pull/53) - **DateTime::setTimeIn method** - [@norberttech](https://github.com/norberttech)
 
 ### Changed
-  - [cf0c81](https://github.com/aeon-php/calendar/commit/cf0c81d8a5ad6a48cf79a309682bc45565b5200b) - **Prepared changelog for 0.6.0 release & updated dependencies** - [@norberttech](https://github.com/norberttech)
+  - [cf0c81](https://github.com/aeon-php/calendar/commit/cf0c81d8a5ad6a48cf79a309682bc45565b5200b) - **Prepared changelog for 0.6.0 release &amp; updated dependencies** - [@norberttech](https://github.com/norberttech)
   - [b4901b](https://github.com/aeon-php/calendar/commit/b4901ba601d26efa6cc28f188a63ca14aac7aee6) - **Update CHANGELOG.md** - [@norberttech](https://github.com/norberttech)
   - [e999da](https://github.com/aeon-php/calendar/commit/e999dae5d6365c9fd87d8afd21a8c8db5fc31864) - **Update CHANGELOG.md** - [@norberttech](https://github.com/norberttech)
   - [59fcea](https://github.com/aeon-php/calendar/commit/59fcea7415d2d356da33ed3f8d1d0e1e2245d903) - **Update CHANGELOG.md** - [@norberttech](https://github.com/norberttech)
