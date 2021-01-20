@@ -101,13 +101,13 @@ final class TimeZoneTest extends TestCase
 
     public function test_all_timezone_identifiers() : void
     {
-        $this->assertCount(426, TimeZone::allIdentifiers());
+        $this->assertCount(\count(\DateTimeZone::listIdentifiers()), TimeZone::allIdentifiers());
         $this->assertContainsOnlyInstancesOf(TimeZone::class, TimeZone::allIdentifiers());
     }
 
     public function test_all_timezones() : void
     {
-        $this->assertCount(144, TimeZone::allAbbreviations());
+        $this->assertCount(\count(\array_keys(\DateTimeZone::listAbbreviations())), TimeZone::allAbbreviations());
         $this->assertContainsOnlyInstancesOf(TimeZone::class, TimeZone::allAbbreviations());
     }
 
