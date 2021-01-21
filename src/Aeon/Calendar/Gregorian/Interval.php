@@ -66,12 +66,32 @@ final class Interval
         return new self(self::OPEN);
     }
 
+    public function isOpen() : bool
+    {
+        return $this->type === self::OPEN;
+    }
+
+    public function isLeftOpen() : bool
+    {
+        return $this->type === self::LEFT_OPEN || $this->type === self::OPEN;
+    }
+
+    public function isRightOpen() : bool
+    {
+        return $this->type === self::RIGHT_OPEN || $this->type === self::OPEN;
+    }
+
+    public function isClosed() : bool
+    {
+        return $this->type === self::CLOSED;
+    }
+
     /**
      * @phpstan-ignore-next-line
      */
     public function toDatePeriod(DateTime $left, Unit $timeUnit, DateTime $right) : \DatePeriod
     {
-        if ($this->type === self::CLOSED) {
+        if ($this->isClosed()) {
             return new \DatePeriod(
                 $left->toDateTimeImmutable(),
                 $timeUnit->toDateInterval(),
@@ -79,7 +99,7 @@ final class Interval
             );
         }
 
-        if ($this->type === self::LEFT_OPEN) {
+        if ($this->isLeftOpen()) {
             return new \DatePeriod(
                 $left->add($timeUnit)->toDateTimeImmutable(),
                 $timeUnit->toDateInterval(),
@@ -87,7 +107,7 @@ final class Interval
             );
         }
 
-        if ($this->type === self::RIGHT_OPEN) {
+        if ($this->isRightOpen()) {
             return new \DatePeriod(
                 $left->toDateTimeImmutable(),
                 $timeUnit->toDateInterval(),
@@ -107,7 +127,7 @@ final class Interval
      */
     public function toDatePeriodBackward(DateTime $left, Unit $timeUnit, DateTime $right) : \DatePeriod
     {
-        if ($this->type === self::CLOSED) {
+        if ($this->isClosed()) {
             return new \DatePeriod(
                 $left->sub($timeUnit)->toDateTimeImmutable(),
                 $timeUnit->toDateInterval(),
@@ -115,7 +135,7 @@ final class Interval
             );
         }
 
-        if ($this->type === self::LEFT_OPEN) {
+        if ($this->isLeftOpen()) {
             return new \DatePeriod(
                 $left->toDateTimeImmutable(),
                 $timeUnit->toDateInterval(),
@@ -123,7 +143,7 @@ final class Interval
             );
         }
 
-        if ($this->type === self::RIGHT_OPEN) {
+        if ($this->isRightOpen()) {
             return new \DatePeriod(
                 $left->sub($timeUnit)->toDateTimeImmutable(),
                 $timeUnit->toDateInterval(),

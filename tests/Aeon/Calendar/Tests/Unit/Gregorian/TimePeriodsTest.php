@@ -58,7 +58,7 @@ final class TimePeriodsTest extends TestCase
                 $counter += 1;
             });
 
-        $this->assertSame(60, $counter);
+        $this->assertSame(59, $counter);
     }
 
     public function test_get_iterator() : void

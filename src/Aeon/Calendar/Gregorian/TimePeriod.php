@@ -76,16 +76,42 @@ final class TimePeriod
 
     public function iterate(Unit $timeUnit, Interval $interval) : TimePeriods
     {
+        /** @psalm-suppress ImpureFunctionCall */
         return new TimePeriods(
-            ...\array_map(
-                function (\DateTimeImmutable $dateTimeImmutable) use ($timeUnit) : self {
-                    return new self(
-                        DateTime::fromDateTime($dateTimeImmutable),
-                        DateTime::fromDateTime($dateTimeImmutable)->add($timeUnit)
-                    );
-                },
-                \iterator_to_array(
-                    $interval->toDatePeriod($this->start, $timeUnit, $this->end)
+            ...\array_filter(
+                \array_map(
+                    function (\DateTimeImmutable $dateTimeImmutable) use ($timeUnit, $interval) : ?self {
+                        $start = DateTime::fromDateTime($dateTimeImmutable);
+                        $end = $start->add($timeUnit);
+
+                        if ($interval->isRightOpen()) {
+                            if ($end->isAfter($this->end())) {
+                                $end = $this->end()->sub($timeUnit);
+                            }
+
+                            if ($end->isEqual($this->end())) {
+                                return null;
+                            }
+                        }
+
+                        if ($interval->isClosed() || $interval->isLeftOpen()) {
+                            if ($end->isAfter($this->end())) {
+                                $end = $this->end();
+                            }
+                        }
+
+                        if ($start->isAfterOrEqual($end) || $end->isAfter($this->end())) {
+                            return null;
+                        }
+
+                        return new self(
+                            $start,
+                            $end
+                        );
+                    },
+                    \iterator_to_array(
+                        $interval->toDatePeriod($this->start, $timeUnit, $this->end)
+                    )
                 )
             )
         );
@@ -93,17 +119,44 @@ final class TimePeriod
 
     public function iterateBackward(Unit $timeUnit, Interval $interval) : TimePeriods
     {
+        /** @psalm-suppress ImpureFunctionCall */
         return new TimePeriods(
-            ...\array_map(
-                function (\DateTimeImmutable $dateTimeImmutable) use ($timeUnit) : self {
-                    return new self(
-                        DateTime::fromDateTime($dateTimeImmutable)->add($timeUnit),
-                        DateTime::fromDateTime($dateTimeImmutable)
-                    );
-                },
-                \array_reverse(
-                    \iterator_to_array(
-                        $interval->toDatePeriodBackward($this->start, $timeUnit, $this->end)
+            ...\array_filter(
+                \array_map(
+                    function (\DateTimeImmutable $dateTimeImmutable) use ($timeUnit, $interval) : ?self {
+                        $start = DateTime::fromDateTime($dateTimeImmutable)->add($timeUnit);
+                        $end = DateTime::fromDateTime($dateTimeImmutable);
+
+                        if ($start->isAfter($this->end())) {
+                            $start = $this->end();
+                        }
+
+                        if ($interval->isLeftOpen()) {
+                            if ($end->isEqual($this->start())) {
+                                return null;
+                            }
+                        }
+
+                        if ($interval->isRightOpen()) {
+                            if ($start->isEqual($this->end())) {
+                                return null;
+                            }
+                        }
+
+                        if ($end->isBefore($this->start())) {
+                            return null;
+                        }
+
+                        if ($end->isEqual($start)) {
+                            return null;
+                        }
+
+                        return new self($start, $end);
+                    },
+                    \array_reverse(
+                        \iterator_to_array(
+                            $interval->toDatePeriodBackward($this->start, $timeUnit, $this->end)
+                        )
                     )
                 )
             )

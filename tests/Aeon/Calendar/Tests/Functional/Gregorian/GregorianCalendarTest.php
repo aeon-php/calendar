@@ -137,7 +137,7 @@ final class GregorianCalendarTest extends TestCase
                 return $timePeriod->start()->toDateTimeImmutable()->format('Y-m-d H:i:s');
             });
 
-        $this->assertCount(49, $timePeriods);
+        $this->assertCount(48, $timePeriods);
 
         $this->assertSame(
             (new \DateTimeImmutable('yesterday midnight'))->format('Y-m-d H:i:s'),
@@ -145,8 +145,8 @@ final class GregorianCalendarTest extends TestCase
         );
 
         $this->assertSame(
-            (new \DateTimeImmutable('tomorrow midnight'))->format('Y-m-d H:i:s'),
-            $timePeriods[48]
+            (new \DateTimeImmutable('tomorrow midnight -1 hour'))->format('Y-m-d H:i:s'),
+            $timePeriods[47]
         );
     }
 
@@ -161,7 +161,7 @@ final class GregorianCalendarTest extends TestCase
                 return $timePeriod->start()->time()->hour() % 2 === 0;
             });
 
-        $this->assertCount(25, $timePeriods);
+        $this->assertCount(24, $timePeriods);
     }
 
     public function test_iterating_overt_time_backward() : void
@@ -175,7 +175,7 @@ final class GregorianCalendarTest extends TestCase
                 return $interval->start()->toDateTimeImmutable()->format('Y-m-d H:i:s');
             });
 
-        $this->assertCount(48, $timePeriods);
+        $this->assertCount(47, $timePeriods);
 
         $this->assertSame(
             (new \DateTimeImmutable('tomorrow midnight'))->format('Y-m-d H:i:s'),
@@ -183,8 +183,8 @@ final class GregorianCalendarTest extends TestCase
         );
 
         $this->assertSame(
-            (new \DateTimeImmutable('yesterday midnight'))->modify('+1 hour')->format('Y-m-d H:i:s'),
-            $timePeriods[47]
+            (new \DateTimeImmutable('yesterday midnight +2 hours'))->format('Y-m-d H:i:s'),
+            $timePeriods[46]
         );
     }
 }
