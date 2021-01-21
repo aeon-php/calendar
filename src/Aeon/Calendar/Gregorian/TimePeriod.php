@@ -76,14 +76,13 @@ final class TimePeriod
 
     public function iterate(Unit $timeUnit, Interval $interval) : TimePeriods
     {
+        /** @psalm-suppress ImpureFunctionCall */
         return new TimePeriods(
             ...\array_filter(
                 \array_map(
                     function (\DateTimeImmutable $dateTimeImmutable) use ($timeUnit, $interval) : ?self {
                         $start = DateTime::fromDateTime($dateTimeImmutable);
                         $end = $start->add($timeUnit);
-
-//                        var_dump(['before' => [$start->toISO8601() , $end->toISO8601()]]);
 
                         if ($interval->isRightOpen()) {
                             if ($end->isAfter($this->end())) {
@@ -105,8 +104,6 @@ final class TimePeriod
                             return null;
                         }
 
-//                        var_dump(['after' => [$start->toISO8601() , $end->toISO8601()]]);
-
                         return new self(
                             $start,
                             $end
@@ -122,14 +119,13 @@ final class TimePeriod
 
     public function iterateBackward(Unit $timeUnit, Interval $interval) : TimePeriods
     {
+        /** @psalm-suppress ImpureFunctionCall */
         return new TimePeriods(
             ...\array_filter(
                 \array_map(
                     function (\DateTimeImmutable $dateTimeImmutable) use ($timeUnit, $interval) : ?self {
                         $start = DateTime::fromDateTime($dateTimeImmutable)->add($timeUnit);
                         $end = DateTime::fromDateTime($dateTimeImmutable);
-
-//                        var_dump(['before' => [$start->toISO8601() , $end->toISO8601()]]);
 
                         if ($start->isAfter($this->end())) {
                             $start = $this->end();
@@ -147,7 +143,6 @@ final class TimePeriod
                             }
                         }
 
-
                         if ($end->isBefore($this->start())) {
                             return null;
                         }
@@ -156,7 +151,6 @@ final class TimePeriod
                             return null;
                         }
 
-//                        var_dump(['after' => [$start->toISO8601() , $end->toISO8601()]]);
                         return new self($start, $end);
                     },
                     \array_reverse(

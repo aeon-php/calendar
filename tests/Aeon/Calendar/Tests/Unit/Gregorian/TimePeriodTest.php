@@ -103,7 +103,7 @@ final class TimePeriodTest extends TestCase
 
         $timePeriods = ($forward) ? $period->iterate($timeUnit, $interval) : $period->iterateBackward($timeUnit, $interval);
 
-        $periodsResult = $timePeriods->map(fn (TimePeriod $timePeriod) : string => $timePeriod->start()->format($format) . '...' .$timePeriod->end()->format($format));
+        $periodsResult = $timePeriods->map(fn (TimePeriod $timePeriod) : string => $timePeriod->start()->format($format) . '...' . $timePeriod->end()->format($format));
 
         $this->assertSame($periods, $periodsResult);
     }
