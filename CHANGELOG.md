@@ -1,4 +1,4 @@
-## [Unreleased] - 2021-01-20
+## [Unreleased] - 2021-01-21
 
 ### Added
   - [#89](https://github.com/aeon-php/calendar/pull/89) - **integration with aeon-php/automation** - [@norberttech](https://github.com/norberttech)
@@ -7,6 +7,7 @@
   - [#89](https://github.com/aeon-php/calendar/pull/89) - **Updated changelog file** - [@norberttech](https://github.com/norberttech)
 
 ### Fixed
+  - [#90](https://github.com/aeon-php/calendar/pull/90) - **TimePeriod::iterate() bug that was ignoring Interval type making possible to iterate over the period in some cases** - [@norberttech](https://github.com/norberttech)
   - [#89](https://github.com/aeon-php/calendar/pull/89) - **GitHub Actions cache integration** - [@norberttech](https://github.com/norberttech)
   - [#89](https://github.com/aeon-php/calendar/pull/89) - **Failing tests** - [@norberttech](https://github.com/norberttech)
 
