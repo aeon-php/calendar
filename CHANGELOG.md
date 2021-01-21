@@ -1,4 +1,4 @@
-## [Unreleased] - 2021-01-21
+## [0.14.0] - 2021-01-21
 
 ### Added
   - [#89](https://github.com/aeon-php/calendar/pull/89) - **integration with aeon-php/automation** - [@norberttech](https://github.com/norberttech)
