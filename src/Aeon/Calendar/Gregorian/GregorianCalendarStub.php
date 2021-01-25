@@ -20,6 +20,23 @@ final class GregorianCalendarStub implements Calendar
         $this->currentDate = null;
     }
 
+    /**
+     * @psalm-pure
+     */
+    public static function UTC() : self
+    {
+        return new self(TimeZone::UTC());
+    }
+
+    /**
+     * @psalm-pure
+     * @psalm-suppress ImpureFunctionCall
+     */
+    public static function systemDefault() : self
+    {
+        return new self(TimeZone::fromString(\date_default_timezone_get()));
+    }
+
     public function timeZone() : TimeZone
     {
         return $this->timeZone;
