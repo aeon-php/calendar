@@ -80,7 +80,7 @@ final class TimeTest extends TestCase
     public function test_creating_time_from_string(string $dateTimeString, string $dateTime, string $format) : void
     {
         try {
-            $this->assertEqualsWithDelta((int) $dateTimeString, (int) Time::fromString($dateTime)->format($format), 10);
+            $this->assertEqualsWithDelta((int) $dateTimeString, (int) Time::fromString($dateTime)->format($format), 100);
         } catch (InvalidArgumentException $exception) {
             $this->fail($exception->getMessage());
         }
