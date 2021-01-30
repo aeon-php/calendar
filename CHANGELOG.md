@@ -1,7 +1,10 @@
-## [Unreleased] - 2021-01-25
+## [Unreleased] - 2021-01-30
 
 ### Added
 - [#91](https://github.com/aeon-php/calendar/pull/91) - **static constructors to GregorianCalendarStub** - [@norberttech](https://github.com/norberttech)
+
+### Fixed
+- [#95](https://github.com/aeon-php/calendar/pull/95) - **breaking time from string test** - [@norberttech](https://github.com/norberttech)
 
 ## [0.14.0] - 2021-01-21
 
