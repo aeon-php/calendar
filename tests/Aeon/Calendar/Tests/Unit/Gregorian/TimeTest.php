@@ -80,7 +80,11 @@ final class TimeTest extends TestCase
     public function test_creating_time_from_string(string $dateTimeString, string $dateTime, string $format) : void
     {
         try {
-            $this->assertEqualsWithDelta((int) $dateTimeString, (int) Time::fromString($dateTime)->format($format), 100);
+            $this->assertEqualsWithDelta(
+                (new \DateTime($dateTimeString))->getTimestamp(),
+                (new \DateTime(Time::fromString($dateTime)->format($format)))->getTimestamp(),
+                10
+            );
         } catch (InvalidArgumentException $exception) {
             $this->fail($exception->getMessage());
         }
@@ -91,16 +95,16 @@ final class TimeTest extends TestCase
      */
     public function creating_time_data_provider_from_string() : \Generator
     {
-        yield [(new \DateTimeImmutable('now'))->format('U'), 'noW', 'U'];
-        yield [(new \DateTimeImmutable('now'))->format('U'), 'now ', 'U'];
-        yield [(new \DateTimeImmutable('today'))->format('U'), 'today', 'U'];
-        yield [(new \DateTimeImmutable('today'))->format('U'), ' tOday', 'U'];
-        yield [(new \DateTimeImmutable('noon'))->format('U'), 'noon', 'U'];
-        yield [(new \DateTimeImmutable('noon'))->format('U'), 'noon  ', 'U'];
-        yield [(new \DateTimeImmutable('midnight'))->format('U'), 'midnight  ', 'U'];
-        yield [(new \DateTimeImmutable('noon +1 minute'))->format('U'), 'noon +1 minute', 'U'];
-        yield [(new \DateTimeImmutable('back of 7pm'))->format('U'), 'back of 7pm', 'U'];
-        yield [(new \DateTimeImmutable('last hour'))->format('U'), 'last hour', 'U'];
+        yield [(new \DateTimeImmutable('now'))->format('H:i:s'), 'noW', 'H:i:s'];
+        yield [(new \DateTimeImmutable('now'))->format('H:i:s'), 'now ', 'H:i:s'];
+        yield [(new \DateTimeImmutable('today'))->format('H:i:s'), 'today', 'H:i:s'];
+        yield [(new \DateTimeImmutable('today'))->format('H:i:s'), ' tOday', 'H:i:s'];
+        yield [(new \DateTimeImmutable('noon'))->format('H:i:s'), 'noon', 'H:i:s'];
+        yield [(new \DateTimeImmutable('noon'))->format('H:i:s'), 'noon  ', 'H:i:s'];
+        yield [(new \DateTimeImmutable('midnight'))->format('H:i:s'), 'midnight  ', 'H:i:s'];
+        yield [(new \DateTimeImmutable('noon +1 minute'))->format('H:i:s'), 'noon +1 minute', 'H:i:s'];
+        yield [(new \DateTimeImmutable('back of 7pm'))->format('H:i:s'), 'back of 7pm', 'H:i:s'];
+        yield [(new \DateTimeImmutable('last hour'))->format('H:i:s'), 'last hour', 'H:i:s'];
     }
 
     public function test_time_millisecond() : void
