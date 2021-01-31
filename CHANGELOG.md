@@ -1,6 +1,12 @@
-## [Unreleased] - 2021-01-30
+## [Unreleased] - 2021-01-31
 
 ### Added
+- [#96](https://github.com/aeon-php/calendar/pull/96) - **`TimePeriods::add()` method** - [@norberttech](https://github.com/norberttech)
+- [#96](https://github.com/aeon-php/calendar/pull/96) - **`TimePeriods::merge()` method** - [@norberttech](https://github.com/norberttech)
+- [#96](https://github.com/aeon-php/calendar/pull/96) - **`TimePeriods::sort()` method** - [@norberttech](https://github.com/norberttech)
+- [#96](https://github.com/aeon-php/calendar/pull/96) - **`TimePeriods::sortBy()` method** - [@norberttech](https://github.com/norberttech)
+- [#96](https://github.com/aeon-php/calendar/pull/96) - **`TimePeriods::first()` method** - [@norberttech](https://github.com/norberttech)
+- [#96](https://github.com/aeon-php/calendar/pull/96) - **`TimePeriods::last()` method** - [@norberttech](https://github.com/norberttech)
 - [#91](https://github.com/aeon-php/calendar/pull/91) - **static constructors to GregorianCalendarStub** - [@norberttech](https://github.com/norberttech)
 
 ### Fixed
