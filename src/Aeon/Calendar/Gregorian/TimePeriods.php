@@ -105,14 +105,7 @@ final class TimePeriods implements \ArrayAccess, \Countable, \IteratorAggregate
             function (TimePeriod $timePeriod) : TimePeriod {
                 return $timePeriod->isBackward() ? $timePeriod->revert() : $timePeriod;
             },
-            $this->all()
-        );
-
-        \uasort(
-            $periods,
-            function (TimePeriod $timePeriodA, TimePeriod $timePeriodB) : int {
-                return $timePeriodA->start()->toDateTimeImmutable() <=> $timePeriodB->start()->toDateTimeImmutable();
-            }
+            $this->sort()->all()
         );
 
         $gaps = [];
@@ -127,5 +120,64 @@ final class TimePeriods implements \ArrayAccess, \Countable, \IteratorAggregate
         }
 
         return new self(...$gaps);
+    }
+
+    public function sort() : self
+    {
+        return $this->sortBy(TimePeriodsSort::asc());
+    }
+
+    public function sortBy(TimePeriodsSort $sort) : self
+    {
+        $periods = $this->all();
+
+        \uasort(
+            $periods,
+            function (TimePeriod $timePeriodA, TimePeriod $timePeriodB) use ($sort) : int {
+                if ($sort->byStartDate()) {
+                    return $sort->isAscending()
+                        ? $timePeriodA->start()->toDateTimeImmutable() <=> $timePeriodB->start()->toDateTimeImmutable()
+                        : $timePeriodB->start()->toDateTimeImmutable() <=> $timePeriodA->start()->toDateTimeImmutable();
+                }
+
+                return $sort->isAscending()
+                    ? $timePeriodA->end()->toDateTimeImmutable() <=> $timePeriodB->end()->toDateTimeImmutable()
+                    : $timePeriodB->end()->toDateTimeImmutable() <=> $timePeriodA->end()->toDateTimeImmutable();
+            }
+        );
+
+        return new self(...$periods);
+    }
+
+    public function first() : ?TimePeriod
+    {
+        $periods = $this->all();
+
+        if (!\count($periods)) {
+            return null;
+        }
+
+        return \current($periods);
+    }
+
+    public function last() : ?TimePeriod
+    {
+        $periods = $this->all();
+
+        if (!\count($periods)) {
+            return null;
+        }
+
+        return \end($periods);
+    }
+
+    public function add(TimePeriod ...$timePeriods) : self
+    {
+        return new self(...\array_merge($this->periods, $timePeriods));
+    }
+
+    public function merge(self $timePeriods) : self
+    {
+        return new self(...\array_merge($this->periods, $timePeriods->periods));
     }
 }
