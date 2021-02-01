@@ -126,6 +126,18 @@ final class TimePeriodsTest extends TestCase
         );
     }
 
+    public function test_no_gaps_in_abuts_periods() : void
+    {
+        $this->assertEquals(
+            (new TimePeriods()),
+            (new TimePeriods(
+                new TimePeriod(DateTime::fromString('2019-09-09T12:53:30+00:00'), DateTime::fromString('2019-10-09T12:53:30+00:00')),
+                new TimePeriod(DateTime::fromString('2019-08-10T12:53:30+00:00'), DateTime::fromString('2019-09-09T12:53:30+00:00')),
+                new TimePeriod(DateTime::fromString('2019-07-11T12:53:30+00:00'), DateTime::fromString('2019-08-10T12:53:30+00:00')),
+            ))->gaps()
+        );
+    }
+
     public function test_map_periods() : void
     {
         $timePeriods = new TimePeriods(
