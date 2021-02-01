@@ -10,6 +10,7 @@
 - [#91](https://github.com/aeon-php/calendar/pull/91) - **static constructors to GregorianCalendarStub** - [@norberttech](https://github.com/norberttech)
 
 ### Fixed
+- [#98](https://github.com/aeon-php/calendar/pull/98) - **merging abuts time periods** - [@norberttech](https://github.com/norberttech)
 - [#97](https://github.com/aeon-php/calendar/pull/97) - **TimePeriods gap detection** - [@norberttech](https://github.com/norberttech)
 - [#95](https://github.com/aeon-php/calendar/pull/95) - **breaking time from string test** - [@norberttech](https://github.com/norberttech)
 
