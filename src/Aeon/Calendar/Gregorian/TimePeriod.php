@@ -226,7 +226,7 @@ final class TimePeriod
 
     public function merge(self $timePeriod) : self
     {
-        if (!$this->overlaps($timePeriod)) {
+        if (!$this->overlaps($timePeriod) && !$this->abuts($timePeriod)) {
             throw new InvalidArgumentException("Can't merge not overlapping time periods.");
         }
 

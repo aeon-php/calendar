@@ -630,6 +630,22 @@ final class TimePeriodTest extends TestCase
         );
     }
 
+    public function test_merge_abuts_time_periods() : void
+    {
+        $newPeriod = (new TimePeriod(DateTime::fromString('2020-01-01 00:00:00'), DateTime::fromString('2020-01-02 00:00:00')))
+            ->merge(new TimePeriod(DateTime::fromString('2020-01-02 00:00:00'), DateTime::fromString('2020-01-05 00:00:00')));
+
+        $this->assertSame(
+            '2020-01-01',
+            $newPeriod->start()->format('Y-m-d')
+        );
+
+        $this->assertSame(
+            '2020-01-05',
+            $newPeriod->end()->format('Y-m-d')
+        );
+    }
+
     public function test_merge_right_overlapping_time_periods() : void
     {
         $newPeriod = (new TimePeriod(DateTime::fromString('2020-01-10 00:00:00'), DateTime::fromString('2020-02-10 00:00:00')))
