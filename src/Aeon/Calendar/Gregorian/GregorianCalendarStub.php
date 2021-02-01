@@ -14,27 +14,27 @@ final class GregorianCalendarStub implements Calendar
 
     private ?DateTime $currentDate;
 
-    public function __construct(TimeZone $timeZone)
+    public function __construct(TimeZone $timeZone, ?DateTime $currentDate = null)
     {
         $this->timeZone = $timeZone;
-        $this->currentDate = null;
+        $this->currentDate = $currentDate;
     }
 
     /**
      * @psalm-pure
      */
-    public static function UTC() : self
+    public static function UTC(?DateTime $currentDate = null) : self
     {
-        return new self(TimeZone::UTC());
+        return new self(TimeZone::UTC(), $currentDate);
     }
 
     /**
      * @psalm-pure
      * @psalm-suppress ImpureFunctionCall
      */
-    public static function systemDefault() : self
+    public static function systemDefault(?DateTime $currentDate = null) : self
     {
-        return new self(TimeZone::fromString(\date_default_timezone_get()));
+        return new self(TimeZone::fromString(\date_default_timezone_get()), $currentDate);
     }
 
     public function timeZone() : TimeZone
