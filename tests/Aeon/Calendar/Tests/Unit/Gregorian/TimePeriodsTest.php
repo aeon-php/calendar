@@ -118,11 +118,11 @@ final class TimePeriodsTest extends TestCase
         $this->assertEquals(
             (new TimePeriods()),
             (new TimePeriods(
-                    new TimePeriod(DateTime::fromString('2021-01-15T00:00:00+00:00'), DateTime::fromString('2021-01-29T00:00:00+00:00')),
-                    new TimePeriod(DateTime::fromString('2021-01-06T14:32:01+00:00'), DateTime::fromString('2021-01-20T15:24:53+00:00')),
-                    new TimePeriod(DateTime::fromString('2021-01-10T13:03:08+00:00'), DateTime::fromString('2021-01-13T14:24:54+00:00')),
-                    new TimePeriod(DateTime::fromString('2020-12-11T13:03:08+00:00'), DateTime::fromString('2021-01-10T13:03:08+00:00')),
-                ))->gaps()
+                new TimePeriod(DateTime::fromString('2021-01-15T00:00:00+00:00'), DateTime::fromString('2021-01-29T00:00:00+00:00')),
+                new TimePeriod(DateTime::fromString('2021-01-06T14:32:01+00:00'), DateTime::fromString('2021-01-20T15:24:53+00:00')),
+                new TimePeriod(DateTime::fromString('2021-01-10T13:03:08+00:00'), DateTime::fromString('2021-01-13T14:24:54+00:00')),
+                new TimePeriod(DateTime::fromString('2020-12-11T13:03:08+00:00'), DateTime::fromString('2021-01-10T13:03:08+00:00')),
+            ))->gaps()
         );
     }
 

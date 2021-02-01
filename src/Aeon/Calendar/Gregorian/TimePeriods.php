@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Aeon\Calendar\Gregorian;
 
-use Aeon\Calendar\Exception\InvalidArgumentException;
-
 /**
  * @psalm-immutable
  * @implements \IteratorAggregate<int,TimePeriod>
