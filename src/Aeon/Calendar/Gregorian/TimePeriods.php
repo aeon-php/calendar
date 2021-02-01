@@ -114,9 +114,9 @@ final class TimePeriods implements \ArrayAccess, \Countable, \IteratorAggregate
         $totalPeriod = \current($periods);
 
         while ($period = \next($periods)) {
-            try {
+            if ($totalPeriod->overlaps($period)) {
                 $totalPeriod = $totalPeriod->merge($period);
-            } catch (InvalidArgumentException $argumentException) {
+            } else {
                 $gaps[] = new TimePeriod($totalPeriod->end(), $period->start());
                 $totalPeriod = $period;
             }
