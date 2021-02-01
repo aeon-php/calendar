@@ -1,4 +1,4 @@
-## [Unreleased] - 2021-01-31
+## [Unreleased] - 2021-02-01
 
 ### Added
 - [#96](https://github.com/aeon-php/calendar/pull/96) - **`TimePeriods::add()` method** - [@norberttech](https://github.com/norberttech)
@@ -10,6 +10,7 @@
 - [#91](https://github.com/aeon-php/calendar/pull/91) - **static constructors to GregorianCalendarStub** - [@norberttech](https://github.com/norberttech)
 
 ### Fixed
+- [#97](https://github.com/aeon-php/calendar/pull/97) - **TimePeriods gap detection** - [@norberttech](https://github.com/norberttech)
 - [#95](https://github.com/aeon-php/calendar/pull/95) - **breaking time from string test** - [@norberttech](https://github.com/norberttech)
 
 ## [0.14.0] - 2021-01-21
