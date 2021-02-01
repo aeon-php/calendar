@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Aeon\Calendar\Gregorian;
 
+use Aeon\Calendar\Exception\InvalidArgumentException;
+
 /**
  * @psalm-immutable
  * @implements \IteratorAggregate<int,TimePeriod>
@@ -109,14 +111,15 @@ final class TimePeriods implements \ArrayAccess, \Countable, \IteratorAggregate
         );
 
         $gaps = [];
-        $previousPeriod = \current($periods);
+        $totalPeriod = \current($periods);
 
         while ($period = \next($periods)) {
-            if ($period->start()->isAfter($previousPeriod->end())) {
-                $gaps[] = new TimePeriod($previousPeriod->end(), $period->start());
+            try {
+                $totalPeriod = $totalPeriod->merge($period);
+            } catch (InvalidArgumentException $argumentException) {
+                $gaps[] = new TimePeriod($totalPeriod->end(), $period->start());
+                $totalPeriod = $period;
             }
-
-            $previousPeriod = $period;
         }
 
         return new self(...$gaps);
