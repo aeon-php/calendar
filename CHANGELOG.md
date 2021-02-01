@@ -1,6 +1,7 @@
 ## [Unreleased] - 2021-02-01
 
 ### Added
+- [#99](https://github.com/aeon-php/calendar/pull/99) - **possibility to set current date directly through GregorianCalendarStub constructor** - [@norberttech](https://github.com/norberttech)
 - [#96](https://github.com/aeon-php/calendar/pull/96) - **`TimePeriods::add()` method** - [@norberttech](https://github.com/norberttech)
 - [#96](https://github.com/aeon-php/calendar/pull/96) - **`TimePeriods::merge()` method** - [@norberttech](https://github.com/norberttech)
 - [#96](https://github.com/aeon-php/calendar/pull/96) - **`TimePeriods::sort()` method** - [@norberttech](https://github.com/norberttech)
