@@ -83,7 +83,8 @@ final class TimeTest extends TestCase
             $this->assertEqualsWithDelta(
                 (new \DateTime($dateTimeString))->getTimestamp(),
                 (new \DateTime(Time::fromString($dateTime)->format($format)))->getTimestamp(),
-                10
+                20,
+                'Expected ' . (new \DateTime($dateTimeString))->format('c') . ' got ' . (new \DateTime(Time::fromString($dateTime)->format($format)))->format('c')
             );
         } catch (InvalidArgumentException $exception) {
             $this->fail($exception->getMessage());
