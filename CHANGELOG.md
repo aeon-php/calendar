@@ -1,4 +1,4 @@
-## [Unreleased] - 2021-02-01
+## [0.15.0] - 2021-02-04
 
 ### Added
 - [#99](https://github.com/aeon-php/calendar/pull/99) - **possibility to set current date directly through GregorianCalendarStub constructor** - [@norberttech](https://github.com/norberttech)
