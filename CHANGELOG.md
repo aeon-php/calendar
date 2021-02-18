@@ -3,6 +3,9 @@
 ### Fixed
 - [#100](https://github.com/aeon-php/calendar/pull/100) - **failing time tests - creating time from relative string** - [@norberttech](https://github.com/norberttech)
 
+### Removed
+- [#101](https://github.com/aeon-php/calendar/pull/101) - **Collection namespace** - [@norberttech](https://github.com/norberttech)
+
 ## [0.15.0] - 2021-02-04
 
 ### Added
