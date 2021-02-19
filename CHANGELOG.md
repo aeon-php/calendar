@@ -1,4 +1,4 @@
-## [Unreleased] - 2021-02-18
+## [0.16.0] - 2021-02-19
 
 ### Fixed
 - [#100](https://github.com/aeon-php/calendar/pull/100) - **failing time tests - creating time from relative string** - [@norberttech](https://github.com/norberttech)
