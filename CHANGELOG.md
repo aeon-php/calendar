@@ -1,6 +1,7 @@
 ## [Unreleased] - 2021-02-22
 
 ### Added
+- [#103](https://github.com/aeon-php/calendar/pull/103) - **possibility to to get time milliseconds from time unit** - [@norberttech](https://github.com/norberttech)
 - [#102](https://github.com/aeon-php/calendar/pull/102) - **possibility to get time hours from time unit** - [@norberttech](https://github.com/norberttech)
 
 ## [0.16.0] - 2021-02-19
