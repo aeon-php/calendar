@@ -1,3 +1,8 @@
+## [Unreleased] - 2021-02-22
+
+### Added
+- [#102](https://github.com/aeon-php/calendar/pull/102) - **possibility to get time hours from time unit** - [@norberttech](https://github.com/norberttech)
+
 ## [0.16.0] - 2021-02-19
 
 ### Fixed
