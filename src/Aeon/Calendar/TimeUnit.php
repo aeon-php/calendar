@@ -306,6 +306,11 @@ final class TimeUnit implements Unit
         return \abs($this->inHours());
     }
 
+    public function inTimeHours() : int
+    {
+        return \abs($this->inHours() % 24);
+    }
+
     public function inMinutes() : int
     {
         return $this->negative

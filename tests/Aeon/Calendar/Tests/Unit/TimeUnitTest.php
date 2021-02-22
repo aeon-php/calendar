@@ -128,11 +128,26 @@ final class TimeUnitTest extends TestCase
 
     public function test_in_time_values() : void
     {
+        $this->assertSame(2, TimeUnit::hours(26)->inTimeHours());
+        $this->assertSame(2, TimeUnit::hours(-26)->inTimeHours());
         $this->assertSame(8, TimeUnit::seconds(-68)->inTimeSeconds());
         $this->assertSame(8, TimeUnit::seconds(68)->inTimeSeconds());
         $this->assertSame(8, TimeUnit::minutes(-68)->inTimeMinutes());
         $this->assertSame(8, TimeUnit::minutes(68)->inTimeMinutes());
         $this->assertSame(15, TimeUnit::minutes(135)->inTimeMinutes());
+    }
+
+    public function test_complex_time_unit_in_time_values() : void
+    {
+        $timeUnit = TimeUnit::days(3)
+            ->add(TimeUnit::hours(4))
+            ->add(TimeUnit::minutes(85))
+            ->add(TimeUnit::seconds(30))
+            ->add(TimeUnit::milliseconds(1500));
+
+        $this->assertSame(5, $timeUnit->inTimeHours());
+        $this->assertSame(25, $timeUnit->inTimeMinutes());
+        $this->assertSame(31, $timeUnit->inTimeSeconds());
     }
 
     public function test_is_zero() : void
