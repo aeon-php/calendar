@@ -365,6 +365,11 @@ final class TimeUnit implements Unit
             : ($this->seconds * 1000 + \intval($this->microsecond / self::MICROSECONDS_IN_MILLISECOND));
     }
 
+    public function inTimeMilliseconds() : int
+    {
+        return \abs($this->inMilliseconds() % 1000);
+    }
+
     public function inMillisecondsAbs() : int
     {
         return \abs($this->inMilliseconds());

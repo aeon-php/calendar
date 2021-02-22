@@ -135,6 +135,8 @@ final class TimeUnitTest extends TestCase
         $this->assertSame(8, TimeUnit::minutes(-68)->inTimeMinutes());
         $this->assertSame(8, TimeUnit::minutes(68)->inTimeMinutes());
         $this->assertSame(15, TimeUnit::minutes(135)->inTimeMinutes());
+        $this->assertSame(500, TimeUnit::milliseconds(1500)->inTimeMilliseconds());
+        $this->assertSame(500, TimeUnit::milliseconds(-1500)->inTimeMilliseconds());
     }
 
     public function test_complex_time_unit_in_time_values() : void
@@ -143,11 +145,12 @@ final class TimeUnitTest extends TestCase
             ->add(TimeUnit::hours(4))
             ->add(TimeUnit::minutes(85))
             ->add(TimeUnit::seconds(30))
-            ->add(TimeUnit::milliseconds(1500));
+            ->add(TimeUnit::milliseconds(1480));
 
         $this->assertSame(5, $timeUnit->inTimeHours());
         $this->assertSame(25, $timeUnit->inTimeMinutes());
         $this->assertSame(31, $timeUnit->inTimeSeconds());
+        $this->assertSame(480, $timeUnit->inTimeMilliseconds());
     }
 
     public function test_is_zero() : void
