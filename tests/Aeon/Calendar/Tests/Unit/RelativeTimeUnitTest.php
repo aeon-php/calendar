@@ -26,16 +26,21 @@ final class RelativeTimeUnitTest extends TestCase
 
     public function test_in_years() : void
     {
+        $this->assertSame(0, RelativeTimeUnit::months(11)->inYears());
+        $this->assertSame(1, RelativeTimeUnit::months(12)->inYears());
         $this->assertSame(2, RelativeTimeUnit::months(26)->inYears());
+        $this->assertSame(2, RelativeTimeUnit::years(2)->inYears());
     }
 
     public function test_in_calendar_months() : void
     {
         $this->assertSame(4, RelativeTimeUnit::months(28)->inCalendarMonths());
+        $this->assertSame(4, RelativeTimeUnit::months(-28)->inCalendarMonths());
     }
 
     public function test_in_months() : void
     {
         $this->assertSame(24, RelativeTimeUnit::years(2)->inMonths());
+        $this->assertSame(24, RelativeTimeUnit::months(24)->inMonths());
     }
 }

@@ -75,6 +75,11 @@
         "Aeon\\Calendar\\Gregorian\\Year::fromString",
         "Aeon\\Calendar\\Gregorian\\Time::fromString"
       ]
+    },
+    "NotIdentical": {
+      "ignore": [
+        "Aeon\\Calendar\\RelativeTimeUnit::inYears"
+      ]
     }
   },
   "testFramework": "phpunit",

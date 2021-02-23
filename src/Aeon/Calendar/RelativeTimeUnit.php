@@ -57,17 +57,32 @@ final class RelativeTimeUnit implements Unit
         return \abs($this->months % 12);
     }
 
+    /**
+     * @psalm-suppress PossiblyNullOperand
+     * @psalm-suppress InvalidNullableReturnType
+     */
     public function inYears() : int
     {
-        if ($this->months === null) {
-            return (int) $this->years;
+        if ($this->years !== null) {
+            return $this->years;
         }
 
-        return (int) $this->years + (int) \floor($this->months / 12);
+        return (int) \floor($this->months / 12);
     }
 
+    /**
+     * @psalm-suppress NullableReturnStatement
+     * @psalm-suppress InvalidNullableReturnType
+     */
     public function inMonths() : int
     {
-        return (int) $this->years * 12 + (int) $this->months;
+        if ($this->years !== null) {
+            return $this->years * 12;
+        }
+
+        /**
+         * @phpstan-ignore-next-line
+         */
+        return $this->months;
     }
 }
