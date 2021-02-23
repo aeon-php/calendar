@@ -45,6 +45,44 @@ final class RelativeTimeUnit implements Unit
 
     public function toDateInterval() : \DateInterval
     {
-        return new \DateInterval(\sprintf('P%dY%dM', $this->years ? $this->years : 0, $this->months ? $this->months : 0));
+        return new \DateInterval(\sprintf('P%dY%dM', $this->inYears() ? $this->inYears() : 0, $this->inCalendarMonths() ? $this->inCalendarMonths() : 0));
+    }
+
+    public function inCalendarMonths() : int
+    {
+        if ($this->months === null) {
+            return 0;
+        }
+
+        return \abs($this->months % 12);
+    }
+
+    /**
+     * @psalm-suppress PossiblyNullOperand
+     * @psalm-suppress InvalidNullableReturnType
+     */
+    public function inYears() : int
+    {
+        if ($this->years !== null) {
+            return $this->years;
+        }
+
+        return (int) \floor($this->months / 12);
+    }
+
+    /**
+     * @psalm-suppress NullableReturnStatement
+     * @psalm-suppress InvalidNullableReturnType
+     */
+    public function inMonths() : int
+    {
+        if ($this->years !== null) {
+            return $this->years * 12;
+        }
+
+        /**
+         * @phpstan-ignore-next-line
+         */
+        return $this->months;
     }
 }
