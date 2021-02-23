@@ -1,6 +1,7 @@
-## [Unreleased] - 2021-02-22
+## [Unreleased] - 2021-02-23
 
 ### Added
+- [#104](https://github.com/aeon-php/calendar/pull/104) - **possibility to display relative time units in months/year/calendarMonths** - [@norberttech](https://github.com/norberttech)
 - [#103](https://github.com/aeon-php/calendar/pull/103) - **possibility to to get time milliseconds from time unit** - [@norberttech](https://github.com/norberttech)
 - [#102](https://github.com/aeon-php/calendar/pull/102) - **possibility to get time hours from time unit** - [@norberttech](https://github.com/norberttech)
 
