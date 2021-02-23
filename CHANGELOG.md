@@ -1,4 +1,4 @@
-## [Unreleased] - 2021-02-23
+## [0.16.1] - 2021-02-23
 
 ### Added
 - [#104](https://github.com/aeon-php/calendar/pull/104) - **possibility to display relative time units in months/year/calendarMonths** - [@norberttech](https://github.com/norberttech)
