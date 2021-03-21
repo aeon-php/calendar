@@ -1,3 +1,11 @@
+## [Unreleased] - 2021-03-21
+
+### Added
+- [#105](https://github.com/aeon-php/calendar/pull/105) - **DateTime::timeZoneAbbreviation method** - [@norberttech](https://github.com/norberttech)
+
+### Fixed
+- [#105](https://github.com/aeon-php/calendar/pull/105) - **TimeZone type detection when created from DateTimeZone** - [@norberttech](https://github.com/norberttech)
+
 ## [0.16.1] - 2021-02-23
 
 ### Added
