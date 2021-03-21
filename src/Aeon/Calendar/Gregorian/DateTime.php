@@ -241,6 +241,15 @@ final class DateTime
         return $this->timeZone;
     }
 
+    public function timeZoneAbbreviation() : TimeZone
+    {
+        if ($this->timeZone()->isOffset()) {
+            throw new Exception("TimeZone offset {$this->timeZone()->name()} can't be converted into abbreviation.");
+        }
+
+        return TimeZone::fromString($this->toDateTimeImmutable()->format('T'));
+    }
+
     public function toTimeZone(TimeZone $dateTimeZone) : self
     {
         return self::fromDateTime($this->toDateTimeImmutable()->setTimezone($dateTimeZone->toDateTimeZone()));

@@ -12,7 +12,7 @@ use Aeon\Calendar\TimeUnit;
  */
 final class TimeOffset
 {
-    private const OFFSET_REGEXP = '/^([)+-]?)(2[0-3]|[01][0-9]):?([0-5][0-9])$/';
+    private const OFFSET_REGEXP = '/^(GMT)?([+-]?)(2[0-3]|[01][0-9]):?([0-5][0-9])$/';
 
     private bool $negative;
 
@@ -40,7 +40,7 @@ final class TimeOffset
             throw new InvalidArgumentException("\"{$offset}\" is not a valid UTC Offset.");
         }
 
-        return new self($matches[1] === '-', (int) $matches[2], (int) $matches[3]);
+        return new self($matches[2] === '-', (int) $matches[3], (int) $matches[4]);
     }
 
     /** @psalm-pure */

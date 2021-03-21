@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Aeon\Calendar\Tests\Unit\Gregorian\TimeZone;
 
 use Aeon\Calendar\Exception\InvalidArgumentException;
+use Aeon\Calendar\Gregorian\TimeZone;
 use Aeon\Calendar\Gregorian\TimeZone\TimeOffset;
 use Aeon\Calendar\TimeUnit;
 use PHPUnit\Framework\TestCase;
@@ -130,5 +131,35 @@ final class TimeOffsetTest extends TestCase
             \unserialize($serializedTimeOffsetString),
             $timeOffset
         );
+    }
+
+    public function test_creat_timezone_abbreviation() : void
+    {
+        $this->assertTrue(TimeZone::PDDT()->isAbbreviation());
+    }
+
+    public function test_creat_timezone_id() : void
+    {
+        $this->assertTrue(TimeZone::americaLosAngeles()->isIdentifier());
+    }
+
+    public function test_creat_timezone_offset() : void
+    {
+        $this->assertTrue(TimeZone::offset('01:00')->isOffset());
+    }
+
+    public function test_creat_timezone_offset_from_date_time_zone() : void
+    {
+        $this->assertTrue(TimeZone::fromDateTimeZone(new \DateTimeZone('+01:00'))->isOffset());
+    }
+
+    public function test_creat_timezone_id_from_date_time_zone() : void
+    {
+        $this->assertTrue(TimeZone::fromDateTimeZone(new \DateTimeZone('America/Los_Angeles'))->isIdentifier());
+    }
+
+    public function test_creat_timezone_abbreviation_from_date_Time_zone() : void
+    {
+        $this->assertTrue(TimeZone::fromDateTimeZone(new \DateTimeZone('PDDT'))->isAbbreviation());
     }
 }
