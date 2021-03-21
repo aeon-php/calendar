@@ -942,8 +942,35 @@ final class DateTimeTest extends TestCase
             $dateTime->__serialize()
         );
         $this->assertSame(
-            'O:32:"' . DateTime::class . '":3:{s:3:"day";O:27:"' . Day::class . '":2:{s:5:"month";O:29:"' . Month::class . '":2:{s:4:"year";O:28:"' . Year::class . '":1:{s:4:"year";i:2020;}s:6:"number";i:3;}s:6:"number";i:29;}s:4:"time";O:28:"' . Time::class . '":4:{s:4:"hour";i:2;s:6:"minute";i:30;s:6:"second";i:0;s:11:"microsecond";i:0;}s:8:"timeZone";O:32:"' . TimeZone::class . '":1:{s:4:"name";s:13:"Europe/Warsaw";}}',
+            'O:32:"' . DateTime::class . '":3:{s:3:"day";O:27:"' . Day::class . '":2:{s:5:"month";O:29:"' . Month::class . '":2:{s:4:"year";O:28:"' . Year::class . '":1:{s:4:"year";i:2020;}s:6:"number";i:3;}s:6:"number";i:29;}s:4:"time";O:28:"' . Time::class . '":4:{s:4:"hour";i:2;s:6:"minute";i:30;s:6:"second";i:0;s:11:"microsecond";i:0;}s:8:"timeZone";O:32:"' . TimeZone::class . '":2:{s:4:"name";s:13:"Europe/Warsaw";s:4:"type";i:3;}}',
             \serialize($dateTime)
         );
+    }
+
+    /**
+     * @dataProvider timezone_abbreviation_provider
+     */
+    public function test_timezone_abbreviation(string $abbreviation, string $date) : void
+    {
+        $this->assertSame($abbreviation, DateTime::fromString($date)->timeZoneAbbreviation()->name());
+    }
+
+    /**
+     * @return \Generator<int, array{string, string}, mixed, void>
+     */
+    public function timezone_abbreviation_provider() : \Generator
+    {
+        yield ['PST', '2021-01-01 00:00:00 America/Los_Angeles'];
+        yield ['PDT', '2021-07-01 00:00:00 America/Los_Angeles'];
+        yield ['CEST', '2021-07-01 00:00:00 Europe/Warsaw'];
+        yield ['CET', '2021-01-01 00:00:00 Europe/Warsaw'];
+        yield ['CEST', '2021-01-01 00:00:00 CEST'];
+    }
+
+    public function test_timezone_abbreviation_from_time_offset() : void
+    {
+        $this->expectException(Exception::class);
+
+        DateTime::fromString('2020-01-01 00:00:00+01:00')->timeZoneAbbreviation();
     }
 }

@@ -107,7 +107,9 @@ final class TimeZoneTest extends TestCase
 
     public function test_all_timezones() : void
     {
-        $this->assertCount(\count(\array_keys(\DateTimeZone::listAbbreviations())), TimeZone::allAbbreviations());
+        // \DateTimeZone::listAbbreviations() additionally returns all 25 alphabet letters as list abbreviations keys.
+
+        $this->assertCount(\count(\array_keys(\DateTimeZone::listAbbreviations())) - 25, TimeZone::allAbbreviations());
         $this->assertContainsOnlyInstancesOf(TimeZone::class, TimeZone::allAbbreviations());
     }
 
@@ -118,11 +120,12 @@ final class TimeZoneTest extends TestCase
         $this->assertSame(
             [
                 'name' => 'America/Los_Angeles',
+                'type' => 3,
             ],
             $serializedTimeZone = $timeZone->__serialize()
         );
         $this->assertSame(
-            'O:32:"' . TimeZone::class . '":1:{s:4:"name";s:19:"America/Los_Angeles";}',
+            'O:32:"' . TimeZone::class . '":2:{s:4:"name";s:19:"America/Los_Angeles";s:4:"type";i:3;}',
             $serializedTimeZoneString = \serialize($timeZone)
         );
         $this->assertEquals(
