@@ -1,4 +1,4 @@
-## [Unreleased] - 2021-03-21
+## [0.16.2] - 2021-03-21
 
 ### Added
 - [#105](https://github.com/aeon-php/calendar/pull/105) - **DateTime::timeZoneAbbreviation method** - [@norberttech](https://github.com/norberttech)
