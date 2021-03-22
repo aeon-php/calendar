@@ -584,7 +584,7 @@ final class TimeZone
         $normalized = \strtolower($identifier);
 
         if ($normalized === 'utc') {
-            return new self('UTC', self::TYPE_IDENTIFIER);
+            throw new InvalidArgumentException('"UTC" is timezone abbreviation, not identifier.');
         }
 
         /** @var string $dateTimeZoneIdentifier */
@@ -698,7 +698,10 @@ final class TimeZone
      */
     public static function allIdentifiers() : array
     {
-        return \array_map(fn (string $identifier) : self => self::id($identifier), \DateTimeZone::listIdentifiers());
+        return \array_map(
+            fn (string $identifier) : self => self::id($identifier),
+            \array_filter(\DateTimeZone::listIdentifiers(), fn (string $identifier) : bool => $identifier !== 'UTC')
+        );
     }
 
     /**

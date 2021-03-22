@@ -31,6 +31,13 @@ final class TimeZoneTest extends TestCase
         TimeZone::id('not_a_timezone');
     }
 
+    public function test_creating_UTC_as_identifier() : void
+    {
+        $this->expectExceptionMessage('"UTC" is timezone abbreviation, not identifier.');
+
+        TimeZone::id('UTC');
+    }
+
     public function test_creating_from_invalid_offset() : void
     {
         $this->expectExceptionMessage('"not_a_timezone" is not a valid time offset.');
@@ -101,14 +108,14 @@ final class TimeZoneTest extends TestCase
 
     public function test_all_timezone_identifiers() : void
     {
-        $this->assertCount(\count(\DateTimeZone::listIdentifiers()), TimeZone::allIdentifiers());
+        // \DateTimeZone returns UTC as timezone ID but it's an timezone abbreviation
+        $this->assertCount(\count(\DateTimeZone::listIdentifiers()) - 1, TimeZone::allIdentifiers());
         $this->assertContainsOnlyInstancesOf(TimeZone::class, TimeZone::allIdentifiers());
     }
 
     public function test_all_timezones() : void
     {
         // \DateTimeZone::listAbbreviations() additionally returns all 25 alphabet letters as list abbreviations keys.
-
         $this->assertCount(\count(\array_keys(\DateTimeZone::listAbbreviations())) - 25, TimeZone::allAbbreviations());
         $this->assertContainsOnlyInstancesOf(TimeZone::class, TimeZone::allAbbreviations());
     }
