@@ -1,4 +1,4 @@
-## [Unreleased] - 2021-03-22
+## [0.16.3] - 2021-03-22
 
 ### Fixed
 - [#106](https://github.com/aeon-php/calendar/pull/106) - **detecting UTC timezone as abbreviation instead of identifier** - [@norberttech](https://github.com/norberttech)
