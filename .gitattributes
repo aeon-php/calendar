@@ -1,6 +1,7 @@
 *.php text eol=lf
 *.phpt text eol=lf
 /composer.lock export-ignore
+/tools/ export-ignore
 /.github/ export-ignore
 /docs export-ignore
 /tests export-ignore

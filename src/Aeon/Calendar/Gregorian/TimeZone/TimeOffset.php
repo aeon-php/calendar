@@ -55,7 +55,6 @@ final class TimeOffset
         return self::fromString(
             ($timeUnit->isNegative() ? '-' : '+')
                 . \str_pad((string) $timeUnit->inHoursAbs(), 2, '0', STR_PAD_LEFT)
-                . ':'
                 . \str_pad((string) $timeUnit->inTimeMinutes(), 2, '0', STR_PAD_LEFT)
         );
     }
