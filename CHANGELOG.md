@@ -1,3 +1,8 @@
+## [Unreleased] - 2021-03-25
+
+### Changed
+- [#107](https://github.com/aeon-php/calendar/pull/107) - **Replaced phive with separated composer.json for tools** - [@norberttech](https://github.com/norberttech)
+
 ## [0.16.3] - 2021-03-22
 
 ### Fixed
