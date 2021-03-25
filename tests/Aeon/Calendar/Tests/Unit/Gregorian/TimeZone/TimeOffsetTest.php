@@ -36,11 +36,19 @@ final class TimeOffsetTest extends TestCase
         $this->assertTrue(TimeOffset::UTC()->isUTC());
     }
 
-    public function test_create_from_time_unit_zero_positive() : void
+    public function test_create_from_time_unit_one_and_half_hours__positive() : void
     {
         $this->assertSame(
             '+01:30',
             TimeOffset::fromTimeUnit(TimeUnit::minutes(90))->toString()
+        );
+    }
+
+    public function test_create_from_time_unit_one_and_half_hours_negative() : void
+    {
+        $this->assertSame(
+            '-01:30',
+            TimeOffset::fromTimeUnit(TimeUnit::minutes(90)->toNegative())->toString()
         );
     }
 
