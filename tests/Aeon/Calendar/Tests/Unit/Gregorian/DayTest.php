@@ -281,7 +281,10 @@ final class DayTest extends TestCase
         $this->assertSame('2019-06-01', Day::fromString('2020-06-01')->minusYears(1)->toDateTimeImmutable()->format('Y-m-d'));
         $this->assertSame('2050-06-01', Day::fromString('2020-06-01')->plusYears(30)->toDateTimeImmutable()->format('Y-m-d'));
 
+        $this->asserTsame('2020-01-01', Day::fromString('2020-01-01')->plus(0, 0, 0)->format('Y-m-d'));
         $this->asserTsame('2021-02-02', Day::fromString('2020-01-01')->plus(1, 1, 1)->format('Y-m-d'));
+        $this->asserTsame('2018-11-30', Day::fromString('2020-01-01')->plus(-1, -1, -1)->format('Y-m-d'));
+        $this->asserTsame('2021-02-02', Day::fromString('2020-01-01')->minus(-1, -1, -1)->format('Y-m-d'));
         $this->asserTsame('2018-11-30', Day::fromString('2020-01-01')->minus(1, 1, 1)->format('Y-m-d'));
     }
 

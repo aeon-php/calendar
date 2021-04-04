@@ -8,4 +8,10 @@ namespace Aeon\Calendar;
 interface Unit
 {
     public function toDateInterval() : \DateInterval;
+
+    public function invert() : self;
+
+    public function absolute() : self;
+
+    public function isNegative() : bool;
 }

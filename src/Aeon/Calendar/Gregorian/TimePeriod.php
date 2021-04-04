@@ -76,6 +76,14 @@ final class TimePeriod
 
     public function iterate(Unit $timeUnit, Interval $interval) : TimePeriods
     {
+        /**
+         * @var array<\DateTimeImmutable> $dateTimes
+         * @psalm-suppress ImpureMethodCall
+         */
+        $dateTimes = \iterator_to_array(
+            $interval->toDatePeriod($this->start, $timeUnit, $this->end)
+        );
+
         /** @psalm-suppress ImpureFunctionCall */
         return new TimePeriods(
             ...\array_filter(
@@ -109,9 +117,7 @@ final class TimePeriod
                             $end
                         );
                     },
-                    \iterator_to_array(
-                        $interval->toDatePeriod($this->start, $timeUnit, $this->end)
-                    )
+                    $dateTimes
                 )
             )
         );
@@ -119,7 +125,17 @@ final class TimePeriod
 
     public function iterateBackward(Unit $timeUnit, Interval $interval) : TimePeriods
     {
-        /** @psalm-suppress ImpureFunctionCall */
+        /**
+         * @var array<\DateTimeImmutable> $dateTimes
+         * @psalm-suppress ImpureMethodCall
+         */
+        $dateTimes = \iterator_to_array(
+            $interval->toDatePeriodBackward($this->start, $timeUnit, $this->end)
+        );
+
+        /**
+         * @psalm-suppress ImpureFunctionCall
+         */
         return new TimePeriods(
             ...\array_filter(
                 \array_map(
@@ -153,11 +169,7 @@ final class TimePeriod
 
                         return new self($start, $end);
                     },
-                    \array_reverse(
-                        \iterator_to_array(
-                            $interval->toDatePeriodBackward($this->start, $timeUnit, $this->end)
-                        )
-                    )
+                    \array_reverse($dateTimes)
                 )
             )
         );

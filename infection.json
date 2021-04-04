@@ -55,6 +55,7 @@
     "Throw_": {
       "ignore": [
         "Aeon\\Calendar\\Gregorian\\DateTime::fromString",
+        "Aeon\\Calendar\\Gregorian\\DateTime::modify",
         "Aeon\\Calendar\\Gregorian\\Day::fromString",
         "Aeon\\Calendar\\Gregorian\\Month::fromString",
         "Aeon\\Calendar\\Gregorian\\Year::fromString",
@@ -64,10 +65,22 @@
     "LogicalOr": {
       "ignore": [
         "Aeon\\Calendar\\Gregorian\\DateTime::fromString",
+        "Aeon\\Calendar\\Gregorian\\DateTime::modify",
         "Aeon\\Calendar\\Gregorian\\Day::fromString",
         "Aeon\\Calendar\\Gregorian\\Month::fromString",
         "Aeon\\Calendar\\Gregorian\\Year::fromString",
         "Aeon\\Calendar\\Gregorian\\Time::fromString"
+      ]
+    },
+    "LessThan": {
+      "ignore": [
+        "Aeon\\Calendar\\Gregorian\\DateTime::add",
+        "Aeon\\Calendar\\Gregorian\\Month::minusMonths"
+      ]
+    },
+    "LessThanOrEqualTo": {
+      "ignore": [
+        "Aeon\\Calendar\\Gregorian\\DateTime::add"
       ]
     },
     "NotIdentical": {

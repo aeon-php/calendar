@@ -257,14 +257,33 @@ final class MonthTest extends TestCase
     {
         $this->assertSame('2020-01-01', Month::fromString('2020-06-01')->minusMonths(5)->toDateTimeImmutable()->format('Y-m-d'));
         $this->assertSame('2020-05-01', Month::fromString('2020-06-01')->minusMonths(1)->toDateTimeImmutable()->format('Y-m-d'));
+        $this->assertSame('2019-12-01', Month::fromString('2020-01-01')->minusMonths(1)->toDateTimeImmutable()->format('Y-m-d'));
         $this->assertSame('2020-12-01', Month::fromString('2020-06-01')->plusMonths(6)->toDateTimeImmutable()->format('Y-m-d'));
+        $this->assertSame('2021-10-01', Month::fromString('2020-06-01')->plusMonths(16)->toDateTimeImmutable()->format('Y-m-d'));
+        $this->assertSame('2021-07-01', Month::fromString('2020-06-01')->plusMonths(13)->toDateTimeImmutable()->format('Y-m-d'));
+        $this->assertSame('2021-12-01', Month::fromString('2020-06-01')->plusMonths(18)->toDateTimeImmutable()->format('Y-m-d'));
+        $this->assertSame('2022-01-01', Month::fromString('2020-06-01')->plusMonths(19)->toDateTimeImmutable()->format('Y-m-d'));
+        $this->assertSame('2022-07-01', Month::fromString('2020-12-01')->plusMonths(19)->toDateTimeImmutable()->format('Y-m-d'));
+        $this->assertSame('2026-08-01', Month::fromString('2020-12-01')->plusMonths(68)->toDateTimeImmutable()->format('Y-m-d'));
+        $this->assertSame('2020-12-01', Month::fromString('2020-08-01')->plusMonths(4)->toDateTimeImmutable()->format('Y-m-d'));
+
+        $this->assertSame('2019-12-01', Month::fromString('2020-06-01')->minusMonths(6)->toDateTimeImmutable()->format('Y-m-d'));
+        $this->assertSame('2019-02-01', Month::fromString('2020-06-01')->minusMonths(16)->toDateTimeImmutable()->format('Y-m-d'));
+        $this->assertSame('2019-05-01', Month::fromString('2020-06-01')->minusMonths(13)->toDateTimeImmutable()->format('Y-m-d'));
+        $this->assertSame('2018-12-01', Month::fromString('2020-06-01')->minusMonths(18)->toDateTimeImmutable()->format('Y-m-d'));
+        $this->assertSame('2018-11-01', Month::fromString('2020-06-01')->minusMonths(19)->toDateTimeImmutable()->format('Y-m-d'));
+        $this->assertSame('2019-05-01', Month::fromString('2020-12-01')->minusMonths(19)->toDateTimeImmutable()->format('Y-m-d'));
+        $this->assertSame('2015-04-01', Month::fromString('2020-12-01')->minusMonths(68)->toDateTimeImmutable()->format('Y-m-d'));
+        $this->assertSame('2020-04-01', Month::fromString('2020-08-01')->minusMonths(4)->toDateTimeImmutable()->format('Y-m-d'));
 
         $this->assertSame('2015-06-01', Month::fromString('2020-06-01')->minusYears(5)->toDateTimeImmutable()->format('Y-m-d'));
         $this->assertSame('2019-06-01', Month::fromString('2020-06-01')->minusYears(1)->toDateTimeImmutable()->format('Y-m-d'));
         $this->assertSame('2026-06-01', Month::fromString('2020-06-01')->plusYears(6)->toDateTimeImmutable()->format('Y-m-d'));
 
         $this->asserTsame('2021-02-01', Month::fromString('2020-01-01')->plus(1, 1)->toDateTimeImmutable()->format('Y-m-d'));
-        $this->asserTsame('2018-12-01', Month::fromString('2020-01-01')->minus(1, 1)->toDateTimeImmutable()->format('Y-m-d'));
+        $this->assertSame('2019-12-01', Month::fromString('2020-01-01')->plus(-1, -1)->toDateTimeImmutable()->format('Y-m-d'));
+        $this->assertSame('2018-12-01', Month::fromString('2020-01-01')->minus(1, 1)->toDateTimeImmutable()->format('Y-m-d'));
+        $this->assertSame('2021-02-01', Month::fromString('2020-01-01')->minus(-1, -1)->toDateTimeImmutable()->format('Y-m-d'));
     }
 
     public function test_day_static_create() : void

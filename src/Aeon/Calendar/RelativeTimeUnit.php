@@ -45,7 +45,27 @@ final class RelativeTimeUnit implements Unit
 
     public function toDateInterval() : \DateInterval
     {
-        return new \DateInterval(\sprintf('P%dY%dM', $this->inYears() ? $this->inYears() : 0, $this->inCalendarMonths() ? $this->inCalendarMonths() : 0));
+        $dateInterval = new \DateInterval(\sprintf('P%dY%dM', $this->inYears() ? \abs($this->inYears()) : 0, $this->inCalendarMonths() ? \abs($this->inCalendarMonths()) : 0));
+
+        if ($this->isNegative()) {
+            /** @psalm-suppress ImpurePropertyAssignment */
+            $dateInterval->invert = 1;
+        }
+
+        return $dateInterval;
+    }
+
+    public function invert() : self
+    {
+        if ($this->years) {
+            return $this->isNegative() ? self::years(\abs($this->years)) : self::years(-$this->years);
+        }
+
+        /**
+         * @psalm-suppress PossiblyNullArgument
+         * @phpstan-ignore-next-line
+         */
+        return $this->isNegative() ? self::months(\abs($this->months)) : self::months(-$this->months);
     }
 
     public function inCalendarMonths() : int
@@ -55,6 +75,11 @@ final class RelativeTimeUnit implements Unit
         }
 
         return \abs($this->months % 12);
+    }
+
+    public function isNegative() : bool
+    {
+        return $this->years < 0 || $this->months < 0;
     }
 
     /**
@@ -67,7 +92,18 @@ final class RelativeTimeUnit implements Unit
             return $this->years;
         }
 
-        return (int) \floor($this->months / 12);
+        /**
+         * @psalm-suppress PossiblyNullArgument
+         * @phpstan-ignore-next-line
+         */
+        $years = (int) \floor(\abs($this->months) / 12);
+
+        return $this->isNegative() ? -$years : $years;
+    }
+
+    public function absolute() : self
+    {
+        return $this->isNegative() ? $this->invert() : $this;
     }
 
     /**
