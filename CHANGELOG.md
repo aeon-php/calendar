@@ -1,7 +1,18 @@
-## [Unreleased] - 2021-03-25
+## [Unreleased] - 2021-04-04
+
+### Added
+- [#110](https://github.com/aeon-php/calendar/pull/110) - **Unit::invert() : self** - [@norberttech](https://github.com/norberttech)
+- [#110](https://github.com/aeon-php/calendar/pull/110) - **Unit::isNegative() : boolean** - [@norberttech](https://github.com/norberttech)
+- [#110](https://github.com/aeon-php/calendar/pull/110) - **validation to DateTime::modify() method to make sure that it only accepts relative time unit string** - [@norberttech](https://github.com/norberttech)
 
 ### Changed
+- [#110](https://github.com/aeon-php/calendar/pull/110) - **static analyse tools update and fixed new issues** - [@norberttech](https://github.com/norberttech)
 - [#107](https://github.com/aeon-php/calendar/pull/107) - **Replaced phive with separated composer.json for tools** - [@norberttech](https://github.com/norberttech)
+
+### Fixed
+- [#110](https://github.com/aeon-php/calendar/pull/110) - **add/sub/modify methods when working with RelativeTimeUnit::month will first change the month and then adjust the day** - [@norberttech](https://github.com/norberttech)
+- [#110](https://github.com/aeon-php/calendar/pull/110) - **adding negative time unit to DateTime or Day** - [@norberttech](https://github.com/norberttech)
+- [#110](https://github.com/aeon-php/calendar/pull/110) - **subtracting negative time unit from DateTime or Day** - [@norberttech](https://github.com/norberttech)
 
 ## [0.16.3] - 2021-03-22
 
