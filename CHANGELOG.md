@@ -1,4 +1,4 @@
-## [Unreleased] - 2021-04-04
+## [0.16.4] - 2021-04-04
 
 ### Added
 - [#110](https://github.com/aeon-php/calendar/pull/110) - **Unit::invert() : self** - [@norberttech](https://github.com/norberttech)
