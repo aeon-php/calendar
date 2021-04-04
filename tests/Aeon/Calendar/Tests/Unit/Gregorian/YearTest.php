@@ -195,6 +195,8 @@ final class YearTest extends TestCase
         $this->assertSame('2015-01-01', Year::fromString('2020-01-01')->minus(5)->toDateTimeImmutable()->format('Y-m-d'));
         $this->assertSame('2019-01-01', Year::fromString('2020-01-01')->minus(1)->toDateTimeImmutable()->format('Y-m-d'));
         $this->assertSame('2026-01-01', Year::fromString('2020-01-01')->plus(6)->toDateTimeImmutable()->format('Y-m-d'));
+        $this->assertSame('2021-01-01', Year::fromString('2020-01-01')->plus(1)->toDateTimeImmutable()->format('Y-m-d'));
+        $this->assertSame('2019-01-01', Year::fromString('2020-01-01')->plus(-1)->toDateTimeImmutable()->format('Y-m-d'));
     }
 
     public function test_until() : void

@@ -6,6 +6,7 @@ namespace Aeon\Calendar\Gregorian;
 
 use Aeon\Calendar\Exception\InvalidArgumentException;
 use Aeon\Calendar\Gregorian\Day\WeekDay;
+use Aeon\Calendar\RelativeTimeUnit;
 use Aeon\Calendar\TimeUnit;
 
 /**
@@ -118,52 +119,80 @@ final class Day
 
     public function plus(int $years, int $months, int $days) : self
     {
-        return self::fromDateTime($this->toDateTimeImmutable()->modify(\sprintf('+%d days +%d months +%d years', $days, $months, $years)));
+        $dateTime = $this->midnight(TimeZone::UTC());
+
+        if ($years !== 0) {
+            $dateTime = $dateTime->add(RelativeTimeUnit::years($years));
+        }
+
+        if ($months !== 0) {
+            $dateTime = $dateTime->add(RelativeTimeUnit::months($months));
+        }
+
+        if ($days !== 0) {
+            $dateTime = $dateTime->add(TimeUnit::days($days));
+        }
+
+        return $dateTime->day();
     }
 
     public function minus(int $years, int $months, int $days) : self
     {
-        return self::fromDateTime($this->toDateTimeImmutable()->modify(\sprintf('-%d days -%d months -%d years', $days, $months, $years)));
+        $dateTime = $this->midnight(TimeZone::UTC());
+
+        if ($years !== 0) {
+            $dateTime = $dateTime->sub(RelativeTimeUnit::years($years));
+        }
+
+        if ($months !== 0) {
+            $dateTime = $dateTime->sub(RelativeTimeUnit::months($months));
+        }
+
+        if ($days !== 0) {
+            $dateTime = $dateTime->sub(TimeUnit::days($days));
+        }
+
+        return $dateTime->day();
     }
 
     public function plusDays(int $days) : self
     {
-        return self::fromDateTime($this->toDateTimeImmutable()->modify(\sprintf('+%d days', $days)));
+        return $this->midnight(TimeZone::UTC())->add(TimeUnit::days($days))->day();
     }
 
     public function minusDays(int $days) : self
     {
-        return self::fromDateTime($this->toDateTimeImmutable()->modify(\sprintf('-%d days', $days)));
+        return $this->midnight(TimeZone::UTC())->sub(TimeUnit::days($days))->day();
     }
 
     public function plusMonths(int $months) : self
     {
-        return self::fromDateTime($this->toDateTimeImmutable()->modify(\sprintf('+%d months', $months)));
+        return $this->midnight(TimeZone::UTC())->add(RelativeTimeUnit::months($months))->day();
     }
 
     public function minusMonths(int $months) : self
     {
-        return self::fromDateTime($this->toDateTimeImmutable()->modify(\sprintf('-%d months', $months)));
+        return $this->midnight(TimeZone::UTC())->sub(RelativeTimeUnit::months($months))->day();
     }
 
     public function plusYears(int $years) : self
     {
-        return self::fromDateTime($this->toDateTimeImmutable()->modify(\sprintf('+%d years', $years)));
+        return $this->midnight(TimeZone::UTC())->add(RelativeTimeUnit::years($years))->day();
     }
 
     public function minusYears(int $years) : self
     {
-        return self::fromDateTime($this->toDateTimeImmutable()->modify(\sprintf('-%d years', $years)));
+        return $this->midnight(TimeZone::UTC())->sub(RelativeTimeUnit::years($years))->day();
     }
 
     public function previous() : self
     {
-        return self::fromDateTime($this->toDateTimeImmutable()->modify('-1 day'));
+        return $this->midnight(TimeZone::UTC())->sub(TimeUnit::day())->day();
     }
 
     public function next() : self
     {
-        return self::fromDateTime($this->toDateTimeImmutable()->modify('+1 day'));
+        return $this->midnight(TimeZone::UTC())->add(TimeUnit::day())->day();
     }
 
     public function midnight(TimeZone $timeZone) : DateTime
@@ -330,14 +359,20 @@ final class Day
             );
         }
 
+        /**
+         * @var array<\DateTimeImmutable> $dateTimes
+         * @psalm-suppress ImpureMethodCall
+         */
+        $dateTimes = \iterator_to_array(
+            $interval->toDatePeriod($this->midnight(TimeZone::UTC()), TimeUnit::day(), $day->midnight(TimeZone::UTC()))
+        );
+
         return new Days(
             ...\array_map(
                 function (\DateTimeImmutable $dateTimeImmutable) : self {
                     return self::fromDateTime($dateTimeImmutable);
                 },
-                \iterator_to_array(
-                    $interval->toDatePeriod($this->midnight(TimeZone::UTC()), TimeUnit::day(), $day->midnight(TimeZone::UTC()))
-                )
+                $dateTimes
             )
         );
     }
@@ -358,16 +393,20 @@ final class Day
             );
         }
 
+        /**
+         * @var array<\DateTimeImmutable> $dateTimes
+         * @psalm-suppress ImpureMethodCall
+         */
+        $dateTimes = \iterator_to_array(
+            $interval->toDatePeriodBackward($day->midnight(TimeZone::UTC()), TimeUnit::day(), $this->midnight(TimeZone::UTC()))
+        );
+
         return new Days(
             ...\array_map(
                 function (\DateTimeImmutable $dateTimeImmutable) : self {
                     return self::fromDateTime($dateTimeImmutable);
                 },
-                \array_reverse(
-                    \iterator_to_array(
-                        $interval->toDatePeriodBackward($day->midnight(TimeZone::UTC()), TimeUnit::day(), $this->midnight(TimeZone::UTC()))
-                    )
-                )
+                \array_reverse($dateTimes)
             )
         );
     }

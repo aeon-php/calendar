@@ -14,6 +14,7 @@ use Aeon\Calendar\Gregorian\TimeEpoch;
 use Aeon\Calendar\Gregorian\TimePeriod;
 use Aeon\Calendar\Gregorian\TimeZone;
 use Aeon\Calendar\Gregorian\Year;
+use Aeon\Calendar\RelativeTimeUnit;
 use Aeon\Calendar\TimeUnit;
 use PHPUnit\Framework\TestCase;
 
@@ -370,11 +371,49 @@ final class DateTimeTest extends TestCase
         $this->assertSame('2020-01-01 23:59:59.999999+00:00', $dateTime->endOfDay()->format('Y-m-d H:i:s.uP'));
     }
 
-    public function test_modify() : void
+    public function test_modify_with_non_relative_value() : void
     {
-        $dateTime = DateTime::fromString('2020-01-01 00:00:00 UTC');
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Value "2020-02-03 00:00:00 UTC" is not valid relative time format.');
 
-        $this->assertSame('2020-01-01 01:00:00.000000+00:00', $dateTime->modify('+1 hour')->format('Y-m-d H:i:s.uP'));
+        DateTime::fromString('2020-01-01 00:00:00 UTC')->modify('2020-02-03 00:00:00 UTC');
+    }
+
+    /**
+     * @dataProvider modify_datetime
+     */
+    public function test_modify(string $date, string $modifier, string $expectedDate) : void
+    {
+        $this->assertSame(
+            $expectedDate,
+            DateTime::fromString($date)->modify($modifier)->format('Y-m-d H:i:s T')
+        );
+    }
+
+    /**
+     * @return \Generator<int, array{string, string, string}, mixed, void>
+     */
+    public function modify_datetime() : \Generator
+    {
+        yield ['2021-01-31 00:00:00 UTC', '+1 second', '2021-01-31 00:00:01 UTC'];
+        yield ['2021-01-31 00:00:00 UTC', '+1 minute', '2021-01-31 00:01:00 UTC'];
+        yield ['2021-01-31 00:00:00 UTC', '+1 hour', '2021-01-31 01:00:00 UTC'];
+        yield ['2021-01-31 00:00:00 UTC', '+1 day', '2021-02-01 00:00:00 UTC'];
+        yield ['2021-01-31 00:00:00 UTC', '+1 week', '2021-02-07 00:00:00 UTC'];
+
+        yield ['2021-01-31 00:00:00 UTC', '+1 fortnight', '2021-02-14 00:00:00 UTC'];
+
+        yield ['2020-01-01 00:00:00 UTC', '+1 hour', '2020-01-01 01:00:00 UTC'];
+        yield ['2020-01-01 00:00:00 UTC', '1 hour', '2020-01-01 01:00:00 UTC'];
+        yield ['2020-01-01 00:00:00 UTC', '-1 hour', '2019-12-31 23:00:00 UTC'];
+
+        yield ['2021-03-30 00:00:00 UTC', '-1 month', '2021-02-28 00:00:00 UTC'];
+        yield ['2021-02-28 00:00:00 UTC', '+1 month', '2021-03-28 00:00:00 UTC'];
+        yield ['2021-01-31 00:00:00 UTC', '+1 month', '2021-02-28 00:00:00 UTC'];
+        yield ['2021-01-31 00:00:00 UTC', '+2 month', '2021-03-31 00:00:00 UTC'];
+
+        yield ['2021-01-31 00:00:00 UTC', '+1 year', '2022-01-31 00:00:00 UTC'];
+        yield ['2021-01-31 00:00:00 UTC', '-1 year', '2020-01-31 00:00:00 UTC'];
     }
 
     public function test_time() : void
@@ -644,11 +683,25 @@ final class DateTimeTest extends TestCase
         $this->assertSame('2020-03-01 00:00:00+0000', $dateTime->addMonths(2)->format('Y-m-d H:i:sO'));
     }
 
+    public function test_add_2_months_to_the_last_day_of_march() : void
+    {
+        $dateTime = DateTime::fromString('2020-03-31 00:00:00+00');
+
+        $this->assertSame('2020-04-30 00:00:00+0000', $dateTime->addMonths(1)->format('Y-m-d H:i:sO'));
+    }
+
     public function test_sub_month() : void
     {
         $dateTime = DateTime::fromString('2020-02-01 00:00:00+00');
 
         $this->assertSame('2020-01-01 00:00:00+0000', $dateTime->subMonth()->format('Y-m-d H:i:sO'));
+    }
+
+    public function test_sub_month_from_day_before_last_day_of_march() : void
+    {
+        $dateTime = DateTime::fromString('2021-03-30 00:00:00+00');
+
+        $this->assertSame('2021-02-28 00:00:00+0000', $dateTime->subMonth()->format('Y-m-d H:i:sO'));
     }
 
     public function test_sub_months() : void
@@ -686,12 +739,56 @@ final class DateTimeTest extends TestCase
         $this->assertSame('2018-01-01 00:00:00+0000', $dateTime->subYears(2)->format('Y-m-d H:i:sO'));
     }
 
-    public function test_add_timeunit() : void
+    public function test_add_timeunit_hour() : void
     {
         $this->assertSame(
             '2020-01-01 01:00:00+0000',
             DateTime::fromString('2020-01-01 00:00:00+00')->add(TimeUnit::hour())->format('Y-m-d H:i:sO')
         );
+    }
+
+    /**
+     * @dataProvider add_relative_timeunit_months
+     */
+    public function test_add_relative_timeunit_months(string $date, int $addMonths, string $expectedDate) : void
+    {
+        $this->assertSame(
+            $expectedDate,
+            DateTime::fromString($date)->add(RelativeTimeUnit::months($addMonths))->format('Y-m-d')
+        );
+    }
+
+    /**
+     * @return \Generator<int, array{string, int, string}, mixed, void>
+     */
+    public function add_relative_timeunit_months() : \Generator
+    {
+        yield ['2020-01-01', 1, '2020-02-01'];
+        yield ['2020-01-01', 6, '2020-07-01'];
+        yield ['2020-01-01', 12, '2021-01-01'];
+        yield ['2020-01-01', 16, '2021-05-01'];
+    }
+
+    /**
+     * @dataProvider sub_relative_timeunit_months
+     */
+    public function test_sub_relative_timeunit_months(string $date, int $addMonths, string $expectedDate) : void
+    {
+        $this->assertSame(
+            $expectedDate,
+            DateTime::fromString($date)->sub(RelativeTimeUnit::months($addMonths))->format('Y-m-d')
+        );
+    }
+
+    /**
+     * @return \Generator<int, array{string, int, string}, mixed, void>
+     */
+    public function sub_relative_timeunit_months() : \Generator
+    {
+        yield ['2020-01-01', 1, '2019-12-01'];
+        yield ['2020-01-01', 6, '2019-07-01'];
+        yield ['2020-01-01', 12, '2019-01-01'];
+        yield ['2020-01-01', 16, '2018-09-01'];
     }
 
     public function test_add_precse_timeunit() : void
