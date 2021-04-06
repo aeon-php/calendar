@@ -1,3 +1,8 @@
+## [Unreleased] - 2021-04-06
+
+### Added
+- [#112](https://github.com/aeon-php/calendar/pull/112) - **post install/update composer scripts that installs tools** - [@norberttech](https://github.com/norberttech)
+
 ## [0.16.4] - 2021-04-04
 
 ### Added
