@@ -4,8 +4,16 @@
 - [#112](https://github.com/aeon-php/calendar/pull/112) - **post install/update composer scripts that installs tools** - [@norberttech](https://github.com/norberttech)
 
 ### Changed
+- [#117](https://github.com/aeon-php/calendar/pull/117) - **replaced array of Day with DaysIterator in Days class constructor** - [@norberttech](https://github.com/norberttech)
+- [#117](https://github.com/aeon-php/calendar/pull/117) - **replaced array of Month with MonthIterator in Months class constructor** - [@norberttech](https://github.com/norberttech)
+- [#117](https://github.com/aeon-php/calendar/pull/117) - **Days::since() will always return days in the same order** - [@norberttech](https://github.com/norberttech)
+- [#117](https://github.com/aeon-php/calendar/pull/117) - **Months::since() will always return days in the same order** - [@norberttech](https://github.com/norberttech)
 - [#116](https://github.com/aeon-php/calendar/pull/116) - **updated tools** - [@norberttech](https://github.com/norberttech)
 - [#116](https://github.com/aeon-php/calendar/pull/116) - **adjusted code to the latest static analysis rules** - [@norberttech](https://github.com/norberttech)
+
+### Removed
+- [#117](https://github.com/aeon-php/calendar/pull/117) - **ArrayAccess behavior from Days class** - [@norberttech](https://github.com/norberttech)
+- [#117](https://github.com/aeon-php/calendar/pull/117) - **ArrayAccess behavior from Months class** - [@norberttech](https://github.com/norberttech)
 
 ## [0.16.4] - 2021-04-04
 
