@@ -276,24 +276,11 @@ final class Month
             );
         }
 
-        /**
-         * @var array<\DateTimeImmutable> $dateTimes
-         * @psalm-suppress ImpureMethodCall
-         */
-        $dateTimes = \iterator_to_array(
+        return Months::fromDatePeriod(
             $interval->toDatePeriod(
                 $this->firstDay()->midnight(TimeZone::UTC()),
                 RelativeTimeUnit::month(),
                 $month->firstDay()->midnight(TimeZone::UTC())
-            )
-        );
-
-        return new Months(
-            ...\array_map(
-                function (\DateTimeImmutable $dateTimeImmutable) : self {
-                    return self::fromDateTime($dateTimeImmutable);
-                },
-                $dateTimes
             )
         );
     }
@@ -312,24 +299,11 @@ final class Month
             );
         }
 
-        /**
-         * @var array<\DateTimeImmutable> $dateTimes
-         * @psalm-suppress ImpureMethodCall
-         */
-        $dateTimes = \iterator_to_array(
+        return Months::fromDatePeriod(
             $interval->toDatePeriodBackward(
                 $month->firstDay()->midnight(TimeZone::UTC()),
                 RelativeTimeUnit::month(),
                 $this->firstDay()->midnight(TimeZone::UTC())
-            )
-        );
-
-        return new Months(
-            ...\array_map(
-                function (\DateTimeImmutable $dateTimeImmutable) : self {
-                    return self::fromDateTime($dateTimeImmutable);
-                },
-                \array_reverse($dateTimes)
             )
         );
     }

@@ -80,6 +80,6 @@ final class YearMonths implements \Countable
             throw new InvalidArgumentException('Slice out of range.');
         }
 
-        return new Months(...\array_slice($this->all(), $from, $size));
+        return Months::fromArray(...\array_slice($this->all(), $from, $size));
     }
 }

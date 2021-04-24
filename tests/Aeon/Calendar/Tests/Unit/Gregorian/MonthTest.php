@@ -220,37 +220,37 @@ final class MonthTest extends TestCase
     public function test_until() : void
     {
         $this->assertCount(12, $months = Month::fromString('2020-01-01')->until(Month::fromString('2021-01-01'), Interval::rightOpen()));
-        $this->assertInstanceOf(Month::class, $months[0]);
-        $this->assertInstanceOf(Month::class, $months[11]);
-        $this->assertSame('January', $months[0]->name());
-        $this->assertSame('December', $months[11]->name());
+        $this->assertInstanceOf(Month::class, $months->all()[0]);
+        $this->assertInstanceOf(Month::class, $months->all()[11]);
+        $this->assertSame('January', $months->all()[0]->name());
+        $this->assertSame('December', $months->all()[11]->name());
     }
 
     public function test_since() : void
     {
         $this->assertCount(12, $months = Month::fromString('2022-01-01')->since(Month::fromString('2021-01-01'), Interval::leftOpen()));
-        $this->assertInstanceOf(Month::class, $months[0]);
-        $this->assertInstanceOf(Month::class, $months[11]);
-        $this->assertSame('January', $months[11]->name());
-        $this->assertSame('December', $months[0]->name());
+        $this->assertInstanceOf(Month::class, $months->all()[0]);
+        $this->assertInstanceOf(Month::class, $months->all()[11]);
+        $this->assertSame('January', $months->all()[0]->name());
+        $this->assertSame('December', $months->all()[11]->name());
     }
 
     public function test_iterate_until() : void
     {
         $this->assertCount(12, $months = Month::fromString('2020-01-01')->iterate(Month::fromString('2021-01-01'), Interval::rightOpen()));
-        $this->assertInstanceOf(Month::class, $months[0]);
-        $this->assertInstanceOf(Month::class, $months[11]);
-        $this->assertSame('January', $months[0]->name());
-        $this->assertSame('December', $months[11]->name());
+        $this->assertInstanceOf(Month::class, $months->all()[0]);
+        $this->assertInstanceOf(Month::class, $months->all()[11]);
+        $this->assertSame('January', $months->all()[0]->name());
+        $this->assertSame('December', $months->all()[11]->name());
     }
 
     public function test_iterate_since() : void
     {
         $this->assertCount(12, $months = Month::fromString('2022-01-01')->iterate(Month::fromString('2021-01-01'), Interval::leftOpen()));
-        $this->assertInstanceOf(Month::class, $months[0]);
-        $this->assertInstanceOf(Month::class, $months[11]);
-        $this->assertSame('January', $months[11]->name());
-        $this->assertSame('December', $months[0]->name());
+        $this->assertInstanceOf(Month::class, $months->all()[0]);
+        $this->assertInstanceOf(Month::class, $months->all()[11]);
+        $this->assertSame('January', $months->all()[0]->name());
+        $this->assertSame('December', $months->all()[11]->name());
     }
 
     public function test_modify_months() : void

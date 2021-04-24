@@ -6,41 +6,40 @@ namespace Aeon\Calendar\Gregorian;
 
 /**
  * @psalm-immutable
- * @implements \IteratorAggregate<int, Month>
- * @implements \ArrayAccess<int, Month>
+ * @implements \IteratorAggregate<Month>
  */
-final class Months implements \ArrayAccess, \Countable, \IteratorAggregate
+final class Months implements \Countable, \IteratorAggregate
 {
     /**
-     * @var array<Month>
+     * @var \Iterator<Month>
      */
-    private array $months;
+    private \Iterator $months;
 
-    public function __construct(Month ...$months)
+    /**
+     * @param \Iterator<Month> $months
+     */
+    private function __construct(\Iterator $months)
     {
         $this->months = $months;
     }
 
-    public function offsetExists($offset) : bool
+    /**
+     * @psalm-pure
+     */
+    public static function fromArray(Month ...$days) : self
     {
-        return isset($this->all()[\intval($offset)]);
+        /** @psalm-suppress ImpureMethodCall */
+        return new self(new \ArrayIterator($days));
     }
 
-    public function offsetGet($offset) : ?Month
+    /**
+     * @psalm-pure
+     * @phpstan-ignore-next-line
+     */
+    public static function fromDatePeriod(\DatePeriod $period) : self
     {
-        return isset($this->all()[\intval($offset)]) ? $this->all()[\intval($offset)] : null;
-    }
-
-    /** @codeCoverageIgnore */
-    public function offsetSet($offset, $value) : void
-    {
-        throw new \RuntimeException(__CLASS__ . ' is immutable.');
-    }
-
-    /** @codeCoverageIgnore */
-    public function offsetUnset($offset) : void
-    {
-        throw new \RuntimeException(__CLASS__ . ' is immutable.');
+        /** @psalm-suppress ImpureMethodCall */
+        return new self(MonthsIterator::fromDatePeriod($period));
     }
 
     /**
@@ -48,7 +47,7 @@ final class Months implements \ArrayAccess, \Countable, \IteratorAggregate
      */
     public function all() : array
     {
-        return $this->months;
+        return \iterator_to_array($this->months);
     }
 
     /**
@@ -70,16 +69,16 @@ final class Months implements \ArrayAccess, \Countable, \IteratorAggregate
      */
     public function filter(callable $iterator) : self
     {
-        return new self(...\array_filter($this->all(), $iterator));
+        return new self(new \CallbackFilterIterator($this->months, $iterator));
     }
 
     public function count() : int
     {
-        return \count($this->all());
+        return \iterator_count($this->months);
     }
 
     public function getIterator() : \Traversable
     {
-        return new \ArrayIterator($this->all());
+        return $this->months;
     }
 }

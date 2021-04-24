@@ -6,41 +6,40 @@ namespace Aeon\Calendar\Gregorian;
 
 /**
  * @psalm-immutable
- * @implements \IteratorAggregate<int, Day>
- * @implements \ArrayAccess<int, Day>
+ * @implements \IteratorAggregate<Day>
  */
-final class Days implements \ArrayAccess, \Countable, \IteratorAggregate
+final class Days implements \Countable, \IteratorAggregate
 {
     /**
-     * @var array<Day>
+     * @var \Iterator<Day>
      */
-    private array $days;
+    private \Iterator $days;
 
-    public function __construct(Day ...$days)
+    /**
+     * @param \Iterator<Day> $days
+     */
+    private function __construct(\Iterator $days)
     {
         $this->days = $days;
     }
 
-    public function offsetExists($offset) : bool
+    /**
+     * @psalm-pure
+     */
+    public static function fromArray(Day ...$days) : self
     {
-        return isset($this->all()[\intval($offset)]);
+        /** @psalm-suppress ImpureMethodCall */
+        return new self(new \ArrayIterator($days));
     }
 
-    public function offsetGet($offset) : ?Day
+    /**
+     * @psalm-pure
+     * @phpstan-ignore-next-line
+     */
+    public static function fromDatePeriod(\DatePeriod $period) : self
     {
-        return isset($this->all()[\intval($offset)]) ? $this->all()[\intval($offset)] : null;
-    }
-
-    /** @codeCoverageIgnore */
-    public function offsetSet($offset, $value) : void
-    {
-        throw new \RuntimeException(__CLASS__ . ' is immutable.');
-    }
-
-    /** @codeCoverageIgnore */
-    public function offsetUnset($offset) : void
-    {
-        throw new \RuntimeException(__CLASS__ . ' is immutable.');
+        /** @psalm-suppress ImpureMethodCall */
+        return new self(DaysIterator::fromDatePeriod($period));
     }
 
     /**
@@ -48,7 +47,7 @@ final class Days implements \ArrayAccess, \Countable, \IteratorAggregate
      */
     public function all() : array
     {
-        return $this->days;
+        return \iterator_to_array($this->days);
     }
 
     /**
@@ -72,16 +71,16 @@ final class Days implements \ArrayAccess, \Countable, \IteratorAggregate
      */
     public function filter(callable $iterator) : self
     {
-        return new self(...\array_filter($this->all(), $iterator));
+        return new self(new \CallbackFilterIterator($this->days, $iterator));
     }
 
     public function count() : int
     {
-        return \count($this->all());
+        return \iterator_count($this->days);
     }
 
     public function getIterator() : \Traversable
     {
-        return new \ArrayIterator($this->all());
+        return $this->days;
     }
 }
