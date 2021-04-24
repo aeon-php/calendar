@@ -1,13 +1,12 @@
 {
-  "bootstrap": "./vendor/autoload.php",
-  "path": "benchmark",
-  "retry_threshold": 5,
-  "progress": "dots",
-  "reports": {
+  "runner.bootstrap": "./vendor/autoload.php",
+  "runner.path": "benchmark",
+  "runner.retry_threshold": 5,
+  "runner.progress": "dots",
+  "report.generators": {
     "aeon": {
-      "generator": "table",
-      "break": ["benchmark"],
-      "sort": {"mean": "asc"}
+      "extends": "default",
+      "break": ["benchmark"]
     }
   }
 }

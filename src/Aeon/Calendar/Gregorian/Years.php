@@ -12,7 +12,7 @@ namespace Aeon\Calendar\Gregorian;
 final class Years implements \ArrayAccess, \Countable, \IteratorAggregate
 {
     /**
-     * @var array<int, Year>
+     * @var array<Year>
      */
     private array $years;
 
@@ -44,7 +44,7 @@ final class Years implements \ArrayAccess, \Countable, \IteratorAggregate
     }
 
     /**
-     * @return array<int, Year>
+     * @return array<Year>
      */
     public function all() : array
     {
