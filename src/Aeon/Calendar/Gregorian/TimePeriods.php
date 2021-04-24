@@ -12,7 +12,7 @@ namespace Aeon\Calendar\Gregorian;
 final class TimePeriods implements \ArrayAccess, \Countable, \IteratorAggregate
 {
     /**
-     * @var array<int, TimePeriod>
+     * @var array<TimePeriod>
      */
     private array $periods;
 
@@ -42,7 +42,7 @@ final class TimePeriods implements \ArrayAccess, \Countable, \IteratorAggregate
     }
 
     /**
-     * @return array<int, TimePeriod>
+     * @return array<TimePeriod>
      */
     public function all() : array
     {
@@ -56,10 +56,9 @@ final class TimePeriods implements \ArrayAccess, \Countable, \IteratorAggregate
      */
     public function each(callable $iterator) : void
     {
-        \array_map(
-            $iterator,
-            $this->all()
-        );
+        foreach ($this->periods as $period) {
+            $iterator($period);
+        }
     }
 
     /**

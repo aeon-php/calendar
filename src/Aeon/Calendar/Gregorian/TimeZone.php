@@ -587,7 +587,6 @@ final class TimeZone
             throw new InvalidArgumentException('"UTC" is timezone abbreviation, not identifier.');
         }
 
-        /** @var string $dateTimeZoneIdentifier */
         foreach (\DateTimeZone::listIdentifiers() as $dateTimeZoneIdentifier) {
             $normalizedDateTimeZoneIdentifier = \strtolower($dateTimeZoneIdentifier);
 
