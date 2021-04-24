@@ -12,20 +12,21 @@ final class DaysTest extends TestCase
 {
     public function test_array_access() : void
     {
-        $days = new Days(
+        $days = Days::fromArray(
             Day::fromString('2002-01-01'),
             Day::fromString('2002-01-02'),
             Day::fromString('2002-01-03')
         );
 
-        $this->assertTrue(isset($days[0]));
-        $this->assertInstanceOf(Day::class, $days[0]);
+        $this->assertTrue(isset($days->all()[0]));
+        $this->assertInstanceOf(Day::class, $days->all()[0]);
         $this->assertSame(3, \iterator_count($days->getIterator()));
+        $this->assertSame(3, $days->count());
     }
 
     public function test_map() : void
     {
-        $days = new Days(
+        $days = Days::fromArray(
             Day::fromString('2002-01-01'),
             Day::fromString('2002-01-02'),
             Day::fromString('2002-01-03')
@@ -41,17 +42,42 @@ final class DaysTest extends TestCase
 
     public function test_filter() : void
     {
-        $days = new Days(
+        $days = Days::fromArray(
             Day::fromString('2002-01-01'),
             Day::fromString('2002-01-02'),
             Day::fromString('2002-01-03')
         );
 
         $this->assertEquals(
-            new Days(Day::fromString('2002-01-01')),
+            Day::fromString('2002-01-01'),
             $days->filter(function (Day $day) {
                 return $day->number() === 1;
-            })
+            })->all()[0]
         );
+    }
+
+    public function test_foreach() : void
+    {
+        $days = Days::fromArray(
+            Day::fromString('2002-01-01'),
+            Day::fromString('2002-01-02'),
+            Day::fromString('2002-01-03')
+        );
+
+        foreach ($days as $day) {
+            $this->assertInstanceOf(Day::class, $day);
+        }
+    }
+
+    public function test_date_period() : void
+    {
+        $interval = new \DateInterval('P1D');
+        $datePeriod = new \DatePeriod(new \DateTimeImmutable('2020-01-01 00:00:00 UTC'), $interval, new \DateTimeImmutable('2020-01-10 00:00:00 UTC'));
+
+        $days = Days::fromDatePeriod($datePeriod);
+
+        foreach ($days as $day) {
+            $this->assertInstanceOf(Day::class, $day);
+        }
     }
 }

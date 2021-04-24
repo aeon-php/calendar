@@ -359,22 +359,7 @@ final class Day
             );
         }
 
-        /**
-         * @var array<\DateTimeImmutable> $dateTimes
-         * @psalm-suppress ImpureMethodCall
-         */
-        $dateTimes = \iterator_to_array(
-            $interval->toDatePeriod($this->midnight(TimeZone::UTC()), TimeUnit::day(), $day->midnight(TimeZone::UTC()))
-        );
-
-        return new Days(
-            ...\array_map(
-                function (\DateTimeImmutable $dateTimeImmutable) : self {
-                    return self::fromDateTime($dateTimeImmutable);
-                },
-                $dateTimes
-            )
-        );
+        return Days::fromDatePeriod($interval->toDatePeriod($this->midnight(TimeZone::UTC()), TimeUnit::day(), $day->midnight(TimeZone::UTC())));
     }
 
     public function since(self $day, Interval $interval) : Days
@@ -393,22 +378,7 @@ final class Day
             );
         }
 
-        /**
-         * @var array<\DateTimeImmutable> $dateTimes
-         * @psalm-suppress ImpureMethodCall
-         */
-        $dateTimes = \iterator_to_array(
-            $interval->toDatePeriodBackward($day->midnight(TimeZone::UTC()), TimeUnit::day(), $this->midnight(TimeZone::UTC()))
-        );
-
-        return new Days(
-            ...\array_map(
-                function (\DateTimeImmutable $dateTimeImmutable) : self {
-                    return self::fromDateTime($dateTimeImmutable);
-                },
-                \array_reverse($dateTimes)
-            )
-        );
+        return Days::fromDatePeriod($interval->toDatePeriod($day->midnight(TimeZone::UTC()), TimeUnit::day(), $this->midnight(TimeZone::UTC())));
     }
 
     public function distance(self $to) : TimeUnit

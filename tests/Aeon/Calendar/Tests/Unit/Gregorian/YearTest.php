@@ -261,24 +261,24 @@ final class YearTest extends TestCase
         $this->assertSame(1, (new Year(2020))->quarter(1)->number());
 
         $this->assertCount(3, (new Year(2020))->quarter(1)->months());
-        $this->assertSame(1, (new Year(2020))->quarter(1)->months()[0]->number());
-        $this->assertSame(2, (new Year(2020))->quarter(1)->months()[1]->number());
-        $this->assertSame(3, (new Year(2020))->quarter(1)->months()[2]->number());
+        $this->assertSame(1, (new Year(2020))->quarter(1)->months()->all()[0]->number());
+        $this->assertSame(2, (new Year(2020))->quarter(1)->months()->all()[1]->number());
+        $this->assertSame(3, (new Year(2020))->quarter(1)->months()->all()[2]->number());
 
         $this->assertCount(3, (new Year(2020))->quarter(2)->months());
-        $this->assertSame(4, (new Year(2020))->quarter(2)->months()[0]->number());
-        $this->assertSame(5, (new Year(2020))->quarter(2)->months()[1]->number());
-        $this->assertSame(6, (new Year(2020))->quarter(2)->months()[2]->number());
+        $this->assertSame(4, (new Year(2020))->quarter(2)->months()->all()[0]->number());
+        $this->assertSame(5, (new Year(2020))->quarter(2)->months()->all()[1]->number());
+        $this->assertSame(6, (new Year(2020))->quarter(2)->months()->all()[2]->number());
 
         $this->assertCount(3, (new Year(2020))->quarter(3)->months());
-        $this->assertSame(7, (new Year(2020))->quarter(3)->months()[0]->number());
-        $this->assertSame(8, (new Year(2020))->quarter(3)->months()[1]->number());
-        $this->assertSame(9, (new Year(2020))->quarter(3)->months()[2]->number());
+        $this->assertSame(7, (new Year(2020))->quarter(3)->months()->all()[0]->number());
+        $this->assertSame(8, (new Year(2020))->quarter(3)->months()->all()[1]->number());
+        $this->assertSame(9, (new Year(2020))->quarter(3)->months()->all()[2]->number());
 
         $this->assertCount(3, (new Year(2020))->quarter(4)->months());
-        $this->assertSame(10, (new Year(2020))->quarter(4)->months()[0]->number());
-        $this->assertSame(11, (new Year(2020))->quarter(4)->months()[1]->number());
-        $this->assertSame(12, (new Year(2020))->quarter(4)->months()[2]->number());
+        $this->assertSame(10, (new Year(2020))->quarter(4)->months()->all()[0]->number());
+        $this->assertSame(11, (new Year(2020))->quarter(4)->months()->all()[1]->number());
+        $this->assertSame(12, (new Year(2020))->quarter(4)->months()->all()[2]->number());
     }
 
     public function test_serialization() : void

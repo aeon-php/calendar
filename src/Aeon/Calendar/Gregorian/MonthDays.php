@@ -67,7 +67,7 @@ final class MonthDays implements \Countable
      */
     public function filter(callable $iterator) : Days
     {
-        return new Days(
+        return Days::fromArray(
             ...\array_filter(
                 $this->all(),
                 $iterator

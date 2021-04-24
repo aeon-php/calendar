@@ -241,7 +241,7 @@ final class Year
     public function filterDays(callable $iterator) : Days
     {
         /** @psalm-suppress ImpureFunctionCall */
-        return new Days(...\array_filter(
+        return Days::fromArray(...\array_filter(
             \array_merge(
                 ...\array_map(
                     fn (int $month) : array => $this->months()->byNumber($month)->days()->all(),

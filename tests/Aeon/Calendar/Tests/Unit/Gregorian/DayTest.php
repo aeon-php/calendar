@@ -305,37 +305,37 @@ final class DayTest extends TestCase
     public function test_until() : void
     {
         $this->assertCount(5, $days = Day::fromString('2020-01-01')->until(Day::fromString('2020-01-06'), Interval::rightOpen()));
-        $this->assertInstanceOf(Day::class, $days[0]);
-        $this->assertInstanceOf(Day::class, $days[4]);
-        $this->assertSame(1, $days[0]->number());
-        $this->assertSame(5, $days[4]->number());
+        $this->assertInstanceOf(Day::class, $days->all()[0]);
+        $this->assertInstanceOf(Day::class, $days->all()[4]);
+        $this->assertSame(1, $days->all()[0]->number());
+        $this->assertSame(5, $days->all()[4]->number());
     }
 
     public function test_since() : void
     {
-        $this->assertCount(5, $months = Day::fromString('2020-01-06')->since(Day::fromString('2020-01-01'), Interval::leftOpen()));
-        $this->assertInstanceOf(Day::class, $months[0]);
-        $this->assertInstanceOf(Day::class, $months[4]);
-        $this->assertSame(5, $months[0]->number());
-        $this->assertSame(1, $months[4]->number());
+        $this->assertCount(5, $days = Day::fromString('2020-01-06')->since(Day::fromString('2020-01-01'), Interval::leftOpen()));
+        $this->assertInstanceOf(Day::class, $days->all()[0]);
+        $this->assertInstanceOf(Day::class, $days->all()[4]);
+        $this->assertSame(2, $days->all()[0]->number());
+        $this->assertSame(6, $days->all()[4]->number());
     }
 
     public function test_iterate_until() : void
     {
         $this->assertCount(5, $days = Day::fromString('2020-01-01')->iterate(Day::fromString('2020-01-06'), Interval::rightOpen()));
-        $this->assertInstanceOf(Day::class, $days[0]);
-        $this->assertInstanceOf(Day::class, $days[4]);
-        $this->assertSame(1, $days[0]->number());
-        $this->assertSame(5, $days[4]->number());
+        $this->assertInstanceOf(Day::class, $days->all()[0]);
+        $this->assertInstanceOf(Day::class, $days->all()[4]);
+        $this->assertSame(1, $days->all()[0]->number());
+        $this->assertSame(5, $days->all()[4]->number());
     }
 
     public function test_iterate_since() : void
     {
         $this->assertCount(5, $days = Day::fromString('2020-01-06')->iterate(Day::fromString('2020-01-01'), Interval::leftOpen()));
-        $this->assertInstanceOf(Day::class, $days[0]);
-        $this->assertInstanceOf(Day::class, $days[4]);
-        $this->assertSame(5, $days[0]->number());
-        $this->assertSame(1, $days[4]->number());
+        $this->assertInstanceOf(Day::class, $days->all()[0]);
+        $this->assertInstanceOf(Day::class, $days->all()[4]);
+        $this->assertSame(2, $days->all()[0]->number());
+        $this->assertSame(6, $days->all()[4]->number());
     }
 
     public function test_days_between() : void
