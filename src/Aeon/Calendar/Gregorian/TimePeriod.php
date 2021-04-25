@@ -64,7 +64,7 @@ final class TimePeriod
 
         $result = $endUnixTimestamp
             ->sub($startUnixTimestamp)
-            ->absolute();
+            ->toPositive();
 
         return $this->start->isAfter($this->end) ? $result->invert() : $result;
     }
@@ -77,19 +77,18 @@ final class TimePeriod
     public function iterate(Unit $timeUnit, Interval $interval) : TimePeriods
     {
         /**
-         * @var array<\DateTimeImmutable> $dateTimes
+         * @var array<DateTime> $dateTimes
          * @psalm-suppress ImpureMethodCall
          */
         $dateTimes = \iterator_to_array(
-            $interval->toDatePeriod($this->start, $timeUnit, $this->end)
+            $interval->toIterator($this->start, $timeUnit, $this->end)
         );
 
         /** @psalm-suppress ImpureFunctionCall */
         return new TimePeriods(
             ...\array_filter(
                 \array_map(
-                    function (\DateTimeImmutable $dateTimeImmutable) use ($timeUnit, $interval) : ?self {
-                        $start = DateTime::fromDateTime($dateTimeImmutable);
+                    function (DateTime $start) use ($timeUnit, $interval) : ?self {
                         $end = $start->add($timeUnit);
 
                         if ($interval->isRightOpen()) {
@@ -126,11 +125,11 @@ final class TimePeriod
     public function iterateBackward(Unit $timeUnit, Interval $interval) : TimePeriods
     {
         /**
-         * @var array<\DateTimeImmutable> $dateTimes
+         * @var array<DateTime> $dateTimes
          * @psalm-suppress ImpureMethodCall
          */
         $dateTimes = \iterator_to_array(
-            $interval->toDatePeriodBackward($this->start, $timeUnit, $this->end)
+            $interval->toIteratorBackward($this->start, $timeUnit, $this->end)
         );
 
         /**
@@ -139,37 +138,46 @@ final class TimePeriod
         return new TimePeriods(
             ...\array_filter(
                 \array_map(
-                    function (\DateTimeImmutable $dateTimeImmutable) use ($timeUnit, $interval) : ?self {
-                        $start = DateTime::fromDateTime($dateTimeImmutable)->add($timeUnit);
-                        $end = DateTime::fromDateTime($dateTimeImmutable);
-
-                        if ($start->isAfter($this->end())) {
-                            $start = $this->end();
-                        }
-
-                        if ($interval->isLeftOpen()) {
-                            if ($end->isEqual($this->start())) {
-                                return null;
-                            }
-                        }
+                    function (DateTime $start) use ($timeUnit, $interval) : ?self {
+                        $end = $start->sub($timeUnit);
 
                         if ($interval->isRightOpen()) {
                             if ($start->isEqual($this->end())) {
                                 return null;
                             }
+
+                            if ($end->isBefore($this->start())) {
+                                if ($start->isEqual($this->start())) {
+                                    return null;
+                                }
+
+                                return new self($start, $this->start());
+                            }
                         }
 
-                        if ($end->isBefore($this->start())) {
+                        if ($start->isBefore($this->start())) {
                             return null;
                         }
 
-                        if ($end->isEqual($start)) {
-                            return null;
+                        if ($interval->isClosed()) {
+                            if ($end->isBefore($this->start())) {
+                                if ($start->isEqual($this->start())) {
+                                    return null;
+                                }
+
+                                return new self($start, $this->start());
+                            }
+                        }
+
+                        if ($interval->isLeftOpen()) {
+                            if ($end->isBeforeOrEqual($this->start())) {
+                                return null;
+                            }
                         }
 
                         return new self($start, $end);
                     },
-                    \array_reverse($dateTimes)
+                    $dateTimes
                 )
             )
         );

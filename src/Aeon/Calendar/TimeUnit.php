@@ -397,9 +397,4 @@ final class TimeUnit implements Unit
 
         return $this->invert();
     }
-
-    public function absolute() : self
-    {
-        return $this->isNegative() ? $this->invert() : $this;
-    }
 }

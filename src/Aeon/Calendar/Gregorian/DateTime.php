@@ -526,7 +526,7 @@ final class DateTime
     public function add(Unit $timeUnit) : self
     {
         if ($timeUnit instanceof RelativeTimeUnit && $timeUnit->inMonths()) {
-            $years = $timeUnit->absolute()->inYears();
+            $years = $timeUnit->toPositive()->inYears();
             $months = $timeUnit->inCalendarMonths();
 
             $newMonth = $timeUnit->isNegative()

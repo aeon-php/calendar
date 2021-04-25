@@ -14,40 +14,6 @@ use PHPUnit\Framework\TestCase;
 
 final class TimePeriodsTest extends TestCase
 {
-    public function test_offset_exists() : void
-    {
-        $timePeriods = DateTime::fromString('2020-01-01 00:00:00.000000')
-            ->until(DateTime::fromString('2020-01-01 01:00:00.000000'))
-            ->iterate(TimeUnit::minute(), Interval::closed());
-
-        $this->assertFalse(isset($timePeriods[5000]));
-    }
-
-    public function test_offset_set() : void
-    {
-        $timePeriods = DateTime::fromString('2020-01-01 00:00:00.000000')
-            ->until(DateTime::fromString('2020-01-01 01:00:00.000000'))
-            ->iterate(TimeUnit::minute(), Interval::closed());
-
-        $this->expectExceptionMessage('Aeon\Calendar\Gregorian\TimePeriods is immutable.');
-
-        $timePeriods[0] = new TimePeriod(
-            DateTime::fromString('2020-01-01 00:00:00.000000'),
-            DateTime::fromString('2020-01-01 01:00:00.000000')
-        );
-    }
-
-    public function test_offset_unset() : void
-    {
-        $timePeriods = DateTime::fromString('2020-01-01 00:00:00.000000')
-            ->until(DateTime::fromString('2020-01-01 01:00:00.000000'))
-            ->iterate(TimeUnit::minute(), Interval::closed());
-
-        $this->expectExceptionMessage('Aeon\Calendar\Gregorian\TimePeriods is immutable.');
-
-        unset($timePeriods[0]);
-    }
-
     public function test_each() : void
     {
         $counter = 0;
@@ -167,7 +133,7 @@ final class TimePeriodsTest extends TestCase
             1,
             $distances = $timePeriods->filter(fn (TimePeriod $timePeriod) => $timePeriod->start()->isEqual(DateTime::fromString('2020-01-03 00:00:00.000000')))
         );
-        $this->assertInstanceOf(TimePeriod::class, $distances[0]);
+        $this->assertInstanceOf(TimePeriod::class, $distances->all()[0]);
     }
 
     public function test_sort_by_start_date_asc() : void

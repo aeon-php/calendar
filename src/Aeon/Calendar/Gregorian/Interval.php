@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Aeon\Calendar\Gregorian;
 
+use Aeon\Calendar\DateTimeIterator;
+use Aeon\Calendar\TimeUnit;
 use Aeon\Calendar\Unit;
 
 /**
@@ -86,75 +88,45 @@ final class Interval
         return $this->type === self::CLOSED;
     }
 
-    /**
-     * @phpstan-ignore-next-line
-     */
-    public function toDatePeriod(DateTime $left, Unit $timeUnit, DateTime $right) : \DatePeriod
+    public function toIterator(DateTime $left, Unit $timeUnit, DateTime $right) : DateTimeIterator
     {
+        if ($right->isEqual($left)) {
+            return new DateTimeIterator($right, $left, TimeUnit::seconds(0));
+        }
+
+        if ($this->isOpen()) {
+            return new DateTimeIterator($left->add($timeUnit), $right->sub($timeUnit), $timeUnit);
+        }
+
         if ($this->isClosed()) {
-            return new \DatePeriod(
-                $left->toDateTimeImmutable(),
-                $timeUnit->toDateInterval(),
-                $right->add($timeUnit)->toDateTimeImmutable()
-            );
+            return new DateTimeIterator($left, $right, $timeUnit);
         }
 
         if ($this->isLeftOpen()) {
-            return new \DatePeriod(
-                $left->add($timeUnit)->toDateTimeImmutable(),
-                $timeUnit->toDateInterval(),
-                $right->add($timeUnit)->toDateTimeImmutable()
-            );
+            return new DateTimeIterator($left->add($timeUnit), $right, $timeUnit);
         }
 
-        if ($this->isRightOpen()) {
-            return new \DatePeriod(
-                $left->toDateTimeImmutable(),
-                $timeUnit->toDateInterval(),
-                $right->toDateTimeImmutable()
-            );
-        }
-
-        return new \DatePeriod(
-            $left->add($timeUnit)->toDateTimeImmutable(),
-            $timeUnit->toDateInterval(),
-            $right->toDateTimeImmutable()
-        );
+        return new DateTimeIterator($left, $right->sub($timeUnit), $timeUnit);
     }
 
-    /**
-     * @phpstan-ignore-next-line
-     */
-    public function toDatePeriodBackward(DateTime $left, Unit $timeUnit, DateTime $right) : \DatePeriod
+    public function toIteratorBackward(DateTime $left, Unit $timeUnit, DateTime $right) : DateTimeIterator
     {
+        if ($right->isEqual($left)) {
+            return new DateTimeIterator($right, $left, TimeUnit::seconds(0));
+        }
+
+        if ($this->isOpen()) {
+            return new DateTimeIterator($right->sub($timeUnit), $left->add($timeUnit), $timeUnit->toNegative());
+        }
+
         if ($this->isClosed()) {
-            return new \DatePeriod(
-                $left->sub($timeUnit)->toDateTimeImmutable(),
-                $timeUnit->toDateInterval(),
-                $right->toDateTimeImmutable()
-            );
+            return new DateTimeIterator($right, $left, $timeUnit->toNegative());
         }
 
         if ($this->isLeftOpen()) {
-            return new \DatePeriod(
-                $left->toDateTimeImmutable(),
-                $timeUnit->toDateInterval(),
-                $right->toDateTimeImmutable()
-            );
+            return new DateTimeIterator($right, $left->add($timeUnit), $timeUnit->toNegative());
         }
 
-        if ($this->isRightOpen()) {
-            return new \DatePeriod(
-                $left->sub($timeUnit)->toDateTimeImmutable(),
-                $timeUnit->toDateInterval(),
-                $right->sub($timeUnit)->toDateTimeImmutable()
-            );
-        }
-
-        return new \DatePeriod(
-            $left->toDateTimeImmutable(),
-            $timeUnit->toDateInterval(),
-            $right->sub($timeUnit)->toDateTimeImmutable()
-        );
+        return new DateTimeIterator($right->sub($timeUnit), $left, $timeUnit->toNegative());
     }
 }

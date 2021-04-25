@@ -11,7 +11,9 @@ interface Unit
 
     public function invert() : self;
 
-    public function absolute() : self;
-
     public function isNegative() : bool;
+
+    public function toNegative() : self;
+
+    public function toPositive() : self;
 }

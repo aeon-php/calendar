@@ -276,8 +276,8 @@ final class Month
             );
         }
 
-        return Months::fromDatePeriod(
-            $interval->toDatePeriod(
+        return Months::fromDateTimeIterator(
+            $interval->toIterator(
                 $this->firstDay()->midnight(TimeZone::UTC()),
                 RelativeTimeUnit::month(),
                 $month->firstDay()->midnight(TimeZone::UTC())
@@ -299,8 +299,8 @@ final class Month
             );
         }
 
-        return Months::fromDatePeriod(
-            $interval->toDatePeriodBackward(
+        return Months::fromDateTimeIterator(
+            $interval->toIteratorBackward(
                 $month->firstDay()->midnight(TimeZone::UTC()),
                 RelativeTimeUnit::month(),
                 $this->firstDay()->midnight(TimeZone::UTC())

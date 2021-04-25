@@ -213,8 +213,8 @@ final class YearTest extends TestCase
         $this->assertCount(5, $years = Year::fromString('2025-01-01')->since(Year::fromString('2020-01-01'), Interval::leftOpen()));
         $this->assertInstanceOf(Year::class, $years[0]);
         $this->assertInstanceOf(Year::class, $years[4]);
-        $this->assertSame(2020, $years[4]->number());
-        $this->assertSame(2024, $years[0]->number());
+        $this->assertSame(2021, $years[0]->number());
+        $this->assertSame(2025, $years[4]->number());
     }
 
     public function test_iterate_until() : void
@@ -231,8 +231,8 @@ final class YearTest extends TestCase
         $this->assertCount(5, $years = Year::fromString('2025-01-01')->iterate(Year::fromString('2020-01-01'), Interval::leftOpen()));
         $this->assertInstanceOf(Year::class, $years[0]);
         $this->assertInstanceOf(Year::class, $years[4]);
-        $this->assertSame(2020, $years[4]->number());
-        $this->assertSame(2024, $years[0]->number());
+        $this->assertSame(2021, $years[0]->number());
+        $this->assertSame(2025, $years[4]->number());
     }
 
     public function test_quarter_below_limit() : void

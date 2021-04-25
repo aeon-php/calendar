@@ -311,7 +311,7 @@ final class Year
          * @psalm-suppress ImpureMethodCall
          */
         $years = \iterator_to_array(
-            $interval->toDatePeriod(
+            $interval->toIterator(
                 $this->january()->firstDay()->midnight(TimeZone::UTC()),
                 RelativeTimeUnit::year(),
                 $month->january()->firstDay()->midnight(TimeZone::UTC())
@@ -320,8 +320,8 @@ final class Year
 
         return new Years(
             ...\array_map(
-                function (\DateTimeImmutable $dateTimeImmutable) : self {
-                    return self::fromDateTime($dateTimeImmutable);
+                function (DateTime $dateTime) : self {
+                    return $dateTime->year();
                 },
                 $years
             )
@@ -345,7 +345,7 @@ final class Year
          * @psalm-suppress ImpureMethodCall
          */
         $years = \iterator_to_array(
-            $interval->toDatePeriodBackward(
+            $interval->toIteratorBackward(
                 $month->january()->firstDay()->midnight(TimeZone::UTC()),
                 RelativeTimeUnit::year(),
                 $this->january()->firstDay()->midnight(TimeZone::UTC())
@@ -354,8 +354,8 @@ final class Year
 
         return new Years(
             ...\array_map(
-                function (\DateTimeImmutable $dateTimeImmutable) : self {
-                    return self::fromDateTime($dateTimeImmutable);
+                function (DateTime $dateTime) : self {
+                    return $dateTime->year();
                 },
                 \array_reverse($years)
             )

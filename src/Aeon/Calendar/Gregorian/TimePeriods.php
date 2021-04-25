@@ -6,10 +6,9 @@ namespace Aeon\Calendar\Gregorian;
 
 /**
  * @psalm-immutable
- * @implements \IteratorAggregate<int,TimePeriod>
- * @implements \ArrayAccess<int,TimePeriod>
+ * @implements \IteratorAggregate<TimePeriod>
  */
-final class TimePeriods implements \ArrayAccess, \Countable, \IteratorAggregate
+final class TimePeriods implements \Countable, \IteratorAggregate
 {
     /**
      * @var array<TimePeriod>
@@ -19,26 +18,6 @@ final class TimePeriods implements \ArrayAccess, \Countable, \IteratorAggregate
     public function __construct(TimePeriod ...$periods)
     {
         $this->periods = $periods;
-    }
-
-    public function offsetExists($offset) : bool
-    {
-        return isset($this->all()[\intval($offset)]);
-    }
-
-    public function offsetGet($offset) : ?TimePeriod
-    {
-        return isset($this->all()[\intval($offset)]) ? $this->all()[\intval($offset)] : null;
-    }
-
-    public function offsetSet($offset, $value) : void
-    {
-        throw new \RuntimeException(__CLASS__ . ' is immutable.');
-    }
-
-    public function offsetUnset($offset) : void
-    {
-        throw new \RuntimeException(__CLASS__ . ' is immutable.');
     }
 
     /**

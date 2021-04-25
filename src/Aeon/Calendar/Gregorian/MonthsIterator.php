@@ -4,13 +4,15 @@ declare(strict_types=1);
 
 namespace Aeon\Calendar\Gregorian;
 
+use Aeon\Calendar\DateTimeIterator;
+
 /**
  * @phpstan-ignore-next-line
  */
 final class MonthsIterator extends \IteratorIterator
 {
     /**
-     * @param \Traversable<\DateTimeInterface> $iterator
+     * @param \Traversable<DateTime> $iterator
      */
     private function __construct(\Traversable $iterator)
     {
@@ -21,14 +23,14 @@ final class MonthsIterator extends \IteratorIterator
      * @phpstan-ignore-next-line
      * @psalm-suppress MixedArgumentTypeCoercion
      */
-    public static function fromDatePeriod(\DatePeriod $datePeriod) : self
+    public static function fromDateTimeIterator(DateTimeIterator $iterator) : self
     {
-        return new self($datePeriod);
+        return new self($iterator);
     }
 
     public function current() : ?Month
     {
-        /** @var null|\DateTimeInterface|Month $current */
+        /** @var null|DateTime|Month $current */
         $current = parent::current();
 
         if ($current === null) {
@@ -39,7 +41,7 @@ final class MonthsIterator extends \IteratorIterator
             return $current;
         }
 
-        return Month::fromDateTime($current);
+        return $current->month();
     }
 
     public function reverse() : self

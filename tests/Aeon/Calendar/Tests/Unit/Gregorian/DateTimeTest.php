@@ -554,10 +554,10 @@ final class DateTimeTest extends TestCase
                 TimeUnit::hour()
             );
 
-        $this->assertInstanceOf(TimePeriod::class, $timePeriods[0]);
-        $this->assertSame('2020-01-01 00:00:00', $timePeriods[0]->start()->format('Y-m-d H:i:s'));
-        $this->assertFalse($timePeriods[0]->distance()->isNegative());
-        $this->assertSame('2020-01-01 01:00:00', $timePeriods[0]->end()->format('Y-m-d H:i:s'));
+        $this->assertInstanceOf(TimePeriod::class, $timePeriods->all()[0]);
+        $this->assertSame('2020-01-01 00:00:00', $timePeriods->all()[0]->start()->format('Y-m-d H:i:s'));
+        $this->assertFalse($timePeriods->all()[0]->distance()->isNegative());
+        $this->assertSame('2020-01-01 01:00:00', $timePeriods->all()[0]->end()->format('Y-m-d H:i:s'));
     }
 
     public function test_iterating_until_backward() : void
@@ -568,10 +568,10 @@ final class DateTimeTest extends TestCase
                 TimeUnit::hour()
             );
 
-        $this->assertInstanceOf(TimePeriod::class, $timePeriods[0]);
-        $this->assertSame('2020-01-02 00:00:00', $timePeriods[0]->start()->format('Y-m-d H:i:s'));
-        $this->assertTrue($timePeriods[0]->distance()->isNegative());
-        $this->assertSame('2020-01-01 23:00:00', $timePeriods[0]->end()->format('Y-m-d H:i:s'));
+        $this->assertInstanceOf(TimePeriod::class, $timePeriods->all()[0]);
+        $this->assertSame('2020-01-02 00:00:00', $timePeriods->all()[0]->start()->format('Y-m-d H:i:s'));
+        $this->assertTrue($timePeriods->all()[0]->distance()->isNegative());
+        $this->assertSame('2020-01-01 23:00:00', $timePeriods->all()[0]->end()->format('Y-m-d H:i:s'));
     }
 
     public function test_equal_dates_in_different_timezones() : void

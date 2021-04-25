@@ -101,9 +101,22 @@ final class RelativeTimeUnit implements Unit
         return $this->isNegative() ? -$years : $years;
     }
 
-    public function absolute() : self
+    public function toNegative() : self
     {
-        return $this->isNegative() ? $this->invert() : $this;
+        if ($this->isNegative()) {
+            return $this;
+        }
+
+        return $this->invert();
+    }
+
+    public function toPositive() : self
+    {
+        if (!$this->isNegative()) {
+            return $this;
+        }
+
+        return $this->invert();
     }
 
     /**

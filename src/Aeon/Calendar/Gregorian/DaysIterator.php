@@ -4,13 +4,15 @@ declare(strict_types=1);
 
 namespace Aeon\Calendar\Gregorian;
 
+use Aeon\Calendar\DateTimeIterator;
+
 /**
  * @phpstan-ignore-next-line
  */
 final class DaysIterator extends \IteratorIterator
 {
     /**
-     * @param \Traversable<\DateTimeInterface> $iterator
+     * @param \Traversable<DateTime> $iterator
      */
     private function __construct(\Traversable $iterator)
     {
@@ -21,14 +23,14 @@ final class DaysIterator extends \IteratorIterator
      * @phpstan-ignore-next-line
      * @psalm-suppress MixedArgumentTypeCoercion
      */
-    public static function fromDatePeriod(\DatePeriod $datePeriod) : self
+    public static function fromDateTimeIterator(DateTimeIterator $datePeriod) : self
     {
         return new self($datePeriod);
     }
 
     public function current() : ?Day
     {
-        /** @var null|\DateTimeInterface|Day $current */
+        /** @var null|Day|DateTime $current */
         $current = parent::current();
 
         if ($current === null) {
@@ -39,7 +41,7 @@ final class DaysIterator extends \IteratorIterator
             return $current;
         }
 
-        return Day::fromDateTime($current);
+        return $current->day();
     }
 
     public function reverse() : self
