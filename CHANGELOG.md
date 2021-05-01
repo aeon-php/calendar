@@ -1,4 +1,4 @@
-## [Unreleased] - 2021-05-01
+## [0.18.0] - 2021-05-01
 
 ### Added
 - [#121](https://github.com/aeon-php/calendar/pull/121) - **DateTimeIterator** - [@norberttech](https://github.com/norberttech)
