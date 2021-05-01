@@ -231,8 +231,9 @@ final class MonthTest extends TestCase
         $this->assertCount(12, $months = Month::fromString('2022-01-01')->since(Month::fromString('2021-01-01'), Interval::leftOpen()));
         $this->assertInstanceOf(Month::class, $months->all()[0]);
         $this->assertInstanceOf(Month::class, $months->all()[11]);
-        $this->assertSame('January', $months->all()[0]->name());
-        $this->assertSame('December', $months->all()[11]->name());
+
+        $this->assertSame('February', $months->all()[0]->name());
+        $this->assertSame('January', $months->all()[11]->name());
     }
 
     public function test_iterate_until() : void
@@ -249,8 +250,9 @@ final class MonthTest extends TestCase
         $this->assertCount(12, $months = Month::fromString('2022-01-01')->iterate(Month::fromString('2021-01-01'), Interval::leftOpen()));
         $this->assertInstanceOf(Month::class, $months->all()[0]);
         $this->assertInstanceOf(Month::class, $months->all()[11]);
-        $this->assertSame('January', $months->all()[0]->name());
-        $this->assertSame('December', $months->all()[11]->name());
+
+        $this->assertSame('February', $months->all()[0]->name());
+        $this->assertSame('January', $months->all()[11]->name());
     }
 
     public function test_modify_months() : void
@@ -258,6 +260,7 @@ final class MonthTest extends TestCase
         $this->assertSame('2020-01-01', Month::fromString('2020-06-01')->minusMonths(5)->toDateTimeImmutable()->format('Y-m-d'));
         $this->assertSame('2020-05-01', Month::fromString('2020-06-01')->minusMonths(1)->toDateTimeImmutable()->format('Y-m-d'));
         $this->assertSame('2019-12-01', Month::fromString('2020-01-01')->minusMonths(1)->toDateTimeImmutable()->format('Y-m-d'));
+        $this->assertSame('2021-12-01', Month::fromString('2020-01-01')->plusMonths(23)->toDateTimeImmutable()->format('Y-m-d'));
         $this->assertSame('2020-12-01', Month::fromString('2020-06-01')->plusMonths(6)->toDateTimeImmutable()->format('Y-m-d'));
         $this->assertSame('2021-10-01', Month::fromString('2020-06-01')->plusMonths(16)->toDateTimeImmutable()->format('Y-m-d'));
         $this->assertSame('2021-07-01', Month::fromString('2020-06-01')->plusMonths(13)->toDateTimeImmutable()->format('Y-m-d'));
@@ -309,20 +312,28 @@ final class MonthTest extends TestCase
     {
         $month = Month::create(2020, 1);
 
-        $this->assertSame(
-            [
-                'year' => $month->year(),
-                'number' => $month->number(),
-            ],
-            $serializedMonth = $month->__serialize()
+        $this->assertObjectEquals(
+            $month,
+            \unserialize(\serialize($month)),
+            'isEqual'
         );
-        $this->assertSame(
-            'O:29:"' . Month::class . '":2:{s:4:"year";O:28:"' . Year::class . '":1:{s:4:"year";i:2020;}s:6:"number";i:1;}',
-            $serializedMonthString = \serialize($month)
-        );
-        $this->assertEquals(
-            \unserialize($serializedMonthString),
-            $month
-        );
+    }
+
+    public function test_number_of_days() : void
+    {
+        $this->assertSame(31, (new Month(new Year(2020), 1))->numberOfDays());
+        $this->assertSame(29, (new Month(new Year(2020), 2))->numberOfDays());
+        $this->assertSame(31, (new Month(new Year(2020), 3))->numberOfDays());
+        $this->assertSame(30, (new Month(new Year(2020), 4))->numberOfDays());
+        $this->assertSame(31, (new Month(new Year(2020), 5))->numberOfDays());
+        $this->assertSame(30, (new Month(new Year(2020), 6))->numberOfDays());
+        $this->assertSame(31, (new Month(new Year(2020), 7))->numberOfDays());
+        $this->assertSame(31, (new Month(new Year(2020), 8))->numberOfDays());
+        $this->assertSame(30, (new Month(new Year(2020), 9))->numberOfDays());
+        $this->assertSame(31, (new Month(new Year(2020), 10))->numberOfDays());
+        $this->assertSame(30, (new Month(new Year(2020), 11))->numberOfDays());
+        $this->assertSame(31, (new Month(new Year(2020), 12))->numberOfDays());
+
+        $this->assertSame(28, (new Month(new Year(2021), 2))->numberOfDays());
     }
 }

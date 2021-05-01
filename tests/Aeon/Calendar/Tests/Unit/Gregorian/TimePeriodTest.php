@@ -125,10 +125,10 @@ final class TimePeriodTest extends TestCase
         yield ['2020-01-01', '2020-01-03', false, TimeUnit::days(1), Interval::leftOpen(), ['2020-01-03...2020-01-02']];
         yield ['2020-01-01', '2020-01-03', false, TimeUnit::days(1), Interval::rightOpen(), ['2020-01-02...2020-01-01']];
 
-        yield ['2020-01-01', '2020-01-06', false, TimeUnit::days(2), Interval::closed(), ['2020-01-06...2020-01-05', '2020-01-05...2020-01-03', '2020-01-03...2020-01-01']];
-        yield ['2020-01-01', '2020-01-06', false, TimeUnit::days(2), Interval::open(), ['2020-01-05...2020-01-03']];
-        yield ['2020-01-01', '2020-01-06', false, TimeUnit::days(2), Interval::leftOpen(), ['2020-01-06...2020-01-05', '2020-01-05...2020-01-03']];
-        yield ['2020-01-01', '2020-01-06', false, TimeUnit::days(2), Interval::rightOpen(), ['2020-01-05...2020-01-03', '2020-01-03...2020-01-01']];
+        yield ['2020-01-01', '2020-01-06', false, TimeUnit::days(2), Interval::closed(), ['2020-01-06...2020-01-04', '2020-01-04...2020-01-02', '2020-01-02...2020-01-01']];
+        yield ['2020-01-01', '2020-01-06', false, TimeUnit::days(2), Interval::open(), ['2020-01-04...2020-01-02']];
+        yield ['2020-01-01', '2020-01-06', false, TimeUnit::days(2), Interval::leftOpen(), ['2020-01-06...2020-01-04', '2020-01-04...2020-01-02']];
+        yield ['2020-01-01', '2020-01-06', false, TimeUnit::days(2), Interval::rightOpen(), ['2020-01-04...2020-01-02', '2020-01-02...2020-01-01']];
     }
 
     public function test_iterating_through_day_by_hour() : void
@@ -142,19 +142,19 @@ final class TimePeriodTest extends TestCase
 
         $this->assertCount(23, $timePeriods);
 
-        $this->assertInstanceOf(TimePeriod::class, $timePeriods[0]);
-        $this->assertInstanceOf(TimePeriod::class, $timePeriods[1]);
-        $this->assertInstanceOf(TimePeriod::class, $timePeriods[2]);
-        $this->assertInstanceOf(TimePeriod::class, $timePeriods[22]);
+        $this->assertInstanceOf(TimePeriod::class, $timePeriods->all()[0]);
+        $this->assertInstanceOf(TimePeriod::class, $timePeriods->all()[1]);
+        $this->assertInstanceOf(TimePeriod::class, $timePeriods->all()[2]);
+        $this->assertInstanceOf(TimePeriod::class, $timePeriods->all()[22]);
 
-        $this->assertSame(0, $timePeriods[0]->start()->time()->hour());
-        $this->assertSame(1, $timePeriods[0]->end()->time()->hour());
-        $this->assertSame(1, $timePeriods[1]->start()->time()->hour());
-        $this->assertSame(2, $timePeriods[1]->end()->time()->hour());
-        $this->assertSame(2, $timePeriods[2]->start()->time()->hour());
-        $this->assertSame(3, $timePeriods[2]->end()->time()->hour());
-        $this->assertSame(22, $timePeriods[22]->start()->time()->hour());
-        $this->assertSame(23, $timePeriods[22]->end()->time()->hour());
+        $this->assertSame(0, $timePeriods->all()[0]->start()->time()->hour());
+        $this->assertSame(1, $timePeriods->all()[0]->end()->time()->hour());
+        $this->assertSame(1, $timePeriods->all()[1]->start()->time()->hour());
+        $this->assertSame(2, $timePeriods->all()[1]->end()->time()->hour());
+        $this->assertSame(2, $timePeriods->all()[2]->start()->time()->hour());
+        $this->assertSame(3, $timePeriods->all()[2]->end()->time()->hour());
+        $this->assertSame(22, $timePeriods->all()[22]->start()->time()->hour());
+        $this->assertSame(23, $timePeriods->all()[22]->end()->time()->hour());
     }
 
     public function test_iterating_through_day_backward_by_hour() : void
@@ -168,19 +168,19 @@ final class TimePeriodTest extends TestCase
 
         $this->assertCount(23, $timePeriods);
 
-        $this->assertInstanceOf(TimePeriod::class, $timePeriods[0]);
-        $this->assertInstanceOf(TimePeriod::class, $timePeriods[1]);
-        $this->assertInstanceOf(TimePeriod::class, $timePeriods[2]);
-        $this->assertInstanceOf(TimePeriod::class, $timePeriods[22]);
+        $this->assertInstanceOf(TimePeriod::class, $timePeriods->all()[0]);
+        $this->assertInstanceOf(TimePeriod::class, $timePeriods->all()[1]);
+        $this->assertInstanceOf(TimePeriod::class, $timePeriods->all()[2]);
+        $this->assertInstanceOf(TimePeriod::class, $timePeriods->all()[22]);
 
-        $this->assertSame(0, $timePeriods[0]->start()->time()->hour());
-        $this->assertSame(23, $timePeriods[0]->end()->time()->hour());
-        $this->assertSame(23, $timePeriods[1]->start()->time()->hour());
-        $this->assertSame(22, $timePeriods[1]->end()->time()->hour());
-        $this->assertSame(22, $timePeriods[2]->start()->time()->hour());
-        $this->assertSame(21, $timePeriods[2]->end()->time()->hour());
-        $this->assertSame(2, $timePeriods[22]->start()->time()->hour());
-        $this->assertSame(1, $timePeriods[22]->end()->time()->hour());
+        $this->assertSame(0, $timePeriods->all()[0]->start()->time()->hour());
+        $this->assertSame(23, $timePeriods->all()[0]->end()->time()->hour());
+        $this->assertSame(23, $timePeriods->all()[1]->start()->time()->hour());
+        $this->assertSame(22, $timePeriods->all()[1]->end()->time()->hour());
+        $this->assertSame(22, $timePeriods->all()[2]->start()->time()->hour());
+        $this->assertSame(21, $timePeriods->all()[2]->end()->time()->hour());
+        $this->assertSame(2, $timePeriods->all()[22]->start()->time()->hour());
+        $this->assertSame(1, $timePeriods->all()[22]->end()->time()->hour());
     }
 
     public function test_iterating_by_2days_interval_closed_both_ways() : void
@@ -197,14 +197,14 @@ final class TimePeriodTest extends TestCase
         $this->assertCount(2, $timePeriods);
         $this->assertCount(2, $timePeriodsBackward);
 
-        $this->assertSame('2020-01-01', $timePeriods[0]->start()->format('Y-m-d'));
-        $this->assertSame('2020-01-04', $timePeriods[1]->start()->format('Y-m-d'));
-        $this->assertSame('2020-01-05', $timePeriods[1]->end()->format('Y-m-d'));
+        $this->assertSame('2020-01-01', $timePeriods->all()[0]->start()->format('Y-m-d'));
+        $this->assertSame('2020-01-04', $timePeriods->all()[1]->start()->format('Y-m-d'));
+        $this->assertSame('2020-01-05', $timePeriods->all()[1]->end()->format('Y-m-d'));
 
-        $this->assertSame('2020-01-05', $timePeriodsBackward[0]->start()->format('Y-m-d'));
-        $this->assertSame('2020-01-04', $timePeriodsBackward[0]->end()->format('Y-m-d'));
-        $this->assertSame('2020-01-04', $timePeriodsBackward[1]->start()->format('Y-m-d'));
-        $this->assertSame('2020-01-01', $timePeriodsBackward[1]->end()->format('Y-m-d'));
+        $this->assertSame('2020-01-05', $timePeriodsBackward->all()[0]->start()->format('Y-m-d'));
+        $this->assertSame('2020-01-02', $timePeriodsBackward->all()[0]->end()->format('Y-m-d'));
+        $this->assertSame('2020-01-02', $timePeriodsBackward->all()[1]->start()->format('Y-m-d'));
+        $this->assertSame('2020-01-01', $timePeriodsBackward->all()[1]->end()->format('Y-m-d'));
     }
 
     public function test_iterating_by_day_interval_closed_both_ways() : void
@@ -221,17 +221,17 @@ final class TimePeriodTest extends TestCase
         $this->assertCount(4, $timePeriods);
         $this->assertCount(4, $timePeriodsBackward);
 
-        $this->assertSame('2020-01-01', $timePeriods[0]->start()->format('Y-m-d'));
-        $this->assertSame('2020-01-02', $timePeriods[1]->start()->format('Y-m-d'));
-        $this->assertSame('2020-01-03', $timePeriods[2]->start()->format('Y-m-d'));
-        $this->assertSame('2020-01-04', $timePeriods[3]->start()->format('Y-m-d'));
-        $this->assertSame('2020-01-05', $timePeriods[3]->end()->format('Y-m-d'));
+        $this->assertSame('2020-01-01', $timePeriods->all()[0]->start()->format('Y-m-d'));
+        $this->assertSame('2020-01-02', $timePeriods->all()[1]->start()->format('Y-m-d'));
+        $this->assertSame('2020-01-03', $timePeriods->all()[2]->start()->format('Y-m-d'));
+        $this->assertSame('2020-01-04', $timePeriods->all()[3]->start()->format('Y-m-d'));
+        $this->assertSame('2020-01-05', $timePeriods->all()[3]->end()->format('Y-m-d'));
 
-        $this->assertSame('2020-01-05', $timePeriodsBackward[0]->start()->format('Y-m-d'));
-        $this->assertSame('2020-01-04', $timePeriodsBackward[1]->start()->format('Y-m-d'));
-        $this->assertSame('2020-01-03', $timePeriodsBackward[2]->start()->format('Y-m-d'));
-        $this->assertSame('2020-01-02', $timePeriodsBackward[3]->start()->format('Y-m-d'));
-        $this->assertSame('2020-01-01', $timePeriodsBackward[3]->end()->format('Y-m-d'));
+        $this->assertSame('2020-01-05', $timePeriodsBackward->all()[0]->start()->format('Y-m-d'));
+        $this->assertSame('2020-01-04', $timePeriodsBackward->all()[1]->start()->format('Y-m-d'));
+        $this->assertSame('2020-01-03', $timePeriodsBackward->all()[2]->start()->format('Y-m-d'));
+        $this->assertSame('2020-01-02', $timePeriodsBackward->all()[3]->start()->format('Y-m-d'));
+        $this->assertSame('2020-01-01', $timePeriodsBackward->all()[3]->end()->format('Y-m-d'));
     }
 
     public function test_iterating_by_day_interval_left_open_both_ways() : void
@@ -247,18 +247,22 @@ final class TimePeriodTest extends TestCase
         $this->assertCount(3, $timePeriods);
         $this->assertCount(3, $timePeriodsBackward);
 
-        $this->assertSame('2020-01-02', $timePeriods[0]->start()->format('Y-m-d'));
-        $this->assertSame('2020-01-03', $timePeriods[1]->start()->format('Y-m-d'));
-        $this->assertSame('2020-01-04', $timePeriods[2]->start()->format('Y-m-d'));
-        $this->assertSame('2020-01-05', $timePeriods[2]->end()->format('Y-m-d'));
+        $this->assertSame('2020-01-02', $timePeriods->all()[0]->start()->format('Y-m-d'));
+        $this->assertSame('2020-01-03', $timePeriods->all()[0]->end()->format('Y-m-d'));
+        $this->assertSame('2020-01-03', $timePeriods->all()[1]->start()->format('Y-m-d'));
+        $this->assertSame('2020-01-04', $timePeriods->all()[1]->end()->format('Y-m-d'));
+        $this->assertSame('2020-01-04', $timePeriods->all()[2]->start()->format('Y-m-d'));
+        $this->assertSame('2020-01-05', $timePeriods->all()[2]->end()->format('Y-m-d'));
 
-        $this->assertSame('2020-01-05', $timePeriodsBackward[0]->start()->format('Y-m-d'));
-        $this->assertSame('2020-01-04', $timePeriodsBackward[1]->start()->format('Y-m-d'));
-        $this->assertSame('2020-01-03', $timePeriodsBackward[2]->start()->format('Y-m-d'));
-        $this->assertSame('2020-01-02', $timePeriodsBackward[2]->end()->format('Y-m-d'));
+        $this->assertSame('2020-01-05', $timePeriodsBackward->all()[0]->start()->format('Y-m-d'));
+        $this->assertSame('2020-01-04', $timePeriodsBackward->all()[0]->end()->format('Y-m-d'));
+        $this->assertSame('2020-01-04', $timePeriodsBackward->all()[1]->start()->format('Y-m-d'));
+        $this->assertSame('2020-01-03', $timePeriodsBackward->all()[1]->end()->format('Y-m-d'));
+        $this->assertSame('2020-01-03', $timePeriodsBackward->all()[2]->start()->format('Y-m-d'));
+        $this->assertSame('2020-01-02', $timePeriodsBackward->all()[2]->end()->format('Y-m-d'));
     }
 
-    public function test_iterating_by_day_interval_right_open_both_ways() : void
+    public function test_iterating_by_day_interval_right_open_forward() : void
     {
         $period = new TimePeriod(
             DateTime::fromString('2020-01-01 00:00:00.0000'),
@@ -266,20 +270,34 @@ final class TimePeriodTest extends TestCase
         );
 
         $timePeriods = $period->iterate(TimeUnit::day(), Interval::rightOpen());
-        $timePeriodsBackward = $period->iterateBackward(TimeUnit::day(), Interval::rightOpen());
 
         $this->assertCount(3, $timePeriods);
+
+        $this->assertSame('2020-01-01', $timePeriods->all()[0]->start()->format('Y-m-d'));
+        $this->assertSame('2020-01-02', $timePeriods->all()[0]->end()->format('Y-m-d'));
+        $this->assertSame('2020-01-02', $timePeriods->all()[1]->start()->format('Y-m-d'));
+        $this->assertSame('2020-01-03', $timePeriods->all()[1]->end()->format('Y-m-d'));
+        $this->assertSame('2020-01-03', $timePeriods->all()[2]->start()->format('Y-m-d'));
+        $this->assertSame('2020-01-04', $timePeriods->all()[2]->end()->format('Y-m-d'));
+    }
+
+    public function test_iterating_by_day_interval_right_open_backward() : void
+    {
+        $period = new TimePeriod(
+            DateTime::fromString('2020-01-01 00:00:00.0000'),
+            DateTime::fromString('2020-01-05 00:00:00.0000')
+        );
+
+        $timePeriodsBackward = $period->iterateBackward(TimeUnit::day(), Interval::rightOpen());
+
         $this->assertCount(3, $timePeriodsBackward);
 
-        $this->assertSame('2020-01-01', $timePeriods[0]->start()->format('Y-m-d'));
-        $this->assertSame('2020-01-02', $timePeriods[1]->start()->format('Y-m-d'));
-        $this->assertSame('2020-01-03', $timePeriods[2]->start()->format('Y-m-d'));
-        $this->assertSame('2020-01-04', $timePeriods[2]->end()->format('Y-m-d'));
-
-        $this->assertSame('2020-01-04', $timePeriodsBackward[0]->start()->format('Y-m-d'));
-        $this->assertSame('2020-01-03', $timePeriodsBackward[1]->start()->format('Y-m-d'));
-        $this->assertSame('2020-01-02', $timePeriodsBackward[2]->start()->format('Y-m-d'));
-        $this->assertSame('2020-01-01', $timePeriodsBackward[2]->end()->format('Y-m-d'));
+        $this->assertSame('2020-01-04', $timePeriodsBackward->all()[0]->start()->format('Y-m-d'));
+        $this->assertSame('2020-01-03', $timePeriodsBackward->all()[0]->end()->format('Y-m-d'));
+        $this->assertSame('2020-01-03', $timePeriodsBackward->all()[1]->start()->format('Y-m-d'));
+        $this->assertSame('2020-01-02', $timePeriodsBackward->all()[1]->end()->format('Y-m-d'));
+        $this->assertSame('2020-01-02', $timePeriodsBackward->all()[2]->start()->format('Y-m-d'));
+        $this->assertSame('2020-01-01', $timePeriodsBackward->all()[2]->end()->format('Y-m-d'));
     }
 
     public function test_iterating_by_month_interval_closed_both_ways() : void
@@ -295,45 +313,45 @@ final class TimePeriodTest extends TestCase
         $this->assertCount(12, $timePeriods);
         $this->assertCount(12, $timePeriodsBackward);
 
-        $this->assertSame('2020-01-01', $timePeriods[0]->start()->format('Y-m-d'));
-        $this->assertSame(31, $timePeriods[0]->distance()->inDays());
-        $this->assertSame('2020-02-01', $timePeriods[1]->start()->format('Y-m-d'));
-        $this->assertSame(29, $timePeriods[1]->distance()->inDays());
-        $this->assertSame('2020-03-01', $timePeriods[2]->start()->format('Y-m-d'));
-        $this->assertSame(31, $timePeriods[2]->distance()->inDays());
-        $this->assertSame('2020-04-01', $timePeriods[3]->start()->format('Y-m-d'));
-        $this->assertSame(30, $timePeriods[3]->distance()->inDays());
-        $this->assertSame('2020-05-01', $timePeriods[4]->start()->format('Y-m-d'));
-        $this->assertSame(31, $timePeriods[4]->distance()->inDays());
-        $this->assertSame('2020-06-01', $timePeriods[5]->start()->format('Y-m-d'));
-        $this->assertSame(30, $timePeriods[5]->distance()->inDays());
-        $this->assertSame('2020-07-01', $timePeriods[6]->start()->format('Y-m-d'));
-        $this->assertSame(31, $timePeriods[6]->distance()->inDays());
-        $this->assertSame('2020-08-01', $timePeriods[7]->start()->format('Y-m-d'));
-        $this->assertSame(31, $timePeriods[7]->distance()->inDays());
-        $this->assertSame('2020-09-01', $timePeriods[8]->start()->format('Y-m-d'));
-        $this->assertSame(30, $timePeriods[8]->distance()->inDays());
-        $this->assertSame('2020-10-01', $timePeriods[9]->start()->format('Y-m-d'));
-        $this->assertSame(31, $timePeriods[9]->distance()->inDays());
-        $this->assertSame('2020-11-01', $timePeriods[10]->start()->format('Y-m-d'));
-        $this->assertSame(30, $timePeriods[10]->distance()->inDays());
-        $this->assertSame('2020-12-01', $timePeriods[11]->start()->format('Y-m-d'));
-        $this->assertSame('2021-01-01', $timePeriods[11]->end()->format('Y-m-d'));
-        $this->assertSame(31, $timePeriods[11]->distance()->inDays());
+        $this->assertSame('2020-01-01', $timePeriods->all()[0]->start()->format('Y-m-d'));
+        $this->assertSame(31, $timePeriods->all()[0]->distance()->inDays());
+        $this->assertSame('2020-02-01', $timePeriods->all()[1]->start()->format('Y-m-d'));
+        $this->assertSame(29, $timePeriods->all()[1]->distance()->inDays());
+        $this->assertSame('2020-03-01', $timePeriods->all()[2]->start()->format('Y-m-d'));
+        $this->assertSame(31, $timePeriods->all()[2]->distance()->inDays());
+        $this->assertSame('2020-04-01', $timePeriods->all()[3]->start()->format('Y-m-d'));
+        $this->assertSame(30, $timePeriods->all()[3]->distance()->inDays());
+        $this->assertSame('2020-05-01', $timePeriods->all()[4]->start()->format('Y-m-d'));
+        $this->assertSame(31, $timePeriods->all()[4]->distance()->inDays());
+        $this->assertSame('2020-06-01', $timePeriods->all()[5]->start()->format('Y-m-d'));
+        $this->assertSame(30, $timePeriods->all()[5]->distance()->inDays());
+        $this->assertSame('2020-07-01', $timePeriods->all()[6]->start()->format('Y-m-d'));
+        $this->assertSame(31, $timePeriods->all()[6]->distance()->inDays());
+        $this->assertSame('2020-08-01', $timePeriods->all()[7]->start()->format('Y-m-d'));
+        $this->assertSame(31, $timePeriods->all()[7]->distance()->inDays());
+        $this->assertSame('2020-09-01', $timePeriods->all()[8]->start()->format('Y-m-d'));
+        $this->assertSame(30, $timePeriods->all()[8]->distance()->inDays());
+        $this->assertSame('2020-10-01', $timePeriods->all()[9]->start()->format('Y-m-d'));
+        $this->assertSame(31, $timePeriods->all()[9]->distance()->inDays());
+        $this->assertSame('2020-11-01', $timePeriods->all()[10]->start()->format('Y-m-d'));
+        $this->assertSame(30, $timePeriods->all()[10]->distance()->inDays());
+        $this->assertSame('2020-12-01', $timePeriods->all()[11]->start()->format('Y-m-d'));
+        $this->assertSame('2021-01-01', $timePeriods->all()[11]->end()->format('Y-m-d'));
+        $this->assertSame(31, $timePeriods->all()[11]->distance()->inDays());
 
-        $this->assertSame('2021-01-01', $timePeriodsBackward[0]->start()->format('Y-m-d'));
-        $this->assertSame('2020-12-01', $timePeriodsBackward[1]->start()->format('Y-m-d'));
-        $this->assertSame('2020-11-01', $timePeriodsBackward[2]->start()->format('Y-m-d'));
-        $this->assertSame('2020-10-01', $timePeriodsBackward[3]->start()->format('Y-m-d'));
-        $this->assertSame('2020-09-01', $timePeriodsBackward[4]->start()->format('Y-m-d'));
-        $this->assertSame('2020-08-01', $timePeriodsBackward[5]->start()->format('Y-m-d'));
-        $this->assertSame('2020-07-01', $timePeriodsBackward[6]->start()->format('Y-m-d'));
-        $this->assertSame('2020-06-01', $timePeriodsBackward[7]->start()->format('Y-m-d'));
-        $this->assertSame('2020-05-01', $timePeriodsBackward[8]->start()->format('Y-m-d'));
-        $this->assertSame('2020-04-01', $timePeriodsBackward[9]->start()->format('Y-m-d'));
-        $this->assertSame('2020-03-01', $timePeriodsBackward[10]->start()->format('Y-m-d'));
-        $this->assertSame('2020-02-01', $timePeriodsBackward[11]->start()->format('Y-m-d'));
-        $this->assertSame('2020-01-01', $timePeriodsBackward[11]->end()->format('Y-m-d'));
+        $this->assertSame('2021-01-01', $timePeriodsBackward->all()[0]->start()->format('Y-m-d'));
+        $this->assertSame('2020-12-01', $timePeriodsBackward->all()[1]->start()->format('Y-m-d'));
+        $this->assertSame('2020-11-01', $timePeriodsBackward->all()[2]->start()->format('Y-m-d'));
+        $this->assertSame('2020-10-01', $timePeriodsBackward->all()[3]->start()->format('Y-m-d'));
+        $this->assertSame('2020-09-01', $timePeriodsBackward->all()[4]->start()->format('Y-m-d'));
+        $this->assertSame('2020-08-01', $timePeriodsBackward->all()[5]->start()->format('Y-m-d'));
+        $this->assertSame('2020-07-01', $timePeriodsBackward->all()[6]->start()->format('Y-m-d'));
+        $this->assertSame('2020-06-01', $timePeriodsBackward->all()[7]->start()->format('Y-m-d'));
+        $this->assertSame('2020-05-01', $timePeriodsBackward->all()[8]->start()->format('Y-m-d'));
+        $this->assertSame('2020-04-01', $timePeriodsBackward->all()[9]->start()->format('Y-m-d'));
+        $this->assertSame('2020-03-01', $timePeriodsBackward->all()[10]->start()->format('Y-m-d'));
+        $this->assertSame('2020-02-01', $timePeriodsBackward->all()[11]->start()->format('Y-m-d'));
+        $this->assertSame('2020-01-01', $timePeriodsBackward->all()[11]->end()->format('Y-m-d'));
     }
 
     public function test_iterating_by_year_interval_closed_both_ways() : void
@@ -349,19 +367,19 @@ final class TimePeriodTest extends TestCase
         $this->assertCount(5, $timePeriods);
         $this->assertCount(5, $timePeriodsBackward);
 
-        $this->assertSame('2020-01-01', $timePeriods[0]->start()->format('Y-m-d'));
-        $this->assertSame('2021-01-01', $timePeriods[1]->start()->format('Y-m-d'));
-        $this->assertSame('2022-01-01', $timePeriods[2]->start()->format('Y-m-d'));
-        $this->assertSame('2023-01-01', $timePeriods[3]->start()->format('Y-m-d'));
-        $this->assertSame('2024-01-01', $timePeriods[4]->start()->format('Y-m-d'));
-        $this->assertSame('2025-01-01', $timePeriods[4]->end()->format('Y-m-d'));
+        $this->assertSame('2020-01-01', $timePeriods->all()[0]->start()->format('Y-m-d'));
+        $this->assertSame('2021-01-01', $timePeriods->all()[1]->start()->format('Y-m-d'));
+        $this->assertSame('2022-01-01', $timePeriods->all()[2]->start()->format('Y-m-d'));
+        $this->assertSame('2023-01-01', $timePeriods->all()[3]->start()->format('Y-m-d'));
+        $this->assertSame('2024-01-01', $timePeriods->all()[4]->start()->format('Y-m-d'));
+        $this->assertSame('2025-01-01', $timePeriods->all()[4]->end()->format('Y-m-d'));
 
-        $this->assertSame('2025-01-01', $timePeriodsBackward[0]->start()->format('Y-m-d'));
-        $this->assertSame('2024-01-01', $timePeriodsBackward[1]->start()->format('Y-m-d'));
-        $this->assertSame('2023-01-01', $timePeriodsBackward[2]->start()->format('Y-m-d'));
-        $this->assertSame('2022-01-01', $timePeriodsBackward[3]->start()->format('Y-m-d'));
-        $this->assertSame('2021-01-01', $timePeriodsBackward[4]->start()->format('Y-m-d'));
-        $this->assertSame('2020-01-01', $timePeriodsBackward[4]->end()->format('Y-m-d'));
+        $this->assertSame('2025-01-01', $timePeriodsBackward->all()[0]->start()->format('Y-m-d'));
+        $this->assertSame('2024-01-01', $timePeriodsBackward->all()[1]->start()->format('Y-m-d'));
+        $this->assertSame('2023-01-01', $timePeriodsBackward->all()[2]->start()->format('Y-m-d'));
+        $this->assertSame('2022-01-01', $timePeriodsBackward->all()[3]->start()->format('Y-m-d'));
+        $this->assertSame('2021-01-01', $timePeriodsBackward->all()[4]->start()->format('Y-m-d'));
+        $this->assertSame('2020-01-01', $timePeriodsBackward->all()[4]->end()->format('Y-m-d'));
     }
 
     public function test_iterating_through_day_backward_by_2_days() : void
@@ -669,16 +687,25 @@ final class TimePeriodTest extends TestCase
             DateTime::fromString('2020-01-02 00:00:00')
         );
 
-        $this->assertSame(
-            [
-                'start' => $timePeriod->start(),
-                'end' => $timePeriod->end(),
-            ],
-            $timePeriod->__serialize()
+        $this->assertObjectEquals(
+            $timePeriod,
+            \unserialize(\serialize($timePeriod)),
+            'isEqual'
         );
-        $this->assertSame(
-            'O:34:"Aeon\Calendar\Gregorian\TimePeriod":2:{s:5:"start";O:32:"Aeon\Calendar\Gregorian\DateTime":3:{s:3:"day";O:27:"Aeon\Calendar\Gregorian\Day":2:{s:5:"month";O:29:"Aeon\Calendar\Gregorian\Month":2:{s:4:"year";O:28:"Aeon\Calendar\Gregorian\Year":1:{s:4:"year";i:2020;}s:6:"number";i:1;}s:6:"number";i:1;}s:4:"time";O:28:"Aeon\Calendar\Gregorian\Time":4:{s:4:"hour";i:0;s:6:"minute";i:0;s:6:"second";i:0;s:11:"microsecond";i:0;}s:8:"timeZone";O:32:"Aeon\Calendar\Gregorian\TimeZone":2:{s:4:"name";s:3:"UTC";s:4:"type";i:2;}}s:3:"end";O:32:"Aeon\Calendar\Gregorian\DateTime":3:{s:3:"day";O:27:"Aeon\Calendar\Gregorian\Day":2:{s:5:"month";O:29:"Aeon\Calendar\Gregorian\Month":2:{s:4:"year";O:28:"Aeon\Calendar\Gregorian\Year":1:{s:4:"year";i:2020;}s:6:"number";i:1;}s:6:"number";i:2;}s:4:"time";O:28:"Aeon\Calendar\Gregorian\Time":4:{s:4:"hour";i:0;s:6:"minute";i:0;s:6:"second";i:0;s:11:"microsecond";i:0;}s:8:"timeZone";O:32:"Aeon\Calendar\Gregorian\TimeZone":2:{s:4:"name";s:3:"UTC";s:4:"type";i:2;}}}',
-            \serialize($timePeriod)
+    }
+
+    public function test_is_equal() : void
+    {
+        $timePeriod1 = new TimePeriod(
+            DateTime::fromString('2020-01-01 00:00:00'),
+            DateTime::fromString('2020-01-02 00:00:00')
         );
+
+        $timePeriod2 = new TimePeriod(
+            DateTime::fromString('2020-01-01 00:00:00'),
+            DateTime::fromString('2020-01-03 00:00:00')
+        );
+
+        $this->assertFalse($timePeriod1->isEqual($timePeriod2));
     }
 }

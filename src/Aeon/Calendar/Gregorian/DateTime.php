@@ -21,11 +21,14 @@ final class DateTime
 
     private TimeZone $timeZone;
 
+    private ?\DateTimeImmutable $dateTime;
+
     public function __construct(Day $day, Time $time, TimeZone $timeZone)
     {
         $this->day = $day;
         $this->time = $time;
         $this->timeZone = $timeZone;
+        $this->dateTime = null;
     }
 
     /**
@@ -58,11 +61,19 @@ final class DateTime
             $tz = TimeZone::UTC();
         }
 
-        return new self(
+        $newDateTime = new self(
             Day::fromDateTime($dateTime),
             Time::fromDateTime($dateTime),
             $tz
         );
+
+        /**
+         * @psalm-suppress PropertyTypeCoercion
+         * @phpstan-ignore-next-line
+         */
+        $newDateTime->dateTime = $dateTime instanceof \DateTime ? \DateTimeImmutable::createFromMutable($dateTime) : $dateTime;
+
+        return $newDateTime;
     }
 
     /**
@@ -155,6 +166,17 @@ final class DateTime
         ];
     }
 
+    /**
+     * @param array{day: Day, time: Time, timeZone: TimeZone, dateTime: ?\DateTimeInterface} $data
+     */
+    public function __unserialize(array $data) : void
+    {
+        $this->day = $data['day'];
+        $this->time = $data['time'];
+        $this->timeZone = $data['timeZone'];
+        $this->dateTime = null;
+    }
+
     public function year() : Year
     {
         return $this->month()->year();
@@ -203,21 +225,30 @@ final class DateTime
         );
     }
 
+    /**
+     * @psalm-suppress InvalidNullableReturnType
+     * @psalm-suppress InaccessibleProperty
+     * @psalm-suppress NullableReturnStatement
+     */
     public function toDateTimeImmutable() : \DateTimeImmutable
     {
-        return new \DateTimeImmutable(
-            \sprintf(
-                '%d-%02d-%02d %02d:%02d:%02d.%06d',
-                $this->day->year()->number(),
-                $this->day->month()->number(),
-                $this->day->number(),
-                $this->time->hour(),
-                $this->time->minute(),
-                $this->time->second(),
-                $this->time->microsecond(),
-            ),
-            $this->timeZone->toDateTimeZone()
-        );
+        if ($this->dateTime === null) {
+            $this->dateTime = new \DateTimeImmutable(
+                \sprintf(
+                    '%d-%02d-%02d %02d:%02d:%02d.%06d',
+                    $this->day->year()->number(),
+                    $this->day->month()->number(),
+                    $this->day->number(),
+                    $this->time->hour(),
+                    $this->time->minute(),
+                    $this->time->second(),
+                    $this->time->microsecond(),
+                ),
+                $this->timeZone->toDateTimeZone()
+            );
+        }
+
+        return $this->dateTime;
     }
 
     public function toAtomicTime() : self
@@ -526,7 +557,7 @@ final class DateTime
     public function add(Unit $timeUnit) : self
     {
         if ($timeUnit instanceof RelativeTimeUnit && $timeUnit->inMonths()) {
-            $years = $timeUnit->absolute()->inYears();
+            $years = $timeUnit->toPositive()->inYears();
             $months = $timeUnit->inCalendarMonths();
 
             $newMonth = $timeUnit->isNegative()

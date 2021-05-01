@@ -21,6 +21,8 @@ final class Month
 
     private int $number;
 
+    private ?\DateTimeImmutable $dateTime;
+
     public function __construct(Year $year, int $number)
     {
         if ($number <= 0 || $number > self::TOTAL_MONTHS) {
@@ -30,6 +32,7 @@ final class Month
         $this->year = $year;
         $this->number = $number;
         $this->days = new MonthDays($this);
+        $this->dateTime = null;
     }
 
     /**
@@ -111,6 +114,7 @@ final class Month
     {
         $this->year = $data['year'];
         $this->number = $data['number'];
+        $this->dateTime = null;
         $this->days = new MonthDays($this);
     }
 
@@ -237,7 +241,8 @@ final class Month
 
     public function numberOfDays() : int
     {
-        return (int) $this->toDateTimeImmutable()->format('t');
+        return 31 - (($this->number == 2) ?
+                (3 - (int) $this->year->isLeap()) : (($this->number - 1) % 7 % 2));
     }
 
     public function shortName() : string
@@ -250,9 +255,18 @@ final class Month
         return $this->toDateTimeImmutable()->format('F');
     }
 
+    /**
+     * @psalm-suppress NullableReturnStatement
+     * @psalm-suppress InaccessibleProperty
+     * @psalm-suppress InvalidNullableReturnType
+     */
     public function toDateTimeImmutable() : \DateTimeImmutable
     {
-        return new \DateTimeImmutable(\sprintf('%d-%d-01 00:00:00.000000 UTC', $this->year()->number(), $this->number()));
+        if ($this->dateTime === null) {
+            $this->dateTime = new \DateTimeImmutable(\sprintf('%d-%d-01 00:00:00.000000 UTC', $this->year()->number(), $this->number()));
+        }
+
+        return $this->dateTime;
     }
 
     public function iterate(self $destination, Interval $interval) : Months
@@ -276,11 +290,12 @@ final class Month
             );
         }
 
-        return Months::fromDatePeriod(
-            $interval->toDatePeriod(
+        return Months::fromDateTimeIterator(
+            new DateTimeIntervalIterator(
                 $this->firstDay()->midnight(TimeZone::UTC()),
+                $month->firstDay()->midnight(TimeZone::UTC()),
                 RelativeTimeUnit::month(),
-                $month->firstDay()->midnight(TimeZone::UTC())
+                $interval
             )
         );
     }
@@ -299,11 +314,12 @@ final class Month
             );
         }
 
-        return Months::fromDatePeriod(
-            $interval->toDatePeriodBackward(
+        return Months::fromDateTimeIterator(
+            new DateTimeIntervalIterator(
                 $month->firstDay()->midnight(TimeZone::UTC()),
+                $this->firstDay()->midnight(TimeZone::UTC()),
                 RelativeTimeUnit::month(),
-                $this->firstDay()->midnight(TimeZone::UTC())
+                $interval
             )
         );
     }

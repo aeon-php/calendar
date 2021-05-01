@@ -23,6 +23,16 @@
         "Aeon\\Calendar\\Gregorian\\TimeZone::*"
       ]
     },
+    "Assignment": {
+      "ignore": [
+        "Aeon\\Calendar\\Gregorian\\Month::plusMonths"
+      ]
+    },
+    "MethodCallRemoval": {
+      "ignore": [
+        "Aeon\\Calendar\\Gregorian\\TimePeriods::first"
+      ]
+    },
     "ArrayItemRemoval": {
       "ignore": [
         "Aeon\\Calendar\\Gregorian\\TimeZone::toCountryCode"
@@ -37,12 +47,26 @@
       "ignore": [
         "Aeon\\Calendar\\Stopwatch::elapsedTime",
         "Aeon\\Calendar\\RelativeTimeUnit::month",
-        "Aeon\\Calendar\\RelativeTimeUnit::year"
+        "Aeon\\Calendar\\RelativeTimeUnit::year",
+        "Aeon\\Calendar\\Gregorian\\Year::next"
+      ]
+    },
+    "Plus": {
+      "ignore": [
+        "Aeon\\Calendar\\Gregorian\\Year::next"
       ]
     },
     "Ternary": {
       "ignore": [
         "Aeon\\Calendar\\RelativeTimeUnit::toDateInterval"
+      ]
+    },
+    "CastInt": {
+      "ignore": [
+        "Aeon\\Calendar\\Gregorian\\Day::fromDateTime",
+        "Aeon\\Calendar\\Gregorian\\Month::fromDateTime",
+        "Aeon\\Calendar\\Gregorian\\Time::fromDateTime",
+        "Aeon\\Calendar\\Gregorian\\Month::numberOfDays"
       ]
     },
     "InstanceOf_": {

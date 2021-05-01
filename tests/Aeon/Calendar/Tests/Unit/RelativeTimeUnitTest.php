@@ -51,11 +51,18 @@ final class RelativeTimeUnitTest extends TestCase
     {
         $this->assertSame(4, RelativeTimeUnit::months(28)->inCalendarMonths());
         $this->assertSame(4, RelativeTimeUnit::months(-28)->inCalendarMonths());
+        $this->assertSame(0, RelativeTimeUnit::years(2)->inCalendarMonths());
     }
 
     public function test_in_months() : void
     {
         $this->assertSame(24, RelativeTimeUnit::years(2)->inMonths());
         $this->assertSame(24, RelativeTimeUnit::months(24)->inMonths());
+    }
+
+    public function test_to_date_interval() : void
+    {
+        $this->assertEquals(new \DateInterval('P0Y2M'), RelativeTimeUnit::months(2)->toDateInterval());
+        $this->assertEquals(new \DateInterval('P2Y0M'), RelativeTimeUnit::years(2)->toDateInterval());
     }
 }

@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Aeon\Calendar\Gregorian;
 
-use Aeon\Calendar\Unit;
-
 /**
  * @psalm-immutable
  */
@@ -84,77 +82,5 @@ final class Interval
     public function isClosed() : bool
     {
         return $this->type === self::CLOSED;
-    }
-
-    /**
-     * @phpstan-ignore-next-line
-     */
-    public function toDatePeriod(DateTime $left, Unit $timeUnit, DateTime $right) : \DatePeriod
-    {
-        if ($this->isClosed()) {
-            return new \DatePeriod(
-                $left->toDateTimeImmutable(),
-                $timeUnit->toDateInterval(),
-                $right->add($timeUnit)->toDateTimeImmutable()
-            );
-        }
-
-        if ($this->isLeftOpen()) {
-            return new \DatePeriod(
-                $left->add($timeUnit)->toDateTimeImmutable(),
-                $timeUnit->toDateInterval(),
-                $right->add($timeUnit)->toDateTimeImmutable()
-            );
-        }
-
-        if ($this->isRightOpen()) {
-            return new \DatePeriod(
-                $left->toDateTimeImmutable(),
-                $timeUnit->toDateInterval(),
-                $right->toDateTimeImmutable()
-            );
-        }
-
-        return new \DatePeriod(
-            $left->add($timeUnit)->toDateTimeImmutable(),
-            $timeUnit->toDateInterval(),
-            $right->toDateTimeImmutable()
-        );
-    }
-
-    /**
-     * @phpstan-ignore-next-line
-     */
-    public function toDatePeriodBackward(DateTime $left, Unit $timeUnit, DateTime $right) : \DatePeriod
-    {
-        if ($this->isClosed()) {
-            return new \DatePeriod(
-                $left->sub($timeUnit)->toDateTimeImmutable(),
-                $timeUnit->toDateInterval(),
-                $right->toDateTimeImmutable()
-            );
-        }
-
-        if ($this->isLeftOpen()) {
-            return new \DatePeriod(
-                $left->toDateTimeImmutable(),
-                $timeUnit->toDateInterval(),
-                $right->toDateTimeImmutable()
-            );
-        }
-
-        if ($this->isRightOpen()) {
-            return new \DatePeriod(
-                $left->sub($timeUnit)->toDateTimeImmutable(),
-                $timeUnit->toDateInterval(),
-                $right->sub($timeUnit)->toDateTimeImmutable()
-            );
-        }
-
-        return new \DatePeriod(
-            $left->toDateTimeImmutable(),
-            $timeUnit->toDateInterval(),
-            $right->sub($timeUnit)->toDateTimeImmutable()
-        );
     }
 }

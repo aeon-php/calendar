@@ -10,7 +10,7 @@ namespace Aeon\Calendar\Gregorian;
 final class DaysIterator extends \IteratorIterator
 {
     /**
-     * @param \Traversable<\DateTimeInterface> $iterator
+     * @param \Traversable<DateTime> $iterator
      */
     private function __construct(\Traversable $iterator)
     {
@@ -18,17 +18,16 @@ final class DaysIterator extends \IteratorIterator
     }
 
     /**
-     * @phpstan-ignore-next-line
      * @psalm-suppress MixedArgumentTypeCoercion
      */
-    public static function fromDatePeriod(\DatePeriod $datePeriod) : self
+    public static function fromDateTimeIterator(DateTimeIntervalIterator $datePeriod) : self
     {
         return new self($datePeriod);
     }
 
     public function current() : ?Day
     {
-        /** @var null|\DateTimeInterface|Day $current */
+        /** @var null|DateTime|Day $current */
         $current = parent::current();
 
         if ($current === null) {
@@ -39,7 +38,7 @@ final class DaysIterator extends \IteratorIterator
             return $current;
         }
 
-        return Day::fromDateTime($current);
+        return $current->day();
     }
 
     public function reverse() : self

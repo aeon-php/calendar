@@ -68,16 +68,4 @@ final class DaysTest extends TestCase
             $this->assertInstanceOf(Day::class, $day);
         }
     }
-
-    public function test_date_period() : void
-    {
-        $interval = new \DateInterval('P1D');
-        $datePeriod = new \DatePeriod(new \DateTimeImmutable('2020-01-01 00:00:00 UTC'), $interval, new \DateTimeImmutable('2020-01-10 00:00:00 UTC'));
-
-        $days = Days::fromDatePeriod($datePeriod);
-
-        foreach ($days as $day) {
-            $this->assertInstanceOf(Day::class, $day);
-        }
-    }
 }

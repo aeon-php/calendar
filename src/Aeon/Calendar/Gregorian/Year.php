@@ -254,7 +254,7 @@ final class Year
 
     public function isLeap() : bool
     {
-        return (bool) $this->toDateTimeImmutable()->format('L');
+        return $this->year % 4 == 0 && ($this->year % 100 != 0 || $this->year % 400 == 0);
     }
 
     public function toDateTimeImmutable() : \DateTimeImmutable
@@ -307,21 +307,23 @@ final class Year
         }
 
         /**
-         * @var array<\DateTimeImmutable> $years
+         * @var array<DateTime> $years
          * @psalm-suppress ImpureMethodCall
+         * @psalm-suppress ImpureFunctionCall
          */
         $years = \iterator_to_array(
-            $interval->toDatePeriod(
+            new DateTimeIntervalIterator(
                 $this->january()->firstDay()->midnight(TimeZone::UTC()),
+                $month->january()->firstDay()->midnight(TimeZone::UTC()),
                 RelativeTimeUnit::year(),
-                $month->january()->firstDay()->midnight(TimeZone::UTC())
+                $interval
             )
         );
 
         return new Years(
             ...\array_map(
-                function (\DateTimeImmutable $dateTimeImmutable) : self {
-                    return self::fromDateTime($dateTimeImmutable);
+                function (DateTime $dateTime) : self {
+                    return $dateTime->year();
                 },
                 $years
             )
@@ -341,21 +343,23 @@ final class Year
         }
 
         /**
-         * @var array<\DateTimeImmutable> $years
+         * @var array<DateTime> $years
          * @psalm-suppress ImpureMethodCall
+         * @psalm-suppress ImpureFunctionCall
          */
         $years = \iterator_to_array(
-            $interval->toDatePeriodBackward(
+            new DateTimeIntervalIterator(
+                $this->january()->firstDay()->midnight(TimeZone::UTC()),
                 $month->january()->firstDay()->midnight(TimeZone::UTC()),
-                RelativeTimeUnit::year(),
-                $this->january()->firstDay()->midnight(TimeZone::UTC())
+                RelativeTimeUnit::year()->toNegative(),
+                $interval
             )
         );
 
         return new Years(
             ...\array_map(
-                function (\DateTimeImmutable $dateTimeImmutable) : self {
-                    return self::fromDateTime($dateTimeImmutable);
+                function (DateTime $dateTime) : self {
+                    return $dateTime->year();
                 },
                 \array_reverse($years)
             )

@@ -34,16 +34,16 @@ final class Months implements \Countable, \IteratorAggregate
 
     /**
      * @psalm-pure
-     * @phpstan-ignore-next-line
      */
-    public static function fromDatePeriod(\DatePeriod $period) : self
+    public static function fromDateTimeIterator(DateTimeIntervalIterator $iterator) : self
     {
         /** @psalm-suppress ImpureMethodCall */
-        return new self(MonthsIterator::fromDatePeriod($period));
+        return new self(MonthsIterator::fromDateTimeIterator($iterator));
     }
 
     /**
      * @return array<Month>
+     * @psalm-suppress ImpureFunctionCall
      */
     public function all() : array
     {
