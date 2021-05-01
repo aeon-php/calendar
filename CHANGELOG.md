@@ -1,3 +1,16 @@
+## [Unreleased] - 2021-05-01
+
+### Added
+- [#121](https://github.com/aeon-php/calendar/pull/121) - **DateTimeIterator** - [@norberttech](https://github.com/norberttech)
+- [#121](https://github.com/aeon-php/calendar/pull/121) - **DateTimeIntervalIterator** - [@norberttech](https://github.com/norberttech)
+- [#121](https://github.com/aeon-php/calendar/pull/121) - **TimePeriodsIterator** - [@norberttech](https://github.com/norberttech)
+- [#121](https://github.com/aeon-php/calendar/pull/121) - **\DateTimeImmutable cache in DateTime, Day, Month classes to improve time periods iteration performance** - [@norberttech](https://github.com/norberttech)
+
+### Changed
+- [#121](https://github.com/aeon-php/calendar/pull/121) - **Year::isLeap() uses algorithm instead of DateTimeImmutable** - [@norberttech](https://github.com/norberttech)
+- [#121](https://github.com/aeon-php/calendar/pull/121) - **Month::numberOfDays() uses algorithm instead of DateTimeImmutable** - [@norberttech](https://github.com/norberttech)
+- [#121](https://github.com/aeon-php/calendar/pull/121) - **updated infection dependency** - [@norberttech](https://github.com/norberttech)
+
 ## [0.17.0] - 2021-04-24
 
 ### Added
