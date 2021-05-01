@@ -18,6 +18,8 @@ final class Day
 
     private int $number;
 
+    private ?\DateTimeImmutable $dateTime;
+
     public function __construct(Month $month, int $number)
     {
         if ($number <= 0 || $number > $month->numberOfDays()) {
@@ -26,6 +28,7 @@ final class Day
 
         $this->number = $number;
         $this->month = $month;
+        $this->dateTime = null;
     }
 
     /**
@@ -48,12 +51,14 @@ final class Day
      */
     public static function fromDateTime(\DateTimeInterface $dateTime) : self
     {
+        [$year, $month, $day] = \sscanf($dateTime->format('Y-m-d'), '%d-%d-%d');
+
         return new self(
             new Month(
-                new Year((int) $dateTime->format('Y')),
-                (int) $dateTime->format('m')
+                new Year((int) $year),
+                (int) $month
             ),
-            (int) $dateTime->format('d')
+            (int) $day
         );
     }
 
@@ -105,6 +110,16 @@ final class Day
             'month' => $this->month,
             'number' => $this->number,
         ];
+    }
+
+    /**
+     * @param array{month: Month, number: int, dateTime: ?\DateTimeInterface} $data
+     */
+    public function __unserialize(array $data) : void
+    {
+        $this->month = $data['month'];
+        $this->number = $data['number'];
+        $this->dateTime = null;
     }
 
     public function toString() : string
@@ -268,9 +283,18 @@ final class Day
         return $this->weekDay()->isWeekend();
     }
 
+    /**
+     * @psalm-suppress InvalidNullableReturnType
+     * @psalm-suppress InaccessibleProperty
+     * @psalm-suppress NullableReturnStatement
+     */
     public function toDateTimeImmutable() : \DateTimeImmutable
     {
-        return new \DateTimeImmutable(\sprintf('%d-%d-%d 00:00:00.000000 UTC', $this->month()->year()->number(), $this->month()->number(), $this->number()));
+        if ($this->dateTime === null) {
+            $this->dateTime = new \DateTimeImmutable(\sprintf('%d-%d-%d 00:00:00.000000 UTC', $this->month()->year()->number(), $this->month()->number(), $this->number()));
+        }
+
+        return $this->dateTime;
     }
 
     public function format(string $format) : string
@@ -359,7 +383,14 @@ final class Day
             );
         }
 
-        return Days::fromDateTimeIterator($interval->toIterator($this->midnight(TimeZone::UTC()), TimeUnit::day(), $day->midnight(TimeZone::UTC())));
+        return Days::fromDateTimeIterator(
+            new DateTimeIntervalIterator(
+                $this->midnight(TimeZone::UTC()),
+                $day->midnight(TimeZone::UTC()),
+                TimeUnit::day(),
+                $interval
+            )
+        );
     }
 
     public function since(self $day, Interval $interval) : Days
@@ -378,7 +409,14 @@ final class Day
             );
         }
 
-        return Days::fromDateTimeIterator($interval->toIterator($day->midnight(TimeZone::UTC()), TimeUnit::day(), $this->midnight(TimeZone::UTC())));
+        return Days::fromDateTimeIterator(
+            new DateTimeIntervalIterator(
+                $this->midnight(TimeZone::UTC()),
+                $day->midnight(TimeZone::UTC()),
+                TimeUnit::day()->toNegative(),
+                $interval
+            )
+        );
     }
 
     public function distance(self $to) : TimeUnit

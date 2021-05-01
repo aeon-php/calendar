@@ -254,7 +254,7 @@ final class Year
 
     public function isLeap() : bool
     {
-        return (bool) $this->toDateTimeImmutable()->format('L');
+        return $this->year % 4 == 0 && ($this->year % 100 != 0 || $this->year % 400 == 0);
     }
 
     public function toDateTimeImmutable() : \DateTimeImmutable
@@ -307,14 +307,16 @@ final class Year
         }
 
         /**
-         * @var array<\DateTimeImmutable> $years
+         * @var array<DateTime> $years
          * @psalm-suppress ImpureMethodCall
+         * @psalm-suppress ImpureFunctionCall
          */
         $years = \iterator_to_array(
-            $interval->toIterator(
+            new DateTimeIntervalIterator(
                 $this->january()->firstDay()->midnight(TimeZone::UTC()),
+                $month->january()->firstDay()->midnight(TimeZone::UTC()),
                 RelativeTimeUnit::year(),
-                $month->january()->firstDay()->midnight(TimeZone::UTC())
+                $interval
             )
         );
 
@@ -341,14 +343,16 @@ final class Year
         }
 
         /**
-         * @var array<\DateTimeImmutable> $years
+         * @var array<DateTime> $years
          * @psalm-suppress ImpureMethodCall
+         * @psalm-suppress ImpureFunctionCall
          */
         $years = \iterator_to_array(
-            $interval->toIteratorBackward(
+            new DateTimeIntervalIterator(
+                $this->january()->firstDay()->midnight(TimeZone::UTC()),
                 $month->january()->firstDay()->midnight(TimeZone::UTC()),
-                RelativeTimeUnit::year(),
-                $this->january()->firstDay()->midnight(TimeZone::UTC())
+                RelativeTimeUnit::year()->toNegative(),
+                $interval
             )
         );
 

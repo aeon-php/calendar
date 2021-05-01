@@ -8,6 +8,7 @@ use Aeon\Calendar\Exception\Exception;
 use Aeon\Calendar\Exception\InvalidArgumentException;
 use Aeon\Calendar\Gregorian\DateTime;
 use Aeon\Calendar\Gregorian\Day;
+use Aeon\Calendar\Gregorian\Interval;
 use Aeon\Calendar\Gregorian\Month;
 use Aeon\Calendar\Gregorian\Time;
 use Aeon\Calendar\Gregorian\TimeEpoch;
@@ -856,10 +857,30 @@ final class DateTimeTest extends TestCase
         $this->assertSame(
             1,
             DateTime::fromString('2020-01-01 00:00:00+00')
-                ->Until(DateTime::fromString('2020-01-01 01:00:00+00'))
+                ->until(DateTime::fromString('2020-01-01 01:00:00+00'))
                 ->distance()
                 ->inHours()
         );
+    }
+
+    public function test_until_with_date_before_datetime() : void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Backward DateTimeIterator 2020-01-01 00:00:00+00:00...2019-12-01 01:00:00+00:00 requires negative TimeUnit');
+
+        DateTime::fromString('2020-01-01 00:00:00+00')
+            ->until(DateTime::fromString('2019-12-01 01:00:00+00'))
+            ->iterate(TimeUnit::day(), Interval::rightOpen());
+    }
+
+    public function test_since_with_date_after_datetime() : void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Backward DateTimeIterator 2020-01-01 01:00:00+00:00...2019-12-01 00:00:00+00:00 requires negative TimeUnit');
+
+        DateTime::fromString('2019-12-01 00:00:00+00')
+            ->since(DateTime::fromString('2020-01-01 01:00:00+00'))
+            ->iterate(TimeUnit::day(), Interval::rightOpen());
     }
 
     public function test_distance_until() : void
@@ -1030,17 +1051,10 @@ final class DateTimeTest extends TestCase
     {
         $dateTime = DateTime::create(2020, 03, 29, 02, 30, 00, 0, 'Europe/Warsaw');
 
-        $this->assertSame(
-            [
-                'day' => $dateTime->day(),
-                'time' => $dateTime->time(),
-                'timeZone' => $dateTime->timeZone(),
-            ],
-            $dateTime->__serialize()
-        );
-        $this->assertSame(
-            'O:32:"' . DateTime::class . '":3:{s:3:"day";O:27:"' . Day::class . '":2:{s:5:"month";O:29:"' . Month::class . '":2:{s:4:"year";O:28:"' . Year::class . '":1:{s:4:"year";i:2020;}s:6:"number";i:3;}s:6:"number";i:29;}s:4:"time";O:28:"' . Time::class . '":4:{s:4:"hour";i:2;s:6:"minute";i:30;s:6:"second";i:0;s:11:"microsecond";i:0;}s:8:"timeZone";O:32:"' . TimeZone::class . '":2:{s:4:"name";s:13:"Europe/Warsaw";s:4:"type";i:3;}}',
-            \serialize($dateTime)
+        $this->assertObjectEquals(
+            $dateTime,
+            \unserialize(\serialize($dateTime)),
+            'isEqual'
         );
     }
 
@@ -1069,5 +1083,15 @@ final class DateTimeTest extends TestCase
         $this->expectException(Exception::class);
 
         DateTime::fromString('2020-01-01 00:00:00+01:00')->timeZoneAbbreviation();
+    }
+
+    public function test_from_date_time_immutable() : void
+    {
+        $this->assertSame('2020-01-01 00:00:00', DateTime::fromDateTime(new \DateTimeImmutable('2020-01-01 00:00:00'))->format('Y-m-d H:i:s'));
+    }
+
+    public function test_from_date_time() : void
+    {
+        $this->assertSame('2020-01-01 00:00:00', DateTime::fromDateTime(new \DateTime('2020-01-01 00:00:00'))->format('Y-m-d H:i:s'));
     }
 }

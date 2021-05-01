@@ -316,8 +316,8 @@ final class DayTest extends TestCase
         $this->assertCount(5, $days = Day::fromString('2020-01-06')->since(Day::fromString('2020-01-01'), Interval::leftOpen()));
         $this->assertInstanceOf(Day::class, $days->all()[0]);
         $this->assertInstanceOf(Day::class, $days->all()[4]);
-        $this->assertSame(2, $days->all()[0]->number());
-        $this->assertSame(6, $days->all()[4]->number());
+        $this->assertSame(6, $days->all()[0]->number());
+        $this->assertSame(2, $days->all()[4]->number());
     }
 
     public function test_iterate_until() : void
@@ -334,8 +334,8 @@ final class DayTest extends TestCase
         $this->assertCount(5, $days = Day::fromString('2020-01-06')->iterate(Day::fromString('2020-01-01'), Interval::leftOpen()));
         $this->assertInstanceOf(Day::class, $days->all()[0]);
         $this->assertInstanceOf(Day::class, $days->all()[4]);
-        $this->assertSame(2, $days->all()[0]->number());
-        $this->assertSame(6, $days->all()[4]->number());
+        $this->assertSame(6, $days->all()[0]->number());
+        $this->assertSame(2, $days->all()[4]->number());
     }
 
     public function test_days_between() : void
@@ -370,20 +370,10 @@ final class DayTest extends TestCase
     {
         $day = Day::create(2020, 01, 01);
 
-        $this->assertSame(
-            [
-                'month' => $day->month(),
-                'number' => $day->number(),
-            ],
-            $serializedDay = $day->__serialize()
-        );
-        $this->assertSame(
-            'O:27:"' . Day::class . '":2:{s:5:"month";O:29:"' . Month::class . '":2:{s:4:"year";O:28:"' . Year::class . '":1:{s:4:"year";i:2020;}s:6:"number";i:1;}s:6:"number";i:1;}',
-            $serializedDayString = \serialize($day)
-        );
-        $this->assertEquals(
-            \unserialize($serializedDayString),
-            $day
+        $this->assertObjectEquals(
+            $day,
+            \unserialize(\serialize($day)),
+            'isEqual'
         );
     }
 }

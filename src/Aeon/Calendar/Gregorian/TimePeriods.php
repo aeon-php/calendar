@@ -5,19 +5,31 @@ declare(strict_types=1);
 namespace Aeon\Calendar\Gregorian;
 
 /**
- * @psalm-immutable
  * @implements \IteratorAggregate<TimePeriod>
  */
 final class TimePeriods implements \Countable, \IteratorAggregate
 {
     /**
-     * @var array<TimePeriod>
+     * @var \Iterator<TimePeriod>
      */
-    private array $periods;
+    private \Iterator $periods;
 
-    public function __construct(TimePeriod ...$periods)
+    /**
+     * @param \Iterator<TimePeriod> $periods
+     */
+    private function __construct(\Iterator $periods)
     {
         $this->periods = $periods;
+    }
+
+    public static function fromArray(TimePeriod ...$periods) : self
+    {
+        return new self(new \ArrayIterator($periods));
+    }
+
+    public static function fromIterator(TimePeriodsIterator $timePeriodsIterator) : self
+    {
+        return new self($timePeriodsIterator);
     }
 
     /**
@@ -25,7 +37,7 @@ final class TimePeriods implements \Countable, \IteratorAggregate
      */
     public function all() : array
     {
-        return $this->periods;
+        return \iterator_to_array($this->periods);
     }
 
     /**
@@ -61,17 +73,17 @@ final class TimePeriods implements \Countable, \IteratorAggregate
      */
     public function filter(callable $iterator) : self
     {
-        return new self(...\array_filter($this->all(), $iterator));
+        return new self(new \CallbackFilterIterator($this->periods, $iterator));
     }
 
     public function count() : int
     {
-        return \count($this->all());
+        return \iterator_count($this->periods);
     }
 
     public function getIterator() : \Traversable
     {
-        return new \ArrayIterator($this->all());
+        return $this->periods;
     }
 
     /**
@@ -98,7 +110,7 @@ final class TimePeriods implements \Countable, \IteratorAggregate
             }
         }
 
-        return new self(...$gaps);
+        return self::fromArray(...$gaps);
     }
 
     public function sort() : self
@@ -125,18 +137,14 @@ final class TimePeriods implements \Countable, \IteratorAggregate
             }
         );
 
-        return new self(...$periods);
+        return self::fromArray(...$periods);
     }
 
     public function first() : ?TimePeriod
     {
-        $periods = $this->all();
+        $this->periods->rewind();
 
-        if (!\count($periods)) {
-            return null;
-        }
-
-        return \current($periods);
+        return $this->periods->current();
     }
 
     public function last() : ?TimePeriod
@@ -152,11 +160,11 @@ final class TimePeriods implements \Countable, \IteratorAggregate
 
     public function add(TimePeriod ...$timePeriods) : self
     {
-        return new self(...\array_merge($this->periods, $timePeriods));
+        return self::fromArray(...\array_merge($this->all(), $timePeriods));
     }
 
     public function merge(self $timePeriods) : self
     {
-        return new self(...\array_merge($this->periods, $timePeriods->periods));
+        return self::fromArray(...\array_merge($this->all(), $timePeriods->all()));
     }
 }

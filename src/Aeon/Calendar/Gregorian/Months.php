@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Aeon\Calendar\Gregorian;
 
-use Aeon\Calendar\DateTimeIterator;
-
 /**
  * @psalm-immutable
  * @implements \IteratorAggregate<Month>
@@ -36,9 +34,8 @@ final class Months implements \Countable, \IteratorAggregate
 
     /**
      * @psalm-pure
-     * @phpstan-ignore-next-line
      */
-    public static function fromDateTimeIterator(DateTimeIterator $iterator) : self
+    public static function fromDateTimeIterator(DateTimeIntervalIterator $iterator) : self
     {
         /** @psalm-suppress ImpureMethodCall */
         return new self(MonthsIterator::fromDateTimeIterator($iterator));
@@ -46,6 +43,7 @@ final class Months implements \Countable, \IteratorAggregate
 
     /**
      * @return array<Month>
+     * @psalm-suppress ImpureFunctionCall
      */
     public function all() : array
     {

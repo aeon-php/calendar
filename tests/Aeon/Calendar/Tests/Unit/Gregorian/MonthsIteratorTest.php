@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Aeon\Calendar\Tests\Unit\Gregorian;
 
-use Aeon\Calendar\DateTimeIterator;
 use Aeon\Calendar\Gregorian\DateTime;
+use Aeon\Calendar\Gregorian\DateTimeIntervalIterator;
+use Aeon\Calendar\Gregorian\Interval;
 use Aeon\Calendar\Gregorian\Month;
 use Aeon\Calendar\Gregorian\MonthsIterator;
 use Aeon\Calendar\RelativeTimeUnit;
-use Aeon\Calendar\TimeUnit;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -24,7 +24,7 @@ final class MonthsIteratorTest extends TestCase
 
         $timeUnit = RelativeTimeUnit::month();
 
-        $array = \iterator_to_array(MonthsIterator::fromDateTimeIterator(new DateTimeIterator($begin, $end, $timeUnit))->reverse());
+        $array = \iterator_to_array(MonthsIterator::fromDateTimeIterator(new DateTimeIntervalIterator($begin, $end, $timeUnit, Interval::closed()))->reverse());
 
         $this->assertEquals($array[0], Month::fromString('2021-01-01 00:00:00 UTC'));
         $this->assertEquals($array[12], Month::fromString('2020-01-01 00:00:00 UTC'));

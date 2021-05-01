@@ -34,19 +34,19 @@ final class TimePeriodsTest extends TestCase
             ->until(DateTime::fromString('2020-01-01 01:00:00.000000'))
             ->iterate(TimeUnit::minute(), Interval::closed());
 
-        $this->assertSame($timePeriods->all(), (array) $timePeriods->getIterator());
+        $this->assertEquals($timePeriods->all(), \iterator_to_array($timePeriods->getIterator()));
     }
 
     public function test_gap_for_empty_periods() : void
     {
-        $this->assertCount(0, (new TimePeriods())->gaps());
+        $this->assertCount(0, (TimePeriods::fromArray())->gaps());
     }
 
     public function test_gap_for_periods_with_one_period() : void
     {
         $this->assertCount(
             0,
-            (new TimePeriods(
+            (TimePeriods::fromArray(
                 new TimePeriod(DateTime::fromString('2020-01-01 01:00:00.000000'), DateTime::fromString('2020-01-02 01:00:00.000000'))
             ))->gaps()
         );
@@ -56,7 +56,7 @@ final class TimePeriodsTest extends TestCase
     {
         $this->assertCount(
             0,
-            (new TimePeriods(
+            (TimePeriods::fromArray(
                 new TimePeriod(DateTime::fromString('2020-01-01 01:00:00.000000'), DateTime::fromString('2020-01-02 01:00:00.000000')),
                 new TimePeriod(DateTime::fromString('2020-01-01 01:00:00.000000'), DateTime::fromString('2020-01-02 01:00:00.000000'))
             ))->gaps()
@@ -66,11 +66,11 @@ final class TimePeriodsTest extends TestCase
     public function test_gap_periods() : void
     {
         $this->assertEquals(
-            (new TimePeriods(
+            (TimePeriods::fromArray(
                 new TimePeriod(DateTime::fromString('2020-01-02 00:00:00.000000'), DateTime::fromString('2020-01-03 00:00:00.000000')),
                 new TimePeriod(DateTime::fromString('2020-01-07 00:00:00.000000'), DateTime::fromString('2020-01-08 00:00:00.000000')),
             )),
-            (new TimePeriods(
+            (TimePeriods::fromArray(
                 new TimePeriod(DateTime::fromString('2020-01-10 00:00:00.000000'), DateTime::fromString('2020-01-08 00:00:00.000000')),
                 new TimePeriod(DateTime::fromString('2020-01-01 00:00:00.000000'), DateTime::fromString('2020-01-02 00:00:00.000000')),
                 new TimePeriod(DateTime::fromString('2020-01-05 00:00:00.000000'), DateTime::fromString('2020-01-07 00:00:00.000000')),
@@ -82,8 +82,8 @@ final class TimePeriodsTest extends TestCase
     public function test_no_gaps_in_overlapping_periods() : void
     {
         $this->assertEquals(
-            (new TimePeriods()),
-            (new TimePeriods(
+            (TimePeriods::fromArray()),
+            (TimePeriods::fromArray(
                 new TimePeriod(DateTime::fromString('2021-01-15T00:00:00+00:00'), DateTime::fromString('2021-01-29T00:00:00+00:00')),
                 new TimePeriod(DateTime::fromString('2021-01-06T14:32:01+00:00'), DateTime::fromString('2021-01-20T15:24:53+00:00')),
                 new TimePeriod(DateTime::fromString('2021-01-10T13:03:08+00:00'), DateTime::fromString('2021-01-13T14:24:54+00:00')),
@@ -95,8 +95,8 @@ final class TimePeriodsTest extends TestCase
     public function test_no_gaps_in_abuts_periods() : void
     {
         $this->assertEquals(
-            (new TimePeriods()),
-            (new TimePeriods(
+            (TimePeriods::fromArray()),
+            (TimePeriods::fromArray(
                 new TimePeriod(DateTime::fromString('2019-09-09T12:53:30+00:00'), DateTime::fromString('2019-10-09T12:53:30+00:00')),
                 new TimePeriod(DateTime::fromString('2019-08-10T12:53:30+00:00'), DateTime::fromString('2019-09-09T12:53:30+00:00')),
                 new TimePeriod(DateTime::fromString('2019-07-11T12:53:30+00:00'), DateTime::fromString('2019-08-10T12:53:30+00:00')),
@@ -106,7 +106,7 @@ final class TimePeriodsTest extends TestCase
 
     public function test_map_periods() : void
     {
-        $timePeriods = new TimePeriods(
+        $timePeriods = TimePeriods::fromArray(
             new TimePeriod(DateTime::fromString('2020-01-10 00:00:00.000000'), DateTime::fromString('2020-01-08 00:00:00.000000')),
             new TimePeriod(DateTime::fromString('2020-01-01 00:00:00.000000'), DateTime::fromString('2020-01-02 00:00:00.000000')),
             new TimePeriod(DateTime::fromString('2020-01-05 00:00:00.000000'), DateTime::fromString('2020-01-07 00:00:00.000000')),
@@ -122,7 +122,7 @@ final class TimePeriodsTest extends TestCase
 
     public function test_filter_periods() : void
     {
-        $timePeriods = new TimePeriods(
+        $timePeriods = TimePeriods::fromArray(
             new TimePeriod(DateTime::fromString('2020-01-10 00:00:00.000000'), DateTime::fromString('2020-01-08 00:00:00.000000')),
             new TimePeriod(DateTime::fromString('2020-01-01 00:00:00.000000'), DateTime::fromString('2020-01-02 00:00:00.000000')),
             new TimePeriod(DateTime::fromString('2020-01-05 00:00:00.000000'), DateTime::fromString('2020-01-07 00:00:00.000000')),
@@ -133,12 +133,12 @@ final class TimePeriodsTest extends TestCase
             1,
             $distances = $timePeriods->filter(fn (TimePeriod $timePeriod) => $timePeriod->start()->isEqual(DateTime::fromString('2020-01-03 00:00:00.000000')))
         );
-        $this->assertInstanceOf(TimePeriod::class, $distances->all()[0]);
+        $this->assertInstanceOf(TimePeriod::class, \array_values($distances->all())[0]);
     }
 
     public function test_sort_by_start_date_asc() : void
     {
-        $timePeriods = new TimePeriods(
+        $timePeriods = TimePeriods::fromArray(
             new TimePeriod(DateTime::fromString('2020-01-10 00:00:00.000000'), DateTime::fromString('2020-01-08 00:00:00.000000')),
             new TimePeriod(DateTime::fromString('2020-01-01 00:00:00.000000'), DateTime::fromString('2020-01-02 00:00:00.000000')),
             new TimePeriod(DateTime::fromString('2020-01-05 00:00:00.000000'), DateTime::fromString('2020-01-07 00:00:00.000000')),
@@ -146,7 +146,7 @@ final class TimePeriodsTest extends TestCase
         );
 
         $this->assertEquals(
-            new TimePeriods(
+            TimePeriods::fromArray(
                 new TimePeriod(DateTime::fromString('2020-01-01 00:00:00.000000'), DateTime::fromString('2020-01-02 00:00:00.000000')),
                 new TimePeriod(DateTime::fromString('2020-01-03 00:00:00.000000'), DateTime::fromString('2020-01-06 00:00:00.000000')),
                 new TimePeriod(DateTime::fromString('2020-01-05 00:00:00.000000'), DateTime::fromString('2020-01-07 00:00:00.000000')),
@@ -158,7 +158,7 @@ final class TimePeriodsTest extends TestCase
 
     public function test_sort_by_start_date_desc() : void
     {
-        $timePeriods = new TimePeriods(
+        $timePeriods = TimePeriods::fromArray(
             new TimePeriod(DateTime::fromString('2020-01-10 00:00:00.000000'), DateTime::fromString('2020-01-08 00:00:00.000000')),
             new TimePeriod(DateTime::fromString('2020-01-01 00:00:00.000000'), DateTime::fromString('2020-01-02 00:00:00.000000')),
             new TimePeriod(DateTime::fromString('2020-01-05 00:00:00.000000'), DateTime::fromString('2020-01-07 00:00:00.000000')),
@@ -166,7 +166,7 @@ final class TimePeriodsTest extends TestCase
         );
 
         $this->assertEquals(
-            new TimePeriods(
+            TimePeriods::fromArray(
                 new TimePeriod(DateTime::fromString('2020-01-10 00:00:00.000000'), DateTime::fromString('2020-01-08 00:00:00.000000')),
                 new TimePeriod(DateTime::fromString('2020-01-05 00:00:00.000000'), DateTime::fromString('2020-01-07 00:00:00.000000')),
                 new TimePeriod(DateTime::fromString('2020-01-03 00:00:00.000000'), DateTime::fromString('2020-01-06 00:00:00.000000')),
@@ -178,7 +178,7 @@ final class TimePeriodsTest extends TestCase
 
     public function test_sort_by_end_date_asc() : void
     {
-        $timePeriods = new TimePeriods(
+        $timePeriods = TimePeriods::fromArray(
             new TimePeriod(DateTime::fromString('2020-01-10 00:00:00.000000'), DateTime::fromString('2020-01-08 00:00:00.000000')),
             new TimePeriod(DateTime::fromString('2020-01-01 00:00:00.000000'), DateTime::fromString('2020-01-02 00:00:00.000000')),
             new TimePeriod(DateTime::fromString('2020-01-05 00:00:00.000000'), DateTime::fromString('2020-01-07 00:00:00.000000')),
@@ -186,7 +186,7 @@ final class TimePeriodsTest extends TestCase
         );
 
         $this->assertEquals(
-            new TimePeriods(
+            TimePeriods::fromArray(
                 new TimePeriod(DateTime::fromString('2020-01-01 00:00:00.000000'), DateTime::fromString('2020-01-02 00:00:00.000000')),
                 new TimePeriod(DateTime::fromString('2020-01-03 00:00:00.000000'), DateTime::fromString('2020-01-06 00:00:00.000000')),
                 new TimePeriod(DateTime::fromString('2020-01-05 00:00:00.000000'), DateTime::fromString('2020-01-07 00:00:00.000000')),
@@ -198,7 +198,7 @@ final class TimePeriodsTest extends TestCase
 
     public function test_sort_by_end_date_desc() : void
     {
-        $timePeriods = new TimePeriods(
+        $timePeriods = TimePeriods::fromArray(
             new TimePeriod(DateTime::fromString('2020-01-10 00:00:00.000000'), DateTime::fromString('2020-01-08 00:00:00.000000')),
             new TimePeriod(DateTime::fromString('2020-01-01 00:00:00.000000'), DateTime::fromString('2020-01-02 00:00:00.000000')),
             new TimePeriod(DateTime::fromString('2020-01-05 00:00:00.000000'), DateTime::fromString('2020-01-07 00:00:00.000000')),
@@ -206,7 +206,7 @@ final class TimePeriodsTest extends TestCase
         );
 
         $this->assertEquals(
-            new TimePeriods(
+            TimePeriods::fromArray(
                 new TimePeriod(DateTime::fromString('2020-01-10 00:00:00.000000'), DateTime::fromString('2020-01-08 00:00:00.000000')),
                 new TimePeriod(DateTime::fromString('2020-01-05 00:00:00.000000'), DateTime::fromString('2020-01-07 00:00:00.000000')),
                 new TimePeriod(DateTime::fromString('2020-01-03 00:00:00.000000'), DateTime::fromString('2020-01-06 00:00:00.000000')),
@@ -218,7 +218,7 @@ final class TimePeriodsTest extends TestCase
 
     public function test_first() : void
     {
-        $timePeriods = new TimePeriods(
+        $timePeriods = TimePeriods::fromArray(
             new TimePeriod(DateTime::fromString('2020-01-10 00:00:00.000000'), DateTime::fromString('2020-01-08 00:00:00.000000')),
             new TimePeriod(DateTime::fromString('2020-01-01 00:00:00.000000'), DateTime::fromString('2020-01-02 00:00:00.000000')),
             new TimePeriod(DateTime::fromString('2020-01-05 00:00:00.000000'), DateTime::fromString('2020-01-07 00:00:00.000000')),
@@ -234,13 +234,13 @@ final class TimePeriodsTest extends TestCase
     public function test_first_empty() : void
     {
         $this->assertNull(
-            (new TimePeriods())->first(),
+            (TimePeriods::fromArray())->first(),
         );
     }
 
     public function test_last() : void
     {
-        $timePeriods = new TimePeriods(
+        $timePeriods = TimePeriods::fromArray(
             new TimePeriod(DateTime::fromString('2020-01-10 00:00:00.000000'), DateTime::fromString('2020-01-08 00:00:00.000000')),
             new TimePeriod(DateTime::fromString('2020-01-01 00:00:00.000000'), DateTime::fromString('2020-01-02 00:00:00.000000')),
             new TimePeriod(DateTime::fromString('2020-01-05 00:00:00.000000'), DateTime::fromString('2020-01-07 00:00:00.000000')),
@@ -256,13 +256,13 @@ final class TimePeriodsTest extends TestCase
     public function test_last_empty() : void
     {
         $this->assertNull(
-            (new TimePeriods())->first(),
+            (TimePeriods::fromArray())->first(),
         );
     }
 
     public function test_add() : void
     {
-        $timePeriods = new TimePeriods(
+        $timePeriods = TimePeriods::fromArray(
             new TimePeriod(DateTime::fromString('2020-01-10 00:00:00.000000'), DateTime::fromString('2020-01-08 00:00:00.000000')),
             new TimePeriod(DateTime::fromString('2020-01-01 00:00:00.000000'), DateTime::fromString('2020-01-02 00:00:00.000000')),
         );
@@ -273,7 +273,7 @@ final class TimePeriodsTest extends TestCase
 
         $this->assertEquals(
             $timePeriods,
-            new TimePeriods(
+            TimePeriods::fromArray(
                 new TimePeriod(DateTime::fromString('2020-01-10 00:00:00.000000'), DateTime::fromString('2020-01-08 00:00:00.000000')),
                 new TimePeriod(DateTime::fromString('2020-01-01 00:00:00.000000'), DateTime::fromString('2020-01-02 00:00:00.000000')),
                 new TimePeriod(DateTime::fromString('2020-01-05 00:00:00.000000'), DateTime::fromString('2020-01-07 00:00:00.000000')),
@@ -284,12 +284,12 @@ final class TimePeriodsTest extends TestCase
 
     public function test_merge() : void
     {
-        $timePeriods = new TimePeriods(
+        $timePeriods = TimePeriods::fromArray(
             new TimePeriod(DateTime::fromString('2020-01-10 00:00:00.000000'), DateTime::fromString('2020-01-08 00:00:00.000000')),
             new TimePeriod(DateTime::fromString('2020-01-01 00:00:00.000000'), DateTime::fromString('2020-01-02 00:00:00.000000')),
         );
         $timePeriods = $timePeriods->merge(
-            new TimePeriods(
+            TimePeriods::fromArray(
                 new TimePeriod(DateTime::fromString('2020-01-05 00:00:00.000000'), DateTime::fromString('2020-01-07 00:00:00.000000')),
                 new TimePeriod(DateTime::fromString('2020-01-03 00:00:00.000000'), DateTime::fromString('2020-01-06 00:00:00.000000')),
             )
@@ -297,7 +297,7 @@ final class TimePeriodsTest extends TestCase
 
         $this->assertEquals(
             $timePeriods,
-            new TimePeriods(
+            TimePeriods::fromArray(
                 new TimePeriod(DateTime::fromString('2020-01-10 00:00:00.000000'), DateTime::fromString('2020-01-08 00:00:00.000000')),
                 new TimePeriod(DateTime::fromString('2020-01-01 00:00:00.000000'), DateTime::fromString('2020-01-02 00:00:00.000000')),
                 new TimePeriod(DateTime::fromString('2020-01-05 00:00:00.000000'), DateTime::fromString('2020-01-07 00:00:00.000000')),

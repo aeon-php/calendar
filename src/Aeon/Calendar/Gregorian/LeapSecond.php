@@ -46,4 +46,9 @@ final class LeapSecond
     {
         return $this->offsetTAI;
     }
+
+    public function isEqual(self $second) : bool
+    {
+        return $this->dateTime->isEqual($second->dateTime()) && $this->offsetTAI->isEqual($second->offsetTAI());
+    }
 }

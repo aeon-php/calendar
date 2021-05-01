@@ -52,12 +52,9 @@ final class Time
      */
     public static function fromDateTime(\DateTimeInterface $dateTime) : self
     {
-        return new self(
-            \intval($dateTime->format('H')),
-            \intval($dateTime->format('i')),
-            \intval($dateTime->format('s')),
-            \intval($dateTime->format('u')),
-        );
+        [$hour, $minute, $second, $microsecond] = \sscanf($dateTime->format('H-i-s.u'), '%d-%d-%d.%d');
+
+        return new self((int) $hour, (int) $minute, (int) $second, (int) $microsecond);
     }
 
     /**

@@ -300,4 +300,24 @@ final class YearTest extends TestCase
             $year
         );
     }
+
+    /**
+     * @dataProvider leap_years
+     */
+    public function test_leap_year(int $year, bool $isLeap) : void
+    {
+        $this->assertSame($isLeap, (new Year($year))->isLeap());
+    }
+
+    /**
+     * @return \Generator<int, array{int, bool}, mixed, void>
+     */
+    public function leap_years() : \Generator
+    {
+        yield [2000, true];
+        yield [2100, false];
+        yield [2400, true];
+        yield [2404, true];
+        yield [2403, false];
+    }
 }
