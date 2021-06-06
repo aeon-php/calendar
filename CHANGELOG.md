@@ -1,4 +1,4 @@
-## [Unreleased] - 2021-06-06
+## [1.0.0] - 2021-06-06
 
 ### Changed
 - [2314e1](https://github.com/aeon-php/calendar/commit/2314e1f0cc6b31cefeda76f4df124d9ad26b6787) - **documentation** - [@norberttech](https://github.com/norberttech)
