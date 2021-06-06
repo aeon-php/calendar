@@ -11,7 +11,7 @@
     ],
     "prefer-stable": true,
     "require": {
-        "php": ">=7.4.2"
+        "php": "^7.4.2 || ^8.0"
     },
     "require-dev": {
         "ext-bcmath": "*"
