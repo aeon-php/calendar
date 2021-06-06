@@ -19,5 +19,4 @@ Aeon is a set of libraries that makes easier to work with PHP Date & Time in ele
 
 * [Documentation & Examples](https://aeon-php.org/docs/calendar/)
 * [Contributing & Development](https://github.com/aeon-php/.github/blob/master/CONTRIBUTING.md)
-* [Forum](https://forum.aeon-php.org) 
 
