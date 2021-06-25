@@ -1,3 +1,8 @@
+## [Unreleased] - 2021-06-25
+
+### Changed
+- [#137](https://github.com/aeon-php/calendar/pull/137) - **Updated leap seconds list expiration date - there will be no new leap second this year** - [@norberttech](https://github.com/norberttech)
+
 ## [1.0.0] - 2021-06-06
 
 ### Changed
