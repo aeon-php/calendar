@@ -51,6 +51,7 @@ final class Day
      */
     public static function fromDateTime(\DateTimeInterface $dateTime) : self
     {
+        /** @psalm-suppress PossiblyNullArrayAccess */
         [$year, $month, $day] = \sscanf($dateTime->format('Y-m-d'), '%d-%d-%d');
 
         return new self(
