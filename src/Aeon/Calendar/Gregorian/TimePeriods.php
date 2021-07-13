@@ -98,6 +98,10 @@ final class TimePeriods implements \Countable, \IteratorAggregate
             $this->sort()->all()
         );
 
+        if (!\count($periods)) {
+            return self::fromArray(...[]);
+        }
+
         $gaps = [];
         $totalPeriod = \current($periods);
 
