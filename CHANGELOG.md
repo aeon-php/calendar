@@ -1,3 +1,8 @@
+## [Unreleased] - 2021-07-13
+
+### Fixed
+- [#141](https://github.com/aeon-php/calendar/pull/141) - **possible null value exception in TimePeriods** - [@norberttech](https://github.com/norberttech)
+
 ## [1.0.1] - 2021-06-25
 
 ### Changed
