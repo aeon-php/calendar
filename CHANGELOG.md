@@ -1,6 +1,10 @@
-## [Unreleased] - 2021-07-13
+## [Unreleased] - 2021-09-11
+
+### Changed
+- [#162](https://github.com/aeon-php/calendar/pull/162) - **updated tools** - [@norberttech](https://github.com/norberttech)
 
 ### Fixed
+- [#162](https://github.com/aeon-php/calendar/pull/162) - **broken tests** - [@norberttech](https://github.com/norberttech)
 - [#141](https://github.com/aeon-php/calendar/pull/141) - **possible null value exception in TimePeriods** - [@norberttech](https://github.com/norberttech)
 
 ## [1.0.1] - 2021-06-25
