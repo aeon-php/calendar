@@ -69,7 +69,6 @@ final class DateTime
 
         /**
          * @psalm-suppress PropertyTypeCoercion
-         * @phpstan-ignore-next-line
          */
         $newDateTime->dateTime = $dateTime instanceof \DateTime ? \DateTimeImmutable::createFromMutable($dateTime) : $dateTime;
 
