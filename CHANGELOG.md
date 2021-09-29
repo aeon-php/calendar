@@ -1,6 +1,7 @@
-## [Unreleased] - 2021-09-11
+## [Unreleased] - 2021-09-29
 
 ### Changed
+- [57b17f](https://github.com/aeon-php/calendar/commit/57b17f4c8255661b99cd4cfbbb22b7826cb96b65) - **dependencies, added dependabot auto merge workflow** - [@norberttech](https://github.com/norberttech)
 - [#162](https://github.com/aeon-php/calendar/pull/162) - **updated tools** - [@norberttech](https://github.com/norberttech)
 
 ### Fixed
