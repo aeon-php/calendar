@@ -43,7 +43,6 @@ final class WeekDay
     }
 
     /**
-     * @codeCoverageIgnore
      * @psalm-pure
      */
     public static function monday() : self
@@ -52,7 +51,6 @@ final class WeekDay
     }
 
     /**
-     * @codeCoverageIgnore
      * @psalm-pure
      */
     public static function tuesday() : self
@@ -61,7 +59,6 @@ final class WeekDay
     }
 
     /**
-     * @codeCoverageIgnore
      * @psalm-pure
      */
     public static function wednesday() : self
@@ -70,7 +67,6 @@ final class WeekDay
     }
 
     /**
-     * @codeCoverageIgnore
      * @psalm-pure
      */
     public static function thursday() : self
@@ -79,7 +75,6 @@ final class WeekDay
     }
 
     /**
-     * @codeCoverageIgnore
      * @psalm-pure
      */
     public static function friday() : self
@@ -88,7 +83,6 @@ final class WeekDay
     }
 
     /**
-     * @codeCoverageIgnore
      * @psalm-pure
      */
     public static function saturday() : self
@@ -97,7 +91,6 @@ final class WeekDay
     }
 
     /**
-     * @codeCoverageIgnore
      * @psalm-pure
      */
     public static function sunday() : self

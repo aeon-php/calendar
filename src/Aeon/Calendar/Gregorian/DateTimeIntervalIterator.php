@@ -115,6 +115,9 @@ final class DateTimeIntervalIterator extends \FilterIterator
      */
     public function current() : ?DateTime
     {
+        /**
+         * @phpstan-ignore-next-line
+         */
         return parent::current();
     }
 

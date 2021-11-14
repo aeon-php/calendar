@@ -20,7 +20,8 @@
     "@default": true,
     "PublicVisibility": {
       "ignore": [
-        "Aeon\\Calendar\\Gregorian\\TimeZone::*"
+        "Aeon\\Calendar\\Gregorian\\TimeZone::*",
+        "Aeon\\Calendar\\Gregorian\\GregorianCalendarStub::*"
       ]
     },
     "Assignment": {
@@ -40,7 +41,8 @@
     },
     "IncrementInteger": {
       "ignore": [
-        "Aeon\\Calendar\\Stopwatch::elapsedTime"
+        "Aeon\\Calendar\\Stopwatch::elapsedTime",
+        "Aeon\\Calendar\\Gregorian\\Day\\WeekDay::*"
       ]
     },
     "DecrementInteger": {
@@ -48,7 +50,8 @@
         "Aeon\\Calendar\\Stopwatch::elapsedTime",
         "Aeon\\Calendar\\RelativeTimeUnit::month",
         "Aeon\\Calendar\\RelativeTimeUnit::year",
-        "Aeon\\Calendar\\Gregorian\\Year::next"
+        "Aeon\\Calendar\\Gregorian\\Year::next",
+        "Aeon\\Calendar\\Gregorian\\Day\\WeekDay::*"
       ]
     },
     "Plus": {
@@ -58,6 +61,7 @@
     },
     "Ternary": {
       "ignore": [
+        "Aeon\\Calendar\\Gregorian\\GregorianCalendarStub::*",
         "Aeon\\Calendar\\RelativeTimeUnit::toDateInterval"
       ]
     },
@@ -83,7 +87,9 @@
         "Aeon\\Calendar\\Gregorian\\Day::fromString",
         "Aeon\\Calendar\\Gregorian\\Month::fromString",
         "Aeon\\Calendar\\Gregorian\\Year::fromString",
-        "Aeon\\Calendar\\Gregorian\\Time::fromString"
+        "Aeon\\Calendar\\Gregorian\\Time::fromString",
+        "Aeon\\Calendar\\Gregorian\\Years::offsetSet",
+        "Aeon\\Calendar\\Gregorian\\Years::offsetUnset"
       ]
     },
     "LogicalOr": {
@@ -111,6 +117,18 @@
       "ignore": [
         "Aeon\\Calendar\\RelativeTimeUnit::inYears",
         "Aeon\\Calendar\\RelativeTimeUnit::inCalendarMonths"
+      ]
+    },
+    "Concat": {
+      "ignore": [
+        "Aeon\\Calendar\\Gregorian\\Years::offsetSet",
+        "Aeon\\Calendar\\Gregorian\\Years::offsetUnset"
+      ]
+    },
+    "ConcatOperandRemoval": {
+      "ignore": [
+        "Aeon\\Calendar\\Gregorian\\Years::offsetSet",
+        "Aeon\\Calendar\\Gregorian\\Years::offsetUnset"
       ]
     }
   },

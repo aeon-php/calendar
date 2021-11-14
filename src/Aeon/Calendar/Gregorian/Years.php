@@ -31,13 +31,11 @@ final class Years implements \ArrayAccess, \Countable, \IteratorAggregate
         return isset($this->all()[\intval($offset)]) ? $this->all()[\intval($offset)] : null;
     }
 
-    /** @codeCoverageIgnore */
     public function offsetSet($offset, $value) : void
     {
         throw new \RuntimeException(__CLASS__ . ' is immutable.');
     }
 
-    /** @codeCoverageIgnore */
     public function offsetUnset($offset) : void
     {
         throw new \RuntimeException(__CLASS__ . ' is immutable.');
