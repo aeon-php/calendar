@@ -1,12 +1,16 @@
-## [Unreleased] - 2021-09-29
+## [Unreleased] - 2021-11-14
 
 ### Changed
-- [57b17f](https://github.com/aeon-php/calendar/commit/57b17f4c8255661b99cd4cfbbb22b7826cb96b65) - **dependencies, added dependabot auto merge workflow** - [@norberttech](https://github.com/norberttech)
 - [#162](https://github.com/aeon-php/calendar/pull/162) - **updated tools** - [@norberttech](https://github.com/norberttech)
 
 ### Fixed
 - [#162](https://github.com/aeon-php/calendar/pull/162) - **broken tests** - [@norberttech](https://github.com/norberttech)
 - [#141](https://github.com/aeon-php/calendar/pull/141) - **possible null value exception in TimePeriods** - [@norberttech](https://github.com/norberttech)
+
+### Updated
+- [#180](https://github.com/aeon-php/calendar/pull/180) - **infection** - [@norberttech](https://github.com/norberttech)
+- [#180](https://github.com/aeon-php/calendar/pull/180) - **phpstan** - [@norberttech](https://github.com/norberttech)
+- [57b17f](https://github.com/aeon-php/calendar/commit/57b17f4c8255661b99cd4cfbbb22b7826cb96b65) - **dependencies, added dependabot auto merge workflow** - [@norberttech](https://github.com/norberttech)
 
 ## [1.0.1] - 2021-06-25
 
