@@ -13,6 +13,12 @@ final class WeekDayTest extends TestCase
     public function test_equals() : void
     {
         $this->assertTrue(WeekDay::monday()->isEqual(WeekDay::monday()));
+        $this->assertTrue(WeekDay::tuesday()->isEqual(WeekDay::tuesday()));
+        $this->assertTrue(WeekDay::wednesday()->isEqual(WeekDay::wednesday()));
+        $this->assertTrue(WeekDay::thursday()->isEqual(WeekDay::thursday()));
+        $this->assertTrue(WeekDay::friday()->isEqual(WeekDay::friday()));
+        $this->assertTrue(WeekDay::saturday()->isEqual(WeekDay::saturday()));
+        $this->assertTrue(WeekDay::sunday()->isEqual(WeekDay::sunday()));
     }
 
     public function test_create_for_week_day_less_than_0() : void

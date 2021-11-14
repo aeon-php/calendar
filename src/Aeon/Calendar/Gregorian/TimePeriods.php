@@ -10,12 +10,12 @@ namespace Aeon\Calendar\Gregorian;
 final class TimePeriods implements \Countable, \IteratorAggregate
 {
     /**
-     * @var \Iterator<TimePeriod>
+     * @var \Iterator<int, TimePeriod>
      */
     private \Iterator $periods;
 
     /**
-     * @param \Iterator<TimePeriod> $periods
+     * @param \Iterator<int, TimePeriod> $periods
      */
     private function __construct(\Iterator $periods)
     {
@@ -81,6 +81,9 @@ final class TimePeriods implements \Countable, \IteratorAggregate
         return \iterator_count($this->periods);
     }
 
+    /**
+     * @return \Traversable<int, TimePeriod>
+     */
     public function getIterator() : \Traversable
     {
         return $this->periods;

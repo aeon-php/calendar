@@ -11,12 +11,12 @@ namespace Aeon\Calendar\Gregorian;
 final class Days implements \Countable, \IteratorAggregate
 {
     /**
-     * @var \Iterator<Day>
+     * @var \Iterator<int, Day>
      */
     private \Iterator $days;
 
     /**
-     * @param \Iterator<Day> $days
+     * @param \Iterator<int, Day> $days
      */
     private function __construct(\Iterator $days)
     {
@@ -79,6 +79,9 @@ final class Days implements \Countable, \IteratorAggregate
         return \iterator_count($this->days);
     }
 
+    /**
+     * @return \Traversable<int, Day>
+     */
     public function getIterator() : \Traversable
     {
         return $this->days;

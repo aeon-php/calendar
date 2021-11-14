@@ -434,7 +434,6 @@ use Aeon\Calendar\TimeUnit;
  * @method static self pacificTongatapu()
  * @method static self pacificWake()
  * @method static self pacificWallis()
- * @method static self UTC()
  * @method static self ACDT()
  * @method static self ACST()
  * @method static self ADDT()
@@ -572,6 +571,16 @@ final class TimeZone
     {
         $this->name = $name;
         $this->type = $type;
+    }
+
+    /**
+     * @throws InvalidArgumentException
+     *
+     * @psalm-pure
+     */
+    public static function UTC() : self
+    {
+        return self::abbreviation('UTC');
     }
 
     /**

@@ -51,7 +51,10 @@ final class Day
      */
     public static function fromDateTime(\DateTimeInterface $dateTime) : self
     {
-        /** @psalm-suppress PossiblyNullArrayAccess */
+        /**
+         * @psalm-suppress PossiblyNullArrayAccess
+         * @phpstan-ignore-next-line
+         */
         [$year, $month, $day] = \sscanf($dateTime->format('Y-m-d'), '%d-%d-%d');
 
         return new self(
