@@ -11,12 +11,12 @@ namespace Aeon\Calendar\Gregorian;
 final class Months implements \Countable, \IteratorAggregate
 {
     /**
-     * @var \Iterator<int, Month>
+     * @var \Iterator<int|string, Month>
      */
     private \Iterator $months;
 
     /**
-     * @param \Iterator<int, Month> $months
+     * @param \Iterator<int|string, Month> $months
      */
     private function __construct(\Iterator $months)
     {
@@ -78,7 +78,7 @@ final class Months implements \Countable, \IteratorAggregate
     }
 
     /**
-     * @return \Traversable<int, Month>
+     * @return \Traversable<int|string, Month>
      */
     public function getIterator() : \Traversable
     {
