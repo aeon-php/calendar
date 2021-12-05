@@ -85,7 +85,10 @@ final class Time
             throw new InvalidArgumentException("Value \"{$date}\" is not valid time format.");
         }
 
-        /** @psalm-suppress MixedArgument */
+        /**
+         * @psalm-suppress MixedArgument
+         * @phpstan-ignore-next-line
+         */
         $secondsString = \number_format(\round($timeParts['fraction'], self::PRECISION_MICROSECOND, PHP_ROUND_HALF_UP), self::PRECISION_MICROSECOND, '.', '');
         $secondsStringParts = \explode('.', $secondsString);
         $microseconds = \abs(\intval($secondsStringParts[1]));
