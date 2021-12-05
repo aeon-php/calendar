@@ -87,7 +87,6 @@ final class Time
 
         /**
          * @psalm-suppress MixedArgument
-         * @phpstan-ignore-next-line
          */
         $secondsString = \number_format(\round($timeParts['fraction'], self::PRECISION_MICROSECOND, PHP_ROUND_HALF_UP), self::PRECISION_MICROSECOND, '.', '');
         $secondsStringParts = \explode('.', $secondsString);
