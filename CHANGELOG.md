@@ -1,4 +1,7 @@
-## [Unreleased] - 2021-11-14
+## [Unreleased] - 2021-12-05
+
+### Added
+- [#185](https://github.com/aeon-php/calendar/pull/185) - **php 8.1 in test suite** - [@norberttech](https://github.com/norberttech)
 
 ### Changed
 - [#162](https://github.com/aeon-php/calendar/pull/162) - **updated tools** - [@norberttech](https://github.com/norberttech)
