@@ -1,3 +1,8 @@
+## [Unreleased] - 2021-12-23
+
+### Changed
+- [32c28b](https://github.com/aeon-php/calendar/commit/32c28b4ccf931ce9275b10968a727ed36f69d63e) - **Extendend leap seconds expiration date** - [@norberttech](https://github.com/norberttech)
+
 ## [1.0.2] - 2021-12-06
 
 ### Added
