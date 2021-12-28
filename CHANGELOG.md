@@ -1,6 +1,7 @@
-## [Unreleased] - 2021-12-23
+## [Unreleased] - 2021-12-28
 
 ### Changed
+- [#197](https://github.com/aeon-php/calendar/pull/197) - **Allow php 8.1 tests to fail** - [@norberttech](https://github.com/norberttech)
 - [32c28b](https://github.com/aeon-php/calendar/commit/32c28b4ccf931ce9275b10968a727ed36f69d63e) - **Extendend leap seconds expiration date** - [@norberttech](https://github.com/norberttech)
 
 ## [1.0.2] - 2021-12-06
