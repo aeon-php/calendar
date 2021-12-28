@@ -15,6 +15,7 @@ jobs:
     runs-on: ${{ matrix.operating-system }}
 
     strategy:
+      fail-fast: false
       matrix:
         dependencies:
           - "locked"
@@ -67,3 +68,4 @@ jobs:
 
       - name: "Test"
         run: "composer test"
+        continue-on-error: ${{ matrix.php-version == '8.1' }}
