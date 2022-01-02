@@ -52,7 +52,7 @@ final class Year
             return self::fromDateTime(new \DateTimeImmutable($date));
         }
 
-        if (!isset($dateParts['year']) || !\is_int($dateParts['year'])) {
+        if (!\is_int($dateParts['year'])) {
             throw new InvalidArgumentException("Value \"{$date}\" is not valid year format.");
         }
 
