@@ -71,26 +71,11 @@ final class Day
      */
     public static function fromString(string $date) : self
     {
-        $dateNormalized = \trim(\strtolower($date));
-        $dateParts = \date_parse($date);
-
-        if (!\is_array($dateParts)) {
-            throw new InvalidArgumentException("Value \"{$date}\" is not valid day format.");
-        }
-
-        if ($dateParts['error_count'] > 0) {
-            throw new InvalidArgumentException("Value \"{$date}\" is not valid day format.");
-        }
-
-        if (isset($dateParts['relative']) || \in_array($dateNormalized, ['midnight', 'noon', 'now', 'today'], true)) {
+        try {
             return self::fromDateTime(new \DateTimeImmutable($date));
-        }
-
-        if (!\is_int($dateParts['year']) || !\is_int($dateParts['month']) || !\is_int($dateParts['day'])) {
+        } catch (\Exception $e) {
             throw new InvalidArgumentException("Value \"{$date}\" is not valid day format.");
         }
-
-        return new self(new Month(new Year($dateParts['year']), $dateParts['month']), $dateParts['day']);
     }
 
     /**

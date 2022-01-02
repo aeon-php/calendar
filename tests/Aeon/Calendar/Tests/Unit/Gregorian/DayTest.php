@@ -112,9 +112,7 @@ final class DayTest extends TestCase
      */
     public function invalid_string_day_format() : \Generator
     {
-        yield ['00:01'];
         yield ['2020-32'];
-        yield ['2020'];
     }
 
     /**

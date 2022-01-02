@@ -688,12 +688,22 @@ final class TimeZone
         $name = $dateTimeZone->getName();
         $type = self::TYPE_IDENTIFIER;
 
+        if ($name === 'UTC') {
+            $type = self::TYPE_ABBREVIATION;
+
+            return new self($name, $type);
+        }
+
         if (TimeOffset::isValid($name)) {
             $type = self::TYPE_OFFSET;
+
+            return new self($name, $type);
         }
 
         if (\timezone_name_from_abbr($name) !== false) {
             $type = self::TYPE_ABBREVIATION;
+
+            return new self($name, $type);
         }
 
         return new self($name, $type);

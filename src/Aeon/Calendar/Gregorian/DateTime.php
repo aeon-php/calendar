@@ -81,41 +81,18 @@ final class DateTime
      */
     public static function fromString(string $date) : self
     {
-        $dateNormalized = \trim(\strtolower($date));
-        $dateTimeParts = \date_parse($date);
+        $currentPHPTimeZone = \date_default_timezone_get();
+        \date_default_timezone_set('UTC');
 
-        if (!\is_array($dateTimeParts)) {
-            throw new InvalidArgumentException("Value \"{$date}\" is not valid date time format.");
-        }
-
-        if ($dateTimeParts['error_count'] > 0) {
-            throw new InvalidArgumentException("Value \"{$date}\" is not valid date time format.");
-        }
-
-        $constructor = function (string $date) : self {
-            $currentPHPTimeZone = \date_default_timezone_get();
-            \date_default_timezone_set('UTC');
+        try {
             $dateTime = self::fromDateTime(new \DateTimeImmutable($date));
-            \date_default_timezone_set($currentPHPTimeZone);
-
-            return $dateTime;
-        };
-
-        if (isset($dateTimeParts['relative'])) {
-            return $constructor($date);
-        }
-
-        foreach (['midnight', 'noon', 'now', 'today'] as $relativeFormat) {
-            if (\substr($dateNormalized, 0, \strlen($relativeFormat)) === $relativeFormat) {
-                return $constructor($date);
-            }
-        }
-
-        if (!\is_int($dateTimeParts['year']) || !\is_int($dateTimeParts['month']) || !\is_int($dateTimeParts['day'])) {
+        } catch (\Exception $e) {
             throw new InvalidArgumentException("Value \"{$date}\" is not valid date time format.");
         }
 
-        return $constructor($date);
+        \date_default_timezone_set($currentPHPTimeZone);
+
+        return $dateTime;
     }
 
     /**

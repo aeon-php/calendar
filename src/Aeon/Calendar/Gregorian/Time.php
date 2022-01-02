@@ -64,36 +64,13 @@ final class Time
     /**
      * @psalm-pure
      */
-    public static function fromString(string $date) : self
+    public static function fromString(string $time) : self
     {
-        $dateNormalized = \trim(\strtolower($date));
-        $timeParts = \date_parse($date);
-
-        if (!\is_array($timeParts)) {
-            throw new InvalidArgumentException("Value \"{$date}\" is not valid time format.");
+        try {
+            return self::fromDateTime(new \DateTimeImmutable($time));
+        } catch (\Exception $e) {
+            throw new InvalidArgumentException("Value \"{$time}\" is not valid time format.");
         }
-
-        if ($timeParts['error_count'] > 0) {
-            throw new InvalidArgumentException("Value \"{$date}\" is not valid time format.");
-        }
-
-        if (isset($timeParts['relative']) || \in_array($dateNormalized, ['now', 'today'], true)) {
-            return self::fromDateTime(new \DateTimeImmutable($date));
-        }
-
-        if (!\is_int($timeParts['hour']) || !\is_int($timeParts['minute']) || !\is_int($timeParts['second'])) {
-            throw new InvalidArgumentException("Value \"{$date}\" is not valid time format.");
-        }
-
-        /**
-         * @psalm-suppress MixedArgument
-         * @phpstan-ignore-next-line
-         */
-        $secondsString = \number_format(\round($timeParts['fraction'], self::PRECISION_MICROSECOND, PHP_ROUND_HALF_UP), self::PRECISION_MICROSECOND, '.', '');
-        $secondsStringParts = \explode('.', $secondsString);
-        $microseconds = \abs(\intval($secondsStringParts[1]));
-
-        return new self($timeParts['hour'], $timeParts['minute'], $timeParts['second'], $microseconds);
     }
 
     /**
