@@ -58,7 +58,7 @@ final class TimeTest extends TestCase
      */
     public function test_from_string(string $invalidValue, Time $time) : void
     {
-        $this->assertEquals($time, Time::fromString($invalidValue));
+        $this->assertObjectEquals($time, Time::fromString($invalidValue), 'isEqual');
     }
 
     /**

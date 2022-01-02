@@ -103,7 +103,7 @@ final class MonthTest extends TestCase
      */
     public function test_from_string(string $invalidValue, Month $month) : void
     {
-        $this->assertEquals($month, Month::fromString($invalidValue));
+        $this->assertObjectEquals($month, Month::fromString($invalidValue), 'isEqual');
     }
 
     /**

@@ -120,7 +120,7 @@ final class DayTest extends TestCase
      */
     public function test_from_string(string $invalidValue, Day $month) : void
     {
-        $this->assertEquals($month, Day::fromString($invalidValue));
+        $this->assertObjectEquals($month, Day::fromString($invalidValue), 'isEqual');
     }
 
     /**

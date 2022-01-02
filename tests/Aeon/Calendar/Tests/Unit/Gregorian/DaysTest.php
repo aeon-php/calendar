@@ -48,11 +48,12 @@ final class DaysTest extends TestCase
             Day::fromString('2002-01-03')
         );
 
-        $this->assertEquals(
+        $this->assertObjectEquals(
             Day::fromString('2002-01-01'),
             $days->filter(function (Day $day) {
                 return $day->number() === 1;
-            })->all()[0]
+            })->all()[0],
+            'isEqual'
         );
     }
 

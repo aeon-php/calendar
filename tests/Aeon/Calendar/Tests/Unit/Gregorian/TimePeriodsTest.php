@@ -65,7 +65,7 @@ final class TimePeriodsTest extends TestCase
 
     public function test_gap_periods() : void
     {
-        $this->assertEquals(
+        $this->assertObjectEquals(
             (TimePeriods::fromArray(
                 new TimePeriod(DateTime::fromString('2020-01-02 00:00:00.000000'), DateTime::fromString('2020-01-03 00:00:00.000000')),
                 new TimePeriod(DateTime::fromString('2020-01-07 00:00:00.000000'), DateTime::fromString('2020-01-08 00:00:00.000000')),
@@ -75,7 +75,46 @@ final class TimePeriodsTest extends TestCase
                 new TimePeriod(DateTime::fromString('2020-01-01 00:00:00.000000'), DateTime::fromString('2020-01-02 00:00:00.000000')),
                 new TimePeriod(DateTime::fromString('2020-01-05 00:00:00.000000'), DateTime::fromString('2020-01-07 00:00:00.000000')),
                 new TimePeriod(DateTime::fromString('2020-01-03 00:00:00.000000'), DateTime::fromString('2020-01-06 00:00:00.000000')),
-            ))->gaps()
+            ))->gaps(),
+            'isEqual'
+        );
+    }
+
+    public function test_compare_different_periods() : void
+    {
+        $this->assertFalse(
+            (TimePeriods::fromArray(
+                new TimePeriod(DateTime::fromString('2020-01-02 00:00:00.000000'), DateTime::fromString('2020-01-03 00:00:00.000000')),
+                new TimePeriod(DateTime::fromString('2020-01-07 00:00:00.000000'), DateTime::fromString('2020-01-08 00:00:00.000000')),
+            ))->isEqual((TimePeriods::fromArray(
+                new TimePeriod(DateTime::fromString('2020-01-10 00:00:00.000000'), DateTime::fromString('2020-01-08 00:00:00.000000')),
+                new TimePeriod(DateTime::fromString('2020-01-01 00:00:00.000000'), DateTime::fromString('2020-01-02 00:00:00.000000')),
+                new TimePeriod(DateTime::fromString('2020-01-05 00:00:00.000000'), DateTime::fromString('2020-01-07 00:00:00.000000')),
+                new TimePeriod(DateTime::fromString('2020-01-03 00:00:00.000000'), DateTime::fromString('2020-01-06 00:00:00.000000')),
+            )))
+        );
+
+        $this->assertFalse(
+            (TimePeriods::fromArray(
+                new TimePeriod(DateTime::fromString('2020-01-02 00:00:00.000000'), DateTime::fromString('2020-01-03 00:00:00.000000')),
+                new TimePeriod(DateTime::fromString('2020-01-07 00:00:00.000000'), DateTime::fromString('2020-01-08 00:00:00.000000')),
+            ))->isEqual((TimePeriods::fromArray(
+                new TimePeriod(DateTime::fromString('2020-01-02 00:00:00.000000'), DateTime::fromString('2020-01-03 00:00:00.000000')),
+                new TimePeriod(DateTime::fromString('2020-01-07 00:00:00.000000'), DateTime::fromString('2020-01-08 00:00:00.000001')),
+            )))
+        );
+    }
+
+    public function test_compare_identical_periods() : void
+    {
+        $this->assertTrue(
+            (TimePeriods::fromArray(
+                new TimePeriod(DateTime::fromString('2020-01-02 00:00:00.000000'), DateTime::fromString('2020-01-03 00:00:00.000000')),
+                new TimePeriod(DateTime::fromString('2020-01-07 00:00:00.000000'), DateTime::fromString('2020-01-08 00:00:00.000000')),
+            ))->isEqual((TimePeriods::fromArray(
+                new TimePeriod(DateTime::fromString('2020-01-02 00:00:00.000000'), DateTime::fromString('2020-01-03 00:00:00.000000')),
+                new TimePeriod(DateTime::fromString('2020-01-07 00:00:00.000000'), DateTime::fromString('2020-01-08 00:00:00.000000')),
+            )))
         );
     }
 

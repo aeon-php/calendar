@@ -15,11 +15,16 @@ use Aeon\Calendar\Unit;
  */
 final class DateTime
 {
-    private Day $day;
+    /**
+     * @var null|\ReflectionClass<DateTime>
+     */
+    private static ?\ReflectionClass $reflectionClass = null;
 
-    private Time $time;
+    private ?Day $day = null;
 
-    private TimeZone $timeZone;
+    private ?Time $time = null;
+
+    private ?TimeZone $timeZone = null;
 
     private ?\DateTimeImmutable $dateTime;
 
@@ -52,24 +57,19 @@ final class DateTime
     /**
      * @psalm-pure
      * @psalm-suppress ImpureMethodCall
+     * @psalm-suppress ImpureStaticProperty
+     * @psalm-suppress PropertyTypeCoercion
+     * @psalm-suppress ImpurePropertyAssignment
+     * @psalm-suppress InaccessibleProperty
      */
     public static function fromDateTime(\DateTimeInterface $dateTime) : self
     {
-        try {
-            $tz = TimeZone::fromDateTimeZone($dateTime->getTimezone());
-        } catch (InvalidArgumentException $e) {
-            $tz = TimeZone::UTC();
+        if (self::$reflectionClass === null) {
+            self::$reflectionClass = new \ReflectionClass(self::class);
         }
 
-        $newDateTime = new self(
-            Day::fromDateTime($dateTime),
-            Time::fromDateTime($dateTime),
-            $tz
-        );
+        $newDateTime = self::$reflectionClass->newInstanceWithoutConstructor();
 
-        /**
-         * @psalm-suppress PropertyTypeCoercion
-         */
         $newDateTime->dateTime = $dateTime instanceof \DateTime ? \DateTimeImmutable::createFromMutable($dateTime) : $dateTime;
 
         return $newDateTime;
@@ -90,7 +90,9 @@ final class DateTime
             throw new InvalidArgumentException("Value \"{$date}\" is not valid date time format.");
         }
 
-        \date_default_timezone_set($currentPHPTimeZone);
+        if ($currentPHPTimeZone !== 'UTC') {
+            \date_default_timezone_set($currentPHPTimeZone);
+        }
 
         return $dateTime;
     }
@@ -107,7 +109,9 @@ final class DateTime
 
         $dateTime = self::fromDateTime((new \DateTimeImmutable)->setTimestamp($timestamp));
 
-        \date_default_timezone_set($currentPHPTimeZone);
+        if ($currentPHPTimeZone !== 'UTC') {
+            \date_default_timezone_set($currentPHPTimeZone);
+        }
 
         return $dateTime;
     }
@@ -124,9 +128,9 @@ final class DateTime
     {
         return [
             'datetime' => $this->toISO8601(),
-            'day' => $this->day,
-            'time' => $this->time,
-            'timeZone' => $this->timeZone,
+            'day' => $this->day(),
+            'time' => $this->time(),
+            'timeZone' => $this->timeZone(),
         ];
     }
 
@@ -136,9 +140,9 @@ final class DateTime
     public function __serialize() : array
     {
         return [
-            'day' => $this->day,
-            'time' => $this->time,
-            'timeZone' => $this->timeZone,
+            'day' => $this->day(),
+            'time' => $this->time(),
+            'timeZone' => $this->timeZone(),
         ];
     }
 
@@ -163,13 +167,35 @@ final class DateTime
         return $this->day()->month();
     }
 
+    /**
+     * @psalm-suppress NullableReturnStatement
+     * @psalm-suppress InaccessibleProperty
+     * @psalm-suppress InvalidNullableReturnType
+     * @psalm-suppress InaccessibleProperty
+     * @psalm-suppress InvalidNullableReturnType
+     */
     public function day() : Day
     {
+        if ($this->day === null) {
+            $this->day = Day::fromDateTime($this->toDateTimeImmutable());
+        }
+
         return $this->day;
     }
 
+    /**
+     * @psalm-suppress NullableReturnStatement
+     * @psalm-suppress InaccessibleProperty
+     * @psalm-suppress InvalidNullableReturnType
+     * @psalm-suppress InaccessibleProperty
+     * @psalm-suppress InvalidNullableReturnType
+     */
     public function time() : Time
     {
+        if ($this->time === null) {
+            $this->time = Time::fromDateTime($this->toDateTimeImmutable());
+        }
+
         return $this->time;
     }
 
@@ -202,9 +228,11 @@ final class DateTime
     }
 
     /**
+     * @psalm-suppress NullableReturnStatement
+     * @psalm-suppress InaccessibleProperty
      * @psalm-suppress InvalidNullableReturnType
      * @psalm-suppress InaccessibleProperty
-     * @psalm-suppress NullableReturnStatement
+     * @psalm-suppress InvalidNullableReturnType
      */
     public function toDateTimeImmutable() : \DateTimeImmutable
     {
@@ -212,15 +240,15 @@ final class DateTime
             $this->dateTime = new \DateTimeImmutable(
                 \sprintf(
                     '%d-%02d-%02d %02d:%02d:%02d.%06d',
-                    $this->day->year()->number(),
-                    $this->day->month()->number(),
-                    $this->day->number(),
-                    $this->time->hour(),
-                    $this->time->minute(),
-                    $this->time->second(),
-                    $this->time->microsecond(),
+                    $this->day()->year()->number(),
+                    $this->day()->month()->number(),
+                    $this->day()->number(),
+                    $this->time()->hour(),
+                    $this->time()->minute(),
+                    $this->time()->second(),
+                    $this->time()->microsecond(),
                 ),
-                $this->timeZone->toDateTimeZone()
+                $this->timeZone()->toDateTimeZone()
             );
         }
 
@@ -244,8 +272,19 @@ final class DateTime
         return $this->toDateTimeImmutable()->format($format);
     }
 
+    /**
+     * @psalm-suppress NullableReturnStatement
+     * @psalm-suppress InaccessibleProperty
+     * @psalm-suppress InvalidNullableReturnType
+     * @psalm-suppress InaccessibleProperty
+     * @psalm-suppress InvalidNullableReturnType
+     */
     public function timeZone() : TimeZone
     {
+        if ($this->timeZone === null) {
+            $this->timeZone = TimeZone::fromDateTimeZone($this->toDateTimeImmutable()->getTimezone());
+        }
+
         return $this->timeZone;
     }
 
@@ -316,10 +355,10 @@ final class DateTime
         $timestamp = $this->toDateTimeImmutable()->getTimestamp();
 
         if ($timestamp >= 0) {
-            return TimeUnit::positive($timestamp, $this->time->microsecond());
+            return TimeUnit::positive($timestamp, $this->time()->microsecond());
         }
 
-        return TimeUnit::negative(\abs($timestamp), $this->time->microsecond());
+        return TimeUnit::negative(\abs($timestamp), $this->time()->microsecond());
     }
 
     public function modify(string $modifier) : self
