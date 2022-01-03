@@ -14,13 +14,22 @@ final class Time
 {
     private const PRECISION_MICROSECOND = 6;
 
-    private int $hour;
+    /**
+     * @var null|\ReflectionClass<Time>
+     */
+    private static ?\ReflectionClass $reflectionClass = null;
 
-    private int $minute;
+    private ?int $hour = null;
 
-    private int $second;
+    private ?int $minute = null;
 
-    private int $microsecond;
+    private ?int $second = null;
+
+    private ?int $microsecond = null;
+
+    private ?\DateTimeImmutable $dateTime = null;
+
+    private bool $clean = true;
 
     public function __construct(int $hour, int $minute, int $second, int $microsecond = 0)
     {
@@ -49,51 +58,36 @@ final class Time
     /**
      * @psalm-pure
      * @psalm-suppress ImpureMethodCall
+     * @psalm-suppress ImpureStaticProperty
+     * @psalm-suppress PropertyTypeCoercion
+     * @psalm-suppress ImpurePropertyAssignment
+     * @psalm-suppress InaccessibleProperty
+     * @psalm-suppress ImpurePropertyAssignment
      */
     public static function fromDateTime(\DateTimeInterface $dateTime) : self
     {
-        /**
-         * @psalm-suppress PossiblyNullArrayAccess
-         * @phpstan-ignore-next-line
-         */
-        [$hour, $minute, $second, $microsecond] = \sscanf($dateTime->format('H-i-s.u'), '%d-%d-%d.%d');
+        if (self::$reflectionClass === null) {
+            self::$reflectionClass = new \ReflectionClass(self::class);
+        }
 
-        return new self((int) $hour, (int) $minute, (int) $second, (int) $microsecond);
+        $newTime = self::$reflectionClass->newInstanceWithoutConstructor();
+
+        $newTime->dateTime = $dateTime instanceof \DateTime ? \DateTimeImmutable::createFromMutable($dateTime) : $dateTime;
+        $newTime->clean = false;
+
+        return $newTime;
     }
 
     /**
      * @psalm-pure
      */
-    public static function fromString(string $date) : self
+    public static function fromString(string $time) : self
     {
-        $dateNormalized = \trim(\strtolower($date));
-        $timeParts = \date_parse($date);
-
-        if (!\is_array($timeParts)) {
-            throw new InvalidArgumentException("Value \"{$date}\" is not valid time format.");
+        try {
+            return self::fromDateTime(new \DateTimeImmutable($time));
+        } catch (\Exception $e) {
+            throw new InvalidArgumentException("Value \"{$time}\" is not valid time format.");
         }
-
-        if ($timeParts['error_count'] > 0) {
-            throw new InvalidArgumentException("Value \"{$date}\" is not valid time format.");
-        }
-
-        if (isset($timeParts['relative']) || \in_array($dateNormalized, ['now', 'today'], true)) {
-            return self::fromDateTime(new \DateTimeImmutable($date));
-        }
-
-        if (!\is_int($timeParts['hour']) || !\is_int($timeParts['minute']) || !\is_int($timeParts['second'])) {
-            throw new InvalidArgumentException("Value \"{$date}\" is not valid time format.");
-        }
-
-        /**
-         * @psalm-suppress MixedArgument
-         * @phpstan-ignore-next-line
-         */
-        $secondsString = \number_format(\round($timeParts['fraction'], self::PRECISION_MICROSECOND, PHP_ROUND_HALF_UP), self::PRECISION_MICROSECOND, '.', '');
-        $secondsStringParts = \explode('.', $secondsString);
-        $microseconds = \abs(\intval($secondsStringParts[1]));
-
-        return new self($timeParts['hour'], $timeParts['minute'], $timeParts['second'], $microseconds);
     }
 
     /**
@@ -102,10 +96,10 @@ final class Time
     public function __debugInfo() : array
     {
         return [
-            'hour' => $this->hour,
-            'minute' => $this->minute,
-            'second' => $this->second,
-            'microsecond' => $this->microsecond,
+            'hour' => $this->hour(),
+            'minute' => $this->minute(),
+            'second' => $this->second(),
+            'microsecond' => $this->microsecond(),
         ];
     }
 
@@ -115,10 +109,10 @@ final class Time
     public function __serialize() : array
     {
         return [
-            'hour' => $this->hour,
-            'minute' => $this->minute,
-            'second' => $this->second,
-            'microsecond' => $this->microsecond,
+            'hour' => $this->hour(),
+            'minute' => $this->minute(),
+            'second' => $this->second(),
+            'microsecond' => $this->microsecond(),
         ];
     }
 
@@ -136,29 +130,101 @@ final class Time
 
     public function toString() : string
     {
-        return \str_pad((string) $this->hour, 2, '0', STR_PAD_LEFT) . ':'
-            . \str_pad((string) $this->minute, 2, '0', STR_PAD_LEFT) . ':'
-            . \str_pad((string) $this->second, 2, '0', STR_PAD_LEFT) . '.'
-            . \str_pad((string) $this->microsecond, self::PRECISION_MICROSECOND, '0', STR_PAD_LEFT);
+        return \str_pad((string) $this->hour(), 2, '0', STR_PAD_LEFT) . ':'
+            . \str_pad((string) $this->minute(), 2, '0', STR_PAD_LEFT) . ':'
+            . \str_pad((string) $this->second(), 2, '0', STR_PAD_LEFT) . '.'
+            . \str_pad((string) $this->microsecond(), self::PRECISION_MICROSECOND, '0', STR_PAD_LEFT);
     }
 
+    /**
+     * @psalm-suppress NullableReturnStatement
+     * @psalm-suppress PossiblyInvalidPropertyAssignmentValue
+     * @psalm-suppress InaccessibleProperty
+     * @psalm-suppress PossiblyNullReference
+     * @psalm-suppress PossiblyNullArrayAccess
+     * @psalm-suppress InvalidNullableReturnType
+     */
     public function hour() : int
     {
+        if ($this->hour === null) {
+            /** @phpstan-ignore-next-line */
+            [$hour, $minute, $second, $microsecond] = \sscanf($this->dateTime->format('H-i-s.u'), '%d-%d-%d.%d');
+
+            $this->hour = $hour;
+            $this->minute = $minute;
+            $this->second = $second;
+            $this->microsecond = $microsecond;
+        }
+
         return $this->hour;
     }
 
+    /**
+     * @psalm-suppress NullableReturnStatement
+     * @psalm-suppress PossiblyInvalidPropertyAssignmentValue
+     * @psalm-suppress InaccessibleProperty
+     * @psalm-suppress PossiblyNullReference
+     * @psalm-suppress PossiblyNullArrayAccess
+     * @psalm-suppress InvalidNullableReturnType
+     */
     public function minute() : int
     {
+        if ($this->minute === null) {
+            /** @phpstan-ignore-next-line */
+            [$hour, $minute, $second, $microsecond] = \sscanf($this->dateTime->format('H-i-s.u'), '%d-%d-%d.%d');
+
+            $this->hour = $hour;
+            $this->minute = $minute;
+            $this->second = $second;
+            $this->microsecond = $microsecond;
+        }
+
         return $this->minute;
     }
 
+    /**
+     * @psalm-suppress NullableReturnStatement
+     * @psalm-suppress PossiblyInvalidPropertyAssignmentValue
+     * @psalm-suppress InaccessibleProperty
+     * @psalm-suppress PossiblyNullReference
+     * @psalm-suppress PossiblyNullArrayAccess
+     * @psalm-suppress InvalidNullableReturnType
+     */
     public function second() : int
     {
+        if ($this->second === null) {
+            /** @phpstan-ignore-next-line */
+            [$hour, $minute, $second, $microsecond] = \sscanf($this->dateTime->format('H-i-s.u'), '%d-%d-%d.%d');
+
+            $this->hour = $hour;
+            $this->minute = $minute;
+            $this->second = $second;
+            $this->microsecond = $microsecond;
+        }
+
         return $this->second;
     }
 
+    /**
+     * @psalm-suppress NullableReturnStatement
+     * @psalm-suppress PossiblyInvalidPropertyAssignmentValue
+     * @psalm-suppress InaccessibleProperty
+     * @psalm-suppress PossiblyNullReference
+     * @psalm-suppress PossiblyNullArrayAccess
+     * @psalm-suppress InvalidNullableReturnType
+     */
     public function microsecond() : int
     {
+        if ($this->microsecond === null) {
+            /** @phpstan-ignore-next-line */
+            [$hour, $minute, $second, $microsecond] = \sscanf($this->dateTime->format('H-i-s.u'), '%d-%d-%d.%d');
+
+            $this->hour = $hour;
+            $this->minute = $minute;
+            $this->second = $second;
+            $this->microsecond = $microsecond;
+        }
+
         return $this->microsecond;
     }
 
@@ -227,14 +293,34 @@ final class Time
         return self::fromDateTime($this->toDateTimeImmutable()->sub($timeUnit->toDateInterval()));
     }
 
+    /**
+     * @psalm-suppress NullableReturnStatement
+     * @psalm-suppress InaccessibleProperty
+     * @psalm-suppress InvalidNullableReturnType
+     */
     private function toDateTimeImmutable() : \DateTimeImmutable
     {
-        return (new \DateTimeImmutable('now', new \DateTimeZone('UTC')))
-            ->setTime(
-                $this->hour(),
-                $this->minute(),
-                $this->second(),
-                $this->microsecond()
-            );
+        if ($this->dateTime === null) {
+            $this->dateTime = (new \DateTimeImmutable('now', new \DateTimeZone('UTC')))
+                ->setTime(
+                    $this->hour(),
+                    $this->minute(),
+                    $this->second(),
+                    $this->microsecond()
+                );
+        }
+
+        if ($this->dateTime !== null && $this->clean === false) {
+            $this->dateTime = $this->dateTime
+                ->setTime(
+                    $this->hour(),
+                    $this->minute(),
+                    $this->second(),
+                    $this->microsecond()
+                );
+            $this->clean = true;
+        }
+
+        return $this->dateTime;
     }
 }

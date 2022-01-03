@@ -31,7 +31,8 @@
     },
     "MethodCallRemoval": {
       "ignore": [
-        "Aeon\\Calendar\\Gregorian\\TimePeriods::first"
+        "Aeon\\Calendar\\Gregorian\\TimePeriods::first",
+        "Aeon\\Calendar\\TimeUnit::microsecond"
       ]
     },
     "ArrayItemRemoval": {
@@ -70,14 +71,19 @@
         "Aeon\\Calendar\\Gregorian\\Day::fromDateTime",
         "Aeon\\Calendar\\Gregorian\\Month::fromDateTime",
         "Aeon\\Calendar\\Gregorian\\Time::fromDateTime",
-        "Aeon\\Calendar\\Gregorian\\Month::numberOfDays"
+        "Aeon\\Calendar\\Gregorian\\Month::numberOfDays",
+        "Aeon\\Calendar\\Gregorian\\Day::month",
+        "Aeon\\Calendar\\Gregorian\\Day::number"
       ]
     },
     "InstanceOf_": {
       "ignore": [
         "Aeon\\Calculator\\PreciseCalculator::initialize",
         "Aeon\\Calendar\\Gregorian\\LeapSeconds::load",
-        "Aeon\\Calendar\\Gregorian\\DateTime::toDateTimeImmutable"
+        "Aeon\\Calendar\\Gregorian\\DateTime::toDateTimeImmutable",
+        "Aeon\\Calendar\\Gregorian\\Day::fromDateTime",
+        "Aeon\\Calendar\\Gregorian\\Month::fromDateTime",
+        "Aeon\\Calendar\\Gregorian\\Time::fromDateTime"
       ]
     },
     "Throw_": {
@@ -102,6 +108,18 @@
         "Aeon\\Calendar\\Gregorian\\Time::fromString"
       ]
     },
+    "TrueValue": {
+      "ignore": [
+        "Aeon\\Calendar\\Gregorian\\Time::toDateTimeImmutable",
+        "Aeon\\Calendar\\Gregorian\\Day::toDateTimeImmutable",
+        "Aeon\\Calendar\\Gregorian\\Month::toDateTimeImmutable"
+      ]
+    },
+    "LogicalAnd": {
+      "ignore": [
+        "Aeon\\Calendar\\Gregorian\\Time::toDateTimeImmutable"
+      ]
+    },
     "LessThan": {
       "ignore": [
         "Aeon\\Calendar\\Gregorian\\DateTime::add",
@@ -113,10 +131,36 @@
         "Aeon\\Calendar\\Gregorian\\DateTime::add"
       ]
     },
+    "Identical": {
+      "ignore": [
+        "Aeon\\Calendar\\Gregorian\\TimeZone::type",
+        "Aeon\\Calendar\\Gregorian\\TimeZone::name",
+        "Aeon\\Calendar\\Gregorian\\Time::toDateTimeImmutable",
+        "Aeon\\Calendar\\Gregorian\\Month::toDateTimeImmutable"
+      ]
+    },
+    "UnwrapArrayValues": {
+      "ignore": [
+        "Aeon\\Calendar\\Gregorian\\TimePeriods::isEqual"
+      ]
+    },
     "NotIdentical": {
       "ignore": [
+        "Aeon\\Calendar\\Gregorian\\TimeZone::type",
+        "Aeon\\Calendar\\Gregorian\\TimeZone::name",
         "Aeon\\Calendar\\RelativeTimeUnit::inYears",
-        "Aeon\\Calendar\\RelativeTimeUnit::inCalendarMonths"
+        "Aeon\\Calendar\\RelativeTimeUnit::inCalendarMonths",
+        "Aeon\\Calendar\\Gregorian\\Time::toDateTimeImmutable"
+      ]
+    },
+    "FalseValue": {
+      "ignore": [
+        "Aeon\\Calendar\\Gregorian\\TimeZone::type",
+        "Aeon\\Calendar\\Gregorian\\TimeZone::name",
+        "Aeon\\Calendar\\Gregorian\\Month::fromDateTime",
+        "Aeon\\Calendar\\Gregorian\\Month::toDateTimeImmutable",
+        "Aeon\\Calendar\\Gregorian\\Time::toDateTimeImmutable",
+        "Aeon\\Calendar\\Gregorian\\Time::fromDateTime"
       ]
     },
     "Concat": {

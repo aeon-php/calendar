@@ -158,7 +158,6 @@ final class DateTimeTest extends TestCase
         yield ['2020-31-01'];
         yield ['2020-01-32'];
         yield ['something'];
-        yield ['00:00:00'];
     }
 
     public function test_creating_datetime_from_string_relative_with_system_default_timezone_different_from_UTC() : void

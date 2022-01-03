@@ -11,6 +11,13 @@ use PHPUnit\Framework\TestCase;
 
 final class TimeUnitTest extends TestCase
 {
+    public function test_invert() : void
+    {
+        $timeUnit = TimeUnit::day()->invert();
+
+        $this->assertSame(-86400, $timeUnit->inSeconds());
+    }
+
     public function test_creating_with_negative_seconds() : void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -415,7 +422,7 @@ final class TimeUnitTest extends TestCase
      */
     public function test_creating_from_date_interval(\DateInterval $dateInterval, TimeUnit $timeUnit) : void
     {
-        $this->assertEquals(TimeUnit::fromDateInterval($dateInterval), $timeUnit);
+        $this->assertObjectEquals(TimeUnit::fromDateInterval($dateInterval), $timeUnit, 'isEqual');
     }
 
     /**
@@ -443,7 +450,7 @@ final class TimeUnitTest extends TestCase
      */
     public function test_creating_from_date_string(string $dateString, TimeUnit $timeUnit) : void
     {
-        $this->assertEquals(TimeUnit::fromDateString($dateString), $timeUnit);
+        $this->assertObjectEquals(TimeUnit::fromDateString($dateString), $timeUnit, 'isEqual');
     }
 
     /**

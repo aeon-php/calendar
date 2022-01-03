@@ -26,7 +26,7 @@ final class MonthsIteratorTest extends TestCase
 
         $array = \iterator_to_array(MonthsIterator::fromDateTimeIterator(new DateTimeIntervalIterator($begin, $end, $timeUnit, Interval::closed()))->reverse());
 
-        $this->assertEquals($array[0], Month::fromString('2021-01-01 00:00:00 UTC'));
-        $this->assertEquals($array[12], Month::fromString('2020-01-01 00:00:00 UTC'));
+        $this->assertObjectEquals($array[0], Month::fromString('2021-01-01 00:00:00 UTC'), 'isEqual');
+        $this->assertObjectEquals($array[12], Month::fromString('2020-01-01 00:00:00 UTC'), 'isEqual');
     }
 }

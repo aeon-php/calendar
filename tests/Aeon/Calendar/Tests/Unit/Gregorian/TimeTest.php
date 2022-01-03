@@ -40,7 +40,6 @@ final class TimeTest extends TestCase
      */
     public function invalid_string_day_format() : \Generator
     {
-        yield ['01-01-01'];
         yield ['2020-32'];
     }
 
@@ -59,7 +58,7 @@ final class TimeTest extends TestCase
      */
     public function test_from_string(string $invalidValue, Time $time) : void
     {
-        $this->assertEquals($time, Time::fromString($invalidValue));
+        $this->assertObjectEquals($time, Time::fromString($invalidValue), 'isEqual');
     }
 
     /**

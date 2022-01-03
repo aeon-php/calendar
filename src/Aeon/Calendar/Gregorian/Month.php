@@ -23,6 +23,8 @@ final class Month
 
     private ?\DateTimeImmutable $dateTime;
 
+    private bool $clean = true;
+
     public function __construct(Year $year, int $number)
     {
         if ($number <= 0 || $number > self::TOTAL_MONTHS) {
@@ -49,13 +51,20 @@ final class Month
     /**
      * @psalm-pure
      * @psalm-suppress ImpureMethodCall
+     * @psalm-suppress ImpureStaticProperty
+     * @psalm-suppress PropertyTypeCoercion
      */
     public static function fromDateTime(\DateTimeInterface $dateTime) : self
     {
-        return new self(
+        $newMonth =  new self(
             new Year((int) $dateTime->format('Y')),
             (int) $dateTime->format('m')
         );
+
+        $newMonth->dateTime = $dateTime instanceof \DateTime ? \DateTimeImmutable::createFromMutable($dateTime) : $dateTime;
+        $newMonth->clean = false;
+
+        return $newMonth;
     }
 
     /**
@@ -63,26 +72,11 @@ final class Month
      */
     public static function fromString(string $date) : self
     {
-        $dateNormalized = \trim(\strtolower($date));
-        $dateParts = \date_parse($date);
-
-        if (!\is_array($dateParts)) {
-            throw new InvalidArgumentException("Value \"{$date}\" is not valid month format.");
-        }
-
-        if ($dateParts['error_count'] > 0) {
-            throw new InvalidArgumentException("Value \"{$date}\" is not valid month format.");
-        }
-
-        if (isset($dateParts['relative']) || \in_array($dateNormalized, ['midnight', 'noon', 'now', 'today'], true)) {
+        try {
             return self::fromDateTime(new \DateTimeImmutable($date));
-        }
-
-        if (!\is_int($dateParts['year']) || !\is_int($dateParts['month'])) {
+        } catch (\Exception $e) {
             throw new InvalidArgumentException("Value \"{$date}\" is not valid month format.");
         }
-
-        return new self(new Year($dateParts['year']), $dateParts['month']);
     }
 
     /**
@@ -91,8 +85,8 @@ final class Month
     public function __debugInfo() : array
     {
         return [
-            'year' => $this->year->number(),
-            'month' => $this->number,
+            'year' => $this->year()->number(),
+            'month' => $this->number(),
         ];
     }
 
@@ -102,8 +96,8 @@ final class Month
     public function __serialize() : array
     {
         return [
-            'year' => $this->year,
-            'number' => $this->number,
+            'year' => $this->year(),
+            'number' => $this->number(),
         ];
     }
 
@@ -262,8 +256,9 @@ final class Month
      */
     public function toDateTimeImmutable() : \DateTimeImmutable
     {
-        if ($this->dateTime === null) {
+        if ($this->dateTime === null || $this->clean === false) {
             $this->dateTime = new \DateTimeImmutable(\sprintf('%d-%d-01 00:00:00.000000 UTC', $this->year()->number(), $this->number()));
+            $this->clean = true;
         }
 
         return $this->dateTime;

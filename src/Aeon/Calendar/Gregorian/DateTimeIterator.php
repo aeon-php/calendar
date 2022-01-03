@@ -73,12 +73,10 @@ final class DateTimeIterator implements \Iterator
         return $this->currentDate;
     }
 
-    public function next() : DateTime
+    public function next() : void
     {
         $this->currentDate = $this->currentDate->add($this->timeUnit);
         $this->key++;
-
-        return $this->currentDate;
     }
 
     public function hasNext() : bool

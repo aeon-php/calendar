@@ -112,9 +112,7 @@ final class DayTest extends TestCase
      */
     public function invalid_string_day_format() : \Generator
     {
-        yield ['00:01'];
         yield ['2020-32'];
-        yield ['2020'];
     }
 
     /**
@@ -122,7 +120,7 @@ final class DayTest extends TestCase
      */
     public function test_from_string(string $invalidValue, Day $month) : void
     {
-        $this->assertEquals($month, Day::fromString($invalidValue));
+        $this->assertObjectEquals($month, Day::fromString($invalidValue), 'isEqual');
     }
 
     /**
