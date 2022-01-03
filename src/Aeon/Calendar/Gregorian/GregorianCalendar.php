@@ -55,6 +55,10 @@ final class GregorianCalendar implements Calendar
 
     public function now() : DateTime
     {
+        if ($this->timeZone->name() === 'UTC') {
+            return DateTime::fromDateTime(new \DateTimeImmutable('now', new \DateTimeZone('UTC')));
+        }
+
         return DateTime::fromDateTime(new \DateTimeImmutable('now', new \DateTimeZone('UTC')))
             ->toTimeZone($this->timeZone);
     }
