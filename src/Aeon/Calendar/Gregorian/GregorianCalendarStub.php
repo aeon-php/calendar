@@ -44,17 +44,17 @@ final class GregorianCalendarStub implements Calendar
 
     public function currentYear() : Year
     {
-        return Year::fromDateTime($this->now()->toDateTimeImmutable());
+        return $this->now()->year();
     }
 
     public function currentMonth() : Month
     {
-        return Month::fromDateTime($this->now()->toDateTimeImmutable());
+        return $this->now()->month();
     }
 
     public function currentDay() : Day
     {
-        return Day::fromDateTime($this->now()->toDateTimeImmutable());
+        return $this->now()->day();
     }
 
     public function now() : DateTime
