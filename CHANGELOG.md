@@ -1,4 +1,4 @@
-## [Unreleased] - 2022-01-03
+## [1.0.3] - 2022-01-04
 
 ### Changed
 - [#199](https://github.com/aeon-php/calendar/pull/199) - **memoization of DateTimeImmutable in all date & time elements** - [@norberttech](https://github.com/norberttech)
