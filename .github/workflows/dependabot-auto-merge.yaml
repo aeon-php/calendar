@@ -3,11 +3,9 @@ name: "Dependabot Auto Merge"
 on:
   workflow_run:
     types:
-      - completed
+      - "completed"
     workflows:
-      - 'Tests'
-      - 'Mutation Tests'
-      - 'Static Analyze'
+      - 'Test Suite'
 
 jobs:
   merge-me:
