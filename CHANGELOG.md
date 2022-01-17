@@ -1,7 +1,10 @@
-## [Unreleased] - 2022-01-14
+## [Unreleased] - 2022-01-17
 
 ### Changed
 - [141ce9](https://github.com/aeon-php/calendar/commit/141ce987deead220d16554ec35dc49d9774e0c50) - **custom workflows into aeon-php reusable workflows** - [@norberttech](https://github.com/norberttech)
+
+### Fixed
+- [f85300](https://github.com/aeon-php/calendar/commit/f85300cecf3c4037d9609cc17437ff147fd5d1e5) - **PHP versions scope** - [@norberttech](https://github.com/norberttech)
 
 ### Updated
 - [abef27](https://github.com/aeon-php/calendar/commit/abef27502a926c526eb86a0c04c18b0658113979) - **infection** - [@norberttech](https://github.com/norberttech)
