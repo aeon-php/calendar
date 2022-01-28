@@ -1,4 +1,4 @@
-## [Unreleased] - 2022-01-28
+## [1.0.4] - 2022-01-28
 
 ### Changed
 - [141ce9](https://github.com/aeon-php/calendar/commit/141ce987deead220d16554ec35dc49d9774e0c50) - **custom workflows into aeon-php reusable workflows** - [@norberttech](https://github.com/norberttech)
