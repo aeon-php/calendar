@@ -666,7 +666,6 @@ final class DateTime
             return false;
         }
 
-
         if (PHP_VERSION_ID < 80100) {
             /**
              * @var array<int, array{ts: int, time: string, offset: int, isdst: bool, abbr: string}> $transitions
@@ -686,7 +685,6 @@ final class DateTime
 
             return true;
         }
-
 
         /**
          * @var array<int, array{ts: int, time: string, offset: int, isdst: bool, abbr: string}> $transitions
