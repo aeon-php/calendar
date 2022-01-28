@@ -42,12 +42,14 @@
     },
     "IncrementInteger": {
       "ignore": [
+        "Aeon\\Calendar\\Gregorian\\DateTime::isAmbiguous",
         "Aeon\\Calendar\\Stopwatch::elapsedTime",
         "Aeon\\Calendar\\Gregorian\\Day\\WeekDay::*"
       ]
     },
     "DecrementInteger": {
       "ignore": [
+        "Aeon\\Calendar\\Gregorian\\DateTime::isAmbiguous",
         "Aeon\\Calendar\\Stopwatch::elapsedTime",
         "Aeon\\Calendar\\RelativeTimeUnit::month",
         "Aeon\\Calendar\\RelativeTimeUnit::year",
@@ -80,6 +82,7 @@
       "ignore": [
         "Aeon\\Calculator\\PreciseCalculator::initialize",
         "Aeon\\Calendar\\Gregorian\\LeapSeconds::load",
+        "Aeon\\Calendar\\Gregorian\\DateTime::isAmbiguous",
         "Aeon\\Calendar\\Gregorian\\DateTime::toDateTimeImmutable",
         "Aeon\\Calendar\\Gregorian\\Day::fromDateTime",
         "Aeon\\Calendar\\Gregorian\\Month::fromDateTime",
@@ -110,6 +113,7 @@
     },
     "TrueValue": {
       "ignore": [
+        "Aeon\\Calendar\\Gregorian\\DateTime::isAmbiguous",
         "Aeon\\Calendar\\Gregorian\\Time::toDateTimeImmutable",
         "Aeon\\Calendar\\Gregorian\\Day::toDateTimeImmutable",
         "Aeon\\Calendar\\Gregorian\\Month::toDateTimeImmutable"
@@ -117,11 +121,13 @@
     },
     "LogicalAnd": {
       "ignore": [
+        "Aeon\\Calendar\\Gregorian\\DateTime::isAmbiguous",
         "Aeon\\Calendar\\Gregorian\\Time::toDateTimeImmutable"
       ]
     },
     "LessThan": {
       "ignore": [
+        "Aeon\\Calendar\\Gregorian\\DateTime::isAmbiguous",
         "Aeon\\Calendar\\Gregorian\\DateTime::add",
         "Aeon\\Calendar\\Gregorian\\Month::minusMonths"
       ]
@@ -150,11 +156,23 @@
         "Aeon\\Calendar\\Gregorian\\TimeZone::name",
         "Aeon\\Calendar\\RelativeTimeUnit::inYears",
         "Aeon\\Calendar\\RelativeTimeUnit::inCalendarMonths",
-        "Aeon\\Calendar\\Gregorian\\Time::toDateTimeImmutable"
+        "Aeon\\Calendar\\Gregorian\\Time::toDateTimeImmutable",
+        "Aeon\\Calendar\\Gregorian\\DateTime::isAmbiguous"
+      ]
+    },
+    "Continue_": {
+      "ignore": [
+        "Aeon\\Calendar\\Gregorian\\DateTime::isAmbiguous"
+      ]
+    },
+    "Foreach_": {
+      "ignore": [
+        "Aeon\\Calendar\\Gregorian\\DateTime::isAmbiguous"
       ]
     },
     "FalseValue": {
       "ignore": [
+        "Aeon\\Calendar\\Gregorian\\DateTime::isAmbiguous",
         "Aeon\\Calendar\\Gregorian\\TimeZone::type",
         "Aeon\\Calendar\\Gregorian\\TimeZone::name",
         "Aeon\\Calendar\\Gregorian\\Month::fromDateTime",
