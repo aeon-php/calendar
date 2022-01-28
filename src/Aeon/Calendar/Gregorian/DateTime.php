@@ -666,23 +666,57 @@ final class DateTime
             return false;
         }
 
+
+        if (PHP_VERSION_ID < 80100) {
+            /**
+             * @var array<int, array{ts: int, time: string, offset: int, isdst: bool, abbr: string}> $transitions
+             */
+            $transitions = $tz->toDateTimeZone()->getTransitions(
+                $this->timestampUNIX()->sub(TimeUnit::hours(1)->add(TimeUnit::minute()))->inSeconds(),
+                $this->timestampUNIX()->add(TimeUnit::hours(1))->inSeconds(),
+            );
+
+            if (\count($transitions) === 1) {
+                return false;
+            }
+
+            if ($transitions[1]['offset'] - $transitions[0]['offset'] === 3600) {
+                return false;
+            }
+
+            return true;
+        }
+
+
         /**
          * @var array<int, array{ts: int, time: string, offset: int, isdst: bool, abbr: string}> $transitions
          */
-        $transitions = $tz->toDateTimeZone()->getTransitions(
-            $this->timestampUNIX()->sub(TimeUnit::hours(1)->add(TimeUnit::minute()))->inSeconds(),
-            $this->timestampUNIX()->add(TimeUnit::hours(1))->inSeconds(),
-        );
+        $transitions = $tz->toDateTimeZone()->getTransitions();
 
-        if (\count($transitions) === 1) {
-            return false;
+        foreach ($transitions as $transition) {
+            if ($transition['isdst'] !== false) {
+                continue;
+            }
+
+            $transitionTime = self::fromString($transition['time']);
+
+            if ($transitionTime->isAfterOrequal($this->sub(TimeUnit::hours(2)))
+                    && $transitionTime->isBeforeOrEqual($this->add(TimeUnit::hours(2)))
+                ) {
+                $transitionPeriod = new TimePeriod(
+                    $transitionTime,
+                    $transitionTime->add(TimeUnit::seconds($transition['offset']))
+                );
+
+                $currentTimeUTC = $this->toTimeZone(TimeZone::UTC());
+
+                if ($currentTimeUTC->isAfterOrEqual($transitionPeriod->start()) && $currentTimeUTC->isBeforeOrEqual($transitionPeriod->end())) {
+                    return true;
+                }
+            }
         }
 
-        if ($transitions[1]['offset'] - $transitions[0]['offset'] === 3600) {
-            return false;
-        }
-
-        return true;
+        return false;
     }
 
     public function quarter() : Quarter

@@ -914,37 +914,51 @@ final class DateTimeTest extends TestCase
     }
 
     /**
-     * @dataProvider checking_ambiguous_time_data_provider
+     * @dataProvider ambiguous_time_data_provider
      */
-    public function test_checking_is_ambiguous(DateTime $dateTime, bool $ambiguous) : void
+    public function test_checking_is_ambiguous(DateTime $dateTime) : void
     {
-        $this->assertSame($ambiguous, $dateTime->isAmbiguous());
+        $this->assertTrue($dateTime->isAmbiguous());
     }
 
     /**
-     * @return \Generator<int, array{DateTime, bool}, mixed, void>
+     * @return \Generator<int, array{DateTime}, mixed, void>
      */
-    public function checking_ambiguous_time_data_provider() : \Generator
+    public function ambiguous_time_data_provider() : \Generator
     {
-        yield [new DateTime(Day::fromString('2020-01-01'), Time::fromString('00:00:00'), TimeZone::UTC()), false];
-        yield [DateTime::fromString('2020-10-25 01:59:59 UTC'), false];
-        yield [DateTime::fromString('2020-10-25 00:00:00 Europe/Warsaw'), false];
-        yield [DateTime::fromString('2020-10-25 01:00:00 Europe/Warsaw'), false];
-        yield [DateTime::fromString('2020-10-25 01:59:59 Europe/Warsaw'), false];
-        yield [DateTime::fromString('2020-10-25 02:00:00 Europe/Warsaw'), true];
-        yield [DateTime::fromString('2020-10-25 02:30:30 Europe/Warsaw'), true];
-        yield [DateTime::fromString('2020-10-25 02:59:59 Europe/Warsaw'), true];
-        yield [DateTime::fromString('2020-10-25 03:00:00 Europe/Warsaw'), true];
-        yield [DateTime::fromString('2020-10-25 03:01:00 Europe/Warsaw'), false];
+        yield [DateTime::fromString('2020-10-25 02:00:00 Europe/Warsaw')];
+        yield [DateTime::fromString('2020-10-25 02:30:30 Europe/Warsaw')];
+        yield [DateTime::fromString('2020-10-25 02:59:59 Europe/Warsaw')];
+        yield [DateTime::fromString('2020-10-25 03:00:00 Europe/Warsaw')];
+    }
 
-        yield [DateTime::fromString('2020-03-29 01:59:58 Europe/Warsaw'), false];
-        yield [DateTime::fromString('2020-03-29 01:59:59 Europe/Warsaw'), false];
-        yield [DateTime::fromString('2020-03-29 02:00:00 Europe/Warsaw'), false];
-        yield [DateTime::fromString('2020-03-29 02:59:59 Europe/Warsaw'), false];
-        yield [DateTime::fromString('2020-03-29 03:00:00 Europe/Warsaw'), false];
-        yield [DateTime::fromString('2020-03-29 03:01:00 Europe/Warsaw'), false];
-        yield [DateTime::fromString('2020-03-29 04:00:00 Europe/Warsaw'), false];
-        yield [DateTime::fromString('2020-03-29 05:00:00 Europe/Warsaw'), false];
+    /**
+     * @dataProvider not_ambiguous_time_data_provider
+     */
+    public function test_checking_is_not_ambiguous(DateTime $dateTime) : void
+    {
+        $this->assertFalse($dateTime->isAmbiguous());
+    }
+
+    /**
+     * @return \Generator<int, array{DateTime}, mixed, void>
+     */
+    public function not_ambiguous_time_data_provider() : \Generator
+    {
+        yield [new DateTime(Day::fromString('2020-01-01'), Time::fromString('00:00:00'), TimeZone::UTC())];
+        yield [DateTime::fromString('2020-10-25 01:59:59 UTC')];
+        yield [DateTime::fromString('2020-10-25 00:00:00 Europe/Warsaw')];
+        yield [DateTime::fromString('2020-10-25 01:00:00 Europe/Warsaw')];
+        yield [DateTime::fromString('2020-10-25 01:59:59 Europe/Warsaw')];
+        yield [DateTime::fromString('2020-10-25 03:01:00 Europe/Warsaw')];
+        yield [DateTime::fromString('2020-03-29 01:59:58 Europe/Warsaw')];
+        yield [DateTime::fromString('2020-03-29 01:59:59 Europe/Warsaw')];
+        yield [DateTime::fromString('2020-03-29 02:00:00 Europe/Warsaw')];
+        yield [DateTime::fromString('2020-03-29 02:59:59 Europe/Warsaw')];
+        yield [DateTime::fromString('2020-03-29 03:00:00 Europe/Warsaw')];
+        yield [DateTime::fromString('2020-03-29 03:01:00 Europe/Warsaw')];
+        yield [DateTime::fromString('2020-03-29 04:00:00 Europe/Warsaw')];
+        yield [DateTime::fromString('2020-03-29 05:00:00 Europe/Warsaw')];
     }
 
     public function test_using_create_constructor_during_dst_gap() : void
