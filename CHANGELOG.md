@@ -1,3 +1,8 @@
+## [Unreleased] - 2022-07-18
+
+### Updated
+- [46c279](https://github.com/aeon-php/calendar/commit/46c27924b95e35451b3cab4c4693f36069fdfcbc) - **leap seconds, fixed tools plugins setting** - [@norberttech](https://github.com/norberttech)
+
 ## [1.0.4] - 2022-01-28
 
 ### Changed
