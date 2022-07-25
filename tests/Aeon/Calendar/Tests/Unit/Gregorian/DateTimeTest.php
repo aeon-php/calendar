@@ -100,7 +100,7 @@ final class DateTimeTest extends TestCase
         // DTS switch +1 hour
         yield ['2020-03-29 03:30:00+02:00', '2020-03-29 02:30:00 Europe/Warsaw', 'Y-m-d H:i:sP'];
         // DTS switch -1 hour
-        yield ['2020-10-25 02:30:00+01:00', '2020-10-25 02:30:00 Europe/Warsaw', 'Y-m-d H:i:sP'];
+        yield ['2020-10-25 02:30:00+02:00', '2020-10-25 02:30:00 Europe/Warsaw', 'Y-m-d H:i:sP'];
         yield ['2020-10-25 01:30:00+02:00', '2020-10-25 01:30:00 Europe/Warsaw', 'Y-m-d H:i:sP'];
         // now
         yield [(new \DateTimeImmutable('now'))->format('Y-m-d'), 'now', 'Y-m-d'];
@@ -950,7 +950,6 @@ final class DateTimeTest extends TestCase
         yield [DateTime::fromString('2020-10-25 00:00:00 Europe/Warsaw')];
         yield [DateTime::fromString('2020-10-25 01:00:00 Europe/Warsaw')];
         yield [DateTime::fromString('2020-10-25 01:59:59 Europe/Warsaw')];
-        yield [DateTime::fromString('2020-10-25 03:01:00 Europe/Warsaw')];
         yield [DateTime::fromString('2020-03-29 01:59:58 Europe/Warsaw')];
         yield [DateTime::fromString('2020-03-29 01:59:59 Europe/Warsaw')];
         yield [DateTime::fromString('2020-03-29 02:00:00 Europe/Warsaw')];

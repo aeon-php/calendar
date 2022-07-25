@@ -1,4 +1,7 @@
-## [Unreleased] - 2022-07-22
+## [Unreleased] - 2022-07-23
+
+### Fixed
+- [028464](https://github.com/aeon-php/calendar/commit/028464fc8fb56bee909e2f2165caed36a4395bc9) - **failing tests** - [@norberttech](https://github.com/norberttech)
 
 ### Updated
 - [fe2252](https://github.com/aeon-php/calendar/commit/fe22529b0188edfc4e5ad055c456d087bb014ce4) - **README.md** - [@norberttech](https://github.com/norberttech)
