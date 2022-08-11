@@ -180,7 +180,10 @@ final class Day
         return $dateTime->day();
     }
 
-    /** @deprecated Use `addDays` instead. Will be removed with 2.0 */
+    /**
+     * @infection-ignore-all
+     * @deprecated Use `addDays` instead. Will be removed with 2.0
+     */
     public function plusDays(int $days) : self
     {
         return $this->addDays($days);
@@ -191,7 +194,10 @@ final class Day
         return $this->midnight(TimeZone::UTC())->add(TimeUnit::days($days))->day();
     }
 
-    /** @deprecated Use `subDays` instead. Will be removed with 2.0 */
+    /**
+     * @infection-ignore-all
+     * @deprecated Use `subDays` instead. Will be removed with 2.0
+     */
     public function minusDays(int $days) : self
     {
         return $this->subDays($days);
@@ -202,7 +208,10 @@ final class Day
         return $this->midnight(TimeZone::UTC())->sub(TimeUnit::days($days))->day();
     }
 
-    /** @deprecated Use `addMonths` instead. Will be removed with 2.0 */
+    /**
+     * @infection-ignore-all
+     * @deprecated Use `addMonths` instead. Will be removed with 2.0
+     */
     public function plusMonths(int $months) : self
     {
         return $this->addMonths($months);
@@ -213,7 +222,10 @@ final class Day
         return $this->midnight(TimeZone::UTC())->add(RelativeTimeUnit::months($months))->day();
     }
 
-    /** @deprecated Use `subMonths` instead. Will be removed with 2.0 */
+    /**
+     * @infection-ignore-all
+     * @deprecated Use `subMonths` instead. Will be removed with 2.0
+     */
     public function minusMonths(int $months) : self
     {
         return $this->addMonths($months);
@@ -224,7 +236,10 @@ final class Day
         return $this->midnight(TimeZone::UTC())->sub(RelativeTimeUnit::months($months))->day();
     }
 
-    /** @deprecated Use `addYears` instead. Will be removed with 2.0 */
+    /**
+     * @infection-ignore-all
+     * @deprecated Use `addYears` instead. Will be removed with 2.0
+     */
     public function plusYears(int $years) : self
     {
         return $this->addYears($years);
@@ -235,7 +250,10 @@ final class Day
         return $this->midnight(TimeZone::UTC())->add(RelativeTimeUnit::years($years))->day();
     }
 
-    /** @deprecated Use `subYears` instead. Will be removed with 2.0 */
+    /**
+     * @infection-ignore-all
+     * @deprecated Use `subYears` instead. Will be removed with 2.0
+     */
     public function minusYears(int $years) : self
     {
         return $this->subYears($years);

@@ -152,7 +152,10 @@ final class Year
         return $this->year;
     }
 
-    /** @deprecated Use `add` instead. Will be removed with 2.0 */
+    /**
+     * @infection-ignore-all
+     * @deprecated Use `add` instead. Will be removed with 2.0
+     */
     public function plus(int $years) : self
     {
         return $this->add($years);
@@ -163,7 +166,10 @@ final class Year
         return new self($this->year + $years);
     }
 
-    /** @deprecated Use `sub` instead. Will be removed with 2.0 */
+    /**
+     * @infection-ignore-all
+     * @deprecated Use `sub` instead. Will be removed with 2.0
+     */
     public function minus(int $years) : self
     {
         return $this->sub($years);

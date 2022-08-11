@@ -127,7 +127,10 @@ final class Month
         return $this->addMonths(1);
     }
 
-    /** @deprecated Use `add` instead. Will be removed with 2.0 */
+    /**
+     * @infection-ignore-all
+     * @deprecated Use `add` instead. Will be removed with 2.0
+     */
     public function plus(int $years, int $months) : self
     {
         return $this->add($years, $months);
@@ -148,7 +151,10 @@ final class Month
         return $month;
     }
 
-    /** @deprecated Use `sub` instead. Will be removed with 2.0 */
+    /**
+     * @infection-ignore-all
+     * @deprecated Use `sub` instead. Will be removed with 2.0
+     */
     public function minus(int $years, int $months) : self
     {
         return $this->sub($years, $months);
@@ -169,7 +175,10 @@ final class Month
         return $month;
     }
 
-    /** @deprecated Use `addMonths` instead. Will be removed with 2.0 */
+    /**
+     * @infection-ignore-all
+     * @deprecated Use `addMonths` instead. Will be removed with 2.0
+     */
     public function plusMonths(int $months) : self
     {
         return $this->addMonths($months);
@@ -195,7 +204,10 @@ final class Month
         return new self(new Year($year), $month);
     }
 
-    /** @deprecated Use `subMonths` instead. Will be removed with 2.0 */
+    /**
+     * @infection-ignore-all
+     * @deprecated Use `subMonths` instead. Will be removed with 2.0
+     */
     public function minusMonths(int $months) : self
     {
         return $this->subMonths($months);
@@ -222,7 +234,10 @@ final class Month
         return new self(new Year($year), $month);
     }
 
-    /** @deprecated Use `addYears` instead. Will be removed with 2.0 */
+    /**
+     * @infection-ignore-all
+     * @deprecated Use `addYears` instead. Will be removed with 2.0
+     */
     public function plusYears(int $years) : self
     {
         return $this->addYears($years);
@@ -233,7 +248,10 @@ final class Month
         return new self($this->year->add($years), $this->number);
     }
 
-    /** @deprecated Use `subYears` instead. Will be removed with 2.0 */
+    /**
+     * @infection-ignore-all
+     * @deprecated Use `subYears` instead. Will be removed with 2.0
+     */
     public function minusYears(int $years) : self
     {
         return $this->subYears($years);
