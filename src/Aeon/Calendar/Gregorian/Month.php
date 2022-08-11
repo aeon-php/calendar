@@ -119,45 +119,63 @@ final class Month
 
     public function previous() : self
     {
-        return $this->minusMonths(1);
+        return $this->subMonths(1);
     }
 
     public function next() : self
     {
-        return $this->plusMonths(1);
+        return $this->addMonths(1);
     }
 
+    /** @deprecated Use `add` instead. Will be removed with 2.0 */
     public function plus(int $years, int $months) : self
     {
-        $month = $this;
-
-        if ($months !== 0) {
-            $month = $month->plusMonths($months);
-        }
-
-        if ($years !== 0) {
-            $month = $month->plusYears($years);
-        }
-
-        return $month;
+        return $this->add($years, $months);
     }
 
-    public function minus(int $years, int $months) : self
+    public function add(int $years, int $months) : self
     {
         $month = $this;
 
         if ($months !== 0) {
-            $month = $month->minusMonths($months);
+            $month = $month->addMonths($months);
         }
 
         if ($years !== 0) {
-            $month = $month->minusYears($years);
+            $month = $month->addYears($years);
         }
 
         return $month;
     }
 
+    /** @deprecated Use `sub` instead. Will be removed with 2.0 */
+    public function minus(int $years, int $months) : self
+    {
+        return $this->sub($years, $months);
+    }
+
+    public function sub(int $years, int $months) : self
+    {
+        $month = $this;
+
+        if ($months !== 0) {
+            $month = $month->subMonths($months);
+        }
+
+        if ($years !== 0) {
+            $month = $month->subYears($years);
+        }
+
+        return $month;
+    }
+
+    /** @deprecated Use `addMonths` instead. Will be removed with 2.0 */
     public function plusMonths(int $months) : self
+    {
+        return $this->addMonths($months);
+    }
+
+    public function addMonths(int $months) : self
     {
         $years = (int) ($months / self::TOTAL_MONTHS);
         $monthsRemainder = $months % self::TOTAL_MONTHS;
@@ -177,7 +195,13 @@ final class Month
         return new self(new Year($year), $month);
     }
 
+    /** @deprecated Use `subMonths` instead. Will be removed with 2.0 */
     public function minusMonths(int $months) : self
+    {
+        return $this->subMonths($months);
+    }
+
+    public function subMonths(int $months) : self
     {
         $years = (int) ($months / self::TOTAL_MONTHS);
         $monthsRemainder = $months % self::TOTAL_MONTHS;
@@ -198,14 +222,26 @@ final class Month
         return new self(new Year($year), $month);
     }
 
+    /** @deprecated Use `addYears` instead. Will be removed with 2.0 */
     public function plusYears(int $years) : self
     {
-        return new self($this->year->plus($years), $this->number);
+        return $this->addYears($years);
     }
 
+    public function addYears(int $years) : self
+    {
+        return new self($this->year->add($years), $this->number);
+    }
+
+    /** @deprecated Use `subYears` instead. Will be removed with 2.0 */
     public function minusYears(int $years) : self
     {
-        return new self($this->year->minus($years), $this->number);
+        return $this->subYears($years);
+    }
+
+    public function subYears(int $years) : self
+    {
+        return new self($this->year->sub($years), $this->number);
     }
 
     public function firstDay() : Day

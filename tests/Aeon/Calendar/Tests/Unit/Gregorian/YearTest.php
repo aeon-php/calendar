@@ -192,11 +192,11 @@ final class YearTest extends TestCase
 
     public function test_modify_months() : void
     {
-        $this->assertSame('2015-01-01', Year::fromString('2020-01-01')->minus(5)->toDateTimeImmutable()->format('Y-m-d'));
-        $this->assertSame('2019-01-01', Year::fromString('2020-01-01')->minus(1)->toDateTimeImmutable()->format('Y-m-d'));
-        $this->assertSame('2026-01-01', Year::fromString('2020-01-01')->plus(6)->toDateTimeImmutable()->format('Y-m-d'));
-        $this->assertSame('2021-01-01', Year::fromString('2020-01-01')->plus(1)->toDateTimeImmutable()->format('Y-m-d'));
-        $this->assertSame('2019-01-01', Year::fromString('2020-01-01')->plus(-1)->toDateTimeImmutable()->format('Y-m-d'));
+        $this->assertSame('2015-01-01', Year::fromString('2020-01-01')->sub(5)->toDateTimeImmutable()->format('Y-m-d'));
+        $this->assertSame('2019-01-01', Year::fromString('2020-01-01')->sub(1)->toDateTimeImmutable()->format('Y-m-d'));
+        $this->assertSame('2026-01-01', Year::fromString('2020-01-01')->add(6)->toDateTimeImmutable()->format('Y-m-d'));
+        $this->assertSame('2021-01-01', Year::fromString('2020-01-01')->add(1)->toDateTimeImmutable()->format('Y-m-d'));
+        $this->assertSame('2019-01-01', Year::fromString('2020-01-01')->add(-1)->toDateTimeImmutable()->format('Y-m-d'));
     }
 
     public function test_until() : void

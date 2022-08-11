@@ -17,7 +17,7 @@ final class DayIterationBench
     public function bench_aeon_iteration_over_last_half_of_the_year() : void
     {
         $end = GregorianCalendar::UTC()->currentDay();
-        $start = $end->minusMonths(6);
+        $start = $end->subMonths(6);
 
         $days = [];
 
