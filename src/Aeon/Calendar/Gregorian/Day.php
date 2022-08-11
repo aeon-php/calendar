@@ -182,6 +182,7 @@ final class Day
 
     /**
      * @infection-ignore-all
+     *
      * @deprecated Use `addDays` instead. Will be removed with 2.0
      */
     public function plusDays(int $days) : self
@@ -196,6 +197,7 @@ final class Day
 
     /**
      * @infection-ignore-all
+     *
      * @deprecated Use `subDays` instead. Will be removed with 2.0
      */
     public function minusDays(int $days) : self
@@ -210,6 +212,7 @@ final class Day
 
     /**
      * @infection-ignore-all
+     *
      * @deprecated Use `addMonths` instead. Will be removed with 2.0
      */
     public function plusMonths(int $months) : self
@@ -224,6 +227,7 @@ final class Day
 
     /**
      * @infection-ignore-all
+     *
      * @deprecated Use `subMonths` instead. Will be removed with 2.0
      */
     public function minusMonths(int $months) : self
@@ -238,6 +242,7 @@ final class Day
 
     /**
      * @infection-ignore-all
+     *
      * @deprecated Use `addYears` instead. Will be removed with 2.0
      */
     public function plusYears(int $years) : self
@@ -252,6 +257,7 @@ final class Day
 
     /**
      * @infection-ignore-all
+     *
      * @deprecated Use `subYears` instead. Will be removed with 2.0
      */
     public function minusYears(int $years) : self

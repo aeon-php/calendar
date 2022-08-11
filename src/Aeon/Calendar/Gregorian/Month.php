@@ -129,6 +129,7 @@ final class Month
 
     /**
      * @infection-ignore-all
+     *
      * @deprecated Use `add` instead. Will be removed with 2.0
      */
     public function plus(int $years, int $months) : self
@@ -153,6 +154,7 @@ final class Month
 
     /**
      * @infection-ignore-all
+     *
      * @deprecated Use `sub` instead. Will be removed with 2.0
      */
     public function minus(int $years, int $months) : self
@@ -177,6 +179,7 @@ final class Month
 
     /**
      * @infection-ignore-all
+     *
      * @deprecated Use `addMonths` instead. Will be removed with 2.0
      */
     public function plusMonths(int $months) : self
@@ -206,6 +209,7 @@ final class Month
 
     /**
      * @infection-ignore-all
+     *
      * @deprecated Use `subMonths` instead. Will be removed with 2.0
      */
     public function minusMonths(int $months) : self
@@ -236,6 +240,7 @@ final class Month
 
     /**
      * @infection-ignore-all
+     *
      * @deprecated Use `addYears` instead. Will be removed with 2.0
      */
     public function plusYears(int $years) : self
@@ -250,6 +255,7 @@ final class Month
 
     /**
      * @infection-ignore-all
+     *
      * @deprecated Use `subYears` instead. Will be removed with 2.0
      */
     public function minusYears(int $years) : self

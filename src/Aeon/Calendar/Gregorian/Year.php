@@ -154,6 +154,7 @@ final class Year
 
     /**
      * @infection-ignore-all
+     *
      * @deprecated Use `add` instead. Will be removed with 2.0
      */
     public function plus(int $years) : self
@@ -168,6 +169,7 @@ final class Year
 
     /**
      * @infection-ignore-all
+     *
      * @deprecated Use `sub` instead. Will be removed with 2.0
      */
     public function minus(int $years) : self
