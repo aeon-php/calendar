@@ -100,8 +100,10 @@ final class DateTimeTest extends TestCase
         // DTS switch +1 hour
         yield ['2020-03-29 03:30:00+02:00', '2020-03-29 02:30:00 Europe/Warsaw', 'Y-m-d H:i:sP'];
         // DTS switch -1 hour
-        yield ['2020-10-25 02:30:00+02:00', '2020-10-25 02:30:00 Europe/Warsaw', 'Y-m-d H:i:sP'];
-        yield ['2020-10-25 01:30:00+02:00', '2020-10-25 01:30:00 Europe/Warsaw', 'Y-m-d H:i:sP'];
+        if (PHP_VERSION_ID >= 81000) {
+            yield ['2020-10-25 02:30:00+02:00', '2020-10-25 02:30:00 Europe/Warsaw', 'Y-m-d H:i:sP'];
+            yield ['2020-10-25 01:30:00+02:00', '2020-10-25 01:30:00 Europe/Warsaw', 'Y-m-d H:i:sP'];
+        }
         // now
         yield [(new \DateTimeImmutable('now'))->format('Y-m-d'), 'now', 'Y-m-d'];
         yield [(new \DateTimeImmutable('now'))->format('Y-m-d'), 'noW', 'Y-m-d'];
