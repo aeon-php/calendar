@@ -577,8 +577,8 @@ final class DateTime
             $months = $timeUnit->inCalendarMonths();
 
             $newMonth = $timeUnit->isNegative()
-                ? $this->month()->minus($years, $months)
-                : $this->month()->plus($years, $months);
+                ? $this->month()->sub($years, $months)
+                : $this->month()->add($years, $months);
 
             if ($newMonth->lastDay()->number() < $this->day()->number()) {
                 return new self(new Day($newMonth, $newMonth->lastDay()->number()), $this->time(), $this->timeZone());
