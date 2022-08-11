@@ -1,4 +1,7 @@
-## [Unreleased] - 2022-07-23
+## [Unreleased] - 2022-08-11
+
+### Changed
+- [#283](https://github.com/aeon-php/calendar/pull/283) - **Skip test failing at php 7.4 due to differences in how PHP is handling timezones** - [@norberttech](https://github.com/norberttech)
 
 ### Fixed
 - [028464](https://github.com/aeon-php/calendar/commit/028464fc8fb56bee909e2f2165caed36a4395bc9) - **failing tests** - [@norberttech](https://github.com/norberttech)
