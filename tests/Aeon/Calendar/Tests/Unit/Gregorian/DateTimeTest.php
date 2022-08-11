@@ -920,7 +920,7 @@ final class DateTimeTest extends TestCase
      */
     public function test_checking_is_ambiguous(DateTime $dateTime) : void
     {
-        $this->assertTrue($dateTime->isAmbiguous());
+        $this->assertTrue($dateTime->isAmbiguous(), $dateTime->toISO8601() . " is not ambiguous, timezonedb version: " . \timezone_version_get());
     }
 
     /**
