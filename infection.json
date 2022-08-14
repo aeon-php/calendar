@@ -21,12 +21,14 @@
     "PublicVisibility": {
       "ignore": [
         "Aeon\\Calendar\\Gregorian\\TimeZone::*",
-        "Aeon\\Calendar\\Gregorian\\GregorianCalendarStub::*"
+        "Aeon\\Calendar\\Gregorian\\GregorianCalendarStub::*",
+        "Aeon\\Calendar\\Gregorian\\Day::minus",
+        "Aeon\\Calendar\\Gregorian\\Day::plus"
       ]
     },
     "Assignment": {
       "ignore": [
-        "Aeon\\Calendar\\Gregorian\\Month::plusMonths"
+        "Aeon\\Calendar\\Gregorian\\Month::addMonths"
       ]
     },
     "MethodCallRemoval": {
@@ -59,7 +61,8 @@
     },
     "Plus": {
       "ignore": [
-        "Aeon\\Calendar\\Gregorian\\Year::next"
+        "Aeon\\Calendar\\Gregorian\\Year::next",
+        "Aeon\\Calendar\\Gregorian\\Month::addMonths"
       ]
     },
     "Ternary": {
@@ -129,7 +132,7 @@
       "ignore": [
         "Aeon\\Calendar\\Gregorian\\DateTime::isAmbiguous",
         "Aeon\\Calendar\\Gregorian\\DateTime::add",
-        "Aeon\\Calendar\\Gregorian\\Month::minusMonths"
+        "Aeon\\Calendar\\Gregorian\\Month::subMonths"
       ]
     },
     "LessThanOrEqualTo": {
@@ -157,7 +160,9 @@
         "Aeon\\Calendar\\RelativeTimeUnit::inYears",
         "Aeon\\Calendar\\RelativeTimeUnit::inCalendarMonths",
         "Aeon\\Calendar\\Gregorian\\Time::toDateTimeImmutable",
-        "Aeon\\Calendar\\Gregorian\\DateTime::isAmbiguous"
+        "Aeon\\Calendar\\Gregorian\\DateTime::isAmbiguous",
+        "Aeon\\Calendar\\Gregorian\\Month::add",
+        "Aeon\\Calendar\\Gregorian\\Month::sub"
       ]
     },
     "Continue_": {
