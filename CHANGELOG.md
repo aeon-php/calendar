@@ -1,10 +1,11 @@
-## [Unreleased] - 2022-08-11
+## [Unreleased] - 2022-08-14
 
 ### Changed
 - [#282](https://github.com/aeon-php/calendar/pull/282) - **Changed all methods from `plus` to `add` and `minus` to `sub`.** - [@christian-kolb](https://github.com/christian-kolb)
 - [#283](https://github.com/aeon-php/calendar/pull/283) - **Skip test failing at php 7.4 due to differences in how PHP is handling timezones** - [@norberttech](https://github.com/norberttech)
 
 ### Fixed
+- [#284](https://github.com/aeon-php/calendar/pull/284) - **Satisfy infection** - [@norberttech](https://github.com/norberttech)
 - [028464](https://github.com/aeon-php/calendar/commit/028464fc8fb56bee909e2f2165caed36a4395bc9) - **failing tests** - [@norberttech](https://github.com/norberttech)
 
 ### Updated
