@@ -31,7 +31,7 @@ final class Quarter
                     throw new InvalidArgumentException('Quarter 1 must must have Jan, Feb and Mar');
                 }
 
-            break;
+                break;
             case 2:
                 if ($months->map(fn (Month $month) => $month->number()) !== [4, 5, 6]) {
                     throw new InvalidArgumentException('Quarter 2 must must have Apr, May and Jun');
