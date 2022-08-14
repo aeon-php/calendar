@@ -1,4 +1,4 @@
-## [Unreleased] - 2022-08-14
+## [1.0.5] - 2022-08-14
 
 ### Changed
 - [#282](https://github.com/aeon-php/calendar/pull/282) - **Changed all methods from `plus` to `add` and `minus` to `sub`.** - [@christian-kolb](https://github.com/christian-kolb)
