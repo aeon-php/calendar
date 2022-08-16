@@ -107,7 +107,17 @@ final class BCMathCalculator implements Calculator
         return \bccomp($value, $nextValue, $this->precision) === 1;
     }
 
+    /**
+     * @infection-ignore-all
+     *
+     * @deprecated Use `isGreaterThanOrEqualTo` instead. Will be removed with 2.0
+     */
     public function isGreaterThanEq(string $value, string $nextValue) : bool
+    {
+        return $this->isGreaterThanOrEqualTo($value, $nextValue);
+    }
+
+    public function isGreaterThanOrEqualTo(string $value, string $nextValue) : bool
     {
         if (!\is_numeric($value) || !\is_numeric($nextValue)) {
             throw new InvalidTypeException('Expected values to be numeric string');
@@ -125,7 +135,17 @@ final class BCMathCalculator implements Calculator
         return \bccomp($value, $nextValue, $this->precision) === -1;
     }
 
+    /**
+     * @infection-ignore-all
+     *
+     * @deprecated Use `isLessThanOrEqualTo` instead. Will be removed with 2.0
+     */
     public function isLessThanEq(string $value, string $nextValue) : bool
+    {
+        return $this->isLessThanOrEqualTo($value, $nextValue);
+    }
+
+    public function isLessThanOrEqualTo(string $value, string $nextValue) : bool
     {
         if (!\is_numeric($value) || !\is_numeric($nextValue)) {
             throw new InvalidTypeException('Expected values to be numeric string');
@@ -134,7 +154,17 @@ final class BCMathCalculator implements Calculator
         return \in_array(\bccomp($value, $nextValue, $this->precision), [-1, 0], true);
     }
 
+    /**
+     * @infection-ignore-all
+     *
+     * @deprecated Use `isEqualTo` instead. Will be removed with 2.0
+     */
     public function isEqual(string $value, string $nextValue) : bool
+    {
+        return $this->isEqualTo($value, $nextValue);
+    }
+
+    public function isEqualTo(string $value, string $nextValue) : bool
     {
         if (!\is_numeric($value) || !\is_numeric($nextValue)) {
             throw new InvalidTypeException('Expected values to be numeric string');

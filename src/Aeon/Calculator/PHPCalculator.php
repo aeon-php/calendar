@@ -52,7 +52,17 @@ final class PHPCalculator implements Calculator
             \floatval(\number_format(\floatval($nextValue), $this->precision, '.', ''));
     }
 
+    /**
+     * @infection-ignore-all
+     *
+     * @deprecated Use `isGreaterThanOrEqualTo` instead. Will be removed with 2.0
+     */
     public function isGreaterThanEq(string $value, string $nextValue) : bool
+    {
+        return $this->isGreaterThanOrEqualTo($value, $nextValue);
+    }
+
+    public function isGreaterThanOrEqualTo(string $value, string $nextValue) : bool
     {
         return \floatval(\number_format(\floatval($value), $this->precision, '.', '')) >=
             \floatval(\number_format(\floatval($nextValue), $this->precision, '.', ''));
@@ -64,13 +74,33 @@ final class PHPCalculator implements Calculator
             \floatval(\number_format(\floatval($nextValue), $this->precision, '.', ''));
     }
 
+    /**
+     * @infection-ignore-all
+     *
+     * @deprecated Use `isLessThanOrEqualTo` instead. Will be removed with 2.0
+     */
     public function isLessThanEq(string $value, string $nextValue) : bool
+    {
+        return $this->isLessThanOrEqualTo($value, $nextValue);
+    }
+
+    public function isLessThanOrEqualTo(string $value, string $nextValue) : bool
     {
         return \floatval(\number_format(\floatval($value), $this->precision, '.', '')) <=
             \floatval(\number_format(\floatval($nextValue), $this->precision, '.', ''));
     }
 
+    /**
+     * @infection-ignore-all
+     *
+     * @deprecated Use `isEqualTo` instead. Will be removed with 2.0
+     */
     public function isEqual(string $value, string $nextValue) : bool
+    {
+        return $this->isEqualTo($value, $nextValue);
+    }
+
+    public function isEqualTo(string $value, string $nextValue) : bool
     {
         return \floatval(\number_format(\floatval($value), $this->precision, '.', '')) ==
             \floatval(\number_format(\floatval($nextValue), $this->precision, '.', ''));

@@ -379,10 +379,20 @@ final class Month
         );
     }
 
+    /**
+     * @infection-ignore-all
+     *
+     * @deprecated Use `isEqualTo` instead. Will be removed with 2.0
+     */
     public function isEqual(self $month) : bool
     {
+        return $this->isEqualTo($month);
+    }
+
+    public function isEqualTo(self $month) : bool
+    {
         return $this->number() == $month->number()
-            && $this->year()->isEqual($month->year());
+            && $this->year()->isEqualTo($month->year());
     }
 
     public function isBefore(self $month) : bool
@@ -398,7 +408,17 @@ final class Month
         return $this->number() < $month->number();
     }
 
+    /**
+     * @infection-ignore-all
+     *
+     * @deprecated Use `isBeforeOrEqualTo` instead. Will be removed with 2.0
+     */
     public function isBeforeOrEqual(self $month) : bool
+    {
+        return $this->isBeforeOrEqualTo($month);
+    }
+
+    public function isBeforeOrEqualTo(self $month) : bool
     {
         if ($this->year()->isBefore($month->year())) {
             return true;
@@ -424,7 +444,17 @@ final class Month
         return $this->number() > $month->number();
     }
 
+    /**
+     * @infection-ignore-all
+     *
+     * @deprecated Use `isAfterOrEqualTo` instead. Will be removed with 2.0
+     */
     public function isAfterOrEqual(self $month) : bool
+    {
+        return $this->isAfterOrEqualTo($month);
+    }
+
+    public function isAfterOrEqualTo(self $month) : bool
     {
         if ($this->year()->isAfter($month->year())) {
             return true;

@@ -417,10 +417,20 @@ final class Day
         return $this->toDateTimeImmutable()->format($format);
     }
 
+    /**
+     * @infection-ignore-all
+     *
+     * @deprecated Use `isEqualTo` instead. Will be removed with 2.0
+     */
     public function isEqual(self $day) : bool
     {
+        return $this->isEqualTo($day);
+    }
+
+    public function isEqualTo(self $day) : bool
+    {
         return $this->number() === $day->number()
-            && $this->month()->isEqual($day->month());
+            && $this->month()->isEqualTo($day->month());
     }
 
     public function isBefore(self $day) : bool
@@ -436,7 +446,17 @@ final class Day
         return $this->number() < $day->number();
     }
 
+    /**
+     * @infection-ignore-all
+     *
+     * @deprecated Use `isBeforeOrEqualTo` instead. Will be removed with 2.0
+     */
     public function isBeforeOrEqual(self $day) : bool
+    {
+        return $this->isBeforeOrEqualTo($day);
+    }
+
+    public function isBeforeOrEqualTo(self $day) : bool
     {
         if ($this->month()->isBefore($day->month())) {
             return true;
@@ -462,7 +482,17 @@ final class Day
         return $this->number() > $day->number();
     }
 
+    /**
+     * @infection-ignore-all
+     *
+     * @deprecated Use `isAfterOrEqualTo` instead. Will be removed with 2.0
+     */
     public function isAfterOrEqual(self $day) : bool
+    {
+        return $this->isAfterOrEqualTo($day);
+    }
+
+    public function isAfterOrEqualTo(self $day) : bool
     {
         if ($this->month()->isAfter($day->month())) {
             return true;

@@ -126,7 +126,7 @@ final class PHPCalculatorTest extends TestCase
      */
     public function test_is_equal(bool $equal, float $value, float $nextValue) : void
     {
-        $this->assertSame($equal, (new PHPCalculator(6))->isEqual(\number_format($value, 8), \number_format($nextValue, 8)));
+        $this->assertSame($equal, (new PHPCalculator(6))->isEqualTo(\number_format($value, 8), \number_format($nextValue, 8)));
     }
 
     /**
@@ -187,7 +187,7 @@ final class PHPCalculatorTest extends TestCase
      */
     public function test_is_greater_than_eq(bool $equal, float $value, float $nextValue) : void
     {
-        $this->assertSame($equal, (new PHPCalculator(6))->isGreaterThanEq(\number_format($value, 8), \number_format($nextValue, 8)));
+        $this->assertSame($equal, (new PHPCalculator(6))->isGreaterThanOrEqualTo(\number_format($value, 8), \number_format($nextValue, 8)));
     }
 
     /**
@@ -207,7 +207,7 @@ final class PHPCalculatorTest extends TestCase
      */
     public function test_is_less_than_eq(bool $equal, float $value, float $nextValue) : void
     {
-        $this->assertSame($equal, (new PHPCalculator(6))->isLessThanEq(\number_format($value, 8), \number_format($nextValue, 8)));
+        $this->assertSame($equal, (new PHPCalculator(6))->isLessThanOrEqualTo(\number_format($value, 8), \number_format($nextValue, 8)));
     }
 
     /**

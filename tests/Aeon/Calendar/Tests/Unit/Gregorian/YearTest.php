@@ -154,26 +154,26 @@ final class YearTest extends TestCase
 
     public function test_is_equal() : void
     {
-        $this->assertTrue(Year::fromString('2020-01-01')->isEqual(Year::fromString('2020-01-01')));
-        $this->assertFalse(Year::fromString('2021-01-02')->isEqual(Year::fromString('2020-01-01')));
+        $this->assertTrue(Year::fromString('2020-01-01')->isEqualTo(Year::fromString('2020-01-01')));
+        $this->assertFalse(Year::fromString('2021-01-02')->isEqualTo(Year::fromString('2020-01-01')));
     }
 
     public function test_is_before() : void
     {
         $this->assertTrue(Year::fromString('2019-01-01')->isBefore(Year::fromString('2020-01-01')));
-        $this->assertTrue(Year::fromString('2020-01-01')->isBeforeOrEqual(Year::fromString('2020-01-01')));
+        $this->assertTrue(Year::fromString('2020-01-01')->isBeforeOrEqualTo(Year::fromString('2020-01-01')));
 
         $this->assertFalse(Year::fromString('2021-01-01')->isBefore(Year::fromString('2020-01-01')));
-        $this->assertFalse(Year::fromString('2021-01-01')->isBeforeOrEqual(Year::fromString('2020-01-01')));
+        $this->assertFalse(Year::fromString('2021-01-01')->isBeforeOrEqualTo(Year::fromString('2020-01-01')));
     }
 
     public function test_is_after() : void
     {
         $this->assertTrue(Year::fromString('2022-01-01')->isAfter(Year::fromString('2020-02-01')));
-        $this->assertTrue(Year::fromString('2020-01-01')->isAfterOrEqual(Year::fromString('2020-01-01')));
+        $this->assertTrue(Year::fromString('2020-01-01')->isAfterOrEqualTo(Year::fromString('2020-01-01')));
 
         $this->assertFalse(Year::fromString('2019-01-01')->isAfter(Year::fromString('2020-02-01')));
-        $this->assertFalse(Year::fromString('2019-01-01')->isAfterOrEqual(Year::fromString('2020-02-01')));
+        $this->assertFalse(Year::fromString('2019-01-01')->isAfterOrEqualTo(Year::fromString('2020-02-01')));
     }
 
     public function test_until_with_wrong_destination_month() : void

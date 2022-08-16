@@ -113,7 +113,17 @@ final class WeekDay
         return self::NAMES_SHORT[$this->number];
     }
 
+    /**
+     * @infection-ignore-all
+     *
+     * @deprecated Use `isEqualTo` instead. Will be removed with 2.0
+     */
     public function isEqual(self $weekDay) : bool
+    {
+        return $this->isEqualTo($weekDay);
+    }
+
+    public function isEqualTo(self $weekDay) : bool
     {
         return $this->number() === $weekDay->number();
     }

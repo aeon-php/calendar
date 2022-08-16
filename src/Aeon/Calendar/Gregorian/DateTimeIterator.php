@@ -36,8 +36,8 @@ final class DateTimeIterator implements \Iterator
         $this->timeUnit = $timeUnit;
         $this->currentDate = $start;
         $this->key = 0;
-        $this->forward = $start->isBeforeOrEqual($end);
-        $this->empty = $start->isEqual($end);
+        $this->forward = $start->isBeforeOrEqualTo($end);
+        $this->empty = $start->isEqualTo($end);
 
         if ($this->forward && $timeUnit->isNegative()) {
             throw new InvalidArgumentException("Forward DateTimeIterator {$start->format('Y-m-d H:i:sP')}...{$end->format('Y-m-d H:i:sP')} requires positive TimeUnit");
@@ -105,10 +105,10 @@ final class DateTimeIterator implements \Iterator
         }
 
         if ($this->forward) {
-            return $this->currentDate->isBeforeOrEqual($this->end);
+            return $this->currentDate->isBeforeOrEqualTo($this->end);
         }
 
-        return $this->currentDate->isAfterOrEqual($this->end);
+        return $this->currentDate->isAfterOrEqualTo($this->end);
     }
 
     public function rewind() : void

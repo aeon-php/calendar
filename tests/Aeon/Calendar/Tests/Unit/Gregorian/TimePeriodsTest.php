@@ -86,7 +86,7 @@ final class TimePeriodsTest extends TestCase
             (TimePeriods::fromArray(
                 new TimePeriod(DateTime::fromString('2020-01-02 00:00:00.000000'), DateTime::fromString('2020-01-03 00:00:00.000000')),
                 new TimePeriod(DateTime::fromString('2020-01-07 00:00:00.000000'), DateTime::fromString('2020-01-08 00:00:00.000000')),
-            ))->isEqual((TimePeriods::fromArray(
+            ))->isEqualTo((TimePeriods::fromArray(
                 new TimePeriod(DateTime::fromString('2020-01-10 00:00:00.000000'), DateTime::fromString('2020-01-08 00:00:00.000000')),
                 new TimePeriod(DateTime::fromString('2020-01-01 00:00:00.000000'), DateTime::fromString('2020-01-02 00:00:00.000000')),
                 new TimePeriod(DateTime::fromString('2020-01-05 00:00:00.000000'), DateTime::fromString('2020-01-07 00:00:00.000000')),
@@ -98,7 +98,7 @@ final class TimePeriodsTest extends TestCase
             (TimePeriods::fromArray(
                 new TimePeriod(DateTime::fromString('2020-01-02 00:00:00.000000'), DateTime::fromString('2020-01-03 00:00:00.000000')),
                 new TimePeriod(DateTime::fromString('2020-01-07 00:00:00.000000'), DateTime::fromString('2020-01-08 00:00:00.000000')),
-            ))->isEqual((TimePeriods::fromArray(
+            ))->isEqualTo((TimePeriods::fromArray(
                 new TimePeriod(DateTime::fromString('2020-01-02 00:00:00.000000'), DateTime::fromString('2020-01-03 00:00:00.000000')),
                 new TimePeriod(DateTime::fromString('2020-01-07 00:00:00.000000'), DateTime::fromString('2020-01-08 00:00:00.000001')),
             )))
@@ -111,7 +111,7 @@ final class TimePeriodsTest extends TestCase
             (TimePeriods::fromArray(
                 new TimePeriod(DateTime::fromString('2020-01-02 00:00:00.000000'), DateTime::fromString('2020-01-03 00:00:00.000000')),
                 new TimePeriod(DateTime::fromString('2020-01-07 00:00:00.000000'), DateTime::fromString('2020-01-08 00:00:00.000000')),
-            ))->isEqual((TimePeriods::fromArray(
+            ))->isEqualTo((TimePeriods::fromArray(
                 new TimePeriod(DateTime::fromString('2020-01-02 00:00:00.000000'), DateTime::fromString('2020-01-03 00:00:00.000000')),
                 new TimePeriod(DateTime::fromString('2020-01-07 00:00:00.000000'), DateTime::fromString('2020-01-08 00:00:00.000000')),
             )))
@@ -170,7 +170,7 @@ final class TimePeriodsTest extends TestCase
 
         $this->assertCount(
             1,
-            $distances = $timePeriods->filter(fn (TimePeriod $timePeriod) => $timePeriod->start()->isEqual(DateTime::fromString('2020-01-03 00:00:00.000000')))
+            $distances = $timePeriods->filter(fn (TimePeriod $timePeriod) => $timePeriod->start()->isEqualTo(DateTime::fromString('2020-01-03 00:00:00.000000')))
         );
         $this->assertInstanceOf(TimePeriod::class, \array_values($distances->all())[0]);
     }

@@ -271,7 +271,17 @@ final class Year
         return new \DateTimeImmutable(\sprintf('%d-01-01 00:00:00.000000 UTC', $this->number()));
     }
 
+    /**
+     * @infection-ignore-all
+     *
+     * @deprecated Use `isEqualTo` instead. Will be removed with 2.0
+     */
     public function isEqual(self $year) : bool
+    {
+        return $this->isEqualTo($year);
+    }
+
+    public function isEqualTo(self $year) : bool
     {
         return $this->number() === $year->number();
     }
@@ -281,7 +291,17 @@ final class Year
         return $this->number() < $year->number();
     }
 
+    /**
+     * @infection-ignore-all
+     *
+     * @deprecated Use `isBeforeOrEqualTo` instead. Will be removed with 2.0
+     */
     public function isBeforeOrEqual(self $year) : bool
+    {
+        return $this->isBeforeOrEqualTo($year);
+    }
+
+    public function isBeforeOrEqualTo(self $year) : bool
     {
         return $this->number() <= $year->number();
     }
@@ -291,7 +311,17 @@ final class Year
         return $this->number() > $year->number();
     }
 
+    /**
+     * @infection-ignore-all
+     *
+     * @deprecated Use `isAfterOrEqualTo` instead. Will be removed with 2.0
+     */
     public function isAfterOrEqual(self $year) : bool
+    {
+        return $this->isAfterOrEqualTo($year);
+    }
+
+    public function isAfterOrEqualTo(self $year) : bool
     {
         return $this->number() >= $year->number();
     }

@@ -274,9 +274,15 @@ final class TimeUnit implements Unit
         return PreciseCalculator::initialize(self::PRECISION_MICROSECOND)->isGreaterThan($this->inSecondsPrecise(), $timeUnit->inSecondsPrecise());
     }
 
+    /** @deprecated Use `isGreaterThanOrEqualTo` instead. Will be removed with 2.0 */
     public function isGreaterThanEq(self $timeUnit) : bool
     {
-        return PreciseCalculator::initialize(self::PRECISION_MICROSECOND)->isGreaterThanEq($this->inSecondsPrecise(), $timeUnit->inSecondsPrecise());
+        return $this->isGreaterThanOrEqualTo($timeUnit);
+    }
+
+    public function isGreaterThanOrEqualTo(self $timeUnit) : bool
+    {
+        return PreciseCalculator::initialize(self::PRECISION_MICROSECOND)->isGreaterThanOrEqualTo($this->inSecondsPrecise(), $timeUnit->inSecondsPrecise());
     }
 
     public function isLessThan(self $timeUnit) : bool
@@ -284,14 +290,30 @@ final class TimeUnit implements Unit
         return PreciseCalculator::initialize(self::PRECISION_MICROSECOND)->isLessThan($this->inSecondsPrecise(), $timeUnit->inSecondsPrecise());
     }
 
+    /** @deprecated Use `isLessThanOrEqualTo` instead. Will be removed with 2.0 */
     public function isLessThanEq(self $timeUnit) : bool
     {
-        return PreciseCalculator::initialize(self::PRECISION_MICROSECOND)->isLessThanEq($this->inSecondsPrecise(), $timeUnit->inSecondsPrecise());
+        return $this->isLessThanOrEqualTo($timeUnit);
     }
 
+    public function isLessThanOrEqualTo(self $timeUnit) : bool
+    {
+        return PreciseCalculator::initialize(self::PRECISION_MICROSECOND)->isLessThanOrEqualTo($this->inSecondsPrecise(), $timeUnit->inSecondsPrecise());
+    }
+
+    /**
+     * @infection-ignore-all
+     *
+     * @deprecated Use `isEqualTo` instead. Will be removed with 2.0
+     */
     public function isEqual(self $timeUnit) : bool
     {
-        return PreciseCalculator::initialize(self::PRECISION_MICROSECOND)->isEqual($this->inSecondsPrecise(), $timeUnit->inSecondsPrecise());
+        return $this->isEqualTo($timeUnit);
+    }
+
+    public function isEqualTo(self $timeUnit) : bool
+    {
+        return PreciseCalculator::initialize(self::PRECISION_MICROSECOND)->isEqualTo($this->inSecondsPrecise(), $timeUnit->inSecondsPrecise());
     }
 
     /**

@@ -175,7 +175,17 @@ final class TimePeriods implements \Countable, \IteratorAggregate
         return self::fromArray(...\array_merge($this->all(), $timePeriods->all()));
     }
 
+    /**
+     * @infection-ignore-all
+     *
+     * @deprecated Use `isEqualTo` instead. Will be removed with 2.0
+     */
     public function isEqual(self $periods) : bool
+    {
+        return $this->isEqualTo($periods);
+    }
+
+    public function isEqualTo(self $periods) : bool
     {
         if ($periods->count() !== $this->count()) {
             return false;
@@ -185,7 +195,7 @@ final class TimePeriods implements \Countable, \IteratorAggregate
         $periodsArray = \array_values($periods->sort()->all());
 
         foreach ($selfArray as $i => $timePeriod) {
-            if (!$periodsArray[$i]->isEqual($timePeriod)) {
+            if (!$periodsArray[$i]->isEqualTo($timePeriod)) {
                 return false;
             }
         }
