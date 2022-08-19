@@ -123,7 +123,7 @@ final class BCMathCalculatorTest extends TestCase
      */
     public function test_is_equal(bool $equal, float $value, float $nextValue) : void
     {
-        $this->assertSame($equal, (new BCMathCalculator(6))->isEqual(\number_format($value, 9), \number_format($nextValue, 9)));
+        $this->assertSame($equal, (new BCMathCalculator(6))->isEqualTo(\number_format($value, 9), \number_format($nextValue, 9)));
     }
 
     /**
@@ -183,7 +183,7 @@ final class BCMathCalculatorTest extends TestCase
      */
     public function test_is_greater_than_eq(bool $equal, float $value, float $nextValue) : void
     {
-        $this->assertSame($equal, (new BCMathCalculator(6))->isGreaterThanEq(\number_format($value, 9), \number_format($nextValue, 9)));
+        $this->assertSame($equal, (new BCMathCalculator(6))->isGreaterThanOrEqualTo(\number_format($value, 9), \number_format($nextValue, 9)));
     }
 
     /**
@@ -202,7 +202,7 @@ final class BCMathCalculatorTest extends TestCase
      */
     public function test_is_less_than_eq(bool $equal, float $value, float $nextValue) : void
     {
-        $this->assertSame($equal, (new BCMathCalculator(6))->isLessThanEq(\number_format($value, 9), \number_format($nextValue, 9)));
+        $this->assertSame($equal, (new BCMathCalculator(6))->isLessThanOrEqualTo(\number_format($value, 9), \number_format($nextValue, 9)));
     }
 
     /**
@@ -304,37 +304,37 @@ final class BCMathCalculatorTest extends TestCase
     public function test_invalid_value_in_is_greater_than_eq() : void
     {
         $this->expectException(InvalidTypeException::class);
-        (new BCMathCalculator(6))->isGreaterThanEq('test', '10');
+        (new BCMathCalculator(6))->isGreaterThanOrEqualTo('test', '10');
     }
 
     public function test_invalid_next_value_in_is_greater_than_eq() : void
     {
         $this->expectException(InvalidTypeException::class);
-        (new BCMathCalculator(6))->isGreaterThanEq('10', 'invalid');
+        (new BCMathCalculator(6))->isGreaterThanOrEqualTo('10', 'invalid');
     }
 
     public function test_invalid_value_in_is_less_than_eq() : void
     {
         $this->expectException(InvalidTypeException::class);
-        (new BCMathCalculator(6))->isLessThanEq('test', '10');
+        (new BCMathCalculator(6))->isLessThanOrEqualTo('test', '10');
     }
 
     public function test_invalid_next_value_in_is_less_than_eq() : void
     {
         $this->expectException(InvalidTypeException::class);
-        (new BCMathCalculator(6))->isLessThanEq('10', 'invalid');
+        (new BCMathCalculator(6))->isLessThanOrEqualTo('10', 'invalid');
     }
 
     public function test_invalid_value_in_is_equal() : void
     {
         $this->expectException(InvalidTypeException::class);
-        (new BCMathCalculator(6))->isEqual('test', '10');
+        (new BCMathCalculator(6))->isEqualTo('test', '10');
     }
 
     public function test_invalid_next_value_in_is_equal() : void
     {
         $this->expectException(InvalidTypeException::class);
-        (new BCMathCalculator(6))->isEqual('10', 'invalid');
+        (new BCMathCalculator(6))->isEqualTo('10', 'invalid');
     }
 
     public function test_division_by_zero() : void

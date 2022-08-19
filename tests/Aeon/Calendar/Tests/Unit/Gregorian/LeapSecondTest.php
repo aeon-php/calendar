@@ -27,7 +27,7 @@ final class LeapSecondTest extends TestCase
     {
         $leapSeconds = LeapSeconds::load()->all();
 
-        $this->assertFalse($leapSeconds[0]->isEqual($leapSeconds[1]));
-        $this->assertFalse($leapSeconds[0]->isEqual(new LeapSecond(DateTime::fromString('1972-01-01 00:00:00 UTC'), TimeUnit::seconds(12)), ));
+        $this->assertFalse($leapSeconds[0]->isEqualTo($leapSeconds[1]));
+        $this->assertFalse($leapSeconds[0]->isEqualTo(new LeapSecond(DateTime::fromString('1972-01-01 00:00:00 UTC'), TimeUnit::seconds(12)), ));
     }
 }

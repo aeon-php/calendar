@@ -27,11 +27,11 @@ final class TimePeriodsIterator extends \FilterIterator
         $currentEnd = $dateTimeIterator->current()->add($dateTimeIterator->unit());
 
         if ($dateTimeIterator->isForward()) {
-            if ($currentEnd->isAfterOrEqual($end)) {
+            if ($currentEnd->isAfterOrEqualTo($end)) {
                 $currentEnd = $end;
             }
         } else {
-            if ($currentEnd->isBeforeOrEqual($end)) {
+            if ($currentEnd->isBeforeOrEqualTo($end)) {
                 $currentEnd = $end;
             }
         }
@@ -46,11 +46,11 @@ final class TimePeriodsIterator extends \FilterIterator
         $end = $dateTimeIterator->end();
 
         if ($dateTimeIterator->isForward()) {
-            if ($current->isAfterOrEqual($end)) {
+            if ($current->isAfterOrEqualTo($end)) {
                 return false;
             }
 
-            if ($this->interval->isRightOpen() && $current->add($dateTimeIterator->unit())->isAfterOrEqual($end)) {
+            if ($this->interval->isRightOpen() && $current->add($dateTimeIterator->unit())->isAfterOrEqualTo($end)) {
                 return false;
             }
 
@@ -58,7 +58,7 @@ final class TimePeriodsIterator extends \FilterIterator
                 return false;
             }
         } else {
-            if ($current->isBeforeOrEqual($end)) {
+            if ($current->isBeforeOrEqualTo($end)) {
                 return false;
             }
 
@@ -66,7 +66,7 @@ final class TimePeriodsIterator extends \FilterIterator
                 return false;
             }
 
-            if (($this->interval->isLeftOpen()) && $current->add($dateTimeIterator->unit())->isBeforeOrEqual($end)) {
+            if (($this->interval->isLeftOpen()) && $current->add($dateTimeIterator->unit())->isBeforeOrEqualTo($end)) {
                 return false;
             }
         }

@@ -228,30 +228,30 @@ final class DayTest extends TestCase
 
     public function test_is_equal() : void
     {
-        $this->assertTrue(Day::fromString('2020-01-01')->isEqual(Day::fromString('2020-01-01')));
-        $this->assertFalse(Day::fromString('2020-01-02')->isEqual(Day::fromString('2020-01-01')));
+        $this->assertTrue(Day::fromString('2020-01-01')->isEqualTo(Day::fromString('2020-01-01')));
+        $this->assertFalse(Day::fromString('2020-01-02')->isEqualTo(Day::fromString('2020-01-01')));
     }
 
     public function test_is_before() : void
     {
         $this->assertTrue(Day::fromString('2019-01-01')->isBefore(Day::fromString('2020-01-01')));
         $this->assertFalse(Day::fromString('2019-01-01')->isBefore(Day::fromString('2019-01-01')));
-        $this->assertTrue(Day::fromString('2020-01-01')->isBeforeOrEqual(Day::fromString('2020-01-01')));
+        $this->assertTrue(Day::fromString('2020-01-01')->isBeforeOrEqualTo(Day::fromString('2020-01-01')));
 
         $this->assertFalse(Day::fromString('2021-01-01')->isBefore(Day::fromString('2020-01-01')));
-        $this->assertFalse(Day::fromString('2021-01-01')->isBeforeOrEqual(Day::fromString('2020-01-01')));
-        $this->assertTrue(Day::fromString('2020-01-01')->isBeforeOrEqual(Day::fromString('2020-05-01')));
-        $this->assertTrue(Day::fromString('2020-05-01')->isAfterOrEqual(Day::fromString('2020-01-01')));
+        $this->assertFalse(Day::fromString('2021-01-01')->isBeforeOrEqualTo(Day::fromString('2020-01-01')));
+        $this->assertTrue(Day::fromString('2020-01-01')->isBeforeOrEqualTo(Day::fromString('2020-05-01')));
+        $this->assertTrue(Day::fromString('2020-05-01')->isAfterOrEqualTo(Day::fromString('2020-01-01')));
     }
 
     public function test_is_after() : void
     {
         $this->assertTrue(Day::fromString('2022-01-01')->isAfter(Day::fromString('2020-02-01')));
         $this->assertFalse(Day::fromString('2020-01-01')->isAfter(Day::fromString('2020-01-01')));
-        $this->assertTrue(Day::fromString('2020-01-01')->isAfterOrEqual(Day::fromString('2020-01-01')));
+        $this->assertTrue(Day::fromString('2020-01-01')->isAfterOrEqualTo(Day::fromString('2020-01-01')));
 
         $this->assertFalse(Day::fromString('2019-01-01')->isAfter(Day::fromString('2020-02-01')));
-        $this->assertFalse(Day::fromString('2019-01-01')->isAfterOrEqual(Day::fromString('2020-02-01')));
+        $this->assertFalse(Day::fromString('2019-01-01')->isAfterOrEqualTo(Day::fromString('2020-02-01')));
     }
 
     public function test_reset_time_in_to_datetime_immutable() : void
@@ -348,7 +348,7 @@ final class DayTest extends TestCase
     public function test_day_static_create() : void
     {
         $day = Day::create(2020, 12, 24);
-        $this->assertTrue(Day::fromString('2020-12-24')->isEqual($day));
+        $this->assertTrue(Day::fromString('2020-12-24')->isEqualTo($day));
     }
 
     public function test_distance_to() : void

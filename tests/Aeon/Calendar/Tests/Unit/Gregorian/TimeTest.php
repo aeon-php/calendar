@@ -138,37 +138,37 @@ final class TimeTest extends TestCase
 
     public function test_equal() : void
     {
-        $this->assertTrue((new Time(10, 0, 0, 0))->isEqual(new Time(10, 0, 0, 0)));
-        $this->assertFalse((new Time(10, 0, 0, 0))->isEqual(new Time(0, 0, 0, 0)));
-        $this->assertFalse((new Time(10, 0, 0, 0))->isEqual(new Time(15, 0, 0, 0)));
+        $this->assertTrue((new Time(10, 0, 0, 0))->isEqualTo(new Time(10, 0, 0, 0)));
+        $this->assertFalse((new Time(10, 0, 0, 0))->isEqualTo(new Time(0, 0, 0, 0)));
+        $this->assertFalse((new Time(10, 0, 0, 0))->isEqualTo(new Time(15, 0, 0, 0)));
     }
 
     public function test_greater() : void
     {
-        $this->assertFalse((new Time(10, 0, 0, 0))->isGreaterThan(new Time(10, 0, 0, 0)));
-        $this->assertTrue((new Time(10, 0, 0, 0))->isGreaterThan(new Time(0, 0, 0, 0)));
-        $this->assertFalse((new Time(10, 0, 0, 0))->isGreaterThan(new Time(15, 0, 0, 0)));
+        $this->assertFalse((new Time(10, 0, 0, 0))->isAfter(new Time(10, 0, 0, 0)));
+        $this->assertTrue((new Time(10, 0, 0, 0))->isAfter(new Time(0, 0, 0, 0)));
+        $this->assertFalse((new Time(10, 0, 0, 0))->isAfter(new Time(15, 0, 0, 0)));
     }
 
     public function test_greater_or_equal() : void
     {
-        $this->assertTrue((new Time(10, 0, 0, 0))->isGreaterThanEq(new Time(10, 0, 0, 0)));
-        $this->assertTrue((new Time(10, 0, 0, 0))->isGreaterThanEq(new Time(0, 0, 0, 0)));
-        $this->assertFalse((new Time(10, 0, 0, 0))->isGreaterThanEq(new Time(15, 0, 0, 0)));
+        $this->assertTrue((new Time(10, 0, 0, 0))->isAfterOrEqualTo(new Time(10, 0, 0, 0)));
+        $this->assertTrue((new Time(10, 0, 0, 0))->isAfterOrEqualTo(new Time(0, 0, 0, 0)));
+        $this->assertFalse((new Time(10, 0, 0, 0))->isAfterOrEqualTo(new Time(15, 0, 0, 0)));
     }
 
     public function test_less() : void
     {
-        $this->assertFalse((new Time(10, 0, 0, 0))->isLessThan(new Time(10, 0, 0, 0)));
-        $this->assertFalse((new Time(10, 0, 0, 0))->isLessThan(new Time(0, 0, 0, 0)));
-        $this->assertTrue((new Time(10, 0, 0, 0))->isLessThan(new Time(15, 0, 0, 0)));
+        $this->assertFalse((new Time(10, 0, 0, 0))->isBefore(new Time(10, 0, 0, 0)));
+        $this->assertFalse((new Time(10, 0, 0, 0))->isBefore(new Time(0, 0, 0, 0)));
+        $this->assertTrue((new Time(10, 0, 0, 0))->isBefore(new Time(15, 0, 0, 0)));
     }
 
     public function test_less_or_equal() : void
     {
-        $this->assertTrue((new Time(10, 0, 0, 0))->isLessThanEq(new Time(10, 0, 0, 0)));
-        $this->assertFalse((new Time(10, 0, 0, 0))->isLessThanEq(new Time(0, 0, 0, 0)));
-        $this->assertTrue((new Time(10, 0, 0, 0))->isLessThanEq(new Time(15, 0, 0, 0)));
+        $this->assertTrue((new Time(10, 0, 0, 0))->isBeforeOrEqualTo(new Time(10, 0, 0, 0)));
+        $this->assertFalse((new Time(10, 0, 0, 0))->isBeforeOrEqualTo(new Time(0, 0, 0, 0)));
+        $this->assertTrue((new Time(10, 0, 0, 0))->isBeforeOrEqualTo(new Time(15, 0, 0, 0)));
     }
 
     public function test_to_time_unit() : void

@@ -94,7 +94,17 @@ final class TimeOffset
         return $this->hours === 0 && $this->minutes === 0;
     }
 
+    /**
+     * @infection-ignore-all
+     *
+     * @deprecated Use `isEqualTo` instead. Will be removed with 2.0
+     */
     public function isEqual(self $timeOffset) : bool
+    {
+        return $this->isEqualTo($timeOffset);
+    }
+
+    public function isEqualTo(self $timeOffset) : bool
     {
         return $this->negative === $timeOffset->negative
             && $this->hours === $timeOffset->hours

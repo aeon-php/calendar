@@ -243,7 +243,17 @@ final class Time
         return $this->toDateTimeImmutable()->format('a') === 'pm';
     }
 
+    /**
+     * @infection-ignore-all
+     *
+     * @deprecated Use `isAfter` instead. Will be removed with 2.0
+     */
     public function isGreaterThan(self $time) : bool
+    {
+        return $this->isAfter($time);
+    }
+
+    public function isAfter(self $time) : bool
     {
         $dateTimeImmutable = $this->toDateTimeImmutable();
         $nextDateTimeImmutable = $dateTimeImmutable->setTime($time->hour(), $time->minute(), $time->second(), $time->microsecond());
@@ -251,7 +261,17 @@ final class Time
         return $dateTimeImmutable > $nextDateTimeImmutable;
     }
 
+    /**
+     * @infection-ignore-all
+     *
+     * @deprecated Use `isAfterOrEqualTo` instead. Will be removed with 2.0
+     */
     public function isGreaterThanEq(self $time) : bool
+    {
+        return $this->isAfterOrEqualTo($time);
+    }
+
+    public function isAfterOrEqualTo(self $time) : bool
     {
         $dateTimeImmutable = $this->toDateTimeImmutable();
         $nextDateTimeImmutable = $dateTimeImmutable->setTime($time->hour(), $time->minute(), $time->second(), $time->microsecond());
@@ -259,7 +279,17 @@ final class Time
         return $dateTimeImmutable >= $nextDateTimeImmutable;
     }
 
+    /**
+     * @infection-ignore-all
+     *
+     * @deprecated Use `isEqualTo` instead. Will be removed with 2.0
+     */
     public function isEqual(self $time) : bool
+    {
+        return $this->isEqualTo($time);
+    }
+
+    public function isEqualTo(self $time) : bool
     {
         $dateTimeImmutable = $this->toDateTimeImmutable();
         $nextDateTimeImmutable = $dateTimeImmutable->setTime($time->hour(), $time->minute(), $time->second(), $time->microsecond());
@@ -267,7 +297,17 @@ final class Time
         return $dateTimeImmutable == $nextDateTimeImmutable;
     }
 
+    /**
+     * @infection-ignore-all
+     *
+     * @deprecated Use `isBefore` instead. Will be removed with 2.0
+     */
     public function isLessThan(self $time) : bool
+    {
+        return $this->isBefore($time);
+    }
+
+    public function isBefore(self $time) : bool
     {
         $dateTimeImmutable = $this->toDateTimeImmutable();
         $nextDateTimeImmutable = $dateTimeImmutable->setTime($time->hour(), $time->minute(), $time->second(), $time->microsecond());
@@ -275,7 +315,17 @@ final class Time
         return $dateTimeImmutable < $nextDateTimeImmutable;
     }
 
+    /**
+     * @infection-ignore-all
+     *
+     * @deprecated Use `isBeforeOrEqualTo` instead. Will be removed with 2.0
+     */
     public function isLessThanEq(self $time) : bool
+    {
+        return $this->isBeforeOrEqualTo($time);
+    }
+
+    public function isBeforeOrEqualTo(self $time) : bool
     {
         $dateTimeImmutable = $this->toDateTimeImmutable();
         $nextDateTimeImmutable = $dateTimeImmutable->setTime($time->hour(), $time->minute(), $time->second(), $time->microsecond());

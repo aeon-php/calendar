@@ -237,7 +237,7 @@ final class TimeUnitTest extends TestCase
      */
     public function test_greater_than_eq(TimeUnit $timeUnit, TimeUnit $nextTimeUnit, bool $expectedResult) : void
     {
-        $this->assertSame($expectedResult, $timeUnit->isGreaterThanEq($nextTimeUnit));
+        $this->assertSame($expectedResult, $timeUnit->isGreaterThanOrEqualTo($nextTimeUnit));
     }
 
     /**
@@ -281,7 +281,7 @@ final class TimeUnitTest extends TestCase
      */
     public function test_less_than_eq(TimeUnit $timeUnit, TimeUnit $nextTimeUnit, bool $expectedResult) : void
     {
-        $this->assertSame($expectedResult, $timeUnit->isLessThanEq($nextTimeUnit));
+        $this->assertSame($expectedResult, $timeUnit->isLessThanOrEqualTo($nextTimeUnit));
     }
 
     /**
@@ -303,7 +303,7 @@ final class TimeUnitTest extends TestCase
      */
     public function test_equal(TimeUnit $timeUnit, TimeUnit $nextTimeUnit, bool $expectedResult) : void
     {
-        $this->assertSame($expectedResult, $timeUnit->isEqual($nextTimeUnit));
+        $this->assertSame($expectedResult, $timeUnit->isEqualTo($nextTimeUnit));
     }
 
     /**

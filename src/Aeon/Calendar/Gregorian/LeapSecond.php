@@ -47,8 +47,18 @@ final class LeapSecond
         return $this->offsetTAI;
     }
 
+    /**
+     * @infection-ignore-all
+     *
+     * @deprecated Use `isEqualTo` instead. Will be removed with 2.0
+     */
     public function isEqual(self $second) : bool
     {
-        return $this->dateTime->isEqual($second->dateTime()) && $this->offsetTAI->isEqual($second->offsetTAI());
+        return $this->isEqualTo($second);
+    }
+
+    public function isEqualTo(self $second) : bool
+    {
+        return $this->dateTime->isEqualTo($second->dateTime()) && $this->offsetTAI->isEqualTo($second->offsetTAI());
     }
 }

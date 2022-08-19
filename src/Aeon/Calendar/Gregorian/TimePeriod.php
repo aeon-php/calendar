@@ -143,7 +143,7 @@ final class TimePeriod
 
     public function contains(self $timePeriod) : bool
     {
-        return $this->start->isBeforeOrEqual($timePeriod->start()) && $this->end->isAfterOrEqual($timePeriod->end());
+        return $this->start->isBeforeOrEqualTo($timePeriod->start()) && $this->end->isAfterOrEqualTo($timePeriod->end());
     }
 
     public function revert() : self
@@ -158,10 +158,10 @@ final class TimePeriod
         }
 
         return new self(
-            $this->start->isBeforeOrEqual($timePeriod->start)
+            $this->start->isBeforeOrEqualTo($timePeriod->start)
                 ? $this->start()
                 : $timePeriod->start,
-            $this->end->isAfterOrEqual($timePeriod->end)
+            $this->end->isAfterOrEqualTo($timePeriod->end)
                 ? $this->end()
                 : $timePeriod->end()
         );
@@ -177,19 +177,29 @@ final class TimePeriod
             ? $timePeriod->revert()
             : $timePeriod;
 
-        if ($thisPeriodForward->end()->isEqual($otherPeriodForward->start())) {
+        if ($thisPeriodForward->end()->isEqualTo($otherPeriodForward->start())) {
             return true;
         }
 
-        if ($thisPeriodForward->start()->isEqual($otherPeriodForward->end())) {
+        if ($thisPeriodForward->start()->isEqualTo($otherPeriodForward->end())) {
             return true;
         }
 
         return false;
     }
 
+    /**
+     * @infection-ignore-all
+     *
+     * @deprecated Use `isEqualTo` instead. Will be removed with 2.0
+     */
     public function isEqual(self $period) : bool
     {
-        return $this->start->isEqual($period->start()) && $this->end->isEqual($period->end());
+        return $this->isEqualTo($period);
+    }
+
+    public function isEqualTo(self $period) : bool
+    {
+        return $this->start->isEqualTo($period->start()) && $this->end->isEqualTo($period->end());
     }
 }

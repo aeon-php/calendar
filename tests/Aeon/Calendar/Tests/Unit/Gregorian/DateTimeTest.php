@@ -245,14 +245,14 @@ final class DateTimeTest extends TestCase
         $dateTimeCreate = DateTime::create(2020, 01, 01, 00, 00, 00);
         $dateTime = new DateTime(new Day(new Month(new Year(2020), 01), 01), new Time(00, 00, 00), TimeZone::UTC());
 
-        $this->assertTrue($dateTime->isEqual($dateTimeFromString));
-        $this->assertTrue($dateTime->isEqual($dateTimeFromTimestamp));
-        $this->assertTrue($dateTime->isEqual($dateTimeCreate));
+        $this->assertTrue($dateTime->isEqualTo($dateTimeFromString));
+        $this->assertTrue($dateTime->isEqualTo($dateTimeFromTimestamp));
+        $this->assertTrue($dateTime->isEqualTo($dateTimeCreate));
 
-        $this->assertTrue($dateTimeFromString->isEqual($dateTimeCreate));
-        $this->assertTrue($dateTimeFromString->isEqual($dateTimeFromTimestamp));
+        $this->assertTrue($dateTimeFromString->isEqualTo($dateTimeCreate));
+        $this->assertTrue($dateTimeFromString->isEqualTo($dateTimeFromTimestamp));
 
-        $this->assertTrue($dateTimeFromTimestamp->isEqual($dateTimeCreate));
+        $this->assertTrue($dateTimeFromTimestamp->isEqualTo($dateTimeCreate));
     }
 
     public function test_compare_source_datetime_immutable_with_converted_one() : void
@@ -312,7 +312,7 @@ final class DateTimeTest extends TestCase
     {
         $this->assertTrue(
             DateTime::create(2020, 01, 01, 00, 00, 00, 0, 'America/Los_Angeles')
-                ->isEqual(DateTime::fromString('2020-01-01 00:00:00 America/Los_Angeles'))
+                ->isEqualTo(DateTime::fromString('2020-01-01 00:00:00 America/Los_Angeles'))
         );
     }
 
@@ -320,14 +320,14 @@ final class DateTimeTest extends TestCase
     {
         $this->assertTrue(
             DateTime::create(2020, 01, 01, 00, 00, 00)
-                ->isEqual(DateTime::fromString('2020-01-01 00:00:00.000000 UTC'))
+                ->isEqualTo(DateTime::fromString('2020-01-01 00:00:00.000000 UTC'))
         );
     }
 
     public function test_from_timestamp() : void
     {
         $this->assertTrue(
-            DateTime::fromString('2020-01-01 00:00:00')->isEqual(DateTime::fromTimestampUnix(1577836800))
+            DateTime::fromString('2020-01-01 00:00:00')->isEqualTo(DateTime::fromTimestampUnix(1577836800))
         );
     }
 
@@ -581,7 +581,7 @@ final class DateTimeTest extends TestCase
         $this->assertTrue(
             DateTime::fromString('2020-01-01 00:00:00.100001')
                 ->toTimeZone(TimeZone::australiaSydney())
-                ->isEqual(
+                ->isEqualTo(
                     DateTime::fromString('2020-01-01 00:00:00.100001')->toTimeZone(TimeZone::europeWarsaw())
                 )
         );
@@ -841,7 +841,7 @@ final class DateTimeTest extends TestCase
     {
         $this->assertTrue(
             DateTime::fromString('2020-01-01 00:00:00+00')
-                ->isAfterOrEqual(DateTime::fromString('2020-01-01 00:00:00+00'))
+                ->isAfterOrEqualTo(DateTime::fromString('2020-01-01 00:00:00+00'))
         );
     }
 
@@ -849,7 +849,7 @@ final class DateTimeTest extends TestCase
     {
         $this->assertTrue(
             DateTime::fromString('2020-01-01 00:00:00+00')
-                ->isBeforeOrEqual(DateTime::fromString('2020-01-01 00:00:00+00'))
+                ->isBeforeOrEqualTo(DateTime::fromString('2020-01-01 00:00:00+00'))
         );
     }
 

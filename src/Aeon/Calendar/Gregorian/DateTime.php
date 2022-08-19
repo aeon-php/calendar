@@ -601,7 +601,17 @@ final class DateTime
         return $this->add($timeUnit->invert());
     }
 
+    /**
+     * @infection-ignore-all
+     *
+     * @deprecated Use `isEqualTo` instead. Will be removed with 2.0
+     */
     public function isEqual(self $dateTime) : bool
+    {
+        return $this->isEqualTo($dateTime);
+    }
+
+    public function isEqualTo(self $dateTime) : bool
     {
         return $this->toDateTimeImmutable() == $dateTime->toDateTimeImmutable();
     }
@@ -611,12 +621,32 @@ final class DateTime
         return $this->toDateTimeImmutable() > $dateTime->toDateTimeImmutable();
     }
 
+    /**
+     * @infection-ignore-all
+     *
+     * @deprecated Use `isAfterOrEqualTo` instead. Will be removed with 2.0
+     */
     public function isAfterOrEqual(self $dateTime) : bool
+    {
+        return $this->isAfterOrEqualTo($dateTime);
+    }
+
+    public function isAfterOrEqualTo(self $dateTime) : bool
     {
         return $this->toDateTimeImmutable() >= $dateTime->toDateTimeImmutable();
     }
 
+    /**
+     * @infection-ignore-all
+     *
+     * @deprecated Use `isBeforeOrEqualTo` instead. Will be removed with 2.0
+     */
     public function isBeforeOrEqual(self $dateTime) : bool
+    {
+        return $this->isBeforeOrEqualTo($dateTime);
+    }
+
+    public function isBeforeOrEqualTo(self $dateTime) : bool
     {
         return $this->toDateTimeImmutable() <= $dateTime->toDateTimeImmutable();
     }

@@ -706,6 +706,6 @@ final class TimePeriodTest extends TestCase
             DateTime::fromString('2020-01-03 00:00:00')
         );
 
-        $this->assertFalse($timePeriod1->isEqual($timePeriod2));
+        $this->assertFalse($timePeriod1->isEqualTo($timePeriod2));
     }
 }

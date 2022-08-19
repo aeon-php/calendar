@@ -54,8 +54,8 @@ final class TimeOffsetTest extends TestCase
 
     public function test_is_equal() : void
     {
-        $this->assertTrue(TimeOffset::fromString('+00:00')->isEqual(TimeOffset::fromString('+00:00')));
-        $this->assertFalse(TimeOffset::fromString('+00:00')->isEqual(TimeOffset::fromString('+01:00')));
+        $this->assertTrue(TimeOffset::fromString('+00:00')->isEqualTo(TimeOffset::fromString('+00:00')));
+        $this->assertFalse(TimeOffset::fromString('+00:00')->isEqualTo(TimeOffset::fromString('+01:00')));
     }
 
     public function test_create_from_time_unit_zero_negative() : void

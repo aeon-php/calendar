@@ -95,7 +95,7 @@ final class LeapSeconds
         return $this->filter(function (LeapSecond $leapSecond) use ($dateTime) : bool {
             return $dateTime
                 ->toTimeZone(TimeZone::UTC())
-                ->isAfterOrEqual($leapSecond->dateTime());
+                ->isAfterOrEqualTo($leapSecond->dateTime());
         });
     }
 
@@ -104,7 +104,7 @@ final class LeapSeconds
         return $this->filter(function (LeapSecond $leapSecond) use ($timePeriod) : bool {
             return $timePeriod->start()
                     ->toTimeZone(TimeZone::UTC())
-                    ->isBeforeOrEqual($leapSecond->dateTime())
+                    ->isBeforeOrEqualTo($leapSecond->dateTime())
                 && $timePeriod->end()
                     ->toTimeZone(TimeZone::UTC())
                     ->isAfter($leapSecond->dateTime());

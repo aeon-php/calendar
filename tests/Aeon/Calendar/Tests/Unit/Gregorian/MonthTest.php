@@ -176,29 +176,29 @@ final class MonthTest extends TestCase
 
     public function test_is_equal() : void
     {
-        $this->assertTrue(Month::fromString('2020-01-01')->isEqual(Month::fromString('2020-01-01')));
-        $this->assertFalse(Month::fromString('2020-01-02')->isEqual(Month::fromString('2020-02-01')));
+        $this->assertTrue(Month::fromString('2020-01-01')->isEqualTo(Month::fromString('2020-01-01')));
+        $this->assertFalse(Month::fromString('2020-01-02')->isEqualTo(Month::fromString('2020-02-01')));
     }
 
     public function test_is_before() : void
     {
         $this->assertTrue(Month::fromString('2019-01-01')->isBefore(Month::fromString('2020-01-01')));
-        $this->assertTrue(Month::fromString('2020-01-01')->isBeforeOrEqual(Month::fromString('2020-01-01')));
+        $this->assertTrue(Month::fromString('2020-01-01')->isBeforeOrEqualTo(Month::fromString('2020-01-01')));
 
         $this->assertFalse(Month::fromString('2021-01-01')->isBefore(Month::fromString('2020-01-01')));
-        $this->assertFalse(Month::fromString('2021-01-01')->isBeforeOrEqual(Month::fromString('2020-01-01')));
+        $this->assertFalse(Month::fromString('2021-01-01')->isBeforeOrEqualTo(Month::fromString('2020-01-01')));
 
-        $this->assertTrue(Month::fromString('2019-01-01')->isBeforeOrEqual(Month::fromString('2020-01-01')));
-        $this->assertTrue(Month::fromString('2021-01-01')->isAfterOrEqual(Month::fromString('2020-01-01')));
+        $this->assertTrue(Month::fromString('2019-01-01')->isBeforeOrEqualTo(Month::fromString('2020-01-01')));
+        $this->assertTrue(Month::fromString('2021-01-01')->isAfterOrEqualTo(Month::fromString('2020-01-01')));
     }
 
     public function test_is_after() : void
     {
         $this->assertTrue(Month::fromString('2022-01-01')->isAfter(Month::fromString('2020-02-01')));
-        $this->assertTrue(Month::fromString('2020-01-01')->isAfterOrEqual(Month::fromString('2020-01-01')));
+        $this->assertTrue(Month::fromString('2020-01-01')->isAfterOrEqualTo(Month::fromString('2020-01-01')));
 
         $this->assertFalse(Month::fromString('2019-01-01')->isAfter(Month::fromString('2020-02-01')));
-        $this->assertFalse(Month::fromString('2019-01-01')->isAfterOrEqual(Month::fromString('2020-02-01')));
+        $this->assertFalse(Month::fromString('2019-01-01')->isAfterOrEqualTo(Month::fromString('2020-02-01')));
     }
 
     public function test_until_with_wrong_destination_month() : void
@@ -290,7 +290,7 @@ final class MonthTest extends TestCase
     public function test_day_static_create() : void
     {
         $month = Month::create(2020, 12);
-        $this->assertTrue(Month::fromString('2020-12-24')->isEqual($month));
+        $this->assertTrue(Month::fromString('2020-12-24')->isEqualTo($month));
     }
 
     public function test_distance_to() : void
