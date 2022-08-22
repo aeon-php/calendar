@@ -232,7 +232,7 @@ final class Day
      */
     public function minusMonths(int $months) : self
     {
-        return $this->addMonths($months);
+        return $this->subMonths($months);
     }
 
     public function subMonths(int $months) : self
