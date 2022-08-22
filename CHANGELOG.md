@@ -1,8 +1,11 @@
-## [Unreleased] - 2022-08-19
+## [Unreleased] - 2022-08-22
 
 ### Changed
 - [#286](https://github.com/aeon-php/calendar/pull/286) - **Renamed all isEqual methods to isEqualTo** - [@christian-kolb](https://github.com/christian-kolb)
 - [#286](https://github.com/aeon-php/calendar/pull/286) - **Renamed all isLessThen/isGreaterThen methods to isBefore/isAfter** - [@christian-kolb](https://github.com/christian-kolb)
+
+### Fixed
+- [#287](https://github.com/aeon-php/calendar/pull/287) - **add instead of sub in Day class** - [@norberttech](https://github.com/norberttech)
 
 ## [1.0.5] - 2022-08-14
 
