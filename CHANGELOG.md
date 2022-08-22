@@ -1,4 +1,4 @@
-## [Unreleased] - 2022-08-22
+## [1.0.6] - 2022-08-22
 
 ### Changed
 - [#286](https://github.com/aeon-php/calendar/pull/286) - **Renamed all isEqual methods to isEqualTo** - [@christian-kolb](https://github.com/christian-kolb)
