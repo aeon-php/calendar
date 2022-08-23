@@ -245,7 +245,7 @@ final class TimeTest extends TestCase
         $this->assertFalse(Time::fromString('15:00:00')->isMidnight());
         $this->assertFalse(Time::fromString('15:27:00')->isMidnight());
         $this->assertFalse(Time::fromString('15:27:28')->isMidnight());
-        $this->assertFalse(Time::fromString('15:27:28:000001')->isMidnight());
+        $this->assertFalse(Time::fromString('15:27:28.000001')->isMidnight());
     }
 
     public function test_is_not_midnight() : void
@@ -253,7 +253,7 @@ final class TimeTest extends TestCase
         $this->assertTrue(Time::fromString('15:00:00')->isNotMidnight());
         $this->assertTrue(Time::fromString('15:27:00')->isNotMidnight());
         $this->assertTrue(Time::fromString('15:27:28')->isNotMidnight());
-        $this->assertTrue(Time::fromString('15:27:28:000001')->isNotMidnight());
+        $this->assertTrue(Time::fromString('15:27:28.000001')->isNotMidnight());
 
         $this->assertFalse(Time::fromString('00:00')->isNotMidnight());
         $this->assertFalse(Time::fromString('00:00:00')->isNotMidnight());
