@@ -22,6 +22,8 @@ final class Time
 
     private int $microsecond;
 
+    private \DateTimeImmutable $dateTime;
+
     public function __construct(int $hour, int $minute, int $second, int $microsecond = 0)
     {
         if ($hour < 0 || $hour > 23) {
@@ -44,6 +46,14 @@ final class Time
         $this->minute = $minute;
         $this->second = $second;
         $this->microsecond = $microsecond;
+
+        $this->dateTime = (new \DateTimeImmutable('now', new \DateTimeZone('UTC')))
+            ->setTime(
+                $hour,
+                $minute,
+                $second,
+                $microsecond
+            );
     }
 
     /**
@@ -97,9 +107,27 @@ final class Time
         ];
     }
 
+    /**
+     * @param array{hour: int, minute: int, second: int, microsecond: int} $data
+     */
+    public function __unserialize(array $data): void
+    {
+        $this->hour = $data['hour'];
+        $this->minute = $data['minute'];
+        $this->second = $data['second'];
+        $this->microsecond = $data['microsecond'];
+        $this->dateTime = (new \DateTimeImmutable('now', new \DateTimeZone('UTC')))
+            ->setTime(
+                $data['hour'],
+                $data['minute'],
+                $data['second'],
+                $data['microsecond']
+            );
+    }
+
     public function format(string $format) : string
     {
-        return $this->toDateTimeImmutable()->format($format);
+        return $this->dateTime->format($format);
     }
 
     public function toTimeUnit() : TimeUnit
@@ -144,12 +172,12 @@ final class Time
 
     public function isAM() : bool
     {
-        return $this->toDateTimeImmutable()->format('a') === 'am';
+        return $this->dateTime->format('a') === 'am';
     }
 
     public function isPM() : bool
     {
-        return $this->toDateTimeImmutable()->format('a') === 'pm';
+        return $this->dateTime->format('a') === 'pm';
     }
 
     /**
@@ -164,7 +192,7 @@ final class Time
 
     public function isAfter(self $time) : bool
     {
-        $dateTimeImmutable = $this->toDateTimeImmutable();
+        $dateTimeImmutable = $this->dateTime;
         $nextDateTimeImmutable = $dateTimeImmutable->setTime($time->hour, $time->minute, $time->second, $time->microsecond);
 
         return $dateTimeImmutable > $nextDateTimeImmutable;
@@ -182,7 +210,7 @@ final class Time
 
     public function isAfterOrEqualTo(self $time) : bool
     {
-        $dateTimeImmutable = $this->toDateTimeImmutable();
+        $dateTimeImmutable = $this->dateTime;
         $nextDateTimeImmutable = $dateTimeImmutable->setTime($time->hour, $time->minute, $time->second, $time->microsecond);
 
         return $dateTimeImmutable >= $nextDateTimeImmutable;
@@ -200,7 +228,7 @@ final class Time
 
     public function isEqualTo(self $time) : bool
     {
-        $dateTimeImmutable = $this->toDateTimeImmutable();
+        $dateTimeImmutable = $this->dateTime;
         $nextDateTimeImmutable = $dateTimeImmutable->setTime($time->hour, $time->minute, $time->second, $time->microsecond);
 
         return $dateTimeImmutable == $nextDateTimeImmutable;
@@ -218,7 +246,7 @@ final class Time
 
     public function isBefore(self $time) : bool
     {
-        $dateTimeImmutable = $this->toDateTimeImmutable();
+        $dateTimeImmutable = $this->dateTime;
         $nextDateTimeImmutable = $dateTimeImmutable->setTime($time->hour, $time->minute, $time->second, $time->microsecond);
 
         return $dateTimeImmutable < $nextDateTimeImmutable;
@@ -236,7 +264,7 @@ final class Time
 
     public function isBeforeOrEqualTo(self $time) : bool
     {
-        $dateTimeImmutable = $this->toDateTimeImmutable();
+        $dateTimeImmutable = $this->dateTime;
         $nextDateTimeImmutable = $dateTimeImmutable->setTime($time->hour, $time->minute, $time->second, $time->microsecond);
 
         return $dateTimeImmutable <= $nextDateTimeImmutable;
@@ -244,22 +272,11 @@ final class Time
 
     public function add(TimeUnit $timeUnit) : self
     {
-        return self::fromDateTime($this->toDateTimeImmutable()->add($timeUnit->toDateInterval()));
+        return self::fromDateTime($this->dateTime->add($timeUnit->toDateInterval()));
     }
 
     public function sub(TimeUnit $timeUnit) : self
     {
-        return self::fromDateTime($this->toDateTimeImmutable()->sub($timeUnit->toDateInterval()));
-    }
-
-    private function toDateTimeImmutable() : \DateTimeImmutable
-    {
-        return (new \DateTimeImmutable('now', new \DateTimeZone('UTC')))
-            ->setTime(
-                $this->hour,
-                $this->minute,
-                $this->second,
-                $this->microsecond
-            );
+        return self::fromDateTime($this->dateTime->sub($timeUnit->toDateInterval()));
     }
 }
