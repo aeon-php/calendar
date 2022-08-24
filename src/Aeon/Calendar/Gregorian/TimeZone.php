@@ -563,21 +563,17 @@ final class TimeZone
 
     private const TYPE_IDENTIFIER = 3;
 
-    /**
-     * @var null|\ReflectionClass<TimeZone>
-     */
-    private static ?\ReflectionClass $reflectionClass = null;
+    private string $name;
 
-    private ?string $name = null;
+    private int $type;
 
-    private ?int $type = null;
-
-    private ?\DateTimeZone $dateTimeZone = null;
+    private \DateTimeZone $dateTimeZone;
 
     private function __construct(string $name, int $type)
     {
         $this->name = $name;
         $this->type = $type;
+        $this->dateTimeZone = new \DateTimeZone($name);
     }
 
     /**
@@ -687,26 +683,26 @@ final class TimeZone
 
     /**
      * @psalm-pure
-     * @psalm-suppress ImpureMethodCall
-     * @psalm-suppress ImpureStaticProperty
-     * @psalm-suppress PropertyTypeCoercion
-     * @psalm-suppress InvalidNullableReturnType
-     * @psalm-suppress ImpurePropertyAssignment
-     * @psalm-suppress InaccessibleProperty
-     *
-     * @throws InvalidArgumentException
      */
     public static function fromDateTimeZone(\DateTimeZone $dateTimeZone) : self
     {
-        if (self::$reflectionClass === null) {
-            self::$reflectionClass = new \ReflectionClass(self::class);
+        /** @phpstan-ignore-next-line */
+        $name = $dateTimeZone->getName();
+        $type = self::TYPE_IDENTIFIER;
+
+        if ($name === 'UTC') {
+            $type = self::TYPE_ABBREVIATION;
         }
 
-        $newTimeZone = self::$reflectionClass->newInstanceWithoutConstructor();
+        if (TimeOffset::isValid($name)) {
+            $type = self::TYPE_OFFSET;
+        }
 
-        $newTimeZone->dateTimeZone = $dateTimeZone;
+        if (\timezone_name_from_abbr($name) !== false) {
+            $type = self::TYPE_ABBREVIATION;
+        }
 
-        return $newTimeZone;
+        return new self($name, $type);
     }
 
     /**
@@ -760,74 +756,48 @@ final class TimeZone
     }
 
     /**
-     * @return array{name: string}
+     * @return array{name: string, type: int}
      */
     public function __serialize() : array
     {
         return [
-            'name' => $this->name(),
-            'type' => $this->type(),
+            'name' => $this->name,
+            'type' => $this->type,
         ];
+    }
+
+    /**
+     * @param array{name: string, type: int} $data
+     */
+    public function __unserialize(array $data) : void
+    {
+        $this->name = $data['name'];
+        $this->type = $data['type'];
+        $this->dateTimeZone = new \DateTimeZone($data['name']);
     }
 
     public function isOffset() : bool
     {
-        return $this->type() === self::TYPE_OFFSET;
+        return $this->type === self::TYPE_OFFSET;
     }
 
     public function isAbbreviation() : bool
     {
-        return $this->type() === self::TYPE_ABBREVIATION;
+        return $this->type === self::TYPE_ABBREVIATION;
     }
 
     public function isIdentifier() : bool
     {
-        return $this->type() === self::TYPE_IDENTIFIER;
+        return $this->type === self::TYPE_IDENTIFIER;
     }
 
-    /**
-     * @psalm-suppress NullableReturnStatement
-     * @psalm-suppress InaccessibleProperty
-     * @psalm-suppress InvalidNullableReturnType
-     */
     public function toDateTimeZone() : \DateTimeZone
     {
-        if ($this->dateTimeZone === null) {
-            $this->dateTimeZone = new \DateTimeZone($this->name());
-        }
-
         return $this->dateTimeZone;
     }
 
-    /**
-     * @psalm-suppress NullableReturnStatement
-     * @psalm-suppress InaccessibleProperty
-     * @psalm-suppress PossiblyNullReference
-     * @psalm-suppress InvalidNullableReturnType
-     */
     public function name() : string
     {
-        if ($this->name === null) {
-            /** @phpstan-ignore-next-line */
-            $name = $this->dateTimeZone->getName();
-            $type = self::TYPE_IDENTIFIER;
-
-            if ($name === 'UTC') {
-                $type = self::TYPE_ABBREVIATION;
-            }
-
-            if (TimeOffset::isValid($name)) {
-                $type = self::TYPE_OFFSET;
-            }
-
-            if (\timezone_name_from_abbr($name) !== false) {
-                $type = self::TYPE_ABBREVIATION;
-            }
-
-            $this->type = $type;
-            $this->name = $name;
-        }
-
         return $this->name;
     }
 
@@ -837,38 +807,6 @@ final class TimeZone
      */
     public function timeOffset(DateTime $dateTime) : TimeOffset
     {
-        return TimeOffset::fromTimeUnit(TimeUnit::seconds($this->toDateTimeZone()->getOffset($dateTime->toDateTimeImmutable())));
-    }
-
-    /**
-     * @psalm-suppress NullableReturnStatement
-     * @psalm-suppress InvalidNullableReturnType
-     * @psalm-suppress InaccessibleProperty
-     * @psalm-suppress PossiblyNullReference
-     */
-    private function type() : int
-    {
-        if ($this->type === null) {
-            /** @phpstan-ignore-next-line */
-            $name = $this->dateTimeZone->getName();
-            $type = self::TYPE_IDENTIFIER;
-
-            if ($name === 'UTC') {
-                $type = self::TYPE_ABBREVIATION;
-            }
-
-            if (TimeOffset::isValid($name)) {
-                $type = self::TYPE_OFFSET;
-            }
-
-            if (\timezone_name_from_abbr($name) !== false) {
-                $type = self::TYPE_ABBREVIATION;
-            }
-
-            $this->type = $type;
-            $this->name = $name;
-        }
-
-        return $this->type;
+        return TimeOffset::fromTimeUnit(TimeUnit::seconds($this->dateTimeZone->getOffset($dateTime->toDateTimeImmutable())));
     }
 }

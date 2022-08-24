@@ -154,7 +154,7 @@ final class DateTime
     }
 
     /**
-     * @param array{day: Day, time: Time, timeZone: TimeZone, dateTime: ?\DateTimeInterface} $data
+     * @param array{day: Day, time: Time, timeZone: TimeZone} $data
      */
     public function __unserialize(array $data) : void
     {
