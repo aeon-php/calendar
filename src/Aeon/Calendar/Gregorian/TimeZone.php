@@ -567,13 +567,10 @@ final class TimeZone
 
     private int $type;
 
-    private \DateTimeZone $dateTimeZone;
-
     private function __construct(string $name, int $type)
     {
         $this->name = $name;
         $this->type = $type;
-        $this->dateTimeZone = new \DateTimeZone($name);
     }
 
     /**
@@ -772,7 +769,6 @@ final class TimeZone
     {
         $this->name = $data['name'];
         $this->type = $data['type'];
-        $this->dateTimeZone = new \DateTimeZone($data['name']);
     }
 
     public function isOffset() : bool
@@ -792,7 +788,7 @@ final class TimeZone
 
     public function toDateTimeZone() : \DateTimeZone
     {
-        return $this->dateTimeZone;
+        return new \DateTimeZone($this->name);
     }
 
     public function name() : string
@@ -806,6 +802,6 @@ final class TimeZone
      */
     public function timeOffset(DateTime $dateTime) : TimeOffset
     {
-        return TimeOffset::fromTimeUnit(TimeUnit::seconds($this->dateTimeZone->getOffset($dateTime->toDateTimeImmutable())));
+        return TimeOffset::fromTimeUnit(TimeUnit::seconds($this->toDateTimeZone()->getOffset($dateTime->toDateTimeImmutable())));
     }
 }

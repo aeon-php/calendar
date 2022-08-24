@@ -21,8 +21,6 @@ final class Month
 
     private int $number;
 
-    private \DateTimeImmutable $dateTime;
-
     public function __construct(Year $year, int $number)
     {
         if ($number <= 0 || $number > self::TOTAL_MONTHS) {
@@ -32,7 +30,6 @@ final class Month
         $this->year = $year;
         $this->number = $number;
         $this->days = new MonthDays($this);
-        $this->dateTime = new \DateTimeImmutable(\sprintf('%d-%d-01 00:00:00.000000 UTC', $this->year()->number(), $this->number()));
     }
 
     /**
@@ -99,13 +96,12 @@ final class Month
     {
         $this->year = $data['year'];
         $this->number = $data['number'];
-        $this->dateTime = new \DateTimeImmutable(\sprintf('%d-%d-01 00:00:00.000000 UTC', $data['year']->number(), $data['number']));
         $this->days = new MonthDays($this);
     }
 
     public function toString() : string
     {
-        return $this->dateTime->format('Y-m');
+        return $this->toDateTimeImmutable()->format('Y-m');
     }
 
     public function previous() : self
@@ -292,17 +288,21 @@ final class Month
 
     public function shortName() : string
     {
-        return $this->dateTime->format('M');
+        return $this->toDateTimeImmutable()->format('M');
     }
 
     public function name() : string
     {
-        return $this->dateTime->format('F');
+        return $this->toDateTimeImmutable()->format('F');
     }
 
     public function toDateTimeImmutable() : \DateTimeImmutable
     {
-        return $this->dateTime;
+        return new \DateTimeImmutable(\sprintf(
+            '%d-%d-01 00:00:00.000000 UTC',
+            $this->year()->number(),
+            $this->number()
+        ));
     }
 
     public function iterate(self $destination, Interval $interval) : Months

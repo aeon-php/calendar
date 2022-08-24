@@ -18,8 +18,6 @@ final class Day
 
     private int $number;
 
-    private \DateTimeImmutable $dateTime;
-
     public function __construct(Month $month, int $number)
     {
         if ($number <= 0 || $number > $month->numberOfDays()) {
@@ -28,7 +26,6 @@ final class Day
 
         $this->number = $number;
         $this->month = $month;
-        $this->dateTime = new \DateTimeImmutable(\sprintf('%d-%d-%d 00:00:00.000000 UTC', $this->month->year()->number(), $this->month->number(), $this->number));
     }
 
     /**
@@ -111,12 +108,6 @@ final class Day
     {
         $this->month = $data['month'];
         $this->number = $data['number'];
-        $this->dateTime = new \DateTimeImmutable(\sprintf(
-            '%d-%d-%d 00:00:00.000000 UTC',
-            $data['month']->year()->number(),
-            $data['month']->number(),
-            $data['number']
-        ));
     }
 
     public function toString() : string
@@ -126,7 +117,7 @@ final class Day
 
     public function timeBetween(self $day) : TimeUnit
     {
-        return TimeUnit::seconds(\abs(($this->dateTime->getTimestamp() - $day->dateTime->getTimestamp())));
+        return TimeUnit::seconds(\abs(($this->toDateTimeImmutable()->getTimestamp() - $day->toDateTimeImmutable()->getTimestamp())));
     }
 
     /** @deprecated Use `add` instead. Will be removed with 2.0 */
@@ -320,7 +311,7 @@ final class Day
 
     public function weekDay() : WeekDay
     {
-        return new WeekDay((int) $this->dateTime->format('N'));
+        return new WeekDay((int) $this->toDateTimeImmutable()->format('N'));
     }
 
     /**
@@ -328,7 +319,7 @@ final class Day
      */
     public function weekOfYear() : int
     {
-        return (int) $this->dateTime->format('W');
+        return (int) $this->toDateTimeImmutable()->format('W');
     }
 
     /**
@@ -344,7 +335,7 @@ final class Day
      */
     public function dayOfYear() : int
     {
-        return \intval($this->dateTime->format('z')) + 1;
+        return \intval($this->toDateTimeImmutable()->format('z')) + 1;
     }
 
     public function isWeekend() : bool
@@ -354,12 +345,17 @@ final class Day
 
     public function toDateTimeImmutable() : \DateTimeImmutable
     {
-        return $this->dateTime;
+        return new \DateTimeImmutable(\sprintf(
+            '%d-%d-%d 00:00:00.000000 UTC',
+            $this->month->year()->number(),
+            $this->month->number(),
+            $this->number
+        ));
     }
 
     public function format(string $format) : string
     {
-        return $this->dateTime->format($format);
+        return $this->toDateTimeImmutable()->format($format);
     }
 
     /**

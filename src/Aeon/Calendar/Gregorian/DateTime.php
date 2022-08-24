@@ -21,26 +21,11 @@ final class DateTime
 
     private TimeZone $timeZone;
 
-    private \DateTimeImmutable $dateTime;
-
     public function __construct(Day $day, Time $time, TimeZone $timeZone)
     {
         $this->day = $day;
         $this->time = $time;
         $this->timeZone = $timeZone;
-        $this->dateTime = new \DateTimeImmutable(
-            \sprintf(
-                '%d-%02d-%02d %02d:%02d:%02d.%06d',
-                $day->year()->number(),
-                $day->month()->number(),
-                $day->number(),
-                $time->hour(),
-                $time->minute(),
-                $time->second(),
-                $time->microsecond(),
-            ),
-            $timeZone->toDateTimeZone()
-        );
     }
 
     /**
@@ -161,19 +146,6 @@ final class DateTime
         $this->day = $data['day'];
         $this->time = $data['time'];
         $this->timeZone = $data['timeZone'];
-        $this->dateTime = new \DateTimeImmutable(
-            \sprintf(
-                '%d-%02d-%02d %02d:%02d:%02d.%06d',
-                $data['day']->year()->number(),
-                $data['day']->month()->number(),
-                $data['day']->number(),
-                $data['time']->hour(),
-                $data['time']->minute(),
-                $data['time']->second(),
-                $data['time']->microsecond(),
-            ),
-            $data['timeZone']->toDateTimeZone()
-        );
     }
 
     public function year() : Year
@@ -226,7 +198,19 @@ final class DateTime
 
     public function toDateTimeImmutable() : \DateTimeImmutable
     {
-        return $this->dateTime;
+        return new \DateTimeImmutable(
+            \sprintf(
+                '%d-%02d-%02d %02d:%02d:%02d.%06d',
+                $this->day->year()->number(),
+                $this->day->month()->number(),
+                $this->day->number(),
+                $this->time->hour(),
+                $this->time->minute(),
+                $this->time->second(),
+                $this->time->microsecond(),
+            ),
+            $this->timeZone->toDateTimeZone()
+        );
     }
 
     public function toAtomicTime() : self
@@ -243,7 +227,7 @@ final class DateTime
 
     public function format(string $format) : string
     {
-        return $this->dateTime->format($format);
+        return $this->toDateTimeImmutable()->format($format);
     }
 
     public function timeZone() : TimeZone
@@ -257,24 +241,24 @@ final class DateTime
             throw new Exception("TimeZone offset {$this->timeZone->name()} can't be converted into abbreviation.");
         }
 
-        return TimeZone::fromString($this->dateTime->format('T'));
+        return TimeZone::fromString($this->toDateTimeImmutable()->format('T'));
     }
 
     public function toTimeZone(TimeZone $dateTimeZone) : self
     {
-        return self::fromDateTime($this->dateTime->setTimezone($dateTimeZone->toDateTimeZone()));
+        return self::fromDateTime($this->toDateTimeImmutable()->setTimezone($dateTimeZone->toDateTimeZone()));
     }
 
     public function toISO8601(bool $extended = true) : string
     {
         return $extended
-            ? $this->dateTime->format('Y-m-d\TH:i:sP')
-            : $this->dateTime->format('Ymd\THisO');
+            ? $this->toDateTimeImmutable()->format('Y-m-d\TH:i:sP')
+            : $this->toDateTimeImmutable()->format('Ymd\THisO');
     }
 
     public function isDaylightSaving() : bool
     {
-        return (bool) $this->dateTime->format('I');
+        return (bool) $this->toDateTimeImmutable()->format('I');
     }
 
     public function isDaylight() : bool
@@ -315,7 +299,7 @@ final class DateTime
      */
     public function timestampUNIX() : TimeUnit
     {
-        $timestamp = $this->dateTime->getTimestamp();
+        $timestamp = $this->toDateTimeImmutable()->getTimestamp();
 
         if ($timestamp >= 0) {
             return TimeUnit::positive($timestamp, $this->time->microsecond());
@@ -550,7 +534,7 @@ final class DateTime
             return new self(new Day($newMonth, $this->day->number()), $this->time, $this->timeZone);
         }
 
-        return self::fromDateTime($this->dateTime->add($timeUnit->toDateInterval()));
+        return self::fromDateTime($this->toDateTimeImmutable()->add($timeUnit->toDateInterval()));
     }
 
     /**
@@ -576,12 +560,12 @@ final class DateTime
 
     public function isEqualTo(self $dateTime) : bool
     {
-        return $this->dateTime == $dateTime->dateTime;
+        return $this->toDateTimeImmutable() == $dateTime->toDateTimeImmutable();
     }
 
     public function isAfter(self $dateTime) : bool
     {
-        return $this->dateTime > $dateTime->dateTime;
+        return $this->toDateTimeImmutable() > $dateTime->toDateTimeImmutable();
     }
 
     /**
@@ -596,7 +580,7 @@ final class DateTime
 
     public function isAfterOrEqualTo(self $dateTime) : bool
     {
-        return $this->dateTime >= $dateTime->dateTime;
+        return $this->toDateTimeImmutable() >= $dateTime->toDateTimeImmutable();
     }
 
     /**
@@ -611,12 +595,12 @@ final class DateTime
 
     public function isBeforeOrEqualTo(self $dateTime) : bool
     {
-        return $this->dateTime <= $dateTime->dateTime;
+        return $this->toDateTimeImmutable() <= $dateTime->toDateTimeImmutable();
     }
 
     public function isBefore(self $dateTime) : bool
     {
-        return $this->dateTime < $dateTime->dateTime;
+        return $this->toDateTimeImmutable() < $dateTime->toDateTimeImmutable();
     }
 
     public function until(self $dateTime) : TimePeriod
