@@ -28,7 +28,7 @@ final class Day
 
         $this->number = $number;
         $this->month = $month;
-        $this->dateTime = new \DateTimeImmutable(\sprintf('%d-%d-%d 00:00:00.000000 UTC', $this->month()->year()->number(), $this->month()->number(), $this->number()));
+        $this->dateTime = new \DateTimeImmutable(\sprintf('%d-%d-%d 00:00:00.000000 UTC', $this->month->year()->number(), $this->month->number(), $this->number));
     }
 
     /**
@@ -84,9 +84,9 @@ final class Day
     public function __debugInfo() : array
     {
         return [
-            'year' => $this->month()->year()->number(),
-            'month' => $this->month()->number(),
-            'day' => $this->number(),
+            'year' => $this->month->year()->number(),
+            'month' => $this->month->number(),
+            'day' => $this->number,
         ];
     }
 
@@ -96,8 +96,8 @@ final class Day
     public function __serialize() : array
     {
         return [
-            'month' => $this->month(),
-            'number' => $this->number(),
+            'month' => $this->month,
+            'number' => $this->number,
         ];
     }
 
@@ -300,62 +300,18 @@ final class Day
         );
     }
 
-    /**
-     * @psalm-suppress PossiblyNullArrayAccess
-     * @psalm-suppress NullableReturnStatement
-     * @psalm-suppress PossiblyInvalidPropertyAssignmentValue
-     * @psalm-suppress InaccessibleProperty
-     * @psalm-suppress PossiblyNullReference
-     * @psalm-suppress InvalidNullableReturnType
-     */
     public function month() : Month
     {
-        if ($this->month === null) {
-            /**
-             * @phpstan-ignore-next-line
-             */
-            [$year, $month, $day] = \sscanf($this->dateTime->format('Y-m-d'), '%d-%d-%d');
-
-            $this->month = new Month(
-                new Year((int) $year),
-                (int) $month
-            );
-
-            $this->number = $day;
-        }
-
         return $this->month;
     }
 
     public function year() : Year
     {
-        return $this->month()->year();
+        return $this->month->year();
     }
 
-    /**
-     * @psalm-suppress PossiblyNullArrayAccess
-     * @psalm-suppress NullableReturnStatement
-     * @psalm-suppress PossiblyInvalidPropertyAssignmentValue
-     * @psalm-suppress InaccessibleProperty
-     * @psalm-suppress PossiblyNullReference
-     * @psalm-suppress InvalidNullableReturnType
-     */
     public function number() : int
     {
-        if ($this->number === null) {
-            /**
-             * @phpstan-ignore-next-line
-             */
-            [$year, $month, $day] = \sscanf($this->dateTime->format('Y-m-d'), '%d-%d-%d');
-
-            $this->month = new Month(
-                new Year((int) $year),
-                (int) $month
-            );
-
-            $this->number = $day;
-        }
-
         return $this->number;
     }
 
@@ -377,7 +333,7 @@ final class Day
      */
     public function weekOfMonth() : int
     {
-        return $this->weekOfYear() - $this->month()->days()->first()->weekOfYear() + 1;
+        return $this->weekOfYear() - $this->month->days()->first()->weekOfYear() + 1;
     }
 
     /**
@@ -415,21 +371,21 @@ final class Day
 
     public function isEqualTo(self $day) : bool
     {
-        return $this->number() === $day->number()
-            && $this->month()->isEqualTo($day->month());
+        return $this->number === $day->number()
+            && $this->month->isEqualTo($day->month());
     }
 
     public function isBefore(self $day) : bool
     {
-        if ($this->month()->isBefore($day->month())) {
+        if ($this->month->isBefore($day->month())) {
             return true;
         }
 
-        if ($this->month()->isAfter($day->month())) {
+        if ($this->month->isAfter($day->month())) {
             return false;
         }
 
-        return $this->number() < $day->number();
+        return $this->number < $day->number();
     }
 
     /**
@@ -444,28 +400,28 @@ final class Day
 
     public function isBeforeOrEqualTo(self $day) : bool
     {
-        if ($this->month()->isBefore($day->month())) {
+        if ($this->month->isBefore($day->month())) {
             return true;
         }
 
-        if ($this->month()->isAfter($day->month())) {
+        if ($this->month->isAfter($day->month())) {
             return false;
         }
 
-        return $this->number() <= $day->number();
+        return $this->number <= $day->number();
     }
 
     public function isAfter(self $day) : bool
     {
-        if ($this->month()->isAfter($day->month())) {
+        if ($this->month->isAfter($day->month())) {
             return true;
         }
 
-        if ($this->month()->isBefore($day->month())) {
+        if ($this->month->isBefore($day->month())) {
             return false;
         }
 
-        return $this->number() > $day->number();
+        return $this->number > $day->number();
     }
 
     /**
@@ -480,15 +436,15 @@ final class Day
 
     public function isAfterOrEqualTo(self $day) : bool
     {
-        if ($this->month()->isAfter($day->month())) {
+        if ($this->month->isAfter($day->month())) {
             return true;
         }
 
-        if ($this->month()->isBefore($day->month())) {
+        if ($this->month->isBefore($day->month())) {
             return false;
         }
 
-        return $this->number() >= $day->number();
+        return $this->number >= $day->number();
     }
 
     public function iterate(self $destination, Interval $interval) : Days
@@ -504,9 +460,9 @@ final class Day
             throw new InvalidArgumentException(
                 \sprintf(
                     '%d %s %d is after %d %s %d',
-                    $this->number(),
-                    $this->month()->name(),
-                    $this->month()->year()->number(),
+                    $this->number,
+                    $this->month->name(),
+                    $this->month->year()->number(),
                     $day->number(),
                     $day->month()->name(),
                     $day->month()->year()->number(),
@@ -530,9 +486,9 @@ final class Day
             throw new InvalidArgumentException(
                 \sprintf(
                     '%d %s %d is before %d %s %d',
-                    $this->number(),
-                    $this->month()->name(),
-                    $this->month()->year()->number(),
+                    $this->number,
+                    $this->month->name(),
+                    $this->month->year()->number(),
                     $day->number(),
                     $day->month()->name(),
                     $day->month()->year()->number(),
@@ -557,6 +513,6 @@ final class Day
 
     public function quarter() : Quarter
     {
-        return $this->year()->quarter((int) \ceil($this->month()->number() / 3));
+        return $this->year()->quarter((int) \ceil($this->month->number() / 3));
     }
 }
