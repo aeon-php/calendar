@@ -21,9 +21,7 @@ final class Month
 
     private int $number;
 
-    private ?\DateTimeImmutable $dateTime;
-
-    private bool $clean = true;
+    private \DateTimeImmutable $dateTime;
 
     public function __construct(Year $year, int $number)
     {
@@ -34,7 +32,7 @@ final class Month
         $this->year = $year;
         $this->number = $number;
         $this->days = new MonthDays($this);
-        $this->dateTime = null;
+        $this->dateTime = new \DateTimeImmutable(\sprintf('%d-%d-01 00:00:00.000000 UTC', $this->year()->number(), $this->number()));
     }
 
     /**
@@ -51,20 +49,13 @@ final class Month
     /**
      * @psalm-pure
      * @psalm-suppress ImpureMethodCall
-     * @psalm-suppress ImpureStaticProperty
-     * @psalm-suppress PropertyTypeCoercion
      */
     public static function fromDateTime(\DateTimeInterface $dateTime) : self
     {
-        $newMonth =  new self(
+        return new self(
             new Year((int) $dateTime->format('Y')),
             (int) $dateTime->format('m')
         );
-
-        $newMonth->dateTime = $dateTime instanceof \DateTime ? \DateTimeImmutable::createFromMutable($dateTime) : $dateTime;
-        $newMonth->clean = false;
-
-        return $newMonth;
     }
 
     /**
@@ -108,13 +99,13 @@ final class Month
     {
         $this->year = $data['year'];
         $this->number = $data['number'];
-        $this->dateTime = null;
+        $this->dateTime = new \DateTimeImmutable(\sprintf('%d-%d-01 00:00:00.000000 UTC', $data['year']->number(), $data['number']));
         $this->days = new MonthDays($this);
     }
 
     public function toString() : string
     {
-        return $this->toDateTimeImmutable()->format('Y-m');
+        return $this->dateTime->format('Y-m');
     }
 
     public function previous() : self
@@ -301,26 +292,16 @@ final class Month
 
     public function shortName() : string
     {
-        return $this->toDateTimeImmutable()->format('M');
+        return $this->dateTime->format('M');
     }
 
     public function name() : string
     {
-        return $this->toDateTimeImmutable()->format('F');
+        return $this->dateTime->format('F');
     }
 
-    /**
-     * @psalm-suppress NullableReturnStatement
-     * @psalm-suppress InaccessibleProperty
-     * @psalm-suppress InvalidNullableReturnType
-     */
     public function toDateTimeImmutable() : \DateTimeImmutable
     {
-        if ($this->dateTime === null || $this->clean === false) {
-            $this->dateTime = new \DateTimeImmutable(\sprintf('%d-%d-01 00:00:00.000000 UTC', $this->year()->number(), $this->number()));
-            $this->clean = true;
-        }
-
         return $this->dateTime;
     }
 

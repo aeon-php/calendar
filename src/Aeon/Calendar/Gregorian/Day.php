@@ -14,18 +14,11 @@ use Aeon\Calendar\TimeUnit;
  */
 final class Day
 {
-    /**
-     * @var null|\ReflectionClass<Day>
-     */
-    private static ?\ReflectionClass $reflectionClass = null;
+    private Month $month;
 
-    private ?Month $month = null;
+    private int $number;
 
-    private ?int $number = null;
-
-    private ?\DateTimeImmutable $dateTime;
-
-    private bool $clean = true;
+    private \DateTimeImmutable $dateTime;
 
     public function __construct(Month $month, int $number)
     {
@@ -35,7 +28,7 @@ final class Day
 
         $this->number = $number;
         $this->month = $month;
-        $this->dateTime = null;
+        $this->dateTime = new \DateTimeImmutable(\sprintf('%d-%d-%d 00:00:00.000000 UTC', $this->month()->year()->number(), $this->month()->number(), $this->number()));
     }
 
     /**
@@ -54,25 +47,23 @@ final class Day
 
     /**
      * @psalm-pure
+     * @psalm-suppress PossiblyNullArrayAccess
      * @psalm-suppress ImpureMethodCall
-     * @psalm-suppress ImpureStaticProperty
-     * @psalm-suppress PropertyTypeCoercion
-     * @psalm-suppress ImpurePropertyAssignment
-     * @psalm-suppress InaccessibleProperty
-     * @psalm-suppress ImpurePropertyAssignment
+     * @psalm-suppress PossiblyInvalidArgument
      */
     public static function fromDateTime(\DateTimeInterface $dateTime) : self
     {
-        if (self::$reflectionClass === null) {
-            self::$reflectionClass = new \ReflectionClass(self::class);
-        }
+        [$year, $month, $day] = \sscanf($dateTime->format('Y-m-d'), '%d-%d-%d');
 
-        $newDay = self::$reflectionClass->newInstanceWithoutConstructor();
+        $month = new Month(
+            new Year((int) $year),
+            (int) $month
+        );
 
-        $newDay->dateTime = $dateTime instanceof \DateTime ? \DateTimeImmutable::createFromMutable($dateTime) : $dateTime;
-        $newDay->clean = false;
-
-        return $newDay;
+        return new self(
+            $month,
+            $day,
+        );
     }
 
     /**
@@ -111,13 +102,18 @@ final class Day
     }
 
     /**
-     * @param array{month: Month, number: int, dateTime: ?\DateTimeInterface} $data
+     * @param array{month: Month, number: int} $data
      */
     public function __unserialize(array $data) : void
     {
         $this->month = $data['month'];
         $this->number = $data['number'];
-        $this->dateTime = null;
+        $this->dateTime = new \DateTimeImmutable(\sprintf(
+            '%d-%d-%d 00:00:00.000000 UTC',
+            $data['month']->year()->number(),
+            $data['month']->number(),
+            $data['number']
+        ));
     }
 
     public function toString() : string
@@ -127,7 +123,7 @@ final class Day
 
     public function timeBetween(self $day) : TimeUnit
     {
-        return TimeUnit::seconds(\abs(($this->toDateTimeImmutable()->getTimestamp() - $day->toDateTimeImmutable()->getTimestamp())));
+        return TimeUnit::seconds(\abs(($this->dateTime->getTimestamp() - $day->dateTime->getTimestamp())));
     }
 
     /** @deprecated Use `add` instead. Will be removed with 2.0 */
@@ -365,7 +361,7 @@ final class Day
 
     public function weekDay() : WeekDay
     {
-        return new WeekDay((int) $this->toDateTimeImmutable()->format('N'));
+        return new WeekDay((int) $this->dateTime->format('N'));
     }
 
     /**
@@ -373,7 +369,7 @@ final class Day
      */
     public function weekOfYear() : int
     {
-        return (int) $this->toDateTimeImmutable()->format('W');
+        return (int) $this->dateTime->format('W');
     }
 
     /**
@@ -389,7 +385,7 @@ final class Day
      */
     public function dayOfYear() : int
     {
-        return \intval($this->toDateTimeImmutable()->format('z')) + 1;
+        return \intval($this->dateTime->format('z')) + 1;
     }
 
     public function isWeekend() : bool
@@ -397,24 +393,14 @@ final class Day
         return $this->weekDay()->isWeekend();
     }
 
-    /**
-     * @psalm-suppress InvalidNullableReturnType
-     * @psalm-suppress InaccessibleProperty
-     * @psalm-suppress NullableReturnStatement
-     */
     public function toDateTimeImmutable() : \DateTimeImmutable
     {
-        if ($this->dateTime === null || $this->clean === false) {
-            $this->dateTime = new \DateTimeImmutable(\sprintf('%d-%d-%d 00:00:00.000000 UTC', $this->month()->year()->number(), $this->month()->number(), $this->number()));
-            $this->clean = true;
-        }
-
         return $this->dateTime;
     }
 
     public function format(string $format) : string
     {
-        return $this->toDateTimeImmutable()->format($format);
+        return $this->dateTime->format($format);
     }
 
     /**

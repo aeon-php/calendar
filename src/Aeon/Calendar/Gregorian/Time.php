@@ -110,7 +110,7 @@ final class Time
     /**
      * @param array{hour: int, minute: int, second: int, microsecond: int} $data
      */
-    public function __unserialize(array $data): void
+    public function __unserialize(array $data) : void
     {
         $this->hour = $data['hour'];
         $this->minute = $data['minute'];
