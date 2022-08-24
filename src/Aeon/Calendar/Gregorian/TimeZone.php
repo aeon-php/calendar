@@ -686,7 +686,6 @@ final class TimeZone
      */
     public static function fromDateTimeZone(\DateTimeZone $dateTimeZone) : self
     {
-        /** @phpstan-ignore-next-line */
         $name = $dateTimeZone->getName();
         $type = self::TYPE_IDENTIFIER;
 

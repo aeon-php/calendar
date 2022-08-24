@@ -53,6 +53,9 @@ final class Day
      */
     public static function fromDateTime(\DateTimeInterface $dateTime) : self
     {
+        /**
+         * @phpstan-ignore-next-line
+         */
         [$year, $month, $day] = \sscanf($dateTime->format('Y-m-d'), '%d-%d-%d');
 
         $month = new Month(

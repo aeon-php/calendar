@@ -64,6 +64,9 @@ final class Time
      */
     public static function fromDateTime(\DateTimeInterface $dateTime) : self
     {
+        /**
+         * @phpstan-ignore-next-line
+         */
         [$hour, $minute, $second, $microsecond] = \sscanf($dateTime->format('H-i-s.u'), '%d-%d-%d.%d');
 
         return new self($hour, $minute, $second, $microsecond);
