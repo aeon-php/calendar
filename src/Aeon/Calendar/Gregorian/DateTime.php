@@ -343,6 +343,7 @@ final class DateTime
         $dateTime = $this;
 
         if (
+            /** @phpstan-ignore-next-line */
             !\is_int($dateTimeParts['relative']['year']) ||
             !\is_int($dateTimeParts['relative']['month']) ||
             !\is_int($dateTimeParts['relative']['day']) ||

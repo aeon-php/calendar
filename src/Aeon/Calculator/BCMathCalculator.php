@@ -45,6 +45,9 @@ final class BCMathCalculator implements Calculator
             throw new \LogicException("Divisor can't be 0");
         }
 
+        /**
+         * @phpstan-ignore-next-line
+         */
         return \bcdiv($value, $divisor, $this->precision);
     }
 
@@ -62,6 +65,9 @@ final class BCMathCalculator implements Calculator
             throw new \LogicException("Divisor can't be 0");
         }
 
+        /**
+         * @phpstan-ignore-next-line
+         */
         return \bcmod($value, $divisor, $this->precision);
     }
 
