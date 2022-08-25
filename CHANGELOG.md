@@ -1,3 +1,8 @@
+## [Unreleased] - 2022-08-25
+
+### Changed
+- [#291](https://github.com/aeon-php/calendar/pull/291) - **Refactored internal structure of Time, Day, Month, DateTime and TimeZone, so that it's independent from the way it's constructed.** - [@christian-kolb](https://github.com/christian-kolb)
+
 ## [1.0.6] - 2022-08-22
 
 ### Changed
