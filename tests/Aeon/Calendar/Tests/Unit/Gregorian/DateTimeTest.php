@@ -1108,4 +1108,27 @@ final class DateTimeTest extends TestCase
     {
         $this->assertSame('2020-01-01 00:00:00', DateTime::fromDateTime(new \DateTime('2020-01-01 00:00:00'))->format('Y-m-d H:i:s'));
     }
+
+    public function test_equals_works() : void
+    {
+        $this->assertEquals(
+            DateTime::fromDateTime(new \DateTimeImmutable('2022-01-01 15:00:00')),
+            DateTime::fromString('2022-01-01 15:00:00')
+        );
+
+        $this->assertEquals(
+            DateTime::fromDateTime(new \DateTimeImmutable('2022-01-01 15:00:00')),
+            new DateTime(
+                new Day(
+                    new Month(
+                        new Year(2022),
+                        1
+                    ),
+                    1
+                ),
+                new Time(15, 0, 0),
+                TimeZone::UTC()
+            )
+        );
+    }
 }

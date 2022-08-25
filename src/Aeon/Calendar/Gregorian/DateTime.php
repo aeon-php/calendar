@@ -15,25 +15,17 @@ use Aeon\Calendar\Unit;
  */
 final class DateTime
 {
-    /**
-     * @var null|\ReflectionClass<DateTime>
-     */
-    private static ?\ReflectionClass $reflectionClass = null;
+    private Day $day;
 
-    private ?Day $day = null;
+    private Time $time;
 
-    private ?Time $time = null;
-
-    private ?TimeZone $timeZone = null;
-
-    private ?\DateTimeImmutable $dateTime;
+    private TimeZone $timeZone;
 
     public function __construct(Day $day, Time $time, TimeZone $timeZone)
     {
         $this->day = $day;
         $this->time = $time;
         $this->timeZone = $timeZone;
-        $this->dateTime = null;
     }
 
     /**
@@ -64,15 +56,15 @@ final class DateTime
      */
     public static function fromDateTime(\DateTimeInterface $dateTime) : self
     {
-        if (self::$reflectionClass === null) {
-            self::$reflectionClass = new \ReflectionClass(self::class);
-        }
+        $day = Day::fromDateTime($dateTime);
+        $time = Time::fromDateTime($dateTime);
+        $timeZone = TimeZone::fromDateTimeZone($dateTime->getTimezone());
 
-        $newDateTime = self::$reflectionClass->newInstanceWithoutConstructor();
-
-        $newDateTime->dateTime = $dateTime instanceof \DateTime ? \DateTimeImmutable::createFromMutable($dateTime) : $dateTime;
-
-        return $newDateTime;
+        return new self(
+            $day,
+            $time,
+            $timeZone,
+        );
     }
 
     /**
@@ -128,9 +120,9 @@ final class DateTime
     {
         return [
             'datetime' => $this->toISO8601(),
-            'day' => $this->day(),
-            'time' => $this->time(),
-            'timeZone' => $this->timeZone(),
+            'day' => $this->day,
+            'time' => $this->time,
+            'timeZone' => $this->timeZone,
         ];
     }
 
@@ -140,21 +132,20 @@ final class DateTime
     public function __serialize() : array
     {
         return [
-            'day' => $this->day(),
-            'time' => $this->time(),
-            'timeZone' => $this->timeZone(),
+            'day' => $this->day,
+            'time' => $this->time,
+            'timeZone' => $this->timeZone,
         ];
     }
 
     /**
-     * @param array{day: Day, time: Time, timeZone: TimeZone, dateTime: ?\DateTimeInterface} $data
+     * @param array{day: Day, time: Time, timeZone: TimeZone} $data
      */
     public function __unserialize(array $data) : void
     {
         $this->day = $data['day'];
         $this->time = $data['time'];
         $this->timeZone = $data['timeZone'];
-        $this->dateTime = null;
     }
 
     public function year() : Year
@@ -164,56 +155,34 @@ final class DateTime
 
     public function month() : Month
     {
-        return $this->day()->month();
+        return $this->day->month();
     }
 
-    /**
-     * @psalm-suppress NullableReturnStatement
-     * @psalm-suppress InaccessibleProperty
-     * @psalm-suppress InvalidNullableReturnType
-     * @psalm-suppress InaccessibleProperty
-     * @psalm-suppress InvalidNullableReturnType
-     */
     public function day() : Day
     {
-        if ($this->day === null) {
-            $this->day = Day::fromDateTime($this->toDateTimeImmutable());
-        }
-
         return $this->day;
     }
 
-    /**
-     * @psalm-suppress NullableReturnStatement
-     * @psalm-suppress InaccessibleProperty
-     * @psalm-suppress InvalidNullableReturnType
-     * @psalm-suppress InaccessibleProperty
-     * @psalm-suppress InvalidNullableReturnType
-     */
     public function time() : Time
     {
-        if ($this->time === null) {
-            $this->time = Time::fromDateTime($this->toDateTimeImmutable());
-        }
-
         return $this->time;
     }
 
     public function setTime(Time $time) : self
     {
         return new self(
-            $this->day(),
+            $this->day,
             $time,
-            $this->timeZone()
+            $this->timeZone
         );
     }
 
     public function setTimeIn(Time $time, TimeZone $timeZone) : self
     {
         return (new self(
-            $this->day(),
+            $this->day,
             $time,
-            $this->timeZone()
+            $this->timeZone
         ))->toTimeZone($timeZone)
             ->setTime($time);
     }
@@ -222,37 +191,26 @@ final class DateTime
     {
         return new self(
             $day,
-            $this->time(),
-            $this->timeZone()
+            $this->time,
+            $this->timeZone
         );
     }
 
-    /**
-     * @psalm-suppress NullableReturnStatement
-     * @psalm-suppress InaccessibleProperty
-     * @psalm-suppress InvalidNullableReturnType
-     * @psalm-suppress InaccessibleProperty
-     * @psalm-suppress InvalidNullableReturnType
-     */
     public function toDateTimeImmutable() : \DateTimeImmutable
     {
-        if ($this->dateTime === null) {
-            $this->dateTime = new \DateTimeImmutable(
-                \sprintf(
-                    '%d-%02d-%02d %02d:%02d:%02d.%06d',
-                    $this->day()->year()->number(),
-                    $this->day()->month()->number(),
-                    $this->day()->number(),
-                    $this->time()->hour(),
-                    $this->time()->minute(),
-                    $this->time()->second(),
-                    $this->time()->microsecond(),
-                ),
-                $this->timeZone()->toDateTimeZone()
-            );
-        }
-
-        return $this->dateTime;
+        return new \DateTimeImmutable(
+            \sprintf(
+                '%d-%02d-%02d %02d:%02d:%02d.%06d',
+                $this->day->year()->number(),
+                $this->day->month()->number(),
+                $this->day->number(),
+                $this->time->hour(),
+                $this->time->minute(),
+                $this->time->second(),
+                $this->time->microsecond(),
+            ),
+            $this->timeZone->toDateTimeZone()
+        );
     }
 
     public function toAtomicTime() : self
@@ -272,26 +230,15 @@ final class DateTime
         return $this->toDateTimeImmutable()->format($format);
     }
 
-    /**
-     * @psalm-suppress NullableReturnStatement
-     * @psalm-suppress InaccessibleProperty
-     * @psalm-suppress InvalidNullableReturnType
-     * @psalm-suppress InaccessibleProperty
-     * @psalm-suppress InvalidNullableReturnType
-     */
     public function timeZone() : TimeZone
     {
-        if ($this->timeZone === null) {
-            $this->timeZone = TimeZone::fromDateTimeZone($this->toDateTimeImmutable()->getTimezone());
-        }
-
         return $this->timeZone;
     }
 
     public function timeZoneAbbreviation() : TimeZone
     {
-        if ($this->timeZone()->isOffset()) {
-            throw new Exception("TimeZone offset {$this->timeZone()->name()} can't be converted into abbreviation.");
+        if ($this->timeZone->isOffset()) {
+            throw new Exception("TimeZone offset {$this->timeZone->name()} can't be converted into abbreviation.");
         }
 
         return TimeZone::fromString($this->toDateTimeImmutable()->format('T'));
@@ -355,10 +302,10 @@ final class DateTime
         $timestamp = $this->toDateTimeImmutable()->getTimestamp();
 
         if ($timestamp >= 0) {
-            return TimeUnit::positive($timestamp, $this->time()->microsecond());
+            return TimeUnit::positive($timestamp, $this->time->microsecond());
         }
 
-        return TimeUnit::negative(\abs($timestamp), $this->time()->microsecond());
+        return TimeUnit::negative(\abs($timestamp), $this->time->microsecond());
     }
 
     public function modify(string $modifier) : self
@@ -530,27 +477,27 @@ final class DateTime
     public function midnight() : self
     {
         return new self(
-            $this->day(),
+            $this->day,
             new Time(0, 0, 0, 0),
-            $this->timeZone()
+            $this->timeZone
         );
     }
 
     public function noon() : self
     {
         return new self(
-            $this->day(),
+            $this->day,
             new Time(12, 0, 0, 0),
-            $this->timeZone()
+            $this->timeZone
         );
     }
 
     public function endOfDay() : self
     {
         return new self(
-            $this->day(),
+            $this->day,
             new Time(23, 59, 59, 999999),
-            $this->timeZone()
+            $this->timeZone
         );
     }
 
@@ -580,11 +527,11 @@ final class DateTime
                 ? $this->month()->sub($years, $months)
                 : $this->month()->add($years, $months);
 
-            if ($newMonth->lastDay()->number() < $this->day()->number()) {
-                return new self(new Day($newMonth, $newMonth->lastDay()->number()), $this->time(), $this->timeZone());
+            if ($newMonth->lastDay()->number() < $this->day->number()) {
+                return new self(new Day($newMonth, $newMonth->lastDay()->number()), $this->time, $this->timeZone);
             }
 
-            return new self(new Day($newMonth, $this->day()->number()), $this->time(), $this->timeZone());
+            return new self(new Day($newMonth, $this->day->number()), $this->time, $this->timeZone);
         }
 
         return self::fromDateTime($this->toDateTimeImmutable()->add($timeUnit->toDateInterval()));
@@ -690,7 +637,7 @@ final class DateTime
 
     public function isAmbiguous() : bool
     {
-        $tz = $this->timeZone();
+        $tz = $this->timeZone;
 
         if ($tz->timeOffset($this)->isUTC()) {
             return false;
