@@ -1,4 +1,8 @@
-## [Unreleased] - 2022-08-25
+## [Unreleased] - 2022-08-26
+
+### Added
+- [#292](https://github.com/aeon-php/calendar/pull/292) - **Added object oriented utility method isMidnight to Time** - [@christian-kolb](https://github.com/christian-kolb)
+- [#292](https://github.com/aeon-php/calendar/pull/292) - **Added object oriented utility method isNotMidnight to Time** - [@christian-kolb](https://github.com/christian-kolb)
 
 ### Changed
 - [#291](https://github.com/aeon-php/calendar/pull/291) - **Refactored internal structure of Time, Day, Month, DateTime and TimeZone, so that it's independent from the way it's constructed.** - [@christian-kolb](https://github.com/christian-kolb)
