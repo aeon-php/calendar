@@ -256,6 +256,19 @@ final class Time
         return $dateTimeImmutable <= $nextDateTimeImmutable;
     }
 
+    public function isMidnight() : bool
+    {
+        return $this->hour() === 0
+            && $this->minute() === 0
+            && $this->second() === 0
+            && $this->microsecond() === 0;
+    }
+
+    public function isNotMidnight() : bool
+    {
+        return !$this->isMidnight();
+    }
+
     public function add(TimeUnit $timeUnit) : self
     {
         return self::fromDateTime($this->toDateTimeImmutable()->add($timeUnit->toDateInterval()));
