@@ -457,4 +457,15 @@ final class Month
     {
         return $this->year->quarter((int) \ceil($this->number / 3));
     }
+
+    public function compareTo(self $month) : int
+    {
+        if ($this->isEqualTo($month)) {
+            return 0;
+        }
+
+        return $this->isBefore($month)
+            ? -1
+            : 1;
+    }
 }

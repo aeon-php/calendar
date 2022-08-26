@@ -1131,4 +1131,27 @@ final class DateTimeTest extends TestCase
             )
         );
     }
+
+    /**
+     * @dataProvider compare_to_provider
+     */
+    public function test_compare_to(DateTime $dateTime, DateTime $comparable, int $compareResult) : void
+    {
+        $this->assertSame($compareResult, $dateTime->compareTo($comparable));
+    }
+
+    /**
+     * @return \Generator<int, array{DateTime, DateTime, int}>
+     */
+    public function compare_to_provider() : \Generator
+    {
+        yield [DateTime::fromString('2022-10-26 11:53:12'), DateTime::fromString('2022-10-26 11:53:12'), 0];
+        yield [DateTime::fromString('2022-10-26'), DateTime::fromString('2022-10-26'), 0];
+
+        yield [DateTime::fromString('2022-10-25 11:53:12'), DateTime::fromString('2022-10-26 11:53:12'), -1];
+        yield [DateTime::fromString('2022-10-25 11:53:12'), DateTime::fromString('2022-11-26 11:53:12'), -1];
+
+        yield [DateTime::fromString('2022-10-25 11:53:12'), DateTime::fromString('2022-10-25 00:53:12'), 1];
+        yield [DateTime::fromString('2022-11-26 11:53:12'), DateTime::fromString('2022-10-26 11:53:12'), 1];
+    }
 }

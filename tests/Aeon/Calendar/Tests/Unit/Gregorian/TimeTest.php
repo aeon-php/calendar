@@ -258,4 +258,27 @@ final class TimeTest extends TestCase
         $this->assertFalse(Time::fromString('00:00')->isNotMidnight());
         $this->assertFalse(Time::fromString('00:00:00')->isNotMidnight());
     }
+
+    /**
+     * @dataProvider compare_to_provider
+     */
+    public function test_compare_to(Time $time, Time $comparable, int $compareResult) : void
+    {
+        $this->assertSame($compareResult, $time->compareTo($comparable));
+    }
+
+    /**
+     * @return \Generator<int, array{Time, Time, int}>
+     */
+    public function compare_to_provider() : \Generator
+    {
+        yield [Time::fromString('11:53:12'), Time::fromString('11:53:12'), 0];
+        yield [Time::fromString('11:53'), Time::fromString('11:53'), 0];
+
+        yield [Time::fromString('11:53:00'), Time::fromString('11:53:12'), -1];
+        yield [Time::fromString('11:00:12'), Time::fromString('11:53:12'), -1];
+
+        yield [Time::fromString('11:53:12'), Time::fromString('00:53:12'), 1];
+        yield [Time::fromString('11:53:12'), Time::fromString('11:00:12'), 1];
+    }
 }

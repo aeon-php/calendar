@@ -514,4 +514,15 @@ final class Day
     {
         return $this->year()->quarter((int) \ceil($this->month->number() / 3));
     }
+
+    public function compareTo(self $day) : int
+    {
+        if ($this->isEqualTo($day)) {
+            return 0;
+        }
+
+        return $this->isBefore($day)
+            ? -1
+            : 1;
+    }
 }
