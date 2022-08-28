@@ -320,4 +320,24 @@ final class YearTest extends TestCase
         yield [2404, true];
         yield [2403, false];
     }
+
+    /**
+     * @dataProvider compare_to_provider
+     */
+    public function test_compare_to(Year $time, Year $comparable, int $compareResult) : void
+    {
+        $this->assertSame($compareResult, $time->compareTo($comparable));
+    }
+
+    /**
+     * @return \Generator<int, array{Year, Year, int}>
+     */
+    public function compare_to_provider() : \Generator
+    {
+        yield [Year::fromString('2022'), Year::fromString('2022'), 0];
+
+        yield [Year::fromString('2021'), Year::fromString('2022'), -1];
+
+        yield [Year::fromString('2022'), Year::fromString('2021'), 1];
+    }
 }

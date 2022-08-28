@@ -279,6 +279,17 @@ final class Time
         return self::fromDateTime($this->toDateTimeImmutable()->sub($timeUnit->toDateInterval()));
     }
 
+    public function compareTo(self $time) : int
+    {
+        if ($this->isEqualTo($time)) {
+            return 0;
+        }
+
+        return $this->isBefore($time)
+            ? -1
+            : 1;
+    }
+
     private function toDateTimeImmutable() : \DateTimeImmutable
     {
         return (new \DateTimeImmutable('now', new \DateTimeZone('UTC')))

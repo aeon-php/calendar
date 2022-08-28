@@ -409,4 +409,15 @@ final class Year
     {
         return (new TimePeriod($this->january()->firstDay()->midnight(TimeZone::UTC()), $to->january()->firstDay()->midnight(TimeZone::UTC())))->distance();
     }
+
+    public function compareTo(self $year) : int
+    {
+        if ($this->isEqualTo($year)) {
+            return 0;
+        }
+
+        return $this->isBefore($year)
+            ? -1
+            : 1;
+    }
 }

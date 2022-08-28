@@ -374,4 +374,27 @@ final class DayTest extends TestCase
             'isEqual'
         );
     }
+
+    /**
+     * @dataProvider compare_to_provider
+     */
+    public function test_compare_to(Day $time, Day $comparable, int $compareResult) : void
+    {
+        $this->assertSame($compareResult, $time->compareTo($comparable));
+    }
+
+    /**
+     * @return \Generator<int, array{Day, Day, int}>
+     */
+    public function compare_to_provider() : \Generator
+    {
+        yield [Day::fromString('2022-10-26'), Day::fromString('2022-10-26'), 0];
+        yield [Day::fromString('2022-10'), Day::fromString('2022-10'), 0];
+
+        yield [Day::fromString('2022-10-25'), Day::fromString('2022-10-26'), -1];
+        yield [Day::fromString('2022-10-25'), Day::fromString('2022-11-25'), -1];
+
+        yield [Day::fromString('2022-11-26'), Day::fromString('2022-10-26'), 1];
+        yield [Day::fromString('2022-10-26'), Day::fromString('2022-10-25'), 1];
+    }
 }

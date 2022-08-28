@@ -666,4 +666,15 @@ final class DateTime
     {
         return $this->year()->quarter((int) \ceil($this->month()->number() / 3));
     }
+
+    public function compareTo(self $dateTime) : int
+    {
+        if ($this->isEqualTo($dateTime)) {
+            return 0;
+        }
+
+        return $this->isBefore($dateTime)
+            ? -1
+            : 1;
+    }
 }

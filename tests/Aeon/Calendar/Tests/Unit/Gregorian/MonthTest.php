@@ -334,4 +334,27 @@ final class MonthTest extends TestCase
 
         $this->assertSame(28, (new Month(new Year(2021), 2))->numberOfDays());
     }
+
+    /**
+     * @dataProvider compare_to_provider
+     */
+    public function test_compare_to(Month $time, Month $comparable, int $compareResult) : void
+    {
+        $this->assertSame($compareResult, $time->compareTo($comparable));
+    }
+
+    /**
+     * @return \Generator<int, array{Month, Month, int}>
+     */
+    public function compare_to_provider() : \Generator
+    {
+        yield [Month::fromString('2022-10'), Month::fromString('2022-10'), 0];
+        yield [Month::fromString('2022'), Month::fromString('2022'), 0];
+
+        yield [Month::fromString('2022-09'), Month::fromString('2022-10'), -1];
+        yield [Month::fromString('2021-10'), Month::fromString('2022-10'), -1];
+
+        yield [Month::fromString('2022-11'), Month::fromString('2022-10'), 1];
+        yield [Month::fromString('2022-10'), Month::fromString('2021-10'), 1];
+    }
 }
