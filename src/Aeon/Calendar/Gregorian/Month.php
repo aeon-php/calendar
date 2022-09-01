@@ -99,14 +99,14 @@ final class Month implements \Stringable
         $this->days = new MonthDays($this);
     }
 
-    public function toString() : string
-    {
-        return $this->toDateTimeImmutable()->format('Y-m');
-    }
-
     public function __toString() : string
     {
         return $this->toString();
+    }
+
+    public function toString() : string
+    {
+        return $this->toDateTimeImmutable()->format('Y-m');
     }
 
     public function previous() : self
