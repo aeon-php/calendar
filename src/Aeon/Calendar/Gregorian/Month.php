@@ -11,7 +11,7 @@ use Aeon\Calendar\TimeUnit;
 /**
  * @psalm-immutable
  */
-final class Month
+final class Month implements \Stringable
 {
     private const TOTAL_MONTHS = 12;
 
@@ -102,6 +102,11 @@ final class Month
     public function toString() : string
     {
         return $this->toDateTimeImmutable()->format('Y-m');
+    }
+
+    public function __toString() : string
+    {
+        return $this->toString();
     }
 
     public function previous() : self
