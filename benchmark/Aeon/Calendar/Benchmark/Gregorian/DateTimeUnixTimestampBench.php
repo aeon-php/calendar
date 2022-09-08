@@ -10,27 +10,26 @@ use Aeon\Calendar\Gregorian\DateTime;
  * @revs(50)
  * @iterations(10)
  * @outputTimeUnit("milliseconds")
- * @BeforeMethods({"init"})
  */
-final class DateTimeBenchFormat
+final class DateTimeUnixTimestampBench
 {
     private DateTime $aeonDateTime;
 
     private \DateTimeImmutable $dateTime;
 
-    public function init() : void
+    public function __construct()
     {
         $this->aeonDateTime = DateTime::fromString('2020-01-01 00:00:00');
         $this->dateTime = new \DateTimeImmutable('2020-01-01 00:00:00');
     }
 
-    public function bench_aeon_format() : void
+    public function bench_aeon_unix_timestamp() : void
     {
-        $this->aeonDateTime->format('Y-m-d H:i:s.u P');
+        $this->aeonDateTime->timestampUNIX();
     }
 
-    public function bench_php_format() : void
+    public function bench_php_unix_timestamp() : void
     {
-        $this->dateTime->format('Y-m-d H:i:s.u P');
+        $this->dateTime->getTimestamp();
     }
 }

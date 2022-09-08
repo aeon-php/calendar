@@ -134,6 +134,11 @@ final class MonthTest extends TestCase
             '2020-01',
             Month::fromString('2020-01-01')->toString()
         );
+
+        $this->assertSame(
+            '2020-01',
+            (string) Month::fromString('2020-01-01')
+        );
     }
 
     public function test_last_day_of_month() : void
