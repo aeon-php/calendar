@@ -1,6 +1,7 @@
-## [Unreleased] - 2022-08-28
+## [Unreleased] - 2022-09-08
 
 ### Added
+- [#297](https://github.com/aeon-php/calendar/pull/297) - **Added magic __toString() method to Month.** - [@christian-kolb](https://github.com/christian-kolb)
 - [#295](https://github.com/aeon-php/calendar/pull/295) - **Add compareTo method to DateTime, Time, Day, Month and Year** - [@christian-kolb](https://github.com/christian-kolb)
 - [#292](https://github.com/aeon-php/calendar/pull/292) - **Added object oriented utility method isMidnight to Time** - [@christian-kolb](https://github.com/christian-kolb)
 - [#292](https://github.com/aeon-php/calendar/pull/292) - **Added object oriented utility method isNotMidnight to Time** - [@christian-kolb](https://github.com/christian-kolb)
