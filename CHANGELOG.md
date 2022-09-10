@@ -1,4 +1,4 @@
-## [Unreleased] - 2022-09-08
+## [Unreleased] - 2022-09-10
 
 ### Added
 - [#297](https://github.com/aeon-php/calendar/pull/297) - **Added magic __toString() method to Month.** - [@christian-kolb](https://github.com/christian-kolb)
@@ -7,7 +7,12 @@
 - [#292](https://github.com/aeon-php/calendar/pull/292) - **Added object oriented utility method isNotMidnight to Time** - [@christian-kolb](https://github.com/christian-kolb)
 
 ### Changed
+- [#303](https://github.com/aeon-php/calendar/pull/303) - **Reverted phpbench** - [@norberttech](https://github.com/norberttech)
+- [#303](https://github.com/aeon-php/calendar/pull/303) - **Updated minimum required PHP8.1 version to 8.1.10** - [@norberttech](https://github.com/norberttech)
 - [#291](https://github.com/aeon-php/calendar/pull/291) - **Refactored internal structure of Time, Day, Month, DateTime and TimeZone, so that it's independent from the way it's constructed.** - [@christian-kolb](https://github.com/christian-kolb)
+
+### Removed
+- [#303](https://github.com/aeon-php/calendar/pull/303) - **Stringable interface from Month class** - [@norberttech](https://github.com/norberttech)
 
 ## [1.0.6] - 2022-08-22
 
