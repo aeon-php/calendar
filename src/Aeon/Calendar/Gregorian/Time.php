@@ -60,11 +60,14 @@ final class Time
          */
         [$hour, $minute, $second, $microsecond] = \sscanf($dateTime->format('H-i-s.u'), '%d-%d-%d.%d');
 
+        /** @phpstan-ignore-next-line */
         return new self($hour, $minute, $second, $microsecond);
     }
 
     /**
      * @psalm-pure
+     *
+     * @psalm-suppress ImpureMethodCall
      */
     public static function fromString(string $time) : self
     {
@@ -277,6 +280,7 @@ final class Time
 
     public function sub(TimeUnit $timeUnit) : self
     {
+        /** @psalm-suppress PossiblyFalseArgument */
         return self::fromDateTime($this->toDateTimeImmutable()->sub($timeUnit->toDateInterval()));
     }
 

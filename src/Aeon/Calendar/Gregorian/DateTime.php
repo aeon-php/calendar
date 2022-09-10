@@ -72,6 +72,7 @@ final class DateTime
      * @psalm-pure
      *
      * @psalm-suppress ImpureFunctionCall
+     * @psalm-suppress ImpureMethodCall
      */
     public static function fromString(string $date) : self
     {
@@ -95,6 +96,7 @@ final class DateTime
      * @psalm-pure
      *
      * @psalm-suppress ImpureFunctionCall
+     * @psalm-suppress ImpureMethodCall
      */
     public static function fromTimestampUnix(int $timestamp) : self
     {

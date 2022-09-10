@@ -35,6 +35,8 @@ final class Year
 
     /**
      * @psalm-pure
+     *
+     * @psalm-suppress ImpureMethodCall
      */
     public static function fromString(string $date) : self
     {

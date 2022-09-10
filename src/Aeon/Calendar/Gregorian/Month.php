@@ -58,6 +58,8 @@ final class Month
 
     /**
      * @psalm-pure
+     *
+     * @psalm-suppress ImpureMethodCall
      */
     public static function fromString(string $date) : self
     {

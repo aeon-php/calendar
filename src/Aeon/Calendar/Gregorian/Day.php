@@ -46,6 +46,7 @@ final class Day
      * @psalm-pure
      *
      * @psalm-suppress PossiblyNullArrayAccess
+     * @psalm-suppress PossiblyNullArgument
      * @psalm-suppress ImpureMethodCall
      * @psalm-suppress PossiblyInvalidArgument
      */
@@ -56,19 +57,14 @@ final class Day
          */
         [$year, $month, $day] = \sscanf($dateTime->format('Y-m-d'), '%d-%d-%d');
 
-        $month = new Month(
-            new Year((int) $year),
-            (int) $month
-        );
-
-        return new self(
-            $month,
-            $day,
-        );
+        /** @phpstan-ignore-next-line */
+        return new self(new Month(new Year($year), $month), $day, );
     }
 
     /**
      * @psalm-pure
+     *
+     * @psalm-suppress ImpureMethodCall
      */
     public static function fromString(string $date) : self
     {
