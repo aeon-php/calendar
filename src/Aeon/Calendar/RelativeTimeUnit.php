@@ -63,6 +63,7 @@ final class RelativeTimeUnit implements Unit
 
         /**
          * @psalm-suppress PossiblyNullArgument
+         *
          * @phpstan-ignore-next-line
          */
         return $this->isNegative() ? self::months(\abs($this->months)) : self::months(-$this->months);
@@ -94,6 +95,7 @@ final class RelativeTimeUnit implements Unit
 
         /**
          * @psalm-suppress PossiblyNullArgument
+         *
          * @phpstan-ignore-next-line
          */
         $years = (int) \floor(\abs($this->months) / 12);

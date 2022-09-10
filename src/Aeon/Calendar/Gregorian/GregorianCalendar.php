@@ -26,6 +26,7 @@ final class GregorianCalendar implements Calendar
 
     /**
      * @psalm-pure
+     *
      * @psalm-suppress ImpureFunctionCall
      */
     public static function systemDefault() : self

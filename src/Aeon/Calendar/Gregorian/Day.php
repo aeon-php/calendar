@@ -44,6 +44,7 @@ final class Day
 
     /**
      * @psalm-pure
+     *
      * @psalm-suppress PossiblyNullArrayAccess
      * @psalm-suppress ImpureMethodCall
      * @psalm-suppress PossiblyInvalidArgument

@@ -45,6 +45,7 @@ final class Month
 
     /**
      * @psalm-pure
+     *
      * @psalm-suppress ImpureMethodCall
      */
     public static function fromDateTime(\DateTimeInterface $dateTime) : self

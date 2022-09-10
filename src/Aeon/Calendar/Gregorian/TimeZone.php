@@ -614,6 +614,7 @@ final class TimeZone
 
     /**
      * @psalm-suppress PossiblyFalseArgument
+     *
      * @psalm-pure
      */
     public static function abbreviation(string $abbreviation) : self
@@ -703,6 +704,7 @@ final class TimeZone
 
     /**
      * @psalm-pure
+     *
      * @psalm-suppress PossiblyFalseArgument
      *
      * @return array<TimeZone>
@@ -717,6 +719,7 @@ final class TimeZone
 
     /**
      * @psalm-pure
+     *
      * @psalm-suppress PossiblyFalseArgument
      *
      * @return array<TimeZone>

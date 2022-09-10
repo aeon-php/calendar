@@ -10,6 +10,7 @@ final class PreciseCalculator
 
     /**
      * @psalm-pure
+     *
      * @psalm-suppress ImpureStaticProperty
      */
     public static function initialize(int $precision) : Calculator

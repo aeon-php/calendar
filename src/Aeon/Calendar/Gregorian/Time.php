@@ -48,6 +48,7 @@ final class Time
 
     /**
      * @psalm-pure
+     *
      * @psalm-suppress ImpureMethodCall
      * @psalm-suppress PossiblyNullArrayAccess
      * @psalm-suppress PossiblyInvalidArgument

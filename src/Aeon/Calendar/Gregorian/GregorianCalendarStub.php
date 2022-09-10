@@ -6,6 +6,7 @@ namespace Aeon\Calendar\Gregorian;
 
 /**
  * @psalm-immutable
+ *
  * @codeCoverageIgnore
  */
 final class GregorianCalendarStub implements Calendar
@@ -30,6 +31,7 @@ final class GregorianCalendarStub implements Calendar
 
     /**
      * @psalm-pure
+     *
      * @psalm-suppress ImpureFunctionCall
      */
     public static function systemDefault(?DateTime $currentDate = null) : self

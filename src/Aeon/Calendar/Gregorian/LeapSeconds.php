@@ -33,6 +33,7 @@ final class LeapSeconds
      * in their Bulletin C, list of all available releases https://www.iers.org/IERS/EN/Publications/Bulletins/bulletins.html
      *
      * @psalm-pure
+     *
      * @psalm-suppress ImpureStaticProperty
      */
     public static function load() : self
