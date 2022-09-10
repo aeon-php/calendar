@@ -416,6 +416,9 @@ final class DateTimeTest extends TestCase
 
         yield ['2021-01-31 00:00:00 UTC', '+1 year', '2022-01-31 00:00:00 UTC'];
         yield ['2021-01-31 00:00:00 UTC', '-1 year', '2020-01-31 00:00:00 UTC'];
+
+        yield ['2022-10-25 15:00:00 UTC', 'next Saturday', '2022-10-29 15:00:00 UTC'];
+        yield ['2022-10-25 15:00:00 UTC', 'previous Saturday', '2022-10-22 15:00:00 UTC'];
     }
 
     public function test_time() : void

@@ -351,6 +351,16 @@ final class DateTime
             $dateTime = $dateTime->add(RelativeTimeUnit::months($dateTimeParts['relative']['month']));
         }
 
+        if (\array_key_exists('weekday', $dateTimeParts['relative'])) {
+            if ($dateTimeParts['relative']['weekday'] !== 0) {
+                $dateTimeWeekDay = $dateTime->day()->weekDay();
+
+                if ($dateTime->day()->weekDay()->number() < (int) $dateTimeParts['relative']['weekday']) {
+                    $dateTime = $dateTime->add(TimeUnit::days((int) $dateTimeParts['relative']['weekday'] - $dateTimeWeekDay->number()));
+                }
+            }
+        }
+
         return $dateTime->add(
             TimeUnit::days($dateTimeParts['relative']['day'])
                 ->add(TimeUnit::hours($dateTimeParts['relative']['hour']))
