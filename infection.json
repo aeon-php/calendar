@@ -20,6 +20,8 @@
     "@default": true,
     "PublicVisibility": {
       "ignore": [
+        "Aeon\\Calendar\\TimeUnit::isGreaterThanEq",
+        "Aeon\\Calendar\\TimeUnit::isLessThanEq",
         "Aeon\\Calendar\\Gregorian\\TimeZone::*",
         "Aeon\\Calendar\\Gregorian\\GregorianCalendarStub::*",
         "Aeon\\Calendar\\Gregorian\\Day::minus",
@@ -52,6 +54,7 @@
     "DecrementInteger": {
       "ignore": [
         "Aeon\\Calendar\\Gregorian\\DateTime::isAmbiguous",
+        "Aeon\\Calendar\\Gregorian\\DateTime::modify",
         "Aeon\\Calendar\\Stopwatch::elapsedTime",
         "Aeon\\Calendar\\RelativeTimeUnit::month",
         "Aeon\\Calendar\\RelativeTimeUnit::year",
@@ -77,6 +80,7 @@
         "Aeon\\Calendar\\Gregorian\\Month::fromDateTime",
         "Aeon\\Calendar\\Gregorian\\Time::fromDateTime",
         "Aeon\\Calendar\\Gregorian\\Month::numberOfDays",
+        "Aeon\\Calendar\\Gregorian\\DateTime::modify",
         "Aeon\\Calendar\\Gregorian\\Day::month",
         "Aeon\\Calendar\\Gregorian\\Day::number"
       ]
@@ -132,7 +136,8 @@
       "ignore": [
         "Aeon\\Calendar\\Gregorian\\DateTime::isAmbiguous",
         "Aeon\\Calendar\\Gregorian\\DateTime::add",
-        "Aeon\\Calendar\\Gregorian\\Month::subMonths"
+        "Aeon\\Calendar\\Gregorian\\Month::subMonths",
+        "Aeon\\Calendar\\Gregorian\\DateTime::modify"
       ]
     },
     "LessThanOrEqualTo": {
@@ -142,6 +147,7 @@
     },
     "Identical": {
       "ignore": [
+        "Aeon\\Calendar\\RelativeTimeUnit::inCalendarMonths",
         "Aeon\\Calendar\\Gregorian\\TimeZone::type",
         "Aeon\\Calendar\\Gregorian\\TimeZone::name",
         "Aeon\\Calendar\\Gregorian\\Time::toDateTimeImmutable",
@@ -150,7 +156,7 @@
     },
     "UnwrapArrayValues": {
       "ignore": [
-        "Aeon\\Calendar\\Gregorian\\TimePeriods::isEqual"
+        "Aeon\\Calendar\\Gregorian\\TimePeriods::isEqualTo"
       ]
     },
     "NotIdentical": {
@@ -204,6 +210,6 @@
   "phpUnit": {
     "customPath": "tools\/vendor\/bin\/phpunit"
   },
-  "minMsi": 99,
-  "minCoveredMsi": 99
+  "minMsi": 100,
+  "minCoveredMsi": 100
 }
