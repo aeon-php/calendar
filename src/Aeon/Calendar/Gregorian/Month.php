@@ -11,7 +11,7 @@ use Aeon\Calendar\TimeUnit;
 /**
  * @psalm-immutable
  */
-final class Month implements \Stringable
+final class Month
 {
     private const TOTAL_MONTHS = 12;
 
