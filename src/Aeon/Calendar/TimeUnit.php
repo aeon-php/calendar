@@ -76,6 +76,7 @@ final class TimeUnit implements Unit
 
     /**
      * @psalm-pure
+     *
      * @psalm-suppress ImpureMethodCall
      * @psalm-suppress ImpurePropertyFetch
      * @psalm-suppress ImpureStaticProperty

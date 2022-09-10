@@ -6,6 +6,7 @@ namespace Aeon\Calendar\Gregorian;
 
 /**
  * @psalm-immutable
+ *
  * @implements \IteratorAggregate<Day>
  */
 final class Days implements \Countable, \IteratorAggregate
@@ -43,6 +44,7 @@ final class Days implements \Countable, \IteratorAggregate
 
     /**
      * @return array<Day>
+     *
      * @psalm-suppress ImpureFunctionCall
      */
     public function all() : array

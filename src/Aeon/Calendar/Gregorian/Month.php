@@ -11,7 +11,7 @@ use Aeon\Calendar\TimeUnit;
 /**
  * @psalm-immutable
  */
-final class Month implements \Stringable
+final class Month
 {
     private const TOTAL_MONTHS = 12;
 
@@ -45,6 +45,7 @@ final class Month implements \Stringable
 
     /**
      * @psalm-pure
+     *
      * @psalm-suppress ImpureMethodCall
      */
     public static function fromDateTime(\DateTimeInterface $dateTime) : self
@@ -57,6 +58,8 @@ final class Month implements \Stringable
 
     /**
      * @psalm-pure
+     *
+     * @psalm-suppress ImpureMethodCall
      */
     public static function fromString(string $date) : self
     {

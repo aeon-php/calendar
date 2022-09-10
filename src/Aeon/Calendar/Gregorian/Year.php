@@ -25,6 +25,7 @@ final class Year
 
     /**
      * @psalm-pure
+     *
      * @psalm-suppress ImpureMethodCall
      */
     public static function fromDateTime(\DateTimeInterface $dateTime) : self
@@ -34,6 +35,8 @@ final class Year
 
     /**
      * @psalm-pure
+     *
+     * @psalm-suppress ImpureMethodCall
      */
     public static function fromString(string $date) : self
     {
@@ -347,6 +350,7 @@ final class Year
 
         /**
          * @var array<DateTime> $years
+         *
          * @psalm-suppress ImpureMethodCall
          * @psalm-suppress ImpureFunctionCall
          */
@@ -383,6 +387,7 @@ final class Year
 
         /**
          * @var array<DateTime> $years
+         *
          * @psalm-suppress ImpureMethodCall
          * @psalm-suppress ImpureFunctionCall
          */

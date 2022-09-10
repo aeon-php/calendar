@@ -48,6 +48,7 @@ final class DateTime
 
     /**
      * @psalm-pure
+     *
      * @psalm-suppress ImpureMethodCall
      * @psalm-suppress ImpureStaticProperty
      * @psalm-suppress PropertyTypeCoercion
@@ -69,7 +70,9 @@ final class DateTime
 
     /**
      * @psalm-pure
+     *
      * @psalm-suppress ImpureFunctionCall
+     * @psalm-suppress ImpureMethodCall
      */
     public static function fromString(string $date) : self
     {
@@ -91,7 +94,9 @@ final class DateTime
 
     /**
      * @psalm-pure
+     *
      * @psalm-suppress ImpureFunctionCall
+     * @psalm-suppress ImpureMethodCall
      */
     public static function fromTimestampUnix(int $timestamp) : self
     {

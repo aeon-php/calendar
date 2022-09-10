@@ -6,6 +6,7 @@ namespace Aeon\Calendar\Gregorian;
 
 /**
  * @psalm-immutable
+ *
  * @implements \IteratorAggregate<int, Year>
  * @implements \ArrayAccess<int, Year>
  */

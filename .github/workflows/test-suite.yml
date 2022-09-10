@@ -24,6 +24,6 @@ jobs:
       infection_badge_api_key: ${{ secrets.INFECTION_BADGE_API_KEY }}
       stryker_dashboard_api_key: ${{ secrets.STRYKER_DASHBOARD_API_KEY }}
 
-#  benchmark:
-#    name: "Benchmark"
-#    uses: aeon-php/actions/.github/workflows/composer-script-benchmark.yaml@main
+  benchmark:
+    name: "Benchmark"
+    uses: aeon-php/actions/.github/workflows/composer-script-benchmark.yaml@main
