@@ -11,6 +11,10 @@
 - [#303](https://github.com/aeon-php/calendar/pull/303) - **Updated minimum required PHP8.1 version to 8.1.10** - [@norberttech](https://github.com/norberttech)
 - [#291](https://github.com/aeon-php/calendar/pull/291) - **Refactored internal structure of Time, Day, Month, DateTime and TimeZone, so that it's independent from the way it's constructed.** - [@christian-kolb](https://github.com/christian-kolb)
 
+### Fixed
+- [#304](https://github.com/aeon-php/calendar/pull/304) - **DateTime::modify** - [@norberttech](https://github.com/norberttech)
+- [#304](https://github.com/aeon-php/calendar/pull/304) - **Mutation score requirements and false positive mutants reported** - [@norberttech](https://github.com/norberttech)
+
 ### Removed
 - [#303](https://github.com/aeon-php/calendar/pull/303) - **Stringable interface from Month class** - [@norberttech](https://github.com/norberttech)
 
