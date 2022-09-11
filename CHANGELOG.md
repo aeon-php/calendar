@@ -1,4 +1,4 @@
-## [Unreleased] - 2022-09-10
+## [1.0.7] - 2022-09-11
 
 ### Added
 - [#297](https://github.com/aeon-php/calendar/pull/297) - **Added magic __toString() method to Month.** - [@christian-kolb](https://github.com/christian-kolb)
