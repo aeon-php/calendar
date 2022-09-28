@@ -371,7 +371,6 @@ final class DateTime
 
     public function nativeModify(string $modifier) : self
     {
-        /** @var array|false $dateTimeParts */
         $dateTimeParts = \date_parse($modifier);
 
         if ($dateTimeParts === false
