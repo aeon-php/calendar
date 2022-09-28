@@ -374,6 +374,7 @@ final class DateTime
         $modifiedDateTime = $this
             ->toDateTimeImmutable()
             ->modify($modifier);
+
         if ($modifiedDateTime === false) {
             throw new \InvalidArgumentException("The modifier \"{$modifier}\" is not valid.");
         }
