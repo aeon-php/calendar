@@ -371,11 +371,14 @@ final class DateTime
 
     public function nativeModify(string $modifier) : self
     {
-        return self::fromDateTime(
-            $this
+        $modifiedDateTime = $this
             ->toDateTimeImmutable()
-            ->modify($modifier)
-        );
+            ->modify($modifier);
+        if ($modifiedDateTime === false) {
+            throw new \InvalidArgumentException("The modifier \"{$modifier}\" is not valid.");
+        }
+
+        return self::fromDateTime($modifiedDateTime);
     }
 
     public function addHour() : self
