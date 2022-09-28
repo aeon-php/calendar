@@ -369,6 +369,15 @@ final class DateTime
         );
     }
 
+    public function nativeModify(string $modifier) : self
+    {
+        return self::fromDateTime(
+            $this
+            ->toDateTimeImmutable()
+            ->modify($modifier)
+        );
+    }
+
     public function addHour() : self
     {
         return $this->add(TimeUnit::hour());
