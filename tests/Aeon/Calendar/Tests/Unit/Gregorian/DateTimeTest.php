@@ -435,6 +435,14 @@ final class DateTimeTest extends TestCase
         $this->assertTrue($modifiedDate->isEqualTo($expectedDate));
     }
 
+    public function test_native_modify_with_invalid_modifier() : void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+
+        DateTime::fromString('2022-09-28 00:00:00')
+            ->nativeModify('invalid modifier');
+    }
+
     public function test_time() : void
     {
         $dateTime = DateTime::fromString('2020-01-01 12:54:23.001000');

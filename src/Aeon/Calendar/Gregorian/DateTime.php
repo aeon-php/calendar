@@ -371,13 +371,18 @@ final class DateTime
 
     public function nativeModify(string $modifier) : self
     {
+        $dateTimeParts = \date_parse($modifier);
+
+        if ($dateTimeParts === false
+            || $dateTimeParts['error_count'] > 0
+        ) {
+            throw new \InvalidArgumentException("The modifier \"{$modifier}\" is not valid.");
+        }
+
+        /** @var \DateTimeImmutable $modifiedDateTime */
         $modifiedDateTime = $this
             ->toDateTimeImmutable()
             ->modify($modifier);
-
-        if ($modifiedDateTime === false) {
-            throw new \InvalidArgumentException("The modifier \"{$modifier}\" is not valid.");
-        }
 
         return self::fromDateTime($modifiedDateTime);
     }
