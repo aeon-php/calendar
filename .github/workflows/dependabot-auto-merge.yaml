@@ -28,4 +28,4 @@ jobs:
           #
           # This must be used as GitHub Actions token does not support pushing
           # to protected branches.
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.AUTOMATION_BOT_TOKEN }}
