@@ -1,4 +1,7 @@
-## [Unreleased] - 2022-12-19
+## [Unreleased] - 2023-01-09
+
+### Fixed
+- [5cf55c](https://github.com/aeon-php/calendar/commit/5cf55c062a14b26045ff598d9db363df06c0be28) - **leap seconds expiration date** - [@norberttech](https://github.com/norberttech)
 
 ### Updated
 - [6b39d9](https://github.com/aeon-php/calendar/commit/6b39d922060fed3c15fd4970d9dfdd9db80fbc1b) - **dependabot-auto-merge.yaml** - [@norberttech](https://github.com/norberttech)
