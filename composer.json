@@ -14,7 +14,8 @@
         "php": "^7.4.2 || ~8.0 || ~8.1.10"
     },
     "require-dev": {
-        "ext-bcmath": "*"
+        "ext-bcmath": "*",
+        "ext-pcov": "*"
     },
     "suggest": {
         "ext-bcmath": "Compare time units with high precision"
