@@ -1,4 +1,4 @@
-## [Unreleased] - 2023-01-09
+## [Unreleased] - 2023-01-16
 
 ### Fixed
 - [5cf55c](https://github.com/aeon-php/calendar/commit/5cf55c062a14b26045ff598d9db363df06c0be28) - **leap seconds expiration date** - [@norberttech](https://github.com/norberttech)
