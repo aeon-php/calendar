@@ -110,7 +110,10 @@ final class TimeUnit implements Unit
 
     public static function fromDateString(string $dateString) : self
     {
-        return self::fromDateInterval(\DateInterval::createFromDateString($dateString));
+        /** @var \DateInterval $interval */
+        $interval = \DateInterval::createFromDateString($dateString);
+
+        return self::fromDateInterval($interval);
     }
 
     /** @psalm-pure */

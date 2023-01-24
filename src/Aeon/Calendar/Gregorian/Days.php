@@ -67,6 +67,8 @@ final class Days implements \Countable, \IteratorAggregate
     }
 
     /**
+     * @psalm-suppress InvalidScalarArgument
+     *
      * @psalm-param pure-callable(Day $day) : bool $iterator
      *
      * @param callable(Day $day) : bool $iterator

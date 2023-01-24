@@ -65,6 +65,8 @@ final class Months implements \Countable, \IteratorAggregate
     }
 
     /**
+     * @psalm-suppress InvalidScalarArgument
+     *
      * @psalm-param pure-callable(Month $month) : bool $iterator
      *
      * @param callable(Month $month) : bool $iterator

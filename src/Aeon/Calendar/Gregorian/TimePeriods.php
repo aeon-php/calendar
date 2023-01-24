@@ -65,6 +65,8 @@ final class TimePeriods implements \Countable, \IteratorAggregate
     }
 
     /**
+     * @psalm-suppress InvalidScalarArgument
+     *
      * @psalm-param pure-callable(TimePeriod $timePeriod) : bool $iterator
      *
      * @param callable(TimePeriod $timePeriod) : bool $iterator
