@@ -9,9 +9,8 @@
         "time",
         "datetime"
     ],
-    "prefer-stable": true,
     "require": {
-        "php": "^7.4.2 || ~8.0 || ~8.1.10"
+        "php": "~8.1.10 || ~8.2"
     },
     "require-dev": {
         "ext-bcmath": "*",
@@ -42,7 +41,7 @@
     "scripts": {
         "benchmark": [
             "Composer\\Config::disableProcessTimeout",
-            "tools\/vendor\/bin\/phpbench run --report=aeon"
+            "tools/vendor/bin/phpbench run --report=aeon"
         ],
         "build": [
             "@static:analyze",
@@ -50,18 +49,18 @@
             "@test:mutation"
         ],
         "test": [
-            "tools\/vendor\/bin\/phpunit"
+            "tools/vendor/bin/phpunit"
         ],
         "test:mutation": [
             "Composer\\Config::disableProcessTimeout",
-            "tools\/vendor\/bin\/infection -j2"
+            "tools/vendor/bin/infection -j2"
         ],
         "static:analyze": [
-            "tools\/vendor\/bin\/psalm --output-format=compact",
-            "tools\/vendor\/bin\/phpstan analyze -c phpstan.neon",
-            "tools\/vendor\/bin\/php-cs-fixer fix --dry-run"
+            "tools/vendor/bin/psalm --output-format=compact",
+            "tools/vendor/bin/phpstan analyze -c phpstan.neon",
+            "tools/vendor/bin/php-cs-fixer fix --dry-run"
         ],
-        "cs:php:fix": "tools\/vendor\/bin\/php-cs-fixer fix",
+        "cs:php:fix": "tools/vendor/bin/php-cs-fixer fix",
         "tools:install": "composer install --working-dir=./tools",
         "post-install-cmd": [
             "@tools:install"
@@ -69,5 +68,6 @@
         "post-update-cmd": [
             "@tools:install"
         ]
-    }
+    },
+    "prefer-stable": true
 }

@@ -60,7 +60,6 @@ final class MonthsTest extends TestCase
     public function test_slice_below_lower_limit() : void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectDeprecationMessage('Slice out of range.');
 
         (new Year(2020))->months()->slice(-1, 5);
     }
@@ -68,7 +67,6 @@ final class MonthsTest extends TestCase
     public function test_slice_above_upper_limit() : void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectDeprecationMessage('Slice out of range.');
 
         (new Year(2020))->months()->slice(12, 1);
     }

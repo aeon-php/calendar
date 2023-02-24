@@ -9,7 +9,9 @@ use Aeon\Calendar\Gregorian\Interval;
 
 /**
  * @revs(50)
+ *
  * @iterations(10)*
+ *
  * @outputTimeUnit("milliseconds")
  */
 final class DayIterationBench

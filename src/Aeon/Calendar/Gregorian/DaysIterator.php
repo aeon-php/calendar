@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace Aeon\Calendar\Gregorian;
 
-/**
- * @phpstan-ignore-next-line
- */
 final class DaysIterator extends \IteratorIterator
 {
     /**

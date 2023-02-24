@@ -8,7 +8,9 @@ use Aeon\Calendar\Gregorian\TimeZone;
 
 /**
  * @revs(50)
+ *
  * @iterations(10)
+ *
  * @outputTimeUnit("milliseconds")
  */
 final class TimeZoneInitBench

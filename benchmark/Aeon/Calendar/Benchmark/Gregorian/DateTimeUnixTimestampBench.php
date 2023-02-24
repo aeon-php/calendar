@@ -8,7 +8,9 @@ use Aeon\Calendar\Gregorian\DateTime;
 
 /**
  * @revs(50)
+ *
  * @iterations(10)
+ *
  * @outputTimeUnit("milliseconds")
  */
 final class DateTimeUnixTimestampBench

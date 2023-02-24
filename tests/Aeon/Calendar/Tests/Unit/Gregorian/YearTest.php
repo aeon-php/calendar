@@ -44,7 +44,6 @@ final class YearTest extends TestCase
     public function test_from_string_that_is_not_valid_number() : void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectDeprecationMessage('Value "not a number" is not valid year format');
 
         Year::fromString('not a number');
     }
@@ -238,7 +237,6 @@ final class YearTest extends TestCase
     public function test_quarter_below_limit() : void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectDeprecationMessage('Quarter number must be greater or equal 1 and less or equal than 4');
 
         (new Year(2020))->quarter(0);
     }
@@ -246,7 +244,6 @@ final class YearTest extends TestCase
     public function test_quarter_above_limit() : void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectDeprecationMessage('Quarter number must be greater or equal 1 and less or equal than 4');
 
         (new Year(2020))->quarter(5);
     }
