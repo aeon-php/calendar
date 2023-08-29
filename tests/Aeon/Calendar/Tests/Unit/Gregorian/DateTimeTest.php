@@ -99,6 +99,7 @@ final class DateTimeTest extends TestCase
         yield ['2004-03-01 05:00:00', '2004W101T05:00+0', 'Y-m-d H:i:s'];
         // DTS switch +1 hour
         yield ['2020-03-29 03:30:00+02:00', '2020-03-29 02:30:00 Europe/Warsaw', 'Y-m-d H:i:sP'];
+
         // DTS switch -1 hour
         if (PHP_VERSION_ID >= 81000) {
             yield ['2020-10-25 02:30:00+02:00', '2020-10-25 02:30:00 Europe/Warsaw', 'Y-m-d H:i:sP'];

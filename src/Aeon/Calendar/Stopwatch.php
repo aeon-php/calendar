@@ -13,7 +13,7 @@ use Aeon\Calendar\TimeUnit\HRTime;
 final class Stopwatch
 {
     /**
-     * @var array{int, int}|null
+     * @var null|array{int, int}
      */
     private ?array $start;
 
@@ -23,7 +23,7 @@ final class Stopwatch
     private array $laps;
 
     /**
-     * @var array{int, int}|null
+     * @var null|array{int, int}
      */
     private ?array $end;
 

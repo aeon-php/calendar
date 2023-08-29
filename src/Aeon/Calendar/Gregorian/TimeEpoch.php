@@ -134,6 +134,7 @@ final class TimeEpoch
                     default:
                         return TimeUnit::seconds(0);
                 }
+
                 // no break
             default: // UNIX
                 switch ($timeEpoch->type()) {
