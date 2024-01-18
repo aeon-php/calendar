@@ -18,7 +18,7 @@ final class LeapSecondsTest extends TestCase
      * @runInSeparateProcess
      *
      * This test will start failing 5 days before expiration date of the current leap seconds list
-     * Once it does please visit https://www.ietf.org/timezones/data/leap-seconds.list
+     * Once it does please visit https://data.iana.org/time-zones/tzdb/leapseconds
      * and if there is a new leap second announced add it to the list or extend expiration
      * date according to the document.
      */
