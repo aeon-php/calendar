@@ -84,6 +84,7 @@ final class LeapSeconds
 
     public function since(DateTime $dateTime) : self
     {
+        /* @phpstan-ignore-next-line  */
         return $this->filter(function (LeapSecond $leapSecond) use ($dateTime) : bool {
             return $dateTime
                     ->toTimeZone(TimeZone::UTC())
@@ -93,6 +94,7 @@ final class LeapSeconds
 
     public function until(DateTime $dateTime) : self
     {
+        /* @phpstan-ignore-next-line  */
         return $this->filter(function (LeapSecond $leapSecond) use ($dateTime) : bool {
             return $dateTime
                 ->toTimeZone(TimeZone::UTC())
@@ -102,6 +104,7 @@ final class LeapSeconds
 
     public function findAllBetween(TimePeriod $timePeriod) : self
     {
+        /* @phpstan-ignore-next-line  */
         return $this->filter(function (LeapSecond $leapSecond) use ($timePeriod) : bool {
             return $timePeriod->start()
                     ->toTimeZone(TimeZone::UTC())

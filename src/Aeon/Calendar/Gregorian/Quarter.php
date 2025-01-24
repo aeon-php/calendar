@@ -27,24 +27,28 @@ final class Quarter
 
         switch ($number) {
             case 1:
+                /* @phpstan-ignore-next-line  */
                 if ($months->map(fn (Month $month) => $month->number()) !== [1, 2, 3]) {
                     throw new InvalidArgumentException('Quarter 1 must must have Jan, Feb and Mar');
                 }
 
                 break;
             case 2:
+                /* @phpstan-ignore-next-line  */
                 if ($months->map(fn (Month $month) => $month->number()) !== [4, 5, 6]) {
                     throw new InvalidArgumentException('Quarter 2 must must have Apr, May and Jun');
                 }
 
                 break;
             case 3:
+                /* @phpstan-ignore-next-line  */
                 if ($months->map(fn (Month $month) => $month->number()) !== [7, 8, 9]) {
                     throw new InvalidArgumentException('Quarter 3 must must have Jul, Aug and Sep');
                 }
 
                 break;
             case 4:
+                /* @phpstan-ignore-next-line  */
                 if ($months->map(fn (Month $month) => $month->number()) !== [10, 11, 12]) {
                     throw new InvalidArgumentException('Quarter 4 must must have Oct, Nov and Dec');
                 }

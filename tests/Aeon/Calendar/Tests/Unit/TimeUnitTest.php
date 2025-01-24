@@ -476,7 +476,7 @@ final class TimeUnitTest extends TestCase
         $this->expectException(Exception::class);
         $this->expectExceptionMessage('Can\'t convert P1Y0M0DT0H0M0S precisely to time unit because year can\'t be directly converted to number of seconds.');
 
-        Timeunit::fromDateInterval(\DateInterval::createFromDateString('1 year'));
+        TimeUnit::fromDateInterval(\DateInterval::createFromDateString('1 year'));
     }
 
     public function test_creating_from_inaccurate_date_interval_months() : void
@@ -484,7 +484,7 @@ final class TimeUnitTest extends TestCase
         $this->expectException(Exception::class);
         $this->expectExceptionMessage('Can\'t convert P0Y4M0DT0H0M0S precisely to time unit because month can\'t be directly converted to number of seconds.');
 
-        Timeunit::fromDateInterval(\DateInterval::createFromDateString('4 months'));
+        TimeUnit::fromDateInterval(\DateInterval::createFromDateString('4 months'));
     }
 
     /**

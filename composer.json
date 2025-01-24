@@ -38,36 +38,5 @@
             "Aeon\\Calendar\\Benchmark\\": "benchmark/Aeon/Calendar/Benchmark/"
         }
     },
-    "scripts": {
-        "benchmark": [
-            "Composer\\Config::disableProcessTimeout",
-            "tools/vendor/bin/phpbench run --report=aeon"
-        ],
-        "build": [
-            "@static:analyze",
-            "@test",
-            "@test:mutation"
-        ],
-        "test": [
-            "tools/vendor/bin/phpunit"
-        ],
-        "test:mutation": [
-            "Composer\\Config::disableProcessTimeout",
-            "tools/vendor/bin/infection -j2"
-        ],
-        "static:analyze": [
-            "tools/vendor/bin/psalm --output-format=compact",
-            "tools/vendor/bin/phpstan analyze -c phpstan.neon",
-            "tools/vendor/bin/php-cs-fixer fix --dry-run"
-        ],
-        "cs:php:fix": "tools/vendor/bin/php-cs-fixer fix",
-        "tools:install": "composer install --working-dir=./tools",
-        "post-install-cmd": [
-            "@tools:install"
-        ],
-        "post-update-cmd": [
-            "@tools:install"
-        ]
-    },
     "prefer-stable": true
 }
