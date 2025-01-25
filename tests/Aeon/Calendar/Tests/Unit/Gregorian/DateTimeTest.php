@@ -422,6 +422,28 @@ final class DateTimeTest extends TestCase
         yield ['2022-10-25 15:00:00 UTC', 'previous Saturday', '2022-10-22 15:00:00 UTC'];
     }
 
+    // It switches back 14 days in a timezone aware manner
+    public function test_native_modify() : void
+    {
+        $nativeBaseDate = new \DateTimeImmutable(
+            '2023-04-01 00:00:00',
+            new \DateTimeZone('Europe/Berlin'),
+        );
+        $expectedDate = DateTime::fromDateTime($nativeBaseDate->modify('- 14 days'));
+
+        $modifiedDate = DateTime::fromDateTime($nativeBaseDate)->nativeModify('- 14 days');
+
+        $this->assertTrue($modifiedDate->isEqualTo($expectedDate));
+    }
+
+    public function test_native_modify_with_invalid_modifier() : void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+
+        DateTime::fromString('2022-09-28 00:00:00')
+            ->nativeModify('invalid modifier');
+    }
+
     public function test_time() : void
     {
         $dateTime = DateTime::fromString('2020-01-01 12:54:23.001000');

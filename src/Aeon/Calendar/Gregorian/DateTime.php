@@ -368,6 +368,24 @@ final class DateTime
         );
     }
 
+    public function nativeModify(string $modifier) : self
+    {
+        $dateTimeParts = \date_parse($modifier);
+
+        if ($dateTimeParts === false
+            || $dateTimeParts['error_count'] > 0
+        ) {
+            throw new \InvalidArgumentException("The modifier \"{$modifier}\" is not valid.");
+        }
+
+        /** @var \DateTimeImmutable $modifiedDateTime */
+        $modifiedDateTime = $this
+            ->toDateTimeImmutable()
+            ->modify($modifier);
+
+        return self::fromDateTime($modifiedDateTime);
+    }
+
     public function addHour() : self
     {
         return $this->add(TimeUnit::hour());
