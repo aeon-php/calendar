@@ -7,10 +7,63 @@ namespace Aeon\Calendar\Tests\Unit\Gregorian;
 use Aeon\Calendar\Exception\InvalidArgumentException;
 use Aeon\Calendar\Gregorian\Time;
 use Aeon\Calendar\TimeUnit;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 final class TimeTest extends TestCase
 {
+    /**
+     * @return \Generator<int, array{string}, mixed, void>
+     */
+    public static function invalid_string_day_format() : \Generator
+    {
+        yield ['2020-32'];
+    }
+
+    /**
+     * @return \Generator<int, array{string, Time}, mixed, void>
+     */
+    public static function valid_string_day_format() : \Generator
+    {
+        yield ['01:00:01.5', new Time(01, 00, 01, 500000)];
+        yield ['01:00:01.005', new Time(01, 00, 01, 5000)];
+        yield ['01:00:01.00001', new Time(01, 00, 01, 10)];
+        yield ['01:12', new Time(01, 12, 00)];
+        yield ['01:12 +1 minute + 10 seconds', new Time(01, 13, 10)];
+    }
+
+    /**
+     * @return \Generator<int, array{string, string, string}, mixed, void>
+     */
+    public static function creating_time_data_provider_from_string() : \Generator
+    {
+        yield ['noW', 'H:i:s'];
+        yield ['now ', 'H:i:s'];
+        yield ['today', 'H:i:s'];
+        yield [' tOday', 'H:i:s'];
+        yield ['noon', 'H:i:s'];
+        yield ['noon  ', 'H:i:s'];
+        yield ['midnight  ', 'H:i:s'];
+        yield ['noon +1 minute', 'H:i:s'];
+        yield ['back of 7pm', 'H:i:s'];
+        yield ['last hour', 'H:i:s'];
+    }
+
+    /**
+     * @return \Generator<int, array{Time, Time, int}>
+     */
+    public static function compare_to_provider() : \Generator
+    {
+        yield [Time::fromString('11:53:12'), Time::fromString('11:53:12'), 0];
+        yield [Time::fromString('11:53'), Time::fromString('11:53'), 0];
+
+        yield [Time::fromString('11:53:00'), Time::fromString('11:53:12'), -1];
+        yield [Time::fromString('11:00:12'), Time::fromString('11:53:12'), -1];
+
+        yield [Time::fromString('11:53:12'), Time::fromString('00:53:12'), 1];
+        yield [Time::fromString('11:53:12'), Time::fromString('11:00:12'), 1];
+    }
+
     public function test_debug_info() : void
     {
         $this->assertSame(
@@ -24,23 +77,13 @@ final class TimeTest extends TestCase
         );
     }
 
-    /**
-     * @dataProvider invalid_string_day_format
-     */
+    #[DataProvider('invalid_string_day_format')]
     public function test_from_invalid_string(string $invalidValue) : void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage("Value \"{$invalidValue}\" is not valid time format.");
 
         Time::fromString($invalidValue);
-    }
-
-    /**
-     * @return \Generator<int, array{string}, mixed, void>
-     */
-    public function invalid_string_day_format() : \Generator
-    {
-        yield ['2020-32'];
     }
 
     public function test_each_part_of_time() : void
@@ -53,29 +96,13 @@ final class TimeTest extends TestCase
         $this->assertSame(0, $time->microsecond());
     }
 
-    /**
-     * @dataProvider valid_string_day_format
-     */
+    #[DataProvider('valid_string_day_format')]
     public function test_from_string(string $invalidValue, Time $time) : void
     {
         $this->assertObjectEquals($time, Time::fromString($invalidValue), 'isEqual');
     }
 
-    /**
-     * @return \Generator<int, array{string, Time}, mixed, void>
-     */
-    public function valid_string_day_format() : \Generator
-    {
-        yield ['01:00:01.5', new Time(01, 00, 01, 500000)];
-        yield ['01:00:01.005', new Time(01, 00, 01, 5000)];
-        yield ['01:00:01.00001', new Time(01, 00, 01, 10)];
-        yield ['01:12', new Time(01, 12, 00)];
-        yield ['01:12 +1 minute + 10 seconds', new Time(01, 13, 10)];
-    }
-
-    /**
-     * @dataProvider creating_time_data_provider_from_string
-     */
+    #[DataProvider('creating_time_data_provider_from_string')]
     public function test_creating_time_from_string(string $dateTime, string $format) : void
     {
         try {
@@ -88,23 +115,6 @@ final class TimeTest extends TestCase
         } catch (InvalidArgumentException $exception) {
             $this->fail($exception->getMessage());
         }
-    }
-
-    /**
-     * @return \Generator<int, array{string, string, string}, mixed, void>
-     */
-    public function creating_time_data_provider_from_string() : \Generator
-    {
-        yield ['noW', 'H:i:s'];
-        yield ['now ', 'H:i:s'];
-        yield ['today', 'H:i:s'];
-        yield [' tOday', 'H:i:s'];
-        yield ['noon', 'H:i:s'];
-        yield ['noon  ', 'H:i:s'];
-        yield ['midnight  ', 'H:i:s'];
-        yield ['noon +1 minute', 'H:i:s'];
-        yield ['back of 7pm', 'H:i:s'];
-        yield ['last hour', 'H:i:s'];
     }
 
     public function test_time_millisecond() : void
@@ -259,26 +269,9 @@ final class TimeTest extends TestCase
         $this->assertFalse(Time::fromString('00:00:00')->isNotMidnight());
     }
 
-    /**
-     * @dataProvider compare_to_provider
-     */
+    #[DataProvider('compare_to_provider')]
     public function test_compare_to(Time $time, Time $comparable, int $compareResult) : void
     {
         $this->assertSame($compareResult, $time->compareTo($comparable));
-    }
-
-    /**
-     * @return \Generator<int, array{Time, Time, int}>
-     */
-    public function compare_to_provider() : \Generator
-    {
-        yield [Time::fromString('11:53:12'), Time::fromString('11:53:12'), 0];
-        yield [Time::fromString('11:53'), Time::fromString('11:53'), 0];
-
-        yield [Time::fromString('11:53:00'), Time::fromString('11:53:12'), -1];
-        yield [Time::fromString('11:00:12'), Time::fromString('11:53:12'), -1];
-
-        yield [Time::fromString('11:53:12'), Time::fromString('00:53:12'), 1];
-        yield [Time::fromString('11:53:12'), Time::fromString('11:00:12'), 1];
     }
 }

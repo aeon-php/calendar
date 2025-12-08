@@ -8,10 +8,56 @@ use Aeon\Calendar\Exception\InvalidArgumentException;
 use Aeon\Calendar\Gregorian\Day;
 use Aeon\Calendar\Gregorian\Interval;
 use Aeon\Calendar\Gregorian\Year;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 final class YearTest extends TestCase
 {
+    /**
+     * @return \Generator<int, array{int, int, int}, mixed, void>
+     */
+    public static function month_number_of_days_data_provider() : \Generator
+    {
+        yield [2020, 1, 31];
+        yield [2020, 2, 29];
+        yield [2020, 3, 31];
+        yield [2020, 4, 30];
+        yield [2020, 5, 31];
+        yield [2020, 6, 30];
+        yield [2020, 7, 31];
+        yield [2020, 8, 31];
+        yield [2020, 9, 30];
+        yield [2020, 10, 31];
+        yield [2020, 11, 30];
+        yield [2020, 12, 31];
+        yield [2021, 1, 31];
+        yield [2021, 2, 28];
+    }
+
+    /**
+     * @return \Generator<int, array{int, bool}, mixed, void>
+     */
+    public static function leap_years() : \Generator
+    {
+        yield [2000, true];
+        yield [2100, false];
+        yield [2400, true];
+        yield [2404, true];
+        yield [2403, false];
+    }
+
+    /**
+     * @return \Generator<int, array{Year, Year, int}>
+     */
+    public static function compare_to_provider() : \Generator
+    {
+        yield [Year::fromString('2022'), Year::fromString('2022'), 0];
+
+        yield [Year::fromString('2021'), Year::fromString('2022'), -1];
+
+        yield [Year::fromString('2022'), Year::fromString('2021'), 1];
+    }
+
     public function test_months() : void
     {
         $this->assertSame(1, Year::fromString('2020-01-01')->january()->number());
@@ -53,33 +99,10 @@ final class YearTest extends TestCase
         $this->assertSame(2020, Year::fromDateTime(new \DateTimeImmutable('2020-05-01'))->number());
     }
 
-    /**
-     * @dataProvider month_number_of_days_data_provider
-     */
+    #[DataProvider('month_number_of_days_data_provider')]
     public function test_month_number_of_days(int $year, int $month, int $numberOfDays) : void
     {
         $this->assertSame($numberOfDays, (new Year($year))->months()->byNumber($month)->numberOfDays());
-    }
-
-    /**
-     * @return \Generator<int, array{int, int, int}, mixed, void>
-     */
-    public function month_number_of_days_data_provider() : \Generator
-    {
-        yield [2020, 1, 31];
-        yield [2020, 2, 29];
-        yield [2020, 3, 31];
-        yield [2020, 4, 30];
-        yield [2020, 5, 31];
-        yield [2020, 6, 30];
-        yield [2020, 7, 31];
-        yield [2020, 8, 31];
-        yield [2020, 9, 30];
-        yield [2020, 10, 31];
-        yield [2020, 11, 30];
-        yield [2020, 12, 31];
-        yield [2021, 1, 31];
-        yield [2021, 2, 28];
     }
 
     public function test_debug_info() : void
@@ -298,43 +321,15 @@ final class YearTest extends TestCase
         );
     }
 
-    /**
-     * @dataProvider leap_years
-     */
+    #[DataProvider('leap_years')]
     public function test_leap_year(int $year, bool $isLeap) : void
     {
         $this->assertSame($isLeap, (new Year($year))->isLeap());
     }
 
-    /**
-     * @return \Generator<int, array{int, bool}, mixed, void>
-     */
-    public function leap_years() : \Generator
-    {
-        yield [2000, true];
-        yield [2100, false];
-        yield [2400, true];
-        yield [2404, true];
-        yield [2403, false];
-    }
-
-    /**
-     * @dataProvider compare_to_provider
-     */
+    #[DataProvider('compare_to_provider')]
     public function test_compare_to(Year $time, Year $comparable, int $compareResult) : void
     {
         $this->assertSame($compareResult, $time->compareTo($comparable));
-    }
-
-    /**
-     * @return \Generator<int, array{Year, Year, int}>
-     */
-    public function compare_to_provider() : \Generator
-    {
-        yield [Year::fromString('2022'), Year::fromString('2022'), 0];
-
-        yield [Year::fromString('2021'), Year::fromString('2022'), -1];
-
-        yield [Year::fromString('2022'), Year::fromString('2021'), 1];
     }
 }

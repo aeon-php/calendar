@@ -121,9 +121,9 @@ final class LeapSeconds
     }
 
     /**
-     * @psalm-param pure-callable(LeapSecond $leapSecond) : bool $filter
-     *
      * @param callable(LeapSecond $leapSecond) : bool $filter
+     *
+     * @psalm-param pure-callable(LeapSecond $leapSecond) : bool $filter
      */
     public function filter(callable $filter) : self
     {

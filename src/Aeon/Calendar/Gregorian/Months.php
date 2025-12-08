@@ -53,9 +53,9 @@ final class Months implements \Countable, \IteratorAggregate
     }
 
     /**
-     * @psalm-param pure-callable(Month $month) : mixed $iterator
-     *
      * @param callable(Month $month) : mixed $iterator
+     *
+     * @psalm-param pure-callable(Month $month) : mixed $iterator
      *
      * @return array<mixed>
      */
@@ -67,9 +67,9 @@ final class Months implements \Countable, \IteratorAggregate
     /**
      * @psalm-suppress InvalidScalarArgument
      *
-     * @psalm-param pure-callable(Month $month) : bool $iterator
-     *
      * @param callable(Month $month) : bool $iterator
+     *
+     * @psalm-param pure-callable(Month $month) : bool $iterator
      */
     public function filter(callable $iterator) : self
     {

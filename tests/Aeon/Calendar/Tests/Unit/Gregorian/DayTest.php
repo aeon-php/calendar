@@ -12,59 +12,25 @@ use Aeon\Calendar\Gregorian\Time;
 use Aeon\Calendar\Gregorian\TimeZone;
 use Aeon\Calendar\Gregorian\Year;
 use Aeon\Calendar\TimeUnit;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 final class DayTest extends TestCase
 {
     /**
-     * @dataProvider create_day_with_invalid_number_provider
-     */
-    public function test_create_day_with_invalid_number(int $number) : void
-    {
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Day number must be greater or equal 1 and less or equal than 31');
-
-        new Day(new Month(new Year(2020), 01), $number);
-    }
-
-    /**
      * @return \Generator<int, array{int}, mixed, void>
      */
-    public function create_day_with_invalid_number_provider() : \Generator
+    public static function create_day_with_invalid_number_provider() : \Generator
     {
         yield [0];
         yield [32];
         yield [40];
     }
 
-    public function test_debug_info() : void
-    {
-        $this->assertSame(
-            [
-                'year' => 2020,
-                'month' => 1,
-                'day' => 1,
-            ],
-            Day::fromString('2020-01-01')->__debugInfo()
-        );
-    }
-
-    /**
-     * @dataProvider creating_day_data_provider_from_string
-     */
-    public function test_creating_day_from_string(string $dateTimeString, string $dateTime, string $format) : void
-    {
-        try {
-            $this->assertSame($dateTimeString, Day::fromString($dateTime)->format($format));
-        } catch (InvalidArgumentException $exception) {
-            $this->fail($exception->getMessage());
-        }
-    }
-
     /**
      * @return \Generator<int, array{string, string, string}, mixed, void>
      */
-    public function creating_day_data_provider_from_string() : \Generator
+    public static function creating_day_data_provider_from_string() : \Generator
     {
         yield [(new \DateTimeImmutable('now'))->format('Y-m-d 00:00:00+00:00'), 'now', 'Y-m-d H:i:sP'];
         yield [(new \DateTimeImmutable('now'))->format('Y-m-d 00:00:00+00:00'), 'now ', 'Y-m-d H:i:sP'];
@@ -88,6 +54,69 @@ final class DayTest extends TestCase
         yield [(new \DateTimeImmutable('first day of January 2019'))->format('Y-m-d 00:00:00+00:00'), 'first day of January 2019', 'Y-m-d H:i:sP'];
     }
 
+    /**
+     * @return \Generator<int, array{string}, mixed, void>
+     */
+    public static function invalid_string_day_format() : \Generator
+    {
+        yield ['2020-32'];
+    }
+
+    /**
+     * @return \Generator<int, array{string, Day}, mixed, void>
+     */
+    public static function valid_string_day_format() : \Generator
+    {
+        yield ['2020-01', new Day(new Month(new Year(2020), 1), 1)];
+        yield ['2020-01-02 +1 month', new Day(new Month(new Year(2020), 2), 2)];
+    }
+
+    /**
+     * @return \Generator<int, array{Day, Day, int}>
+     */
+    public static function compare_to_provider() : \Generator
+    {
+        yield [Day::fromString('2022-10-26'), Day::fromString('2022-10-26'), 0];
+        yield [Day::fromString('2022-10'), Day::fromString('2022-10'), 0];
+
+        yield [Day::fromString('2022-10-25'), Day::fromString('2022-10-26'), -1];
+        yield [Day::fromString('2022-10-25'), Day::fromString('2022-11-25'), -1];
+
+        yield [Day::fromString('2022-11-26'), Day::fromString('2022-10-26'), 1];
+        yield [Day::fromString('2022-10-26'), Day::fromString('2022-10-25'), 1];
+    }
+
+    #[DataProvider('create_day_with_invalid_number_provider')]
+    public function test_create_day_with_invalid_number(int $number) : void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Day number must be greater or equal 1 and less or equal than 31');
+
+        new Day(new Month(new Year(2020), 01), $number);
+    }
+
+    public function test_debug_info() : void
+    {
+        $this->assertSame(
+            [
+                'year' => 2020,
+                'month' => 1,
+                'day' => 1,
+            ],
+            Day::fromString('2020-01-01')->__debugInfo()
+        );
+    }
+
+    #[DataProvider('creating_day_data_provider_from_string')]
+    public function test_creating_day_from_string(string $dateTimeString, string $dateTime, string $format) : void
+    {
+        try {
+            $this->assertSame($dateTimeString, Day::fromString($dateTime)->format($format));
+        } catch (InvalidArgumentException $exception) {
+            $this->fail($exception->getMessage());
+        }
+    }
+
     public function test_to_string() : void
     {
         $this->assertSame(
@@ -96,9 +125,7 @@ final class DayTest extends TestCase
         );
     }
 
-    /**
-     * @dataProvider invalid_string_day_format
-     */
+    #[DataProvider('invalid_string_day_format')]
     public function test_from_invalid_string(string $invalidValue) : void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -107,29 +134,10 @@ final class DayTest extends TestCase
         Day::fromString($invalidValue);
     }
 
-    /**
-     * @return \Generator<int, array{string}, mixed, void>
-     */
-    public function invalid_string_day_format() : \Generator
-    {
-        yield ['2020-32'];
-    }
-
-    /**
-     * @dataProvider valid_string_day_format
-     */
+    #[DataProvider('valid_string_day_format')]
     public function test_from_string(string $invalidValue, Day $month) : void
     {
         $this->assertObjectEquals($month, Day::fromString($invalidValue), 'isEqual');
-    }
-
-    /**
-     * @return \Generator<int, array{string, Day}, mixed, void>
-     */
-    public function valid_string_day_format() : \Generator
-    {
-        yield ['2020-01', new Day(new Month(new Year(2020), 1), 1)];
-        yield ['2020-01-02 +1 month', new Day(new Month(new Year(2020), 2), 2)];
     }
 
     public function test_midnight() : void
@@ -375,26 +383,9 @@ final class DayTest extends TestCase
         );
     }
 
-    /**
-     * @dataProvider compare_to_provider
-     */
+    #[DataProvider('compare_to_provider')]
     public function test_compare_to(Day $time, Day $comparable, int $compareResult) : void
     {
         $this->assertSame($compareResult, $time->compareTo($comparable));
-    }
-
-    /**
-     * @return \Generator<int, array{Day, Day, int}>
-     */
-    public function compare_to_provider() : \Generator
-    {
-        yield [Day::fromString('2022-10-26'), Day::fromString('2022-10-26'), 0];
-        yield [Day::fromString('2022-10'), Day::fromString('2022-10'), 0];
-
-        yield [Day::fromString('2022-10-25'), Day::fromString('2022-10-26'), -1];
-        yield [Day::fromString('2022-10-25'), Day::fromString('2022-11-25'), -1];
-
-        yield [Day::fromString('2022-11-26'), Day::fromString('2022-10-26'), 1];
-        yield [Day::fromString('2022-10-26'), Day::fromString('2022-10-25'), 1];
     }
 }

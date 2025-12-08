@@ -55,9 +55,9 @@ final class Days implements \Countable, \IteratorAggregate
     /**
      * @psalm-template MapResultType
      *
-     * @psalm-param pure-callable(Day $day) : MapResultType $iterator
-     *
      * @param callable(Day $day) : MapResultType $iterator
+     *
+     * @psalm-param pure-callable(Day $day) : MapResultType $iterator
      *
      * @return array<MapResultType>
      */
@@ -69,9 +69,9 @@ final class Days implements \Countable, \IteratorAggregate
     /**
      * @psalm-suppress InvalidScalarArgument
      *
-     * @psalm-param pure-callable(Day $day) : bool $iterator
-     *
      * @param callable(Day $day) : bool $iterator
+     *
+     * @psalm-param pure-callable(Day $day) : bool $iterator
      */
     public function filter(callable $iterator) : self
     {

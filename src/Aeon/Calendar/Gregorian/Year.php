@@ -223,9 +223,9 @@ final class Year
     }
 
     /**
-     * @psalm-param pure-callable(Day $day) : void $iterator
-     *
      * @param callable(Day $day) : void $iterator
+     *
+     * @psalm-param pure-callable(Day $day) : void $iterator
      *
      * @return array<mixed>
      */
@@ -244,9 +244,9 @@ final class Year
     }
 
     /**
-     * @psalm-param pure-callable(Day $day) : bool $iterator
-     *
      * @param callable(Day $day) : bool $iterator
+     *
+     * @psalm-param pure-callable(Day $day) : bool $iterator
      *
      * @return Days
      */

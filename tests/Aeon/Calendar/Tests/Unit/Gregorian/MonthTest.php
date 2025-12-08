@@ -8,10 +8,72 @@ use Aeon\Calendar\Exception\InvalidArgumentException;
 use Aeon\Calendar\Gregorian\Interval;
 use Aeon\Calendar\Gregorian\Month;
 use Aeon\Calendar\Gregorian\Year;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 final class MonthTest extends TestCase
 {
+    /**
+     * @return \Generator<int, array{string, string}, mixed, void>
+     */
+    public static function creating_month_data_provider_from_string() : \Generator
+    {
+        yield [(new \DateTimeImmutable('now'))->format('Y-m'), 'now'];
+        yield [(new \DateTimeImmutable('now'))->format('Y-m'), 'NoW'];
+        yield [(new \DateTimeImmutable('today'))->format('Y-m'), 'today'];
+        yield [(new \DateTimeImmutable('today'))->format('Y-m'), 'today '];
+        yield [(new \DateTimeImmutable('noon'))->format('Y-m'), 'noon'];
+        yield [(new \DateTimeImmutable('noon'))->format('Y-m'), ' noon'];
+        yield [(new \DateTimeImmutable('yesterday noon'))->format('Y-m'), 'yesterday noon'];
+        yield [(new \DateTimeImmutable('tomorrow'))->format('Y-m'), 'tomorrow'];
+        yield [(new \DateTimeImmutable('tomorrow midnight'))->format('Y-m'), 'tomorrow midnight'];
+        yield [(new \DateTimeImmutable('yesterday'))->format('Y-m'), 'yesterday'];
+        yield [(new \DateTimeImmutable('midnight'))->format('Y-m'), 'midnight'];
+        yield [(new \DateTimeImmutable('24 week'))->format('Y-m'), '24 week'];
+        yield [(new \DateTimeImmutable('today +1 hour'))->format('Y-m'), 'today +1 hour'];
+        yield [(new \DateTimeImmutable('tomorrow +1 hour'))->format('Y-m'), 'tomorrow +1 hour'];
+        yield [(new \DateTimeImmutable('-2 days'))->format('Y-m'), '-2 days'];
+        yield [(new \DateTimeImmutable('Monday'))->format('Y-m'), 'Monday'];
+        yield [(new \DateTimeImmutable('Monday next week'))->format('Y-m'), 'Monday next week'];
+        yield [(new \DateTimeImmutable('next year'))->format('Y-m'), 'next year'];
+        yield [(new \DateTimeImmutable('fifth day'))->format('Y-m'), 'fifth day'];
+        yield [(new \DateTimeImmutable('first day of January 2019'))->format('Y-m'), 'first day of January 2019'];
+    }
+
+    /**
+     * @return \Generator<int, array{string}, mixed, void>
+     */
+    public static function invalid_string_day_format() : \Generator
+    {
+        yield ['test'];
+    }
+
+    /**
+     * @return \Generator<int, array{string, Time}, mixed, void>
+     */
+    public static function valid_string_day_format() : \Generator
+    {
+        yield ['2020-01', new Month(new Year(2020), 1)];
+        yield ['2020-01 +1 month', new Month(new Year(2020), 2)];
+        yield ['2020-01 +1 year', new Month(new Year(2021), 1)];
+        yield ['2020-01-01', new Month(new Year(2020), 1)];
+    }
+
+    /**
+     * @return \Generator<int, array{Month, Month, int}>
+     */
+    public static function compare_to_provider() : \Generator
+    {
+        yield [Month::fromString('2022-10'), Month::fromString('2022-10'), 0];
+        yield [Month::fromString('2022'), Month::fromString('2022'), 0];
+
+        yield [Month::fromString('2022-09'), Month::fromString('2022-10'), -1];
+        yield [Month::fromString('2021-10'), Month::fromString('2022-10'), -1];
+
+        yield [Month::fromString('2022-11'), Month::fromString('2022-10'), 1];
+        yield [Month::fromString('2022-10'), Month::fromString('2021-10'), 1];
+    }
+
     public function test_create_with_month_number_lower_than_0() : void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -40,9 +102,7 @@ final class MonthTest extends TestCase
         $this->assertSame(2, $month->number());
     }
 
-    /**
-     * @dataProvider creating_month_data_provider_from_string
-     */
+    #[DataProvider('creating_month_data_provider_from_string')]
     public function test_creating_month_from_string(string $dateTimeString, string $dateTime) : void
     {
         try {
@@ -52,36 +112,7 @@ final class MonthTest extends TestCase
         }
     }
 
-    /**
-     * @return \Generator<int, array{string, string}, mixed, void>
-     */
-    public function creating_month_data_provider_from_string() : \Generator
-    {
-        yield [(new \DateTimeImmutable('now'))->format('Y-m'), 'now'];
-        yield [(new \DateTimeImmutable('now'))->format('Y-m'), 'NoW'];
-        yield [(new \DateTimeImmutable('today'))->format('Y-m'), 'today'];
-        yield [(new \DateTimeImmutable('today'))->format('Y-m'), 'today '];
-        yield [(new \DateTimeImmutable('noon'))->format('Y-m'), 'noon'];
-        yield [(new \DateTimeImmutable('noon'))->format('Y-m'), ' noon'];
-        yield [(new \DateTimeImmutable('yesterday noon'))->format('Y-m'), 'yesterday noon'];
-        yield [(new \DateTimeImmutable('tomorrow'))->format('Y-m'), 'tomorrow'];
-        yield [(new \DateTimeImmutable('tomorrow midnight'))->format('Y-m'), 'tomorrow midnight'];
-        yield [(new \DateTimeImmutable('yesterday'))->format('Y-m'), 'yesterday'];
-        yield [(new \DateTimeImmutable('midnight'))->format('Y-m'), 'midnight'];
-        yield [(new \DateTimeImmutable('24 week'))->format('Y-m'), '24 week'];
-        yield [(new \DateTimeImmutable('today +1 hour'))->format('Y-m'), 'today +1 hour'];
-        yield [(new \DateTimeImmutable('tomorrow +1 hour'))->format('Y-m'), 'tomorrow +1 hour'];
-        yield [(new \DateTimeImmutable('-2 days'))->format('Y-m'), '-2 days'];
-        yield [(new \DateTimeImmutable('Monday'))->format('Y-m'), 'Monday'];
-        yield [(new \DateTimeImmutable('Monday next week'))->format('Y-m'), 'Monday next week'];
-        yield [(new \DateTimeImmutable('next year'))->format('Y-m'), 'next year'];
-        yield [(new \DateTimeImmutable('fifth day'))->format('Y-m'), 'fifth day'];
-        yield [(new \DateTimeImmutable('first day of January 2019'))->format('Y-m'), 'first day of January 2019'];
-    }
-
-    /**
-     * @dataProvider invalid_string_day_format
-     */
+    #[DataProvider('invalid_string_day_format')]
     public function test_from_invalid_string(string $invalidValue) : void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -90,31 +121,10 @@ final class MonthTest extends TestCase
         Month::fromString($invalidValue);
     }
 
-    /**
-     * @return \Generator<int, array{string}, mixed, void>
-     */
-    public function invalid_string_day_format() : \Generator
-    {
-        yield ['test'];
-    }
-
-    /**
-     * @dataProvider valid_string_day_format
-     */
+    #[DataProvider('valid_string_day_format')]
     public function test_from_string(string $invalidValue, Month $month) : void
     {
         $this->assertObjectEquals($month, Month::fromString($invalidValue), 'isEqual');
-    }
-
-    /**
-     * @return \Generator<int, array{string, Time}, mixed, void>
-     */
-    public function valid_string_day_format() : \Generator
-    {
-        yield ['2020-01', new Month(new Year(2020), 1)];
-        yield ['2020-01 +1 month', new Month(new Year(2020), 2)];
-        yield ['2020-01 +1 year', new Month(new Year(2021), 1)];
-        yield ['2020-01-01', new Month(new Year(2020), 1)];
     }
 
     public function test_debug_info() : void
@@ -340,26 +350,9 @@ final class MonthTest extends TestCase
         $this->assertSame(28, (new Month(new Year(2021), 2))->numberOfDays());
     }
 
-    /**
-     * @dataProvider compare_to_provider
-     */
+    #[DataProvider('compare_to_provider')]
     public function test_compare_to(Month $time, Month $comparable, int $compareResult) : void
     {
         $this->assertSame($compareResult, $time->compareTo($comparable));
-    }
-
-    /**
-     * @return \Generator<int, array{Month, Month, int}>
-     */
-    public function compare_to_provider() : \Generator
-    {
-        yield [Month::fromString('2022-10'), Month::fromString('2022-10'), 0];
-        yield [Month::fromString('2022'), Month::fromString('2022'), 0];
-
-        yield [Month::fromString('2022-09'), Month::fromString('2022-10'), -1];
-        yield [Month::fromString('2021-10'), Month::fromString('2022-10'), -1];
-
-        yield [Month::fromString('2022-11'), Month::fromString('2022-10'), 1];
-        yield [Month::fromString('2022-10'), Month::fromString('2021-10'), 1];
     }
 }

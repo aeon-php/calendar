@@ -17,31 +17,15 @@ use Aeon\Calendar\Gregorian\TimeZone;
 use Aeon\Calendar\Gregorian\Year;
 use Aeon\Calendar\RelativeTimeUnit;
 use Aeon\Calendar\TimeUnit;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 final class DateTimeTest extends TestCase
 {
-    public function setUp() : void
-    {
-        \date_default_timezone_set('UTC');
-    }
-
-    /**
-     * @dataProvider creating_datetime_data_provider
-     */
-    public function test_creating_datetime(string $dateTimeString, DateTime $dateTime, string $format) : void
-    {
-        try {
-            $this->assertSame($dateTimeString, $dateTime->format($format));
-        } catch (InvalidArgumentException $exception) {
-            $this->fail($exception->getMessage());
-        }
-    }
-
     /**
      * @return \Generator<int, array{string, DateTime, string}, mixed, void>
      */
-    public function creating_datetime_data_provider() : \Generator
+    public static function creating_datetime_data_provider() : \Generator
     {
         yield ['2020-01-01 00:00:00+00:00', DateTime::fromString('2020-01-01 00:00:00+00:00'), 'Y-m-d H:i:sP'];
         yield ['2020-01-01 00:00:00+00:00', DateTime::create(2020, 01, 01, 00, 00, 00), 'Y-m-d H:i:sP'];
@@ -57,21 +41,9 @@ final class DateTimeTest extends TestCase
     }
 
     /**
-     * @dataProvider creating_datetime_data_provider_from_string
-     */
-    public function test_creating_datetime_from_string(string $dateTimeString, string $dateTime, string $format) : void
-    {
-        try {
-            $this->assertSame($dateTimeString, DateTime::fromString($dateTime)->format($format));
-        } catch (InvalidArgumentException $exception) {
-            $this->fail($exception->getMessage());
-        }
-    }
-
-    /**
      * @return \Generator<int, array{string, string, string}, mixed, void>
      */
-    public function creating_datetime_data_provider_from_string() : \Generator
+    public static function creating_datetime_data_provider_from_string() : \Generator
     {
         yield ['2020-01-01 00:00:00+00:00', '2020-01 00:00:00', 'Y-m-d H:i:sP'];
         yield ['2020-01-02 00:00:00+00:00', '2020-01 00:00:00 +1 day', 'Y-m-d H:i:sP'];
@@ -143,24 +115,156 @@ final class DateTimeTest extends TestCase
     }
 
     /**
-     * @dataProvider invalid_date_time_string
+     * @return \Generator<int, array{string}, mixed, void>
      */
+    public static function invalid_date_time_string() : \Generator
+    {
+        yield ['2020-31-01'];
+        yield ['2020-01-32'];
+        yield ['something'];
+    }
+
+    /**
+     * @return \Generator<int, array{string, string, string}, mixed, void>
+     */
+    public static function modify_datetime() : \Generator
+    {
+        yield ['2021-01-31 00:00:00 UTC', '+1 second', '2021-01-31 00:00:01 UTC'];
+        yield ['2021-01-31 00:00:00 UTC', '+1 minute', '2021-01-31 00:01:00 UTC'];
+        yield ['2021-01-31 00:00:00 UTC', '+1 hour', '2021-01-31 01:00:00 UTC'];
+        yield ['2021-01-31 00:00:00 UTC', '+1 day', '2021-02-01 00:00:00 UTC'];
+        yield ['2021-01-31 00:00:00 UTC', '+1 week', '2021-02-07 00:00:00 UTC'];
+
+        yield ['2021-01-31 00:00:00 UTC', '+1 fortnight', '2021-02-14 00:00:00 UTC'];
+
+        yield ['2020-01-01 00:00:00 UTC', '+1 hour', '2020-01-01 01:00:00 UTC'];
+        yield ['2020-01-01 00:00:00 UTC', '1 hour', '2020-01-01 01:00:00 UTC'];
+        yield ['2020-01-01 00:00:00 UTC', '-1 hour', '2019-12-31 23:00:00 UTC'];
+
+        yield ['2021-03-30 00:00:00 UTC', '-1 month', '2021-02-28 00:00:00 UTC'];
+        yield ['2021-02-28 00:00:00 UTC', '+1 month', '2021-03-28 00:00:00 UTC'];
+        yield ['2021-01-31 00:00:00 UTC', '+1 month', '2021-02-28 00:00:00 UTC'];
+        yield ['2021-01-31 00:00:00 UTC', '+2 month', '2021-03-31 00:00:00 UTC'];
+
+        yield ['2021-01-31 00:00:00 UTC', '+1 year', '2022-01-31 00:00:00 UTC'];
+        yield ['2021-01-31 00:00:00 UTC', '-1 year', '2020-01-31 00:00:00 UTC'];
+
+        yield ['2022-10-25 15:00:00 UTC', 'next Saturday', '2022-10-29 15:00:00 UTC'];
+        yield ['2022-10-25 15:00:00 UTC', 'previous Saturday', '2022-10-22 15:00:00 UTC'];
+    }
+
+    /**
+     * @return \Generator<int, array{string, int, string}, mixed, void>
+     */
+    public static function add_relative_timeunit_months() : \Generator
+    {
+        yield ['2020-01-01', 1, '2020-02-01'];
+        yield ['2020-01-01', 6, '2020-07-01'];
+        yield ['2020-01-01', 12, '2021-01-01'];
+        yield ['2020-01-01', 16, '2021-05-01'];
+    }
+
+    /**
+     * @return \Generator<int, array{string, int, string}, mixed, void>
+     */
+    public static function sub_relative_timeunit_months() : \Generator
+    {
+        yield ['2020-01-01', 1, '2019-12-01'];
+        yield ['2020-01-01', 6, '2019-07-01'];
+        yield ['2020-01-01', 12, '2019-01-01'];
+        yield ['2020-01-01', 16, '2018-09-01'];
+    }
+
+    /**
+     * @return \Generator<int, array{DateTime}, mixed, void>
+     */
+    public static function ambiguous_time_data_provider() : \Generator
+    {
+        // yield [DateTime::fromString('2020-10-25 02:00:00 Europe/Warsaw')]; TODO: verify why this is failing only at CI, at PHP 8.1.8
+        yield [DateTime::fromString('2020-10-25 02:30:30 Europe/Warsaw')];
+        yield [DateTime::fromString('2020-10-25 02:59:59 Europe/Warsaw')];
+        yield [DateTime::fromString('2020-10-25 03:00:00 Europe/Warsaw')];
+    }
+
+    /**
+     * @return \Generator<int, array{DateTime}, mixed, void>
+     */
+    public static function not_ambiguous_time_data_provider() : \Generator
+    {
+        yield [new DateTime(Day::fromString('2020-01-01'), Time::fromString('00:00:00'), TimeZone::UTC())];
+        yield [DateTime::fromString('2020-10-25 01:59:59 UTC')];
+        yield [DateTime::fromString('2020-10-25 00:00:00 Europe/Warsaw')];
+        yield [DateTime::fromString('2020-10-25 01:00:00 Europe/Warsaw')];
+        yield [DateTime::fromString('2020-10-25 01:59:59 Europe/Warsaw')];
+        yield [DateTime::fromString('2020-03-29 01:59:58 Europe/Warsaw')];
+        yield [DateTime::fromString('2020-03-29 01:59:59 Europe/Warsaw')];
+        yield [DateTime::fromString('2020-03-29 02:00:00 Europe/Warsaw')];
+        yield [DateTime::fromString('2020-03-29 02:59:59 Europe/Warsaw')];
+        yield [DateTime::fromString('2020-03-29 03:00:00 Europe/Warsaw')];
+        yield [DateTime::fromString('2020-03-29 03:01:00 Europe/Warsaw')];
+        yield [DateTime::fromString('2020-03-29 04:00:00 Europe/Warsaw')];
+        yield [DateTime::fromString('2020-03-29 05:00:00 Europe/Warsaw')];
+    }
+
+    /**
+     * @return \Generator<int, array{string, string}, mixed, void>
+     */
+    public static function timezone_abbreviation_provider() : \Generator
+    {
+        yield ['PST', '2021-01-01 00:00:00 America/Los_Angeles'];
+        yield ['PDT', '2021-07-01 00:00:00 America/Los_Angeles'];
+        yield ['CEST', '2021-07-01 00:00:00 Europe/Warsaw'];
+        yield ['CET', '2021-01-01 00:00:00 Europe/Warsaw'];
+        yield ['CEST', '2021-01-01 00:00:00 CEST'];
+    }
+
+    /**
+     * @return \Generator<int, array{DateTime, DateTime, int}>
+     */
+    public static function compare_to_provider() : \Generator
+    {
+        yield [DateTime::fromString('2022-10-26 11:53:12'), DateTime::fromString('2022-10-26 11:53:12'), 0];
+        yield [DateTime::fromString('2022-10-26'), DateTime::fromString('2022-10-26'), 0];
+
+        yield [DateTime::fromString('2022-10-25 11:53:12'), DateTime::fromString('2022-10-26 11:53:12'), -1];
+        yield [DateTime::fromString('2022-10-25 11:53:12'), DateTime::fromString('2022-11-26 11:53:12'), -1];
+
+        yield [DateTime::fromString('2022-10-25 11:53:12'), DateTime::fromString('2022-10-25 00:53:12'), 1];
+        yield [DateTime::fromString('2022-11-26 11:53:12'), DateTime::fromString('2022-10-26 11:53:12'), 1];
+    }
+
+    public function setUp() : void
+    {
+        \date_default_timezone_set('UTC');
+    }
+
+    #[DataProvider('creating_datetime_data_provider')]
+    public function test_creating_datetime(string $dateTimeString, DateTime $dateTime, string $format) : void
+    {
+        try {
+            $this->assertSame($dateTimeString, $dateTime->format($format));
+        } catch (InvalidArgumentException $exception) {
+            $this->fail($exception->getMessage());
+        }
+    }
+
+    #[DataProvider('creating_datetime_data_provider_from_string')]
+    public function test_creating_datetime_from_string(string $dateTimeString, string $dateTime, string $format) : void
+    {
+        try {
+            $this->assertSame($dateTimeString, DateTime::fromString($dateTime)->format($format));
+        } catch (InvalidArgumentException $exception) {
+            $this->fail($exception->getMessage());
+        }
+    }
+
+    #[DataProvider('invalid_date_time_string')]
     public function test_creating_datetime_from_invalid_string(string $dateTimeInvalidString) : void
     {
         $this->expectExceptionMessage("Value \"{$dateTimeInvalidString}\" is not valid date time format.");
         $this->expectException(InvalidArgumentException::class);
 
         DateTime::fromString($dateTimeInvalidString);
-    }
-
-    /**
-     * @return \Generator<int, array{string}, mixed, void>
-     */
-    public function invalid_date_time_string() : \Generator
-    {
-        yield ['2020-31-01'];
-        yield ['2020-01-32'];
-        yield ['something'];
     }
 
     public function test_creating_datetime_from_string_relative_with_system_default_timezone_different_from_UTC() : void
@@ -382,44 +486,13 @@ final class DateTimeTest extends TestCase
         DateTime::fromString('2020-01-01 00:00:00 UTC')->modify('2020-02-03 00:00:00 UTC');
     }
 
-    /**
-     * @dataProvider modify_datetime
-     */
+    #[DataProvider('modify_datetime')]
     public function test_modify(string $date, string $modifier, string $expectedDate) : void
     {
         $this->assertSame(
             $expectedDate,
             DateTime::fromString($date)->modify($modifier)->format('Y-m-d H:i:s T')
         );
-    }
-
-    /**
-     * @return \Generator<int, array{string, string, string}, mixed, void>
-     */
-    public function modify_datetime() : \Generator
-    {
-        yield ['2021-01-31 00:00:00 UTC', '+1 second', '2021-01-31 00:00:01 UTC'];
-        yield ['2021-01-31 00:00:00 UTC', '+1 minute', '2021-01-31 00:01:00 UTC'];
-        yield ['2021-01-31 00:00:00 UTC', '+1 hour', '2021-01-31 01:00:00 UTC'];
-        yield ['2021-01-31 00:00:00 UTC', '+1 day', '2021-02-01 00:00:00 UTC'];
-        yield ['2021-01-31 00:00:00 UTC', '+1 week', '2021-02-07 00:00:00 UTC'];
-
-        yield ['2021-01-31 00:00:00 UTC', '+1 fortnight', '2021-02-14 00:00:00 UTC'];
-
-        yield ['2020-01-01 00:00:00 UTC', '+1 hour', '2020-01-01 01:00:00 UTC'];
-        yield ['2020-01-01 00:00:00 UTC', '1 hour', '2020-01-01 01:00:00 UTC'];
-        yield ['2020-01-01 00:00:00 UTC', '-1 hour', '2019-12-31 23:00:00 UTC'];
-
-        yield ['2021-03-30 00:00:00 UTC', '-1 month', '2021-02-28 00:00:00 UTC'];
-        yield ['2021-02-28 00:00:00 UTC', '+1 month', '2021-03-28 00:00:00 UTC'];
-        yield ['2021-01-31 00:00:00 UTC', '+1 month', '2021-02-28 00:00:00 UTC'];
-        yield ['2021-01-31 00:00:00 UTC', '+2 month', '2021-03-31 00:00:00 UTC'];
-
-        yield ['2021-01-31 00:00:00 UTC', '+1 year', '2022-01-31 00:00:00 UTC'];
-        yield ['2021-01-31 00:00:00 UTC', '-1 year', '2020-01-31 00:00:00 UTC'];
-
-        yield ['2022-10-25 15:00:00 UTC', 'next Saturday', '2022-10-29 15:00:00 UTC'];
-        yield ['2022-10-25 15:00:00 UTC', 'previous Saturday', '2022-10-22 15:00:00 UTC'];
     }
 
     public function test_time() : void
@@ -753,9 +826,7 @@ final class DateTimeTest extends TestCase
         );
     }
 
-    /**
-     * @dataProvider add_relative_timeunit_months
-     */
+    #[DataProvider('add_relative_timeunit_months')]
     public function test_add_relative_timeunit_months(string $date, int $addMonths, string $expectedDate) : void
     {
         $this->assertSame(
@@ -764,37 +835,13 @@ final class DateTimeTest extends TestCase
         );
     }
 
-    /**
-     * @return \Generator<int, array{string, int, string}, mixed, void>
-     */
-    public function add_relative_timeunit_months() : \Generator
-    {
-        yield ['2020-01-01', 1, '2020-02-01'];
-        yield ['2020-01-01', 6, '2020-07-01'];
-        yield ['2020-01-01', 12, '2021-01-01'];
-        yield ['2020-01-01', 16, '2021-05-01'];
-    }
-
-    /**
-     * @dataProvider sub_relative_timeunit_months
-     */
+    #[DataProvider('sub_relative_timeunit_months')]
     public function test_sub_relative_timeunit_months(string $date, int $addMonths, string $expectedDate) : void
     {
         $this->assertSame(
             $expectedDate,
             DateTime::fromString($date)->sub(RelativeTimeUnit::months($addMonths))->format('Y-m-d')
         );
-    }
-
-    /**
-     * @return \Generator<int, array{string, int, string}, mixed, void>
-     */
-    public function sub_relative_timeunit_months() : \Generator
-    {
-        yield ['2020-01-01', 1, '2019-12-01'];
-        yield ['2020-01-01', 6, '2019-07-01'];
-        yield ['2020-01-01', 12, '2019-01-01'];
-        yield ['2020-01-01', 16, '2018-09-01'];
     }
 
     public function test_add_precse_timeunit() : void
@@ -919,51 +966,16 @@ final class DateTimeTest extends TestCase
         );
     }
 
-    /**
-     * @dataProvider ambiguous_time_data_provider
-     */
+    #[DataProvider('ambiguous_time_data_provider')]
     public function test_checking_is_ambiguous(DateTime $dateTime) : void
     {
         $this->assertTrue($dateTime->isAmbiguous(), $dateTime->toISO8601() . ' is not ambiguous, timezonedb version: ' . \timezone_version_get());
     }
 
-    /**
-     * @return \Generator<int, array{DateTime}, mixed, void>
-     */
-    public function ambiguous_time_data_provider() : \Generator
-    {
-        // yield [DateTime::fromString('2020-10-25 02:00:00 Europe/Warsaw')]; TODO: verify why this is failing only at CI, at PHP 8.1.8
-        yield [DateTime::fromString('2020-10-25 02:30:30 Europe/Warsaw')];
-        yield [DateTime::fromString('2020-10-25 02:59:59 Europe/Warsaw')];
-        yield [DateTime::fromString('2020-10-25 03:00:00 Europe/Warsaw')];
-    }
-
-    /**
-     * @dataProvider not_ambiguous_time_data_provider
-     */
+    #[DataProvider('not_ambiguous_time_data_provider')]
     public function test_checking_is_not_ambiguous(DateTime $dateTime) : void
     {
         $this->assertFalse($dateTime->isAmbiguous());
-    }
-
-    /**
-     * @return \Generator<int, array{DateTime}, mixed, void>
-     */
-    public function not_ambiguous_time_data_provider() : \Generator
-    {
-        yield [new DateTime(Day::fromString('2020-01-01'), Time::fromString('00:00:00'), TimeZone::UTC())];
-        yield [DateTime::fromString('2020-10-25 01:59:59 UTC')];
-        yield [DateTime::fromString('2020-10-25 00:00:00 Europe/Warsaw')];
-        yield [DateTime::fromString('2020-10-25 01:00:00 Europe/Warsaw')];
-        yield [DateTime::fromString('2020-10-25 01:59:59 Europe/Warsaw')];
-        yield [DateTime::fromString('2020-03-29 01:59:58 Europe/Warsaw')];
-        yield [DateTime::fromString('2020-03-29 01:59:59 Europe/Warsaw')];
-        yield [DateTime::fromString('2020-03-29 02:00:00 Europe/Warsaw')];
-        yield [DateTime::fromString('2020-03-29 02:59:59 Europe/Warsaw')];
-        yield [DateTime::fromString('2020-03-29 03:00:00 Europe/Warsaw')];
-        yield [DateTime::fromString('2020-03-29 03:01:00 Europe/Warsaw')];
-        yield [DateTime::fromString('2020-03-29 04:00:00 Europe/Warsaw')];
-        yield [DateTime::fromString('2020-03-29 05:00:00 Europe/Warsaw')];
     }
 
     public function test_using_create_constructor_during_dst_gap() : void
@@ -1076,24 +1088,10 @@ final class DateTimeTest extends TestCase
         );
     }
 
-    /**
-     * @dataProvider timezone_abbreviation_provider
-     */
+    #[DataProvider('timezone_abbreviation_provider')]
     public function test_timezone_abbreviation(string $abbreviation, string $date) : void
     {
         $this->assertSame($abbreviation, DateTime::fromString($date)->timeZoneAbbreviation()->name());
-    }
-
-    /**
-     * @return \Generator<int, array{string, string}, mixed, void>
-     */
-    public function timezone_abbreviation_provider() : \Generator
-    {
-        yield ['PST', '2021-01-01 00:00:00 America/Los_Angeles'];
-        yield ['PDT', '2021-07-01 00:00:00 America/Los_Angeles'];
-        yield ['CEST', '2021-07-01 00:00:00 Europe/Warsaw'];
-        yield ['CET', '2021-01-01 00:00:00 Europe/Warsaw'];
-        yield ['CEST', '2021-01-01 00:00:00 CEST'];
     }
 
     public function test_timezone_abbreviation_from_time_offset() : void
@@ -1136,26 +1134,9 @@ final class DateTimeTest extends TestCase
         );
     }
 
-    /**
-     * @dataProvider compare_to_provider
-     */
+    #[DataProvider('compare_to_provider')]
     public function test_compare_to(DateTime $dateTime, DateTime $comparable, int $compareResult) : void
     {
         $this->assertSame($compareResult, $dateTime->compareTo($comparable));
-    }
-
-    /**
-     * @return \Generator<int, array{DateTime, DateTime, int}>
-     */
-    public function compare_to_provider() : \Generator
-    {
-        yield [DateTime::fromString('2022-10-26 11:53:12'), DateTime::fromString('2022-10-26 11:53:12'), 0];
-        yield [DateTime::fromString('2022-10-26'), DateTime::fromString('2022-10-26'), 0];
-
-        yield [DateTime::fromString('2022-10-25 11:53:12'), DateTime::fromString('2022-10-26 11:53:12'), -1];
-        yield [DateTime::fromString('2022-10-25 11:53:12'), DateTime::fromString('2022-11-26 11:53:12'), -1];
-
-        yield [DateTime::fromString('2022-10-25 11:53:12'), DateTime::fromString('2022-10-25 00:53:12'), 1];
-        yield [DateTime::fromString('2022-11-26 11:53:12'), DateTime::fromString('2022-10-26 11:53:12'), 1];
     }
 }

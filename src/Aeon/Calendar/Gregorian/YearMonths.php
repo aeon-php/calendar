@@ -41,9 +41,9 @@ final class YearMonths implements \Countable
     }
 
     /**
-     * @psalm-param pure-callable(Month $day) : void $iterator
-     *
      * @param callable(Month $day) : void $iterator
+     *
+     * @psalm-param pure-callable(Month $day) : void $iterator
      *
      * @return array<mixed>
      */
@@ -56,9 +56,9 @@ final class YearMonths implements \Countable
     }
 
     /**
-     * @psalm-param pure-callable(Month $day) : bool $iterator
-     *
      * @param callable(Month $day) : bool $iterator
+     *
+     * @psalm-param pure-callable(Month $day) : bool $iterator
      *
      * @return array<Month>
      */

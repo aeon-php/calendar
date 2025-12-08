@@ -41,9 +41,9 @@ final class TimePeriods implements \Countable, \IteratorAggregate
     }
 
     /**
-     * @psalm-param pure-callable(TimePeriod $timePeriod) : void $iterator
-     *
      * @param callable(TimePeriod $timePeriod) : void $iterator
+     *
+     * @psalm-param pure-callable(TimePeriod $timePeriod) : void $iterator
      */
     public function each(callable $iterator) : void
     {
@@ -53,9 +53,9 @@ final class TimePeriods implements \Countable, \IteratorAggregate
     }
 
     /**
-     * @psalm-param pure-callable(TimePeriod $timePeriod) : mixed $iterator
-     *
      * @param callable(TimePeriod $timePeriod) : mixed $iterator
+     *
+     * @psalm-param pure-callable(TimePeriod $timePeriod) : mixed $iterator
      *
      * @return array<mixed>
      */
@@ -67,9 +67,9 @@ final class TimePeriods implements \Countable, \IteratorAggregate
     /**
      * @psalm-suppress InvalidScalarArgument
      *
-     * @psalm-param pure-callable(TimePeriod $timePeriod) : bool $iterator
-     *
      * @param callable(TimePeriod $timePeriod) : bool $iterator
+     *
+     * @psalm-param pure-callable(TimePeriod $timePeriod) : bool $iterator
      *
      * @return self
      */
